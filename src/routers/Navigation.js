@@ -1,0 +1,111 @@
+import React, { Component } from 'react';
+import {createMaterialTopTabNavigator,  createStackNavigator} from 'react-navigation'
+import Home from "../containers/Home";
+import TinNhan from "../containers/TinNhan";
+import DoanhNghiep from "../containers/DoanhNghiep";
+import SuKien from "../containers/SuKien";
+import Menu from "../containers/Menu";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon1 from 'react-native-vector-icons/SimpleLineIcons';
+import Icon2 from 'react-native-vector-icons/Entypo';
+import Login from "../containers/Login";
+
+const TabHome = createMaterialTopTabNavigator ({
+    Home: {
+        screen: Home,
+        navigationOptions: {
+            // headerBackTitle: 'Back',
+            tabBarIcon: ({tintColor}) => (
+                <Icon1 name="call-out" size={23}
+                       style={{ color: tintColor }}/>
+            ),
+        },
+    },
+    TinNhan: {
+        screen: TinNhan,
+        navigationOptions: {
+            // headerBackTitle: 'Back',
+            tabBarIcon: ({tintColor}) => (
+                <Icon1 name="call-out" size={23}
+                       style={{ color: tintColor }}/>
+            ),
+        },
+    },
+    DoanhNghiep: {
+        screen: DoanhNghiep,
+        navigationOptions: {
+            // headerBackTitle: 'Back',
+            tabBarIcon: ({tintColor}) => (
+                <Icon1 name="call-out" size={23}
+                       style={{ color: tintColor }}/>
+            ),
+        },
+    },
+    SuKien: {
+        screen: SuKien,
+        navigationOptions: {
+            // headerBackTitle: 'Back',
+            tabBarIcon: ({tintColor}) => (
+                <Icon1 name="call-out" size={23}
+                       style={{ color: tintColor }}/>
+            ),
+        },
+    },
+    Menu: {
+        screen: Menu,
+        navigationOptions: {
+            // headerBackTitle: 'Back',
+            tabBarIcon: ({tintColor}) => (
+                <Icon1 name="call-out" size={23}
+                       style={{ color: tintColor }}/>
+            ),
+        },
+    }
+},{
+    tabBarPosition: 'bottom',
+
+    animationEnabled: true,
+    tabBarOptions: {
+        upperCaseLabel: false,
+        showIcon: true,
+        showLabel: false,
+        activeTintColor: 'black',
+        inactiveTintColor: 'white',
+        // activeBackgroundColor:'white',
+        // inactiveBackgroundColor:'#eaa33f',
+        // pressColor: 'white',
+        indicatorStyle: {
+            // backgroundColor: 'white'
+            backgroundColor: 'transparent'
+        },
+        labelStyle: {
+            fontSize: 11,
+            alignSelf:'center'
+
+        },
+        // style: {
+        //     backgroundColor: '#fc9b03',
+        //
+        // },
+        // tabStyle: {
+        //     backgroundColor:'white'
+        // }
+    }
+})
+const RootStack = createStackNavigator ({
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null
+        }
+    },
+    TabHome: {
+        screen: TabHome,
+        navigationOptions: {
+            header: null
+        }
+    }
+
+})
+
+export default RootStack
