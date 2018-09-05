@@ -5,10 +5,12 @@ import TinNhan from "../containers/TinNhan";
 import DoanhNghiep from "../containers/DoanhNghiep";
 import SuKien from "../containers/SuKien";
 import Menu from "../containers/Menu";
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon1 from 'react-native-vector-icons/SimpleLineIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon1 from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/Entypo';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import Login from "../containers/Login";
+import Chat from "../containers/Chat";
 
 const TabHome = createMaterialTopTabNavigator ({
     Home: {
@@ -16,7 +18,7 @@ const TabHome = createMaterialTopTabNavigator ({
         navigationOptions: {
             // headerBackTitle: 'Back',
             tabBarIcon: ({tintColor}) => (
-                <Icon1 name="call-out" size={23}
+                <Icon name="home" size={23}
                        style={{ color: tintColor }}/>
             ),
         },
@@ -26,7 +28,7 @@ const TabHome = createMaterialTopTabNavigator ({
         navigationOptions: {
             // headerBackTitle: 'Back',
             tabBarIcon: ({tintColor}) => (
-                <Icon1 name="call-out" size={23}
+                <Icon1 name="facebook-messenger" size={23}
                        style={{ color: tintColor }}/>
             ),
         },
@@ -36,7 +38,7 @@ const TabHome = createMaterialTopTabNavigator ({
         navigationOptions: {
             // headerBackTitle: 'Back',
             tabBarIcon: ({tintColor}) => (
-                <Icon1 name="call-out" size={23}
+                <Icon2 name="location" size={23}
                        style={{ color: tintColor }}/>
             ),
         },
@@ -46,7 +48,7 @@ const TabHome = createMaterialTopTabNavigator ({
         navigationOptions: {
             // headerBackTitle: 'Back',
             tabBarIcon: ({tintColor}) => (
-                <Icon1 name="call-out" size={23}
+                <Icon3 name="event-note" size={23}
                        style={{ color: tintColor }}/>
             ),
         },
@@ -56,13 +58,13 @@ const TabHome = createMaterialTopTabNavigator ({
         navigationOptions: {
             // headerBackTitle: 'Back',
             tabBarIcon: ({tintColor}) => (
-                <Icon1 name="call-out" size={23}
+                <Icon2 name="menu" size={23}
                        style={{ color: tintColor }}/>
             ),
         },
     }
 },{
-    tabBarPosition: 'bottom',
+    tabBarPosition: 'top',
 
     animationEnabled: true,
     tabBarOptions: {
@@ -101,6 +103,12 @@ const RootStack = createStackNavigator ({
     },
     TabHome: {
         screen: TabHome,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Chat: {
+        screen: Chat,
         navigationOptions: {
             header: null
         }
