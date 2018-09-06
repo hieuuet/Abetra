@@ -17,6 +17,7 @@ import Chat from "../containers/Chat";
 import Intro from "../containers/app-intro/AppIntroSlider";
 import Register from "../containers/app-auth/Register";
 import BinhLuan from "../containers/BinhLuan";
+import TaoBaiViet from "../containers/TaoBaiViet";
 
 const TabHome = createMaterialTopTabNavigator(
   {
