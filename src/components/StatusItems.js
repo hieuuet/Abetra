@@ -12,6 +12,7 @@ import {
 
 import moment from 'moment';
 import Icon1 from 'react-native-vector-icons/EvilIcons';
+import PhotoGrid from "./PhotoGrid";
 
 class StatusItems extends Component {
 
@@ -20,11 +21,25 @@ class StatusItems extends Component {
 
 
         this.state = {
+            images : [
+                'https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a',
+                'https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33',
+                'https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2',
+                'https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd',
+                'https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e',
+                'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
+                'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
+                'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
+                'https://drscdn.500px.org/photo/216051623/m%3D2048_k%3D1_a%3D1/5a3732bb413f240ad71b8279b038a3ff',
+                'https://drscdn.500px.org/photo/216047335/m%3D2048_k%3D1_a%3D1/4237ac4606474f0ec7ccc05ca311772e',
+                'https://drscdn.500px.org/photo/216000289/m%3D2048_k%3D1_a%3D1/5ac2a21092f9281feef3ab8484d2b19c'
+            ]
 
 
         }
 
     }
+
 
 
 
@@ -60,21 +75,7 @@ class StatusItems extends Component {
                     <View style={{ marginHorizontal: 10, marginTop: 10 }}>
                         <Text style={{ color: '#212121' }}>{item.Content}</Text>
                     </View>
-                    {/*{*/}
-                        {/*item.images ?*/}
-                            {/*<TouchableOpacity*/}
-                            {/*style={styles.imagePost}*/}
-                                {/*onPress={() => this.props.navigation.navigate("ShowImage", { url: item.imageUrl.split(",")[0] })}*/}
-                            {/*>*/}
-                                {/*<Image source={{*/}
-                                    {/*uri: item.imageUrl.split(",")[0]*/}
-                                {/*}}*/}
-                                    {/*style={{flex:1}}*/}
-                                    {/*resizeMode="cover">*/}
-                                {/*</Image>*/}
-                            {/*</TouchableOpacity>*/}
-                            {/*: null*/}
-                    {/*}*/}
+                    <PhotoGrid source={this.state.images} />
                     <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                             {/* <Icon1 name="like" size={25} color="#424242" /> */}
@@ -117,7 +118,7 @@ class StatusItems extends Component {
 
                             style={{
                                 marginLeft: 10, flex: 1,
-                                backgroundColor: '#F5F5F5', borderRadius: 50,
+                                backgroundColor: '#F5F5F5', borderRadius: 25,
                                 borderWidth: 1,
                                 borderColor: '#757575',
                                 paddingLeft: 10,

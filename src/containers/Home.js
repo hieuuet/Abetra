@@ -4,6 +4,7 @@ import {
     Text,
     FlatList
 } from 'react-native';
+
 import StatusItems from "../components/StatusItems";
 
 class Home extends Component {
