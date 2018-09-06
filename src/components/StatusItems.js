@@ -155,7 +155,7 @@ class StatusItems extends Component {
                         >
                         </Image>
                         <TouchableOpacity
-                            // onPress={() => navigation.navigate('BinhLuan', { itemCmt: item.comments, idRoom: item.id, onReloadBack: this.props.onReloadBack })}
+                            onPress={() => this.props.navigation.navigate('BinhLuan')}
 
                             style={{
                                 marginLeft: 10, flex: 1,
