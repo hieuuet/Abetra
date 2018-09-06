@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export const getRequestApi = async (url) => {
     // let token = await AsyncStorage.getItem('token');
-    // console.log('token get request', token)
     let config = {
         headers: {
             "Content-Type" : "application/json",
@@ -20,13 +19,12 @@ export const getRequestApi = async (url) => {
 
         return response;
     }).catch(err => {
-        // return Promise.resolve(_errorOnTryCatch(null, url, err));
+        console.log('err', err)
     });
 };
 
 export const postRequestApi = async (url, data, dispatch) => {
     // let  token = await AsyncStorage.getItem('token') ? await AsyncStorage.getItem('token') : ''
-    // console.log('token', token)
     let config = {
         headers: {
             "Content-Type" : "application/json",
@@ -43,6 +41,6 @@ export const postRequestApi = async (url, data, dispatch) => {
         const response = res.data;
         return response;
     }).catch(err => {
-        // return Promise.resolve(_errorOnTryCatch(null, url, err));
+        console.log('err', err)
     });
 };

@@ -12,6 +12,7 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import Login from "../containers/Login";
 import Chat from "../containers/Chat";
 import Intro from "../containers/app-intro/AppIntroSlider"
+import BinhLuan from "../containers/BinhLuan";
 
 const TabHome = createMaterialTopTabNavigator ({
     Home: {
@@ -116,6 +117,12 @@ const RootStack = createStackNavigator ({
     },
     Chat: {
         screen: Chat,
+        navigationOptions: {
+            header: null
+        }
+    },
+    BinhLuan: {
+        screen: BinhLuan,
         navigationOptions: {
             header: null
         }

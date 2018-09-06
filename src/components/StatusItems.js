@@ -12,6 +12,9 @@ import {
 
 import moment from 'moment';
 import Icon1 from 'react-native-vector-icons/EvilIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ReadMore from 'react-native-read-more-text';
+import PhotoGrid from "./PhotoGrid";
 
 class StatusItems extends Component {
 
@@ -20,15 +23,42 @@ class StatusItems extends Component {
 
 
         this.state = {
+            // images : [
+            //     'https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a',
+            //     'https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33',
+            //     'https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2',
+            //     'https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd',
+            //     'https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e',
+            //     'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
+            //     'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
+            //     'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
+            //     'https://drscdn.500px.org/photo/216051623/m%3D2048_k%3D1_a%3D1/5a3732bb413f240ad71b8279b038a3ff',
+            //     'https://drscdn.500px.org/photo/216047335/m%3D2048_k%3D1_a%3D1/4237ac4606474f0ec7ccc05ca311772e',
+            //     'https://drscdn.500px.org/photo/216000289/m%3D2048_k%3D1_a%3D1/5ac2a21092f9281feef3ab8484d2b19c'
+            // ]
 
 
         }
 
     }
+    _renderTruncatedFooter = (handlePress) => {
+        return (
+            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+                Read more
+            </Text>
+        );
+    }
 
-
-
-
+    _renderRevealedFooter = (handlePress) => {
+        return (
+            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+                Show less
+            </Text>
+        );
+    }
+    _handleTextReady = () => {
+        console.log('ready!');
+    }
 
 
 
@@ -58,31 +88,46 @@ class StatusItems extends Component {
                         </View>
                     </View>
                     <View style={{ marginHorizontal: 10, marginTop: 10 }}>
-                        <Text style={{ color: '#212121' }}>{item.Content}</Text>
-                    </View>
-                    {/*{*/}
-                        {/*item.images ?*/}
-                            {/*<TouchableOpacity*/}
-                            {/*style={styles.imagePost}*/}
-                                {/*onPress={() => this.props.navigation.navigate("ShowImage", { url: item.imageUrl.split(",")[0] })}*/}
+                        <View>
+                            {/*<ReadMore*/}
+                                {/*numberOfLines={3}*/}
+                                {/*renderTruncatedFooter={this._renderTruncatedFooter}*/}
+                                {/*renderRevealedFooter={this._renderRevealedFooter}*/}
+                                {/*// onReady={this._handleTextReady}*/}
                             {/*>*/}
-                                {/*<Image source={{*/}
-                                    {/*uri: item.imageUrl.split(",")[0]*/}
-                                {/*}}*/}
-                                    {/*style={{flex:1}}*/}
-                                    {/*resizeMode="cover">*/}
-                                {/*</Image>*/}
-                            {/*</TouchableOpacity>*/}
-                            {/*: null*/}
-                    {/*}*/}
+                                {/*<RegularText>*/}
+                                    {/*{item.Content}*/}
+                                {/*</RegularText>*/}
+                            {/*</ReadMore>*/}
+                            <ReadMore
+                                numberOfLines={3}
+                                renderTruncatedFooter={this._renderTruncatedFooter}
+                                renderRevealedFooter={this._renderRevealedFooter}
+                                onReady={this._handleTextReady}
+                                >
+                                <Text>
+                                    {item.Content}
+                                </Text>
+                            </ReadMore>
+                        </View>
+                    </View>
+                    {
+                        item.images ?  <PhotoGrid source={item.images} /> : null
+                    }
+
                     <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                            {/* <Icon1 name="like" size={25} color="#424242" /> */}
-                            <Text style={{ color: '#424242' }} > Thích</Text>
+                             <Icon1 name="like" size={25} color="#42A5F5" />
+                            <Text style={{ color: '#42A5F5' }} > 99</Text>
+
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Icon1 name="comment" size={25} color="#42A5F5" />
+                            <Text  style = {{color: "#42A5F5"}}>99</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginRight: 10 }}>
-                            {/*<Icon1 name="comment" size={25} color="#424242" />*/}
-                            <Text> bình luận</Text>
+                            <Icon name="share-outline" size={25} color="#42A5F5" />
+                            <Text style = {{color: "#42A5F5"}}>99</Text>
                         </View>
 
                     </View>
@@ -101,6 +146,11 @@ class StatusItems extends Component {
 
                             <Text style={{ color: '#424242' }}>Bình luận</Text>
                         </View>
+                        <View style={{ flexDirection: 'row', marginRight: 20 }}>
+                            <Icon name="share-outline" size={25} color="#424242" />
+
+                            <Text style={{ color: '#424242' }}>Share</Text>
+                        </View>
                     </View>
 
                     <View style={{ flexDirection: 'row', marginTop: 5, marginRight: 15, alignItems: 'center' }}>
@@ -113,11 +163,11 @@ class StatusItems extends Component {
                         >
                         </Image>
                         <TouchableOpacity
-                            // onPress={() => navigation.navigate('BinhLuan', { itemCmt: item.comments, idRoom: item.id, onReloadBack: this.props.onReloadBack })}
+                            onPress={() => this.props.navigation.navigate('BinhLuan')}
 
                             style={{
                                 marginLeft: 10, flex: 1,
-                                backgroundColor: '#F5F5F5', borderRadius: 50,
+                                backgroundColor: '#F5F5F5', borderRadius: 25,
                                 borderWidth: 1,
                                 borderColor: '#757575',
                                 paddingLeft: 10,
