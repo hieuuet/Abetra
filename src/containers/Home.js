@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    FlatList
+    FlatList,
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 
 import StatusItems from "../components/StatusItems";
+import Icon from 'react-native-vector-icons/dist/EvilIcons'
+import Icon1 from 'react-native-vector-icons/dist/Entypo'
 
 class Home extends Component {
     constructor(props){
@@ -64,7 +68,41 @@ class Home extends Component {
     render () {
         const {navigation} = this.props
         return (
-            <View style = {{flex:1}}>
+            <ScrollView style = {{flex:1}}>
+                <View style = {{flexDirection:'row', alignItems: 'center'}}>
+                    <TouchableOpacity
+                        style = {{width: "90%"}}
+                        // onPress={() => this.props.navigation.navigate('SearchFaceHome')}
+                    >
+                        <View style={{
+                            flex:1,
+                            alignItems:'center',
+                            flexDirection: 'row',
+                            borderWidth: 1,
+                            borderColor: '#BDBDBD'
+                        }}>
+                            <Icon name="search" size={30} style={{marginLeft: 7}} color="black"/>
+                            <Text>Tìm kiếm</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style = {{width: "10%",alignItems: 'center', justifyContent:'center'}}
+                        onPress={() => this.props.navigation.navigate('TaoBaiViet')}
+                    >
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent:'center',
+                            borderWidth: 1,
+                            backgroundColor: "#0277BD",
+                            height: 25,
+                            width: 25,
+                            borderRadius: 25/2,
+                            borderColor: '#BDBDBD'
+                        }}>
+                            <Icon1 name="plus" size={20} color="white"/>
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
                     // refreshing={this.state.refresh}
                     // onRefresh={() => {
@@ -83,7 +121,7 @@ class Home extends Component {
                     keyExtractor={(item, index) => index.toString()}
 
                 />
-            </View>
+            </ScrollView>
         )
     }
 }

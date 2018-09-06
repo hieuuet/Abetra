@@ -13,6 +13,7 @@ import Login from "../containers/Login";
 import Chat from "../containers/Chat";
 import Intro from "../containers/app-intro/AppIntroSlider"
 import BinhLuan from "../containers/BinhLuan";
+import TaoBaiViet from "../containers/TaoBaiViet";
 
 const TabHome = createMaterialTopTabNavigator ({
     Home: {
@@ -126,6 +127,9 @@ const RootStack = createStackNavigator ({
         navigationOptions: {
             header: null
         }
+    },
+    TaoBaiViet: {
+        screen: TaoBaiViet,
     }
 
 })
