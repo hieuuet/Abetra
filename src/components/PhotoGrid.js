@@ -60,10 +60,10 @@ class PhotoGrid extends Component {
                         <TouchableOpacity activeOpacity={0.7} key={index} style={{ flex: 1 }}
                             // onPress={() => this.props.onPressImage && this.props.onPressImage(image)}
                                           onPress = {() => Alert.alert(
-                                              'Alert Title',
-                                              'My Alert Msg',
+                                              'Thông báo',
+                                              'Chức năng đang hoàn thiện',
                                               [
-                                                  {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                                                  // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
                                                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                                                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                                               ],
@@ -84,10 +84,10 @@ class PhotoGrid extends Component {
                             {secondViewImages.map((image, index) => (
                                 <TouchableOpacity activeOpacity={0.7} key={index} style={{ flex: 1 }}
                                                   onPress = {() => Alert.alert(
-                                                      'Alert Title',
-                                                      'My Alert Msg',
+                                                      'Thông báo',
+                                                      'Chức năng đang hoàn thiện',
                                                       [
-                                                          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                                                          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
                                                           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                                                           {text: 'OK', onPress: () => console.log('OK Pressed')},
                                                       ],

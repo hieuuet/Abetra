@@ -14,7 +14,7 @@ class Home extends Component {
             ArrPost: [
                 {
                     FullName: "Nguyễn Văn Hiệu",
-                    Content: "Không có gì quý hơn độc lập tự do",
+                    Content: "Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do, Không có gì quý hơn độc lập tự do, không có gì quý hơn đôc lập tự do",
                     Avt: "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
                     Time: '05/09/2018',
                     Img: "https://kenh14cdn.com/thumb_w/600/3qsvZHBxXH8xPdzaJmLFPEqgKxHka/Image/2015/03/10919541_326321127564559_1570986608_n-02055.jpg"
