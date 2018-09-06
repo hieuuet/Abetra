@@ -12,6 +12,7 @@ import {
 
 import moment from 'moment';
 import Icon1 from 'react-native-vector-icons/EvilIcons';
+import ReadMore from 'react-native-read-more-text';
 import PhotoGrid from "./PhotoGrid";
 
 class StatusItems extends Component {
@@ -39,11 +40,24 @@ class StatusItems extends Component {
         }
 
     }
+    _renderTruncatedFooter = (handlePress) => {
+        return (
+            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+                Read more
+            </Text>
+        );
+    }
 
-
-
-
-
+    _renderRevealedFooter = (handlePress) => {
+        return (
+            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+                Show less
+            </Text>
+        );
+    }
+    _handleTextReady = () => {
+        console.log('ready!');
+    }
 
 
 
@@ -73,7 +87,34 @@ class StatusItems extends Component {
                         </View>
                     </View>
                     <View style={{ marginHorizontal: 10, marginTop: 10 }}>
-                        <Text style={{ color: '#212121' }} numberOfLines={3}>{item.Content}</Text>
+                        <View>
+                            {/*<ReadMore*/}
+                                {/*numberOfLines={3}*/}
+                                {/*renderTruncatedFooter={this._renderTruncatedFooter}*/}
+                                {/*renderRevealedFooter={this._renderRevealedFooter}*/}
+                                {/*// onReady={this._handleTextReady}*/}
+                            {/*>*/}
+                                {/*<RegularText>*/}
+                                    {/*{item.Content}*/}
+                                {/*</RegularText>*/}
+                            {/*</ReadMore>*/}
+                            <ReadMore
+                                numberOfLines={3}
+                                renderTruncatedFooter={this._renderTruncatedFooter}
+                                renderRevealedFooter={this._renderRevealedFooter}
+                                onReady={this._handleTextReady}
+                                >
+                                <Text>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                    nisi ut aliquip ex ea commodo consequat.  Duis aute irure dolor
+                                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum
+                                </Text>
+                            </ReadMore>
+                        </View>
                     </View>
                     <PhotoGrid source={this.state.images} />
                     <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' }}>
