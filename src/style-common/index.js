@@ -17,7 +17,7 @@ export default (style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  boder: {
+      boder: {
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 5

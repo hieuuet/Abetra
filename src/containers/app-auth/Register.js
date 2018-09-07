@@ -16,6 +16,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
+import { ButtonBorder, TextInputBorder } from "../../components/ViewBorder";
 
 class Register extends Component {
   constructor(props) {
@@ -43,30 +44,28 @@ class Register extends Component {
         keyboardVerticalOffset={64}
       >
         <Image style={styles.img_logo} resizeMode="cover" source={IMAGE.logo} />
-        <TextInput
+        <TextInputBorder
           placeholder="Nhập số điện thoại"
-          underlineColorAndroid="transparent"
-          returnKeyType="next"
-          onChangeText={text => (this.phone = text)}
-          style={[styles.text_input, style_common.boder]}
+          onChangeText={() => {}}
+          my_style={styles.text_input}
         />
-        <TextInput
-          placeholder="Nhập số điện thoại"
-          underlineColorAndroid="transparent"
-          returnKeyType="next"
-          onChangeText={text => (this.phone = text)}
-          style={[styles.text_input, style_common.boder]}
+        <TextInputBorder
+          placeholder="Nhập mật khẩu"
+          onChangeText={() => {}}
+          my_style={styles.text_input}
         />
-        <TextInput
-          placeholder="Nhập số điện thoại"
-          underlineColorAndroid="transparent"
-          returnKeyType="done"
-          onChangeText={text => (this.phone = text)}
-          style={[styles.text_input, style_common.boder]}
+        <TextInputBorder
+          placeholder="Nhập lại mật khẩu"
+          onChangeText={() => {}}
+          my_style={styles.text_input}
         />
-        <TouchableOpacity style={[style_common.boder, styles.btn_register]}>
-          <Text>Đăng ký</Text>
-        </TouchableOpacity>
+        <ButtonBorder
+          lable="Đăng ký"
+          onPress={() => {
+            this._register();
+          }}
+          my_style={styles.btn_register}
+        />
         <View style={styles.view_login}>
           <Text>Đăng nhập bằng Facebook</Text>
           <TouchableOpacity>
@@ -80,43 +79,37 @@ class Register extends Component {
 
         <View style={styles.view_login}>
           <Text style={styles.text_login}>Đã có tài khoản</Text>
-          <TouchableOpacity style={[style_common.boder, styles.btn_login]}>
-            <Text>Đăng nhập</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
-          <TouchableOpacity style={[style_common.boder, styles.btn_login]}>
-            <Text>Guest</Text>
-          </TouchableOpacity>
+          <ButtonBorder
+            lable="Đăng nhập"
+            onPress={() => {
+              this.props.navigation.navigate("TabHome");
+            }}
+          />
         </View>
         <View style={styles.view_login}>
           <Text style={styles.text_login}>Dùng tài khoản khách</Text>
-          <TouchableOpacity style={[style_common.boder, styles.btn_login]}>
-            <Text>Guest</Text>
+          <ButtonBorder
+            lable="Guest"
+            onPress={() => {
+              alert(1);
+            }}
+          />
+        </View>
+        <View style={styles.parent_checkbox}>
+          <CheckBox
+            onClick={() => {
+              this.setState({
+                isChecked: !this.state.isChecked
+              });
+            }}
+            isChecked={this.state.isChecked}
+          />
+          <TouchableOpacity>
+            <Text style={styles.txt_underline}>
+              Tôi đã đọc và đồng ý với điều khoản dịch vụ
+            </Text>
           </TouchableOpacity>
         </View>
-        <CheckBox
-          style={{ padding: 10, backgroundColor: "red" }}
-          onClick={() => {
-            this.setState({
-              isChecked: !this.state.isChecked
-            });
-          }}
-          isChecked={this.state.isChecked}
-          leftText={"CheckBox"}
-          rightText={"afasfassafasas"}
-        />
-
-        {/* <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("TabHome")}
-        >
-          <Text>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this._register()}>
-          <Text>register</Text>
-        </TouchableOpacity> */}
       </KeyboardAvoidingView>
     );
   }
@@ -147,15 +140,10 @@ const styles = StyleSheet.create({
   text_input: {
     marginLeft: 40,
     marginRight: 40,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: "stretch"
+    marginTop: 10
   },
   btn_register: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 7,
-    minWidth: 150
+    margin: 10
   },
   btn_login: {
     justifyContent: "center",
@@ -177,8 +165,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "stretch"
   },
+  parent_checkbox: {
+    justifyContent: "flex-start",
+    alignSelf: "stretch",
+    flexDirection: "row",
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 30
+  },
   text_login: {
     flex: 1,
     marginRight: 10
+  },
+  txt_underline: {
+    textDecorationLine: "underline",
+    paddingLeft: 5
   }
 });
