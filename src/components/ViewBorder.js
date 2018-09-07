@@ -23,6 +23,7 @@ export const TextInputBorder = ({
   onChangeText,
   returnKeyType = "next",
   secureTextEntry = false,
+  keyboardType = "default",
   my_style = {}
 }) => {
   return (
@@ -33,6 +34,7 @@ export const TextInputBorder = ({
       returnKeyType={returnKeyType}
       placeholder={placeholder}
       onChangeText={onChangeText}
+      keyboardType={keyboardType}
       style={[styles.input, my_style]}
     />
   );

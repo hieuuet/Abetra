@@ -8,7 +8,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import style_common from "../../style-common/index";
 import { IMAGE } from "../../constant/assets";
@@ -17,7 +18,6 @@ import { connect } from "react-redux";
 import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, TextInputBorder } from "../../components/ViewBorder";
-import { LoginButton, AccessToken } from "react-native-fbsdk";
 
 class Register extends Component {
   constructor(props) {
@@ -25,18 +25,55 @@ class Register extends Component {
     this.state = {
       isChecked: false
     };
+
+    this.dataUser = {
+      userName: "",
+      fullName: "test1",
+      password: "",
+      rePassword: ""
+    };
   }
+
   _register = async () => {
+    console.log("Dang ki");
+
+    const { userName, fullName, password, rePassword } = this.dataUser;
+    if (password.length < 6 || password !== rePassword) {
+      Alert.alert(
+        "Thông báo",
+        "Password không hợp lệ",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+      return;
+    }
+
     const { postRegister } = this.props;
     let register = await postRegister({
-      Username: "0983145317",
-      FullName: "Nguyễn Thị Hiền",
-      Email: "sdfsdf@gmail.com",
-      Password: "123456",
+      Username: userName,
+      FullName: fullName,
+      Email: "fsfd@gmail.com",
+      Password: password,
       lang_name: "vi_VN"
     });
     console.log("register", register);
+    if (register.ErrorCode === "00") {
+      Alert.alert(
+        "Thông báo",
+        register.Message,
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        "Thông báo",
+        register.Message,
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    }
   };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -47,19 +84,20 @@ class Register extends Component {
         <Image style={styles.img_logo} resizeMode="cover" source={IMAGE.logo} />
         <TextInputBorder
           placeholder="Nhập số điện thoại"
-          onChangeText={() => {}}
+          keyboardType="numeric"
+          onChangeText={text => (this.dataUser.userName = text)}
           my_style={styles.text_input}
         />
         <TextInputBorder
           placeholder="Nhập mật khẩu"
           secureTextEntry={true}
-          onChangeText={() => {}}
+          onChangeText={text => (this.dataUser.password = text)}
           my_style={styles.text_input}
         />
         <TextInputBorder
           placeholder="Nhập lại mật khẩu"
           secureTextEntry={true}
-          onChangeText={() => {}}
+          onChangeText={text => (this.dataUser.rePassword = text)}
           returnKeyType="done"
           my_style={styles.text_input}
         />
@@ -86,7 +124,7 @@ class Register extends Component {
           <ButtonBorder
             lable="Đăng nhập"
             onPress={() => {
-              this.props.navigation.navigate("TabHome");
+              this.props.navigation.navigate("Login");
             }}
           />
         </View>
@@ -118,6 +156,7 @@ class Register extends Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     // login: state.login
@@ -142,9 +181,9 @@ const styles = StyleSheet.create({
     height: 100
   },
   text_input: {
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10
+    marginHorizontal: 60,
+    marginTop: 10,
+    padding: 5
   },
   btn_register: {
     margin: 10
