@@ -2,7 +2,13 @@ package com.starterkit;
 
 import android.app.Application;
 
+import com.facebook.CallbackManager;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -15,37 +21,44 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+    private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    protected static CallbackManager getCallbackManager() {
+        return mCallbackManager;
+    }
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new VectorIconsPackage(),
+                    new RNTextInputResetPackage(),
+                    new FIRMessagingPackage(),
+                    new FBSDKPackage(mCallbackManager)
+            );
+        }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
+    };
+
     @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNTextInputResetPackage(),
-            new VectorIconsPackage(),
-             new FIRMessagingPackage()
-      );
+    public void onCreate() {
+        super.onCreate();
+        SoLoader.init(this, /* native exopackage */ false);
+        AppEventsLogger.activateApp(this);
     }
-
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-  }
 }

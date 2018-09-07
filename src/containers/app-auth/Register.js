@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, TextInputBorder } from "../../components/ViewBorder";
+import { LoginButton, AccessToken } from "react-native-fbsdk";
 
 class Register extends Component {
   constructor(props) {
@@ -51,12 +52,15 @@ class Register extends Component {
         />
         <TextInputBorder
           placeholder="Nhập mật khẩu"
+          secureTextEntry={true}
           onChangeText={() => {}}
           my_style={styles.text_input}
         />
         <TextInputBorder
           placeholder="Nhập lại mật khẩu"
+          secureTextEntry={true}
           onChangeText={() => {}}
+          returnKeyType="done"
           my_style={styles.text_input}
         />
         <ButtonBorder

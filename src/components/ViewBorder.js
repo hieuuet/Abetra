@@ -22,11 +22,14 @@ export const TextInputBorder = ({
   placeholder,
   onChangeText,
   returnKeyType = "next",
+  secureTextEntry = false,
   my_style = {}
 }) => {
   return (
     <TextInput
       underlineColorAndroid="transparent"
+      autoCapitalize="none"
+      secureTextEntry={secureTextEntry}
       returnKeyType={returnKeyType}
       placeholder={placeholder}
       onChangeText={onChangeText}
