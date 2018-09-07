@@ -103,19 +103,27 @@ const TabHome = createMaterialTopTabNavigator(
   }
 );
 const RootStack = createStackNavigator({
-  Register: {
-    screen: Register,
-    navigationOptions: {
-      header: null
-    }
-  },
-  Intro: {
-    screen: Intro,
-    navigationOptions: {
-      header: null
-    }
-  },
 
+  // Intro: {
+  //   screen: Intro,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+
+
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Register: {
+        screen: Register,
+        navigationOptions: {
+            header: null
+        }
+    },
   TabHome: {
     screen: TabHome,
     navigationOptions: {
