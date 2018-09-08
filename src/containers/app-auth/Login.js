@@ -2,80 +2,59 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  Image,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
+  Alert,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
-  Alert
+  Platform,
+  TextInput
 } from "react-native";
-import style_common from "../../style-common/index";
-import { IMAGE } from "../../constant/assets";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { postRegister } from "../../actions/registerActions";
-import CheckBox from "../../components/CheckBox ";
+import { IMAGE } from "../../constant/assets";
+import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
+import { postLogin } from "../../actions/loginActions";
 import { facebookLogin } from "./Loginfb";
-
-class Register extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: false,
       isLoading: false,
       isLoadingIndicator: true
     };
-
     this.dataUser = {
       userName: "",
-      fullName: "test1",
-      password: "",
-      rePassword: ""
+      password: ""
     };
   }
 
-  _register = async () => {
-    const { userName, fullName, password, rePassword } = this.dataUser;
-    if (password.length < 6 || password !== rePassword) {
-      Alert.alert(
-        "Thông báo",
-        "Password không hợp lệ",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
-      return;
-    }
+  _login = async () => {
+    const { userName, password } = this.dataUser;
 
-    const { postRegister } = this.props;
+    const { postLogin } = this.props;
     this.setState({ isLoading: true });
-    let register = await postRegister({
-      Username: userName,
-      FullName: fullName,
-      Email: "fsfd@gmail.com",
-      Password: password,
+    let login = await postLogin({
+      so_dien_thoai: userName,
+      mat_khau: password,
       lang_name: "vi_VN"
     });
+    console.log("login", login);
     this.setState({ isLoading: false });
-    console.log("register", register);
-    if (register.ErrorCode === "00") {
-      Alert.alert(
-        "Thông báo",
-        register.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+    if (login.ErrorCode === "00") {
+      this.props.navigation.navigate("TabHome");
     } else {
       Alert.alert(
         "Thông báo",
-        register.Message,
+        login.Message,
         [{ text: "OK", onPress: () => console.log("OK Pressed") }],
         { cancelable: false }
       );
     }
   };
+
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
 
@@ -121,29 +100,16 @@ class Register extends Component {
             <TextInput
               underlineColorAndroid="transparent"
               autoCapitalize="none"
-              returnKeyType="next"
+              returnKeyType="done"
               secureTextEntry={true}
               placeholder="Nhập mật khẩu"
               ref="pass"
               onChangeText={text => (this.dataUser.password = text)}
               style={[style_common.input_boder, styles.text_input]}
-              onSubmitEditing={event => {
-                this.refs.rePass.focus();
-              }}
-            />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="done"
-              secureTextEntry={true}
-              placeholder="Nhập lại mật khẩu"
-              ref="rePass"
-              onChangeText={text => (this.dataUser.rePassword = text)}
-              style={[style_common.input_boder, styles.text_input]}
             />
             <ButtonBorder
-              lable="Đăng ký"
-              onPress={this._register}
+              lable="Đăng nhập"
+              onPress={this._login}
               my_style={styles.btn_register}
             />
             <View style={styles.view_login}>
@@ -158,11 +124,11 @@ class Register extends Component {
             </View>
 
             <View style={styles.view_login}>
-              <Text style={styles.text_login}>Đã có tài khoản</Text>
+              <Text style={styles.text_login}>Chưa có tài khoản</Text>
               <ButtonBorder
-                lable="Đăng nhập"
+                lable="Đăng ký"
                 onPress={() => {
-                  this.props.navigation.navigate("Login");
+                  this.props.navigation.navigate("Register");
                 }}
               />
             </View>
@@ -178,20 +144,16 @@ class Register extends Component {
                 }}
               />
             </View>
+
             <View style={styles.content_footer}>
-              <View style={styles.parent_checkbox}>
-                <CheckBox
-                  onClick={() => {
-                    this.setState({
-                      isChecked: !this.state.isChecked
-                    });
-                  }}
-                  isChecked={this.state.isChecked}
-                />
-                <TouchableOpacity>
-                  <Text style={styles.txt_underline}>
-                    Tôi đã đọc và đồng ý với điều khoản dịch vụ
-                  </Text>
+              <View style={styles.view_fanpage}>
+                <Text>Để được hỗ trợ vui lòng liên hệ qua fanpage</Text>
+                <TouchableOpacity onPress={this.facebookLogin}>
+                  <Image
+                    style={styles.img_fb}
+                    resizeMode="cover"
+                    source={IMAGE.logo_fb}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -213,16 +175,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postRegister: bindActionCreators(postRegister, dispatch)
+    postLogin: bindActionCreators(postLogin, dispatch)
   };
 };
 
-Register = connect(
+Login = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register);
-export default Register;
-
+)(Login);
+export default Login;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
@@ -250,10 +211,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "stretch"
   },
-  parent_checkbox: {
-    justifyContent: "flex-start",
-    alignSelf: "stretch",
+  view_fanpage: {
+    justifyContent: "center",
+    alignItems: "center",
     flexDirection: "row"
+  },
+  content_footer: {
+    justifyContent: "flex-end",
+    marginTop: 10,
+    marginBottom: 10,
+    flex: 1
   },
   text_login: {
     flex: 1,
@@ -262,13 +229,5 @@ const styles = StyleSheet.create({
   txt_underline: {
     textDecorationLine: "underline",
     paddingLeft: 5
-  },
-  content_footer: {
-    justifyContent: "flex-end",
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 30,
-    marginBottom: 10,
-    flex: 1
   }
 });

@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/Entypo";
 import Icon3 from "react-native-vector-icons/MaterialIcons";
-import Login from "../containers/Login";
+import Login from "../containers/app-auth/Login";
 import Chat from "../containers/Chat";
 import Intro from "../containers/app-intro/AppIntroSlider";
 import Register from "../containers/app-auth/Register";

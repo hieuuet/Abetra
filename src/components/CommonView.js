@@ -19,11 +19,12 @@ export const ButtonBorder = ({ lable, onPress, my_style = {} }) => {
     </TouchableOpacity>
   );
 };
-
-export const ViewLoading = () => {
+export const ViewLoading = (isLoadingIndicator = true) => {
   return (
     <View style={styles.loading}>
-      <ActivityIndicator size="large" color={COLOR.BACKGROUND_BUTTON} />
+      {isLoadingIndicator.isLoadingIndicator ? (
+        <ActivityIndicator size="large" color={COLOR.BACKGROUND_BUTTON} />
+      ) : null}
     </View>
   );
 };
