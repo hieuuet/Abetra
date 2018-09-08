@@ -38,32 +38,33 @@ export const facebookLogin = async () => {
   // handle the case that users clicks cancel button in Login view
   if (result.isCancelled) {
     return undefined;
-  } else {
-    // Create a graph request asking for user information
-    return new Promise((resolve, reject) => {
-      this.fbGraphRequest(
-        "email,name,first_name,middle_name,last_name,picture.type(large)",
-        (error, result) => {
-          if (error) {
-            Alert.alert(
-              "Thông báo",
-              "Không lấy được thông tin facebook",
-              [{ text: "OK" }],
-              { cancelable: false }
-            );
-            reject(undefined);
-          } else {
-            resolve({
-              fullName: result.name,
-              urlImg: result.picture.data.url,
-              email: result.email,
-              id: result.id
-            });
-          }
-        }
-      );
-    });
   }
+  // Create a graph request asking for user information
+  return new Promise((resolve, reject) => {
+    this.fbGraphRequest(
+      "email,name,first_name,middle_name,last_name,picture.type(large)",
+      (error, result) => {
+        if (error) {
+          Alert.alert(
+            "Thông báo",
+            "Không lấy được thông tin facebook",
+            [{ text: "OK" }],
+            {
+              cancelable: false
+            }
+          );
+          reject(undefined);
+        } else {
+          resolve({
+            fullName: result.name,
+            urlImg: result.picture.data.url,
+            email: result.email,
+            id: result.id
+          });
+        }
+      }
+    );
+  });
 };
 fbGraphRequest = async (fields, callback) => {
   const accessData = await AccessToken.getCurrentAccessToken();
