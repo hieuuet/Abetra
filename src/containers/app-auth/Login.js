@@ -2,85 +2,60 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
+  Image,
   Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TextInput,
 } from 'react-native';
-import style_common from '../../style-common/index';
-import { IMAGE } from '../../constant/assets';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { postRegister } from '../../actions/registerActions';
-import CheckBox from '../../components/CheckBox ';
+import { IMAGE } from '../../constant/assets';
+import style_common from '../../style-common';
 import { ButtonBorder, ViewLoading } from '../../components/CommonView';
+import { postLogin } from '../../actions/loginActions';
 import { facebookLogin } from './Loginfb';
 import { strings } from '../../i18n';
-
-class Register extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: false,
       isLoading: false,
       isLoadingIndicator: true,
     };
-
     this.dataUser = {
       userName: '',
-      fullName: 'test1',
       password: '',
-      rePassword: '',
     };
   }
 
-  _register = async () => {
-    //TODO: remove after call api
-    this.props.navigation.navigate('VerifyAccount');
+  _login = async () => {
+    const { userName, password } = this.dataUser;
 
-    const { userName, fullName, password, rePassword } = this.dataUser;
-
-    if (password.length < 6 || password !== rePassword) {
-      Alert.alert(
-        'Thông báo',
-        'Password không hợp lệ',
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-        { cancelable: false }
-      );
-      return;
-    }
-
-    const { postRegister } = this.props;
+    const { postLogin } = this.props;
     this.setState({ isLoading: true });
-    let register = await postRegister({
-      Username: userName,
-      FullName: fullName,
-      Email: 'fsfd@gmail.com',
-      Password: password,
+    let login = await postLogin({
+      so_dien_thoai: userName,
+      mat_khau: password,
       lang_name: 'vi_VN',
     });
+    console.log('login', login);
     this.setState({ isLoading: false });
-    console.log('register', register);
-    if (register.ErrorCode === '00') {
-      Alert.alert(
-        'Thông báo',
-        register.Message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-        { cancelable: false }
-      );
+    if (login.ErrorCode === '00') {
+      this.props.navigation.navigate('TabHome');
     } else {
       Alert.alert(
         'Thông báo',
-        register.Message,
+        login.Message,
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
     }
   };
+
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
 
@@ -112,29 +87,16 @@ class Register extends Component {
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
-          returnKeyType="next"
+          returnKeyType="done"
           secureTextEntry={true}
           placeholder={strings('login.placeholder.input_pass')}
           ref="pass"
           onChangeText={(text) => (this.dataUser.password = text)}
           style={[style_common.input_boder, styles.text_input]}
-          onSubmitEditing={(event) => {
-            this.refs.rePass.focus();
-          }}
-        />
-        <TextInput
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          returnKeyType="done"
-          secureTextEntry={true}
-          placeholder={strings('login.placeholder.input_rePass')}
-          ref="rePass"
-          onChangeText={(text) => (this.dataUser.rePassword = text)}
-          style={[style_common.input_boder, styles.text_input]}
         />
         <ButtonBorder
-          lable={strings('register.btn_register')}
-          onPress={this._register}
+          lable={strings('login.placeholder.input_phone')}
+          onPress={this._login}
         />
         <View style={styles.view_login}>
           <Text>{strings('login.login_fb')}</Text>
@@ -148,20 +110,18 @@ class Register extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>
-            {strings('register.has_account')}
-          </Text>
+          <Text style={styles.text_login}>{strings('login.not_account')}</Text>
           <ButtonBorder
-            lable={strings('login.btn_login')}
+            lable={strings('register.btn_register')}
             onPress={() => {
-              this.props.navigation.navigate('Login');
+              this.props.navigation.navigate('Register');
             }}
           />
         </View>
         <View style={styles.view_login}>
           <Text style={styles.text_login}>{strings('login.login_guest')}</Text>
           <ButtonBorder
-            lable={strings('login.btn_guest')}
+            lable="Guest"
             onPress={() => {
               this.setState({ isLoading: true });
               setTimeout(() => {
@@ -176,24 +136,20 @@ class Register extends Component {
   _renderFooter = () => {
     return (
       <View style={styles.content_footer}>
-        <View style={styles.parent_checkbox}>
-          <CheckBox
-            onClick={() => {
-              this.setState({
-                isChecked: !this.state.isChecked,
-              });
-            }}
-            isChecked={this.state.isChecked}
-          />
-          <TouchableOpacity>
-            <Text style={styles.txt_underline}>
-              {strings('register.agree_term')}
-            </Text>
+        <View style={styles.view_fanpage}>
+          <Text>{strings('verify.txt_fanpage')}</Text>
+          <TouchableOpacity onPress={this.facebookLogin}>
+            <Image
+              style={styles.img_fb}
+              resizeMode="cover"
+              source={IMAGE.logo_fb}
+            />
           </TouchableOpacity>
         </View>
       </View>
     );
   };
+
   _renderLoading = () => {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
@@ -217,7 +173,9 @@ class Register extends Component {
               resizeMode="cover"
               source={IMAGE.logo}
             />
+
             {this._renderContent()}
+
             {this._renderFooter()}
           </View>
         </ScrollView>
@@ -235,16 +193,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    postRegister: bindActionCreators(postRegister, dispatch),
+    postLogin: bindActionCreators(postLogin, dispatch),
   };
 };
 
-Register = connect(
+Login = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register);
-export default Register;
-
+)(Login);
+export default Login;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
@@ -269,10 +226,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'stretch',
   },
-  parent_checkbox: {
-    justifyContent: 'flex-start',
-    alignSelf: 'stretch',
+  view_fanpage: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
+  },
+  content_footer: {
+    justifyContent: 'flex-end',
+    marginTop: 10,
+    marginBottom: 10,
+    flex: 1,
   },
   text_login: {
     flex: 1,
@@ -281,13 +244,5 @@ const styles = StyleSheet.create({
   txt_underline: {
     textDecorationLine: 'underline',
     paddingLeft: 5,
-  },
-  content_footer: {
-    justifyContent: 'flex-end',
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 30,
-    marginBottom: 10,
-    flex: 1,
   },
 });

@@ -12,12 +12,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/Entypo";
 import Icon3 from "react-native-vector-icons/MaterialIcons";
-import Login from "../containers/Login";
+import Login from "../containers/app-auth/Login";
 import Chat from "../containers/Chat";
 import Intro from "../containers/app-intro/AppIntroSlider";
 import Register from "../containers/app-auth/Register";
 import BinhLuan from "../containers/BinhLuan";
 import TaoBaiViet from "../containers/TaoBaiViet";
+import VerifyAccount from "../containers/app-auth/VerifyAccount";
+import Profile from '../containers/manage-user/Profile'
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -103,7 +105,6 @@ const TabHome = createMaterialTopTabNavigator(
   }
 );
 const RootStack = createStackNavigator({
-
   // Intro: {
   //   screen: Intro,
   //   navigationOptions: {
@@ -111,19 +112,30 @@ const RootStack = createStackNavigator({
   //   }
   // },
 
-
-    Login: {
-        screen: Login,
-        navigationOptions: {
-            header: null
-        }
-    },
-    Register: {
-        screen: Register,
-        navigationOptions: {
-            header: null
-        }
-    },
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Register: {
+    screen: Register,
+    navigationOptions: {
+      header: null
+    }
+  },
+  VerifyAccount: {
+    screen: VerifyAccount,
+    navigationOptions: {
+      header: null
+    }
+  },
   TabHome: {
     screen: TabHome,
     navigationOptions: {

@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  ActivityIndicator
+} from "react-native";
 import { COLOR } from "../constant/Color";
 
 /**
@@ -13,32 +19,16 @@ export const ButtonBorder = ({ lable, onPress, my_style = {} }) => {
     </TouchableOpacity>
   );
 };
-
-/**
- *
- * custom for textinput border
- */
-export const TextInputBorder = ({
-  placeholder,
-  onChangeText,
-  returnKeyType = "next",
-  secureTextEntry = false,
-  keyboardType = "default",
-  my_style = {}
-}) => {
+export const ViewLoading = (isLoadingIndicator = true) => {
   return (
-    <TextInput
-      underlineColorAndroid="transparent"
-      autoCapitalize="none"
-      secureTextEntry={secureTextEntry}
-      returnKeyType={returnKeyType}
-      placeholder={placeholder}
-      onChangeText={onChangeText}
-      keyboardType={keyboardType}
-      style={[styles.input, my_style]}
-    />
+    <View style={styles.loading}>
+      {isLoadingIndicator.isLoadingIndicator ? (
+        <ActivityIndicator size="large" color={COLOR.BACKGROUND_BUTTON} />
+      ) : null}
+    </View>
   );
 };
+
 const styles = StyleSheet.create({
   btn: {
     borderWidth: 1,
@@ -51,16 +41,21 @@ const styles = StyleSheet.create({
     minWidth: 100,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
+    marginTop: 10,
     shadowColor: COLOR.BACKGROUND_BUTTON
   },
   txt: {
     color: COLOR.TEXT_BUTTON
   },
-  input: {
-    borderWidth: 1,
-    borderColor: COLOR.BORDER_INPUT,
-    borderRadius: 5,
-    padding: 5,
-    alignSelf: "stretch"
+  loading: {
+    top: -10,
+    bottom: -10,
+    left: -10,
+    right: -10,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    zIndex: 1,
+    backgroundColor: "rgba(52, 52, 52, 0.5)"
   }
 });

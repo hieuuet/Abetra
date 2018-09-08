@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLOR } from "../constant/Color";
 export default (style = StyleSheet.create({
   container: {
     flex: 1
@@ -17,9 +18,17 @@ export default (style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-      boder: {
+  input_boder: {
     borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 5
+    borderColor: COLOR.BORDER_INPUT,
+    borderRadius: 5,
+    padding: 5,
+    alignSelf: "stretch"
+  },
+  wrapper: {
+    flex: 1,
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center"
   }
 }));
