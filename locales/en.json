@@ -1,0 +1,31 @@
+{
+  "login": {
+    "placeholder": {
+      "input_phone": "Nhập số điện thoại",
+      "input_pass": "Nhập mật khẩu",
+      "input_rePass": "Nhập lại mật khẩu"
+    },
+    "login_fb": "Đăng nhập bằng Facebook",
+    "login_guest": "Dùng tài khoản khách",
+    "not_account": "Chưa có tài khoản",
+    "btn_login": "Đăng nhập",
+    "btn_guest": "Guest"
+  },
+  "register": {
+    "btn_register": "Đăng ký",
+    "has_account": "Đã có tài khoản",
+    "agree_term": "Tôi đã đọc và đồng ý các điều khoản dịch vụ"
+  },
+  "verify": {
+    "placeholder": {
+      "input_code": "Nhập mã xác nhận"
+    },
+    "info": "Mã xác nhận đã được gửi tin nhắn tới số của bạn",
+    "txt_notReceive": "Không nhận được mã",
+    "txt_phoneIncorrect": "Nhập sai số điện thoại",
+    "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
+    "btn_confirm": "Xác nhận",
+    "btn_reSend": "Gửi lại mã",
+    "btn_reInput": "Nhập lại"
+  }
+}

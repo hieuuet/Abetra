@@ -18,6 +18,7 @@ import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { postLogin } from "../../actions/loginActions";
 import { facebookLogin } from "./Loginfb";
+import { strings } from "../../i18n";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -75,7 +76,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder="Nhập số điện thoại"
+          placeholder={strings("login.placeholder.input_phone")}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
           style={[style_common.input_boder, styles.text_input]}
@@ -88,14 +89,17 @@ class Login extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
-          placeholder="Nhập mật khẩu"
+          placeholder={strings("login.placeholder.input_pass")}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
-        <ButtonBorder lable="Đăng nhập" onPress={this._login} />
+        <ButtonBorder
+          lable={strings("login.placeholder.input_phone")}
+          onPress={this._login}
+        />
         <View style={styles.view_login}>
-          <Text>Đăng nhập bằng Facebook</Text>
+          <Text>{strings("login.login_fb")}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -106,16 +110,16 @@ class Login extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Chưa có tài khoản</Text>
+          <Text style={styles.text_login}>{strings("login.not_account")}</Text>
           <ButtonBorder
-            lable="Đăng ký"
+            lable={strings("register.btn_register")}
             onPress={() => {
               this.props.navigation.navigate("Register");
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
+          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
           <ButtonBorder
             lable="Guest"
             onPress={() => {
@@ -133,7 +137,7 @@ class Login extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>Để được hỗ trợ vui lòng liên hệ qua fanpage</Text>
+          <Text>{strings("verify.txt_fanpage")}</Text>
           <TouchableOpacity onPress={this.facebookLogin}>
             <Image
               style={styles.img_fb}

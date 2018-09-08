@@ -19,6 +19,7 @@ import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
+import { strings } from "../../i18n";
 
 class Register extends Component {
   constructor(props) {
@@ -38,12 +39,11 @@ class Register extends Component {
   }
 
   _register = async () => {
-
     //TODO: remove after call api
     this.props.navigation.navigate("VerifyAccount");
 
     const { userName, fullName, password, rePassword } = this.dataUser;
-    
+
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
         "Thông báo",
@@ -80,7 +80,6 @@ class Register extends Component {
         { cancelable: false }
       );
     }
-    
   };
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
@@ -102,7 +101,7 @@ class Register extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder="Nhập số điện thoại"
+          placeholder={strings("login.placeholder.input_phone")}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
           style={[style_common.input_boder, styles.text_input]}
@@ -115,7 +114,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder="Nhập mật khẩu"
+          placeholder={strings("login.placeholder.input_pass")}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={[style_common.input_boder, styles.text_input]}
@@ -128,14 +127,17 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
-          placeholder="Nhập lại mật khẩu"
+          placeholder={strings("login.placeholder.input_rePass")}
           ref="rePass"
           onChangeText={text => (this.dataUser.rePassword = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
-        <ButtonBorder lable="Đăng ký" onPress={this._register} />
+        <ButtonBorder
+          lable={strings("register.btn_register")}
+          onPress={this._register}
+        />
         <View style={styles.view_login}>
-          <Text>Đăng nhập bằng Facebook</Text>
+          <Text>{strings("login.login_fb")}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -146,18 +148,20 @@ class Register extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Đã có tài khoản</Text>
+          <Text style={styles.text_login}>
+            {strings("register.has_account")}
+          </Text>
           <ButtonBorder
-            lable="Đăng nhập"
+            lable={strings("login.btn_login")}
             onPress={() => {
               this.props.navigation.navigate("Login");
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
+          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
           <ButtonBorder
-            lable="Guest"
+            lable={strings("login.btn_guest")}
             onPress={() => {
               this.setState({ isLoading: true });
               setTimeout(() => {
@@ -183,7 +187,7 @@ class Register extends Component {
           />
           <TouchableOpacity>
             <Text style={styles.txt_underline}>
-              Tôi đã đọc và đồng ý với điều khoản dịch vụ
+              {strings("register.agree_term")}
             </Text>
           </TouchableOpacity>
         </View>

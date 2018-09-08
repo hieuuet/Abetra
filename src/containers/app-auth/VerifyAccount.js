@@ -6,13 +6,15 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,Image,
+  ScrollView,
+  Image,
   TouchableOpacity
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
+import { strings } from "../../i18n";
 class VerifyAccount extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +24,7 @@ class VerifyAccount extends Component {
     this.verifyCode = "";
   }
 
-  verify = () => {
-
-  };
+  verify = () => {};
 
   _renderContent = () => {
     return (
@@ -33,26 +33,34 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder="Nhập mã xác nhận"
+          placeholder={strings("verify.placeholder.input_code")}
           keyboardType="numeric"
           onChangeText={text => (this.verifyCode = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
-        <Text style={styles.text_info}>Mã xác nhận đã được gửi tin nhắn tới số của bạn</Text>
-        <ButtonBorder lable="Xác nhận" onPress={this.verify} my_style={{marginBottom:10}} />
+        <Text style={styles.text_info}>{strings("verify.info")}</Text>
+        <ButtonBorder
+          lable={strings("verify.btn_confirm")}
+          onPress={this.verify}
+          my_style={{ marginBottom: 10 }}
+        />
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Không nhận được mã</Text>
+          <Text style={styles.text_login}>
+            {strings("verify.txt_notReceive")}
+          </Text>
           <ButtonBorder
-            lable="Gửi lại mã"
+            lable={strings("verify.btn_reSend")}
             onPress={() => {
               alert(1);
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>Nhập sai số điện thoại</Text>
+          <Text style={styles.text_login}>
+            {strings("verify.txt_phoneIncorrect")}
+          </Text>
           <ButtonBorder
-            lable="Nhập lại"
+            lable={strings("verify.btn_reInput")}
             onPress={() => {
               alert(2);
             }}
@@ -72,7 +80,7 @@ class VerifyAccount extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>Để được hỗ trợ vui lòng liên hệ qua fanpage</Text>
+          <Text>{strings("verify.txt_fanpage")}</Text>
           <TouchableOpacity onPress={this.facebookLogin}>
             <Image
               style={styles.img_fb}
@@ -153,8 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10
   },
-  text_info:{
-    margin: 10,
+  text_info: {
+    margin: 10
   }
-  
 });
