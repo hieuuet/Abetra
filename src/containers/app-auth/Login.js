@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,26 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  TextInput
-} from "react-native";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
-import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { postLogin } from "../../actions/loginActions";
-import { facebookLogin } from "./Loginfb";
-import { strings } from "../../i18n";
+  TextInput,
+} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { IMAGE } from '../../constant/assets';
+import style_common from '../../style-common';
+import { ButtonBorder, ViewLoading } from '../../components/CommonView';
+import { postLogin } from '../../actions/loginActions';
+import { facebookLogin } from './Loginfb';
+import { strings } from '../../i18n';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      isLoadingIndicator: true
+      isLoadingIndicator: true,
     };
     this.dataUser = {
-      userName: "",
-      password: ""
+      userName: '',
+      password: '',
     };
   }
 
@@ -40,17 +40,17 @@ class Login extends Component {
     let login = await postLogin({
       so_dien_thoai: userName,
       mat_khau: password,
-      lang_name: "vi_VN"
+      lang_name: 'vi_VN',
     });
-    console.log("login", login);
+    console.log('login', login);
     this.setState({ isLoading: false });
-    if (login.ErrorCode === "00") {
-      this.props.navigation.navigate("TabHome");
+    if (login.ErrorCode === '00') {
+      this.props.navigation.navigate('TabHome');
     } else {
       Alert.alert(
-        "Thông báo",
+        'Thông báo',
         login.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
     }
@@ -59,12 +59,12 @@ class Login extends Component {
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
 
-    dataFB = await facebookLogin();
+    const dataFB = await facebookLogin();
     this.setState({ isLoading: false, isLoadingIndicator: true });
 
     if (dataFB !== undefined) {
       this.dataUser = { ...this.dataUser, ...dataFB };
-      console.log("dataUser", this.dataUser);
+      console.log('dataUser', this.dataUser);
       //TODO: Call api server with data from fb
     }
   };
@@ -76,11 +76,11 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder={strings("login.placeholder.input_phone")}
+          placeholder={strings('login.placeholder.input_phone')}
           keyboardType="numeric"
-          onChangeText={text => (this.dataUser.userName = text)}
+          onChangeText={(text) => (this.dataUser.userName = text)}
           style={[style_common.input_boder, styles.text_input]}
-          onSubmitEditing={event => {
+          onSubmitEditing={(event) => {
             this.refs.pass.focus();
           }}
         />
@@ -89,17 +89,17 @@ class Login extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_pass")}
+          placeholder={strings('login.placeholder.input_pass')}
           ref="pass"
-          onChangeText={text => (this.dataUser.password = text)}
+          onChangeText={(text) => (this.dataUser.password = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
         <ButtonBorder
-          lable={strings("login.placeholder.input_phone")}
+          lable={strings('login.placeholder.input_phone')}
           onPress={this._login}
         />
         <View style={styles.view_login}>
-          <Text>{strings("login.login_fb")}</Text>
+          <Text>{strings('login.login_fb')}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -110,16 +110,16 @@ class Login extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.not_account")}</Text>
+          <Text style={styles.text_login}>{strings('login.not_account')}</Text>
           <ButtonBorder
-            lable={strings("register.btn_register")}
+            lable={strings('register.btn_register')}
             onPress={() => {
-              this.props.navigation.navigate("Register");
+              this.props.navigation.navigate('Register');
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
+          <Text style={styles.text_login}>{strings('login.login_guest')}</Text>
           <ButtonBorder
             lable="Guest"
             onPress={() => {
@@ -137,7 +137,7 @@ class Login extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>{strings("verify.txt_fanpage")}</Text>
+          <Text>{strings('verify.txt_fanpage')}</Text>
           <TouchableOpacity onPress={this.facebookLogin}>
             <Image
               style={styles.img_fb}
@@ -160,7 +160,7 @@ class Login extends Component {
     return (
       <KeyboardAvoidingView
         style={style_common.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView
@@ -185,15 +185,15 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // login: state.login
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    postLogin: bindActionCreators(postLogin, dispatch)
+    postLogin: bindActionCreators(postLogin, dispatch),
   };
 };
 
@@ -205,44 +205,44 @@ export default Login;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100,
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
 
   img_fb: {
     width: 50,
-    height: 50
+    height: 50,
   },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch"
+    alignSelf: 'stretch',
   },
   view_fanpage: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   content_footer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     marginTop: 10,
     marginBottom: 10,
-    flex: 1
+    flex: 1,
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
   },
   txt_underline: {
-    textDecorationLine: "underline",
-    paddingLeft: 5
-  }
+    textDecorationLine: 'underline',
+    paddingLeft: 5,
+  },
 });

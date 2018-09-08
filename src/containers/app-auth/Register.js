@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,17 +9,17 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert
-} from "react-native";
-import style_common from "../../style-common/index";
-import { IMAGE } from "../../constant/assets";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { postRegister } from "../../actions/registerActions";
-import CheckBox from "../../components/CheckBox ";
-import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { facebookLogin } from "./Loginfb";
-import { strings } from "../../i18n";
+  Alert,
+} from 'react-native';
+import style_common from '../../style-common/index';
+import { IMAGE } from '../../constant/assets';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { postRegister } from '../../actions/registerActions';
+import CheckBox from '../../components/CheckBox ';
+import { ButtonBorder, ViewLoading } from '../../components/CommonView';
+import { facebookLogin } from './Loginfb';
+import { strings } from '../../i18n';
 
 class Register extends Component {
   constructor(props) {
@@ -27,28 +27,28 @@ class Register extends Component {
     this.state = {
       isChecked: false,
       isLoading: false,
-      isLoadingIndicator: true
+      isLoadingIndicator: true,
     };
 
     this.dataUser = {
-      userName: "",
-      fullName: "test1",
-      password: "",
-      rePassword: ""
+      userName: '',
+      fullName: 'test1',
+      password: '',
+      rePassword: '',
     };
   }
 
   _register = async () => {
     //TODO: remove after call api
-    this.props.navigation.navigate("VerifyAccount");
+    this.props.navigation.navigate('VerifyAccount');
 
     const { userName, fullName, password, rePassword } = this.dataUser;
 
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
-        "Thông báo",
-        "Password không hợp lệ",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        'Thông báo',
+        'Password không hợp lệ',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
       return;
@@ -59,24 +59,24 @@ class Register extends Component {
     let register = await postRegister({
       Username: userName,
       FullName: fullName,
-      Email: "fsfd@gmail.com",
+      Email: 'fsfd@gmail.com',
       Password: password,
-      lang_name: "vi_VN"
+      lang_name: 'vi_VN',
     });
     this.setState({ isLoading: false });
-    console.log("register", register);
-    if (register.ErrorCode === "00") {
+    console.log('register', register);
+    if (register.ErrorCode === '00') {
       Alert.alert(
-        "Thông báo",
+        'Thông báo',
         register.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
     } else {
       Alert.alert(
-        "Thông báo",
+        'Thông báo',
         register.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
     }
@@ -84,12 +84,12 @@ class Register extends Component {
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
 
-    dataFB = await facebookLogin();
+    const dataFB = await facebookLogin();
     this.setState({ isLoading: false, isLoadingIndicator: true });
 
     if (dataFB !== undefined) {
       this.dataUser = { ...this.dataUser, ...dataFB };
-      console.log("dataUser", this.dataUser);
+      console.log('dataUser', this.dataUser);
       //TODO: Call api server with data from fb
     }
   };
@@ -101,11 +101,11 @@ class Register extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder={strings("login.placeholder.input_phone")}
+          placeholder={strings('login.placeholder.input_phone')}
           keyboardType="numeric"
-          onChangeText={text => (this.dataUser.userName = text)}
+          onChangeText={(text) => (this.dataUser.userName = text)}
           style={[style_common.input_boder, styles.text_input]}
-          onSubmitEditing={event => {
+          onSubmitEditing={(event) => {
             this.refs.pass.focus();
           }}
         />
@@ -114,11 +114,11 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_pass")}
+          placeholder={strings('login.placeholder.input_pass')}
           ref="pass"
-          onChangeText={text => (this.dataUser.password = text)}
+          onChangeText={(text) => (this.dataUser.password = text)}
           style={[style_common.input_boder, styles.text_input]}
-          onSubmitEditing={event => {
+          onSubmitEditing={(event) => {
             this.refs.rePass.focus();
           }}
         />
@@ -127,17 +127,17 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_rePass")}
+          placeholder={strings('login.placeholder.input_rePass')}
           ref="rePass"
-          onChangeText={text => (this.dataUser.rePassword = text)}
+          onChangeText={(text) => (this.dataUser.rePassword = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
         <ButtonBorder
-          lable={strings("register.btn_register")}
+          lable={strings('register.btn_register')}
           onPress={this._register}
         />
         <View style={styles.view_login}>
-          <Text>{strings("login.login_fb")}</Text>
+          <Text>{strings('login.login_fb')}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -149,19 +149,19 @@ class Register extends Component {
 
         <View style={styles.view_login}>
           <Text style={styles.text_login}>
-            {strings("register.has_account")}
+            {strings('register.has_account')}
           </Text>
           <ButtonBorder
-            lable={strings("login.btn_login")}
+            lable={strings('login.btn_login')}
             onPress={() => {
-              this.props.navigation.navigate("Login");
+              this.props.navigation.navigate('Login');
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
+          <Text style={styles.text_login}>{strings('login.login_guest')}</Text>
           <ButtonBorder
-            lable={strings("login.btn_guest")}
+            lable={strings('login.btn_guest')}
             onPress={() => {
               this.setState({ isLoading: true });
               setTimeout(() => {
@@ -180,14 +180,14 @@ class Register extends Component {
           <CheckBox
             onClick={() => {
               this.setState({
-                isChecked: !this.state.isChecked
+                isChecked: !this.state.isChecked,
               });
             }}
             isChecked={this.state.isChecked}
           />
           <TouchableOpacity>
             <Text style={styles.txt_underline}>
-              {strings("register.agree_term")}
+              {strings('register.agree_term')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -204,7 +204,7 @@ class Register extends Component {
     return (
       <KeyboardAvoidingView
         style={style_common.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView
@@ -227,15 +227,15 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // login: state.login
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    postRegister: bindActionCreators(postRegister, dispatch)
+    postRegister: bindActionCreators(postRegister, dispatch),
   };
 };
 
@@ -248,46 +248,46 @@ export default Register;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100,
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
 
   img_fb: {
     width: 50,
-    height: 50
+    height: 50,
   },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch"
+    alignSelf: 'stretch',
   },
   parent_checkbox: {
-    justifyContent: "flex-start",
-    alignSelf: "stretch",
-    flexDirection: "row"
+    justifyContent: 'flex-start',
+    alignSelf: 'stretch',
+    flexDirection: 'row',
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
   },
   txt_underline: {
-    textDecorationLine: "underline",
-    paddingLeft: 5
+    textDecorationLine: 'underline',
+    paddingLeft: 5,
   },
   content_footer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     marginTop: 10,
     marginRight: 10,
     marginLeft: 30,
     marginBottom: 10,
-    flex: 1
-  }
+    flex: 1,
+  },
 });

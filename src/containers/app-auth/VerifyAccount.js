@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,20 +8,20 @@ import {
   Platform,
   ScrollView,
   Image,
-  TouchableOpacity
-} from "react-native";
+  TouchableOpacity,
+} from 'react-native';
 
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
-import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { strings } from "../../i18n";
+import { IMAGE } from '../../constant/assets';
+import style_common from '../../style-common';
+import { ButtonBorder, ViewLoading } from '../../components/CommonView';
+import { strings } from '../../i18n';
 class VerifyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
     };
-    this.verifyCode = "";
+    this.verifyCode = '';
   }
 
   verify = () => {};
@@ -33,23 +33,23 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={strings("verify.placeholder.input_code")}
+          placeholder={strings('verify.placeholder.input_code')}
           keyboardType="numeric"
-          onChangeText={text => (this.verifyCode = text)}
+          onChangeText={(text) => (this.verifyCode = text)}
           style={[style_common.input_boder, styles.text_input]}
         />
-        <Text style={styles.text_info}>{strings("verify.info")}</Text>
+        <Text style={styles.text_info}>{strings('verify.info')}</Text>
         <ButtonBorder
-          lable={strings("verify.btn_confirm")}
+          lable={strings('verify.btn_confirm')}
           onPress={this.verify}
           my_style={{ marginBottom: 10 }}
         />
         <View style={styles.view_login}>
           <Text style={styles.text_login}>
-            {strings("verify.txt_notReceive")}
+            {strings('verify.txt_notReceive')}
           </Text>
           <ButtonBorder
-            lable={strings("verify.btn_reSend")}
+            lable={strings('verify.btn_reSend')}
             onPress={() => {
               alert(1);
             }}
@@ -57,10 +57,10 @@ class VerifyAccount extends Component {
         </View>
         <View style={styles.view_login}>
           <Text style={styles.text_login}>
-            {strings("verify.txt_phoneIncorrect")}
+            {strings('verify.txt_phoneIncorrect')}
           </Text>
           <ButtonBorder
-            lable={strings("verify.btn_reInput")}
+            lable={strings('verify.btn_reInput')}
             onPress={() => {
               alert(2);
             }}
@@ -80,7 +80,7 @@ class VerifyAccount extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>{strings("verify.txt_fanpage")}</Text>
+          <Text>{strings('verify.txt_fanpage')}</Text>
           <TouchableOpacity onPress={this.facebookLogin}>
             <Image
               style={styles.img_fb}
@@ -97,7 +97,7 @@ class VerifyAccount extends Component {
     return (
       <KeyboardAvoidingView
         style={style_common.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView
@@ -125,43 +125,43 @@ export default VerifyAccount;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100,
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
 
   img_fb: {
     width: 50,
-    height: 50
+    height: 50,
   },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch"
+    alignSelf: 'stretch',
   },
   view_fanpage: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   content_footer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     marginTop: 10,
     marginBottom: 10,
-    flex: 1
+    flex: 1,
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
   },
   text_info: {
-    margin: 10
-  }
+    margin: 10,
+  },
 });

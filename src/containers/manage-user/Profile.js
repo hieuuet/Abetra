@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -6,40 +6,29 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,Image,
-  TouchableOpacity
-} from "react-native";
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
-import { ButtonBorder, ViewLoading } from "../../components/CommonView";
+import { IMAGE } from '../../constant/assets';
+import style_common from '../../style-common';
+import { ButtonBorder, ViewLoading } from '../../components/CommonView';
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
     };
-   
   }
 
-  _renderHeader = ()=>{
-      
-  }
+  _renderHeader = () => {};
   _renderContent = () => {
-    return (
-      <View style={style_common.wrapper}>
-        
-      </View>
-    );
+    return <View style={style_common.wrapper} />;
   };
 
-
   _renderFooter = () => {
-    return (
-      <View style={styles.content_footer}>
-       
-      </View>
-    );
+    return <View style={styles.content_footer} />;
   };
   _renderLoading = () => {
     return this.state.isLoading ? (
@@ -51,7 +40,7 @@ class Profile extends Component {
     return (
       <KeyboardAvoidingView
         style={style_common.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView
@@ -59,7 +48,6 @@ class Profile extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={style_common.content_center}>
-            
             {this._renderHeader()}
             {this._renderContent()}
             {this._renderFooter()}
@@ -75,44 +63,43 @@ export default Profile;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100,
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
 
   img_fb: {
     width: 50,
-    height: 50
+    height: 50,
   },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch"
+    alignSelf: 'stretch',
   },
   view_fanpage: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   content_footer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     marginTop: 10,
     marginBottom: 10,
-    flex: 1
+    flex: 1,
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
   },
-  text_info:{
+  text_info: {
     margin: 10,
-  }
-  
+  },
 });
