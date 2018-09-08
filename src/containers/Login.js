@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Image, Alert
+    Image, Alert,
+    AsyncStorage
 } from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -23,7 +24,6 @@ class Login extends Component {
     }
 
     _login = async () => {
-        console.log('Dang ki')
 
         const {userName, password} = this.state
 
@@ -34,8 +34,13 @@ class Login extends Component {
             lang_name: "vi_VN"
         });
         console.log("register", login);
+        console.log("userId", login.Value[0].UserID);
+        // let userid = login.Value ? login.Value[0].UserID : null
         if (login.ErrorCode === "00") {
+            AsyncStorage.setItem('UserID', login.Value[0].UserID)
             this.props.navigation.navigate('TabHome')
+
+
 
 
         }

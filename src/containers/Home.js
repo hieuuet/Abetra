@@ -4,12 +4,19 @@ import {
     Text,
     FlatList,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    AsyncStorage
 } from 'react-native';
+import SocketIOClient from "socket.io-client";
 
 import StatusItems from "../components/StatusItems";
 import Icon from 'react-native-vector-icons/dist/EvilIcons'
 import Icon1 from 'react-native-vector-icons/dist/Entypo'
+import {URL_SOCKET} from "../constant/api";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {loadUserProfile} from "../actions/loadUserProfileActions";
+
 
 class Home extends Component {
     constructor(props){
@@ -64,6 +71,39 @@ class Home extends Component {
             ]
 
         }
+        this.socket = SocketIOClient(URL_SOCKET, {
+            pingTimeout: 30000,
+            pingInterval: 30000,
+            transports: ['websocket']
+        });
+        // console.log('this.socket', this.socket)
+    }
+    componentDidMount() {
+        console.log("-----------Did Mount Home ----------")
+        // AsyncStorage.getItem('UserID').then(value => {
+        //     console.log('userId', value)
+        // })
+        this._loadUserProfile()
+
+    }
+    _loadUserProfile = async () => {
+        console.log('----loadProfile----')
+        const { loadUserProfile, LoginData } = this.props
+        if (LoginData.length <=0){
+            return null
+
+        }
+        // let UserID = await AsyncStorage.getItem('UserID')
+        // console.log('userId', UserID)
+        let userProfile = await
+            loadUserProfile({
+                user_id: "2B3A24E4-719C-4F6E-BA7D-8307D1BA6644",
+                option: 100,
+                lang_name: "vi_VN"
+            })
+        // console.log("userProfile",userProfile)
+
+
     }
     render () {
         const {navigation} = this.props
@@ -125,4 +165,18 @@ class Home extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        LoginData: state.login
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadUserProfile: bindActionCreators(loadUserProfile, dispatch)
+    }
+}
+
+
+Home = connect(mapStateToProps, mapDispatchToProps)(Home)
 export default Home

@@ -20,7 +20,7 @@ export default class ChatItem extends Component {
         return (
             <View style={{ flex: 1 }}>
                 {
-                    item.User === "me" ?
+                    item.IntUserID === 734 ?
                         <View style={{
                             flex: 1,
                             marginLeft: DEVICE_WIDTH / 3,
@@ -49,7 +49,7 @@ export default class ChatItem extends Component {
                                     paddingBottom: 10,
 
 
-                                }}>{item.Mess}</Text>
+                                }}>{item.Content}</Text>
                             </View>
                             {/*<Text style={{*/}
                                 {/*justifyContent: 'center',*/}
@@ -90,7 +90,7 @@ export default class ChatItem extends Component {
                                             paddingTop: 10,
                                             paddingBottom: 10,
 
-                                        }}>{item.Mess}</Text>
+                                        }}>{item.Content}</Text>
                                     </View>
 
                                 </View>

@@ -37,7 +37,7 @@ export const postRequestApi = async (url, data, dispatch) => {
 
 
     return axios.post(url, data, config, timeRequest).then(res => {
-        console.log('dataRes post request', res)
+        // console.log('dataRes post request', res)
         const response = res.data;
         return response;
     }).catch(err => {

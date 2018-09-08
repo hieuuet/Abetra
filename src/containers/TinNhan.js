@@ -5,6 +5,10 @@ import {
     FlatList
 } from 'react-native';
 import TinNhanItem from "../components/TinNhanItem";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loadMsgGroup} from "../actions/loadMsgGroupActions";
+
 
 class TinNhan extends Component {
     constructor(props){
@@ -29,6 +33,16 @@ class TinNhan extends Component {
             ]
         }
     }
+    componentDidMount(){
+        // this._loadMsgGroup()
+
+    }
+    // _loadMsgGroup = async () =>  {
+    //     const { loadMsgGroup } = this.props
+    //     let ArrMsg = await loadMsgGroup({
+    //
+    //     })
+    // }
     render () {
         const {navigation} = this.props
         return (
@@ -51,4 +65,18 @@ class TinNhan extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        UserProfile: state.loadUserProfile
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadMsgGroup: bindActionCreators(loadMsgGroup, dispatch)
+    }
+}
+
+
+TinNhan = connect(mapStateToProps, mapDispatchToProps)(TinNhan)
 export default TinNhan

@@ -29,16 +29,16 @@ export default class TextInputChat extends Component {
 
 
 
-    // onClickSend = ()=>{
-    //
-    //     // console.log("data",this.state.textSubmit)
-    //     this.props.onReceiveTextInputClick(this.state.textSubmit);
-    //     // this.refs.textInput.clear();
-    //     if(Platform.OS === 'android')
-    //         TextInputReset.resetKeyboardInput(findNodeHandle(this.textInput))
-    //     this.setState({textSubmit:""});
-    //
-    // }
+    onClickSend = ()=>{
+
+        // console.log("data",this.state.textSubmit)
+        this.props.onReceiveTextInputClick(this.state.textSubmit);
+        // this.refs.textInput.clear();
+        if(Platform.OS === 'android')
+            TextInputReset.resetKeyboardInput(findNodeHandle(this.textInput))
+        this.setState({textSubmit:""});
+
+    }
 
     render() {
 
@@ -91,7 +91,7 @@ export default class TextInputChat extends Component {
 
                 />
                 <TouchableOpacity
-                    // onPress={this.onClickSend}
+                    onPress={this.onClickSend}
                     style={{justifyContent: 'center', alignItems: 'center',width:50,height:42, backgroundColor:'gray'}}
                 >
 
