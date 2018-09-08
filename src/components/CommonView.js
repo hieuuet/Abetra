@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     minWidth: 100,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
+    marginTop: 10,
     shadowColor: COLOR.BACKGROUND_BUTTON
   },
   txt: {

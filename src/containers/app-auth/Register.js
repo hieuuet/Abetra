@@ -38,7 +38,12 @@ class Register extends Component {
   }
 
   _register = async () => {
+
+    //TODO: remove after call api
+    this.props.navigation.navigate("VerifyAccount");
+
     const { userName, fullName, password, rePassword } = this.dataUser;
+    
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
         "Thông báo",
@@ -75,6 +80,7 @@ class Register extends Component {
         { cancelable: false }
       );
     }
+    
   };
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
@@ -87,6 +93,107 @@ class Register extends Component {
       console.log("dataUser", this.dataUser);
       //TODO: Call api server with data from fb
     }
+  };
+
+  _renderContent = () => {
+    return (
+      <View style={style_common.wrapper}>
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="next"
+          placeholder="Nhập số điện thoại"
+          keyboardType="numeric"
+          onChangeText={text => (this.dataUser.userName = text)}
+          style={[style_common.input_boder, styles.text_input]}
+          onSubmitEditing={event => {
+            this.refs.pass.focus();
+          }}
+        />
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="next"
+          secureTextEntry={true}
+          placeholder="Nhập mật khẩu"
+          ref="pass"
+          onChangeText={text => (this.dataUser.password = text)}
+          style={[style_common.input_boder, styles.text_input]}
+          onSubmitEditing={event => {
+            this.refs.rePass.focus();
+          }}
+        />
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="done"
+          secureTextEntry={true}
+          placeholder="Nhập lại mật khẩu"
+          ref="rePass"
+          onChangeText={text => (this.dataUser.rePassword = text)}
+          style={[style_common.input_boder, styles.text_input]}
+        />
+        <ButtonBorder lable="Đăng ký" onPress={this._register} />
+        <View style={styles.view_login}>
+          <Text>Đăng nhập bằng Facebook</Text>
+          <TouchableOpacity onPress={this.handleLoginFB}>
+            <Image
+              style={styles.img_fb}
+              resizeMode="cover"
+              source={IMAGE.logo_fb}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.view_login}>
+          <Text style={styles.text_login}>Đã có tài khoản</Text>
+          <ButtonBorder
+            lable="Đăng nhập"
+            onPress={() => {
+              this.props.navigation.navigate("Login");
+            }}
+          />
+        </View>
+        <View style={styles.view_login}>
+          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
+          <ButtonBorder
+            lable="Guest"
+            onPress={() => {
+              this.setState({ isLoading: true });
+              setTimeout(() => {
+                this.setState({ isLoading: false });
+              }, 3000);
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+  _renderFooter = () => {
+    return (
+      <View style={styles.content_footer}>
+        <View style={styles.parent_checkbox}>
+          <CheckBox
+            onClick={() => {
+              this.setState({
+                isChecked: !this.state.isChecked
+              });
+            }}
+            isChecked={this.state.isChecked}
+          />
+          <TouchableOpacity>
+            <Text style={styles.txt_underline}>
+              Tôi đã đọc và đồng ý với điều khoản dịch vụ
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+  _renderLoading = () => {
+    return this.state.isLoading ? (
+      <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
+    ) : null;
   };
 
   render() {
@@ -106,100 +213,11 @@ class Register extends Component {
               resizeMode="cover"
               source={IMAGE.logo}
             />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="next"
-              placeholder="Nhập số điện thoại"
-              keyboardType="numeric"
-              onChangeText={text => (this.dataUser.userName = text)}
-              style={[style_common.input_boder, styles.text_input]}
-              onSubmitEditing={event => {
-                this.refs.pass.focus();
-              }}
-            />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="next"
-              secureTextEntry={true}
-              placeholder="Nhập mật khẩu"
-              ref="pass"
-              onChangeText={text => (this.dataUser.password = text)}
-              style={[style_common.input_boder, styles.text_input]}
-              onSubmitEditing={event => {
-                this.refs.rePass.focus();
-              }}
-            />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="done"
-              secureTextEntry={true}
-              placeholder="Nhập lại mật khẩu"
-              ref="rePass"
-              onChangeText={text => (this.dataUser.rePassword = text)}
-              style={[style_common.input_boder, styles.text_input]}
-            />
-            <ButtonBorder
-              lable="Đăng ký"
-              onPress={this._register}
-              my_style={styles.btn_register}
-            />
-            <View style={styles.view_login}>
-              <Text>Đăng nhập bằng Facebook</Text>
-              <TouchableOpacity onPress={this.handleLoginFB}>
-                <Image
-                  style={styles.img_fb}
-                  resizeMode="cover"
-                  source={IMAGE.logo_fb}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.view_login}>
-              <Text style={styles.text_login}>Đã có tài khoản</Text>
-              <ButtonBorder
-                lable="Đăng nhập"
-                onPress={() => {
-                  this.props.navigation.navigate("Login");
-                }}
-              />
-            </View>
-            <View style={styles.view_login}>
-              <Text style={styles.text_login}>Dùng tài khoản khách</Text>
-              <ButtonBorder
-                lable="Guest"
-                onPress={() => {
-                  this.setState({ isLoading: true });
-                  setTimeout(() => {
-                    this.setState({ isLoading: false });
-                  }, 3000);
-                }}
-              />
-            </View>
-            <View style={styles.content_footer}>
-              <View style={styles.parent_checkbox}>
-                <CheckBox
-                  onClick={() => {
-                    this.setState({
-                      isChecked: !this.state.isChecked
-                    });
-                  }}
-                  isChecked={this.state.isChecked}
-                />
-                <TouchableOpacity>
-                  <Text style={styles.txt_underline}>
-                    Tôi đã đọc và đồng ý với điều khoản dịch vụ
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            {this._renderContent()}
+            {this._renderFooter()}
           </View>
         </ScrollView>
-        {this.state.isLoading ? (
-          <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
-        ) : null}
+        {this._renderLoading()}
       </KeyboardAvoidingView>
     );
   }
@@ -232,9 +250,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 60,
     marginTop: 10,
     padding: 5
-  },
-  btn_register: {
-    margin: 10
   },
 
   img_fb: {

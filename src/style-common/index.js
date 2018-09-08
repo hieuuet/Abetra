@@ -18,16 +18,17 @@ export default (style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  // boder: {
-  //   borderWidth: 1,
-  //   borderColor: "gray",
-  //   borderRadius: 5
-  // },
   input_boder: {
     borderWidth: 1,
     borderColor: COLOR.BORDER_INPUT,
     borderRadius: 5,
     padding: 5,
     alignSelf: "stretch"
+  },
+  wrapper: {
+    flex: 1,
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center"
   }
 }));

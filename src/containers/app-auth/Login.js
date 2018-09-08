@@ -68,6 +68,90 @@ class Login extends Component {
     }
   };
 
+  _renderContent = () => {
+    return (
+      <View style={style_common.wrapper}>
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="next"
+          placeholder="Nhập số điện thoại"
+          keyboardType="numeric"
+          onChangeText={text => (this.dataUser.userName = text)}
+          style={[style_common.input_boder, styles.text_input]}
+          onSubmitEditing={event => {
+            this.refs.pass.focus();
+          }}
+        />
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="done"
+          secureTextEntry={true}
+          placeholder="Nhập mật khẩu"
+          ref="pass"
+          onChangeText={text => (this.dataUser.password = text)}
+          style={[style_common.input_boder, styles.text_input]}
+        />
+        <ButtonBorder lable="Đăng nhập" onPress={this._login} />
+        <View style={styles.view_login}>
+          <Text>Đăng nhập bằng Facebook</Text>
+          <TouchableOpacity onPress={this.handleLoginFB}>
+            <Image
+              style={styles.img_fb}
+              resizeMode="cover"
+              source={IMAGE.logo_fb}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.view_login}>
+          <Text style={styles.text_login}>Chưa có tài khoản</Text>
+          <ButtonBorder
+            lable="Đăng ký"
+            onPress={() => {
+              this.props.navigation.navigate("Register");
+            }}
+          />
+        </View>
+        <View style={styles.view_login}>
+          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
+          <ButtonBorder
+            lable="Guest"
+            onPress={() => {
+              this.setState({ isLoading: true });
+              setTimeout(() => {
+                this.setState({ isLoading: false });
+              }, 3000);
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+  _renderFooter = () => {
+    return (
+      <View style={styles.content_footer}>
+        <View style={styles.view_fanpage}>
+          <Text>Để được hỗ trợ vui lòng liên hệ qua fanpage</Text>
+          <TouchableOpacity onPress={this.facebookLogin}>
+            <Image
+              style={styles.img_fb}
+              resizeMode="cover"
+              source={IMAGE.logo_fb}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  _renderLoading = () => {
+    return this.state.isLoading ? (
+      <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
+    ) : null;
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -85,83 +169,13 @@ class Login extends Component {
               resizeMode="cover"
               source={IMAGE.logo}
             />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="next"
-              placeholder="Nhập số điện thoại"
-              keyboardType="numeric"
-              onChangeText={text => (this.dataUser.userName = text)}
-              style={[style_common.input_boder, styles.text_input]}
-              onSubmitEditing={event => {
-                this.refs.pass.focus();
-              }}
-            />
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="done"
-              secureTextEntry={true}
-              placeholder="Nhập mật khẩu"
-              ref="pass"
-              onChangeText={text => (this.dataUser.password = text)}
-              style={[style_common.input_boder, styles.text_input]}
-            />
-            <ButtonBorder
-              lable="Đăng nhập"
-              onPress={this._login}
-              my_style={styles.btn_register}
-            />
-            <View style={styles.view_login}>
-              <Text>Đăng nhập bằng Facebook</Text>
-              <TouchableOpacity onPress={this.handleLoginFB}>
-                <Image
-                  style={styles.img_fb}
-                  resizeMode="cover"
-                  source={IMAGE.logo_fb}
-                />
-              </TouchableOpacity>
-            </View>
 
-            <View style={styles.view_login}>
-              <Text style={styles.text_login}>Chưa có tài khoản</Text>
-              <ButtonBorder
-                lable="Đăng ký"
-                onPress={() => {
-                  this.props.navigation.navigate("Register");
-                }}
-              />
-            </View>
-            <View style={styles.view_login}>
-              <Text style={styles.text_login}>Dùng tài khoản khách</Text>
-              <ButtonBorder
-                lable="Guest"
-                onPress={() => {
-                  this.setState({ isLoading: true });
-                  setTimeout(() => {
-                    this.setState({ isLoading: false });
-                  }, 3000);
-                }}
-              />
-            </View>
+            {this._renderContent()}
 
-            <View style={styles.content_footer}>
-              <View style={styles.view_fanpage}>
-                <Text>Để được hỗ trợ vui lòng liên hệ qua fanpage</Text>
-                <TouchableOpacity onPress={this.facebookLogin}>
-                  <Image
-                    style={styles.img_fb}
-                    resizeMode="cover"
-                    source={IMAGE.logo_fb}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
+            {this._renderFooter()}
           </View>
         </ScrollView>
-        {this.state.isLoading ? (
-          <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
-        ) : null}
+        {this._renderLoading()}
       </KeyboardAvoidingView>
     );
   }
@@ -193,9 +207,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 60,
     marginTop: 10,
     padding: 5
-  },
-  btn_register: {
-    margin: 10
   },
 
   img_fb: {
