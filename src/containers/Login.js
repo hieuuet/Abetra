@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import UserInput from "../components/UserInput";
 import CheckBox from "../components/CheckBox ";
 import {IMAGE} from "../constant/assets";
-import {ButtonBorder} from "../components/ViewBorder";
+import {ButtonBorder} from "../components/CommonView";
 import {postLogin} from "../actions/loginActions";
 
 class Login extends Component {

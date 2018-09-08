@@ -17,13 +17,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
-import { ButtonBorder, TextInputBorder } from "../../components/ViewBorder";
+import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: false
+      isChecked: false,
+      isLoading: false
     };
 
     this.dataUser = {
@@ -77,81 +78,109 @@ class Register extends Component {
   render() {
     return (
       <KeyboardAvoidingView
-        style={style_common.content_center}
+        style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
         keyboardVerticalOffset={64}
       >
-        <Image style={styles.img_logo} resizeMode="cover" source={IMAGE.logo} />
-        <TextInputBorder
-          placeholder="Nhập số điện thoại"
-          keyboardType="numeric"
-          onChangeText={text => (this.dataUser.userName = text)}
-          my_style={styles.text_input}
-        />
-        <TextInputBorder
-          placeholder="Nhập mật khẩu"
-          secureTextEntry={true}
-          onChangeText={text => (this.dataUser.password = text)}
-          my_style={styles.text_input}
-        />
-        <TextInputBorder
-          placeholder="Nhập lại mật khẩu"
-          secureTextEntry={true}
-          onChangeText={text => (this.dataUser.rePassword = text)}
-          returnKeyType="done"
-          my_style={styles.text_input}
-        />
-        <ButtonBorder
-          lable="Đăng ký"
-          onPress={() => {
-            this._register();
-          }}
-          my_style={styles.btn_register}
-        />
-        <View style={styles.view_login}>
-          <Text>Đăng nhập bằng Facebook</Text>
-          <TouchableOpacity>
+        <ScrollView style={style_common.container}>
+          <View style={style_common.content_center}>
             <Image
-              style={styles.img_fb}
+              style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo_fb}
+              source={IMAGE.logo}
             />
-          </TouchableOpacity>
-        </View>
+            <TextInput
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              returnKeyType="next"
+              placeholder="Nhập số điện thoại"
+              keyboardType="numeric"
+              onChangeText={text => (this.dataUser.userName = text)}
+              style={[style_common.input_boder, styles.text_input]}
+              onSubmitEditing={event => {
+                this.refs.pass.focus();
+              }}
+            />
+            <TextInput
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              returnKeyType="next"
+              secureTextEntry={true}
+              placeholder="Nhập mật khẩu"
+              ref="pass"
+              onChangeText={text => (this.dataUser.password = text)}
+              style={[style_common.input_boder, styles.text_input]}
+              onSubmitEditing={event => {
+                this.refs.rePass.focus();
+              }}
+            />
+            <TextInput
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              returnKeyType="done"
+              secureTextEntry={true}
+              placeholder="Nhập lại mật khẩu"
+              ref="rePass"
+              onChangeText={text => (this.dataUser.rePassword = text)}
+              style={[style_common.input_boder, styles.text_input]}
+            />
+            <ButtonBorder
+              lable="Đăng ký"
+              onPress={() => {
+                this._register();
+              }}
+              my_style={styles.btn_register}
+            />
+            <View style={styles.view_login}>
+              <Text>Đăng nhập bằng Facebook</Text>
+              <TouchableOpacity>
+                <Image
+                  style={styles.img_fb}
+                  resizeMode="cover"
+                  source={IMAGE.logo_fb}
+                />
+              </TouchableOpacity>
+            </View>
 
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>Đã có tài khoản</Text>
-          <ButtonBorder
-            lable="Đăng nhập"
-            onPress={() => {
-              this.props.navigation.navigate("Login");
-            }}
-          />
-        </View>
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>Dùng tài khoản khách</Text>
-          <ButtonBorder
-            lable="Guest"
-            onPress={() => {
-              alert(1);
-            }}
-          />
-        </View>
-        <View style={styles.parent_checkbox}>
-          <CheckBox
-            onClick={() => {
-              this.setState({
-                isChecked: !this.state.isChecked
-              });
-            }}
-            isChecked={this.state.isChecked}
-          />
-          <TouchableOpacity>
-            <Text style={styles.txt_underline}>
-              Tôi đã đọc và đồng ý với điều khoản dịch vụ
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.view_login}>
+              <Text style={styles.text_login}>Đã có tài khoản</Text>
+              <ButtonBorder
+                lable="Đăng nhập"
+                onPress={() => {
+                  this.props.navigation.navigate("Login");
+                }}
+              />
+            </View>
+            <View style={styles.view_login}>
+              <Text style={styles.text_login}>Dùng tài khoản khách</Text>
+              <ButtonBorder
+                lable="Guest"
+                onPress={() => {
+                  this.setState({ isLoading: true });
+                  setTimeout(() => {
+                    this.setState({ isLoading: false });
+                  }, 3000);
+                }}
+              />
+            </View>
+            <View style={styles.parent_checkbox}>
+              <CheckBox
+                onClick={() => {
+                  this.setState({
+                    isChecked: !this.state.isChecked
+                  });
+                }}
+                isChecked={this.state.isChecked}
+              />
+              <TouchableOpacity>
+                <Text style={styles.txt_underline}>
+                  Tôi đã đọc và đồng ý với điều khoản dịch vụ
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+        {this.state.isLoading ? <ViewLoading /> : null}
       </KeyboardAvoidingView>
     );
   }
@@ -188,13 +217,7 @@ const styles = StyleSheet.create({
   btn_register: {
     margin: 10
   },
-  btn_login: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 7,
-    alignSelf: "flex-end",
-    minWidth: 100
-  },
+
   img_fb: {
     width: 50,
     height: 50
