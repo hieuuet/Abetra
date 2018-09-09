@@ -27,5 +27,17 @@
     "btn_confirm": "Xác nhận",
     "btn_reSend": "Gửi lại mã",
     "btn_reInput": "Nhập lại"
+  },
+  "profile": {
+    "name_login": "Tên đăng nhập",
+    "name_display": "Tên hiển thị",
+    "change_pass": "Đổi mật khẩu",
+    "birth_day": "Ngày sinh",
+    "email": "Email",
+    "mobile": "Mobile",
+    "gender": "Giới tính",
+    "man": "Nam",
+    "women": "Nữ",
+    "undefined": "Không xác định"
   }
 }

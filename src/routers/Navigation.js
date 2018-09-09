@@ -1,25 +1,24 @@
-import React, { Component } from "react";
+import React from 'react';
 import {
   createMaterialTopTabNavigator,
-  createStackNavigator
-} from "react-navigation";
-import Home from "../containers/Home";
-import TinNhan from "../containers/TinNhan";
-import DoanhNghiep from "../containers/DoanhNghiep";
-import SuKien from "../containers/SuKien";
-import Menu from "../containers/Menu";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Icon1 from "react-native-vector-icons/FontAwesome5";
-import Icon2 from "react-native-vector-icons/Entypo";
-import Icon3 from "react-native-vector-icons/MaterialIcons";
-import Login from "../containers/app-auth/Login";
-import Chat from "../containers/Chat";
-import Intro from "../containers/app-intro/AppIntroSlider";
-import Register from "../containers/app-auth/Register";
-import BinhLuan from "../containers/BinhLuan";
-import TaoBaiViet from "../containers/TaoBaiViet";
-import VerifyAccount from "../containers/app-auth/VerifyAccount";
-import Profile from '../containers/manage-user/Profile'
+  createStackNavigator,
+} from 'react-navigation';
+import Home from '../containers/Home';
+import TinNhan from '../containers/TinNhan';
+import DoanhNghiep from '../containers/DoanhNghiep';
+import SuKien from '../containers/SuKien';
+import Menu from '../containers/Menu';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon1 from 'react-native-vector-icons/FontAwesome5';
+import Icon2 from 'react-native-vector-icons/Entypo';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+import Login from '../containers/app-auth/Login';
+import Chat from '../containers/Chat';
+import Intro from '../containers/app-intro/AppIntroSlider';
+import Register from '../containers/app-auth/Register';
+import BinhLuan from '../containers/BinhLuan';
+import VerifyAccount from '../containers/app-auth/VerifyAccount';
+import Profile from '../containers/manage-user/Profile';
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -29,8 +28,8 @@ const TabHome = createMaterialTopTabNavigator(
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (
           <Icon name="home" size={23} style={{ color: tintColor }} />
-        )
-      }
+        ),
+      },
     },
     TinNhan: {
       screen: TinNhan,
@@ -42,8 +41,8 @@ const TabHome = createMaterialTopTabNavigator(
             size={23}
             style={{ color: tintColor }}
           />
-        )
-      }
+        ),
+      },
     },
     DoanhNghiep: {
       screen: DoanhNghiep,
@@ -51,8 +50,8 @@ const TabHome = createMaterialTopTabNavigator(
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (
           <Icon2 name="location" size={23} style={{ color: tintColor }} />
-        )
-      }
+        ),
+      },
     },
     SuKien: {
       screen: SuKien,
@@ -60,8 +59,8 @@ const TabHome = createMaterialTopTabNavigator(
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (
           <Icon3 name="event-note" size={23} style={{ color: tintColor }} />
-        )
-      }
+        ),
+      },
     },
     Menu: {
       screen: Menu,
@@ -69,31 +68,31 @@ const TabHome = createMaterialTopTabNavigator(
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (
           <Icon2 name="menu" size={23} style={{ color: tintColor }} />
-        )
-      }
-    }
+        ),
+      },
+    },
   },
   {
-    tabBarPosition: "top",
+    tabBarPosition: 'top',
 
     animationEnabled: true,
     tabBarOptions: {
       upperCaseLabel: false,
       showIcon: true,
       showLabel: false,
-      activeTintColor: "black",
-      inactiveTintColor: "white",
+      activeTintColor: 'black',
+      inactiveTintColor: 'white',
       // activeBackgroundColor:'white',
       // inactiveBackgroundColor:'#eaa33f',
       // pressColor: 'white',
       indicatorStyle: {
         // backgroundColor: 'white'
-        backgroundColor: "transparent"
+        backgroundColor: 'transparent',
       },
       labelStyle: {
         fontSize: 11,
-        alignSelf: "center"
-      }
+        alignSelf: 'center',
+      },
       // style: {
       //     backgroundColor: '#fc9b03',
       //
@@ -101,59 +100,57 @@ const TabHome = createMaterialTopTabNavigator(
       // tabStyle: {
       //     backgroundColor:'white'
       // }
-    }
+    },
   }
 );
 const RootStack = createStackNavigator({
-  // Intro: {
-  //   screen: Intro,
-  //   navigationOptions: {
-  //     header: null
-  //   }
-  // },
-
   Login: {
     screen: Login,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   Profile: {
     screen: Profile,
-    navigationOptions: {
-      header: null
-    }
+    navigationOptions: {},
   },
+  Intro: {
+    screen: Intro,
+    navigationOptions: {
+      header: null,
+    },
+  },
+
   Register: {
     screen: Register,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   TabHome: {
     screen: TabHome,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   Chat: {
     screen: Chat,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   BinhLuan: {
     screen: BinhLuan,
     navigationOptions: {
-      header: null
-    }
-  }
+      header: null,
+    },
+  },
 });
 
 export default RootStack;

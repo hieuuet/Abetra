@@ -27,8 +27,8 @@ class Login extends Component {
       isLoadingIndicator: true,
     };
     this.dataUser = {
-      userName: '',
-      password: '',
+      userName: '0963250397',
+      password: '123456',
     };
   }
 
@@ -76,6 +76,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
+          value="0963250397"
           placeholder={strings('login.placeholder.input_phone')}
           keyboardType="numeric"
           onChangeText={(text) => (this.dataUser.userName = text)}
@@ -88,6 +89,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
+          value="123456"
           secureTextEntry={true}
           placeholder={strings('login.placeholder.input_pass')}
           ref="pass"
@@ -95,7 +97,7 @@ class Login extends Component {
           style={[style_common.input_boder, styles.text_input]}
         />
         <ButtonBorder
-          lable={strings('login.placeholder.input_phone')}
+          lable={strings('login.btn_login')}
           onPress={this._login}
         />
         <View style={styles.view_login}>
