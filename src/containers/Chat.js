@@ -12,6 +12,7 @@ import {SOCKET} from "../constant/api";
 import SocketIOClient from "socket.io-client";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {loadDetailMsg} from "../actions/detailMsgActions";
 
 
 class Chat extends Component {
@@ -20,6 +21,9 @@ class Chat extends Component {
         this.state = {
             ArrMess: []
         }
+        const { navigation } = this.props;
+        const MsgGroupID = navigation.getParam('MsgGroupID');
+        // console.log('MsgGroupID', MsgGroupID)
         const { UserProfile } = this.props
         if(UserProfile.length <=0 ){
             return null
@@ -35,7 +39,7 @@ class Chat extends Component {
         console.log('socket', this.socket)
         this.socket.emit('LOGINMSG', {
             IntUserID: UserProfile.Value[0].IntUserID,
-            MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05"
+            MsgGroupID: MsgGroupID
         })
         this.socket.on('RECEIVERMSG', (dataRes) => {
             console.log('receiveMSG', dataRes)
@@ -47,6 +51,29 @@ class Chat extends Component {
             this.setState({ArrMess: newMsg});
         })
 
+    }
+    componentDidMount() {
+        this._loadMsgDetail()
+
+    }
+    _loadMsgDetail = async () => {
+        const { navigation, UserProfile, loadDetailMsg } = this.props;
+        const MsgGroupID = navigation.getParam('MsgGroupID');
+        if(UserProfile.length <=0 ){
+            return null
+        }
+        let msgDetail = await loadDetailMsg({
+            MsgGroupID : MsgGroupID,
+            IntUserID: UserProfile.Value[0].IntUserID,
+            Index: 1,
+            Today: 1
+        })
+        console.log("msgDetail", msgDetail)
+        if(msgDetail.Error === null){
+            this.setState({
+                ArrMess: msgDetail.ObjectResult
+            })
+        }
     }
     onReceiveTextInputClick = (text) => {
         console.log('-------onReceiveTextInputClick--------')
@@ -104,6 +131,7 @@ class Chat extends Component {
                         )
                     }}
                     keyExtractor={(item, index) => index.toString()}
+                    extraData={this.state}
                 />
                 <TextInputChat
                     style={{marginTop:5}}
@@ -122,7 +150,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // postLogin: bindActionCreators(postLogin, dispatch)
+        loadDetailMsg: bindActionCreators(loadDetailMsg, dispatch)
     }
 }
 

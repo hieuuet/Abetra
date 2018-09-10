@@ -79,7 +79,6 @@ class Home extends Component {
         // console.log('this.socket', this.socket)
     }
     componentDidMount() {
-        console.log("-----------Did Mount Home ----------")
         // AsyncStorage.getItem('UserID').then(value => {
         //     console.log('userId', value)
         // })
@@ -87,7 +86,6 @@ class Home extends Component {
 
     }
     _loadUserProfile = async () => {
-        console.log('----loadProfile----')
         const { loadUserProfile, LoginData } = this.props
         if (LoginData.length <=0){
             return null

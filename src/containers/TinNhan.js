@@ -15,34 +15,33 @@ class TinNhan extends Component {
         super(props)
         this.state = {
             ArrTinNhan: [
-                {
-                    FullName: 'Nguyễn Văn Hiệu',
-                    Time: '09/05/2018',
-                    Mess: 'Đang làm gì đấy?'
-                },
-                {
-                    FullName: 'Nguyễn Văn Hiệu',
-                    Time: '09/05/2018',
-                    Mess: 'Đang làm gì đấy?'
-                },
-                {
-                    FullName: 'Nguyễn Văn Hiệu',
-                    Time: '09/05/2018',
-                    Mess: 'Đang làm gì đấy?'
-                }
             ]
         }
+        this._loadMsgGroup()
     }
     componentDidMount(){
-        // this._loadMsgGroup()
+
 
     }
-    // _loadMsgGroup = async () =>  {
-    //     const { loadMsgGroup } = this.props
-    //     let ArrMsg = await loadMsgGroup({
-    //
-    //     })
-    // }
+
+    _loadMsgGroup = async () =>  {
+        console.log("load msg gr")
+        const { loadMsgGroup, UserProfile } = this.props
+        if (UserProfile.length <=0 ) {
+            return null
+        }
+        console.log('userProfile', UserProfile)
+        let ArrMsg = await loadMsgGroup({
+            IntUserID: UserProfile.Value[0].IntUserID
+
+        })
+        console.log('ArrMsg', ArrMsg)
+        if(ArrMsg.Error === null){
+            this.setState({
+                ArrTinNhan: ArrMsg.ObjectResult
+            })
+        }
+    }
     render () {
         const {navigation} = this.props
         return (
@@ -59,6 +58,7 @@ class TinNhan extends Component {
                             />
                         )
                     }}
+                    extraData={this.state}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>

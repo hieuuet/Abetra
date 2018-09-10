@@ -6,6 +6,7 @@ import {
 
 class SuKien extends Component {
     render () {
+        console.log('su kien')
         return (
             <View>
                 <Text>

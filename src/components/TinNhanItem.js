@@ -27,7 +27,7 @@ export default class TinNhanItem extends Component {
         return (
 
             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Chat') }
+                onPress={() => this.props.navigation.navigate('Chat', {MsgGroupID: item.MsgGroupID}) }
             >
                 <View
                       style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
@@ -47,10 +47,10 @@ export default class TinNhanItem extends Component {
                     <View style={{flex: 4, flexDirection: 'column', marginLeft: 10, marginTop: 10, marginBottom: 10, justifyContent:'center'}}>
                         <View style={{ flexDirection: 'row', justifyContent:'space-between'}}>
                             <Text style={{fontWeight:'600'}} numberOfLines={1}
-                                  ellipsizeMode={'tail'}>{item.FullName}</Text>
+                                  ellipsizeMode={'tail'}>{item.FullNameOrGroupName}</Text>
                             <Text>{item.Time}</Text>
                         </View>
-                        <Text style={{}} numberOfLines={1} ellipsizeMode={'tail'}>{item.Mess}</Text>
+                        <Text style={{}} numberOfLines={1} ellipsizeMode={'tail'}>{item.Content}</Text>
                     </View>
 
                 </View>
