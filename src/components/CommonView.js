@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
   Text,
   View,
-  ActivityIndicator
-} from "react-native";
-import { COLOR } from "../constant/Color";
+  ActivityIndicator,
+} from 'react-native';
+import { COLOR } from '../constant/Color';
 
 /**
  *
@@ -35,27 +35,27 @@ const styles = StyleSheet.create({
     borderColor: COLOR.BACKGROUND_BUTTON,
     backgroundColor: COLOR.BACKGROUND_BUTTON,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 8,
     minWidth: 100,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     marginTop: 10,
-    shadowColor: COLOR.BACKGROUND_BUTTON
+    shadowColor: COLOR.BACKGROUND_BUTTON,
   },
   txt: {
-    color: COLOR.TEXT_BUTTON
+    color: COLOR.TEXT_BUTTON,
   },
   loading: {
     top: -10,
     bottom: -10,
     left: -10,
     right: -10,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
     zIndex: 1,
-    backgroundColor: "rgba(52, 52, 52, 0.5)"
-  }
+    backgroundColor: 'rgba(52, 52, 52, 0.5)',
+  },
 });

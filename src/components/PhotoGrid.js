@@ -1,3 +1,8 @@
+/**
+ * coppy from github:
+ * https://github.com/duyluonglc/react-native-thumbnail-grid
+ */
+/* eslint-disable */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {View, Text, Dimensions, TouchableOpacity, ImageBackground, Alert} from 'react-native'

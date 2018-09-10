@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 import { IMAGE } from '../../constant/assets';
@@ -18,6 +19,10 @@ import EditView from './EditView';
 import { COLOR } from '../../constant/Color';
 import { strings } from '../../i18n';
 import RadioForm from '../../components/SimpleRadioButton';
+import PhotoGrid from '../../components/PhotoGrid';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
+import MenuItem from '../../components/MenuItem';
+const { width } = Dimensions.get('window');
 
 import Ionicon from 'react-native-vector-icons/dist/Ionicons';
 class Profile extends Component {
@@ -36,6 +41,20 @@ class Profile extends Component {
       { label: strings('profile.undefined'), value: 2 },
     ];
     this.dataProfile = {};
+
+    this.dataImage = [
+      'https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a',
+      'https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33',
+      'https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2',
+      'https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd',
+      'https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e',
+      // 'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
+      // 'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
+      // 'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
+      // 'https://drscdn.500px.org/photo/216051623/m%3D2048_k%3D1_a%3D1/5a3732bb413f240ad71b8279b038a3ff',
+      // 'https://drscdn.500px.org/photo/216047335/m%3D2048_k%3D1_a%3D1/4237ac4606474f0ec7ccc05ca311772e',
+      // 'https://drscdn.500px.org/photo/216000289/m%3D2048_k%3D1_a%3D1/5ac2a21092f9281feef3ab8484d2b19c'
+    ];
   }
 
   _renderHeader = () => {
@@ -105,11 +124,100 @@ class Profile extends Component {
     );
   };
   _renderContent = () => {
-    return <View style={style_common.wrapper} />;
+    return (
+      <View style={style_common.wrapper}>
+        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
+          <TextInput
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            returnKeyType="done"
+            numberOfLines={5}
+            multiline={true}
+            placeholder={strings('login.placeholder.input_phone')}
+            onChangeText={(text) => {}}
+            style={[
+              style_common.input_boder,
+              { flex: 1, textAlignVertical: 'top', height: 100 },
+            ]}
+            onSubmitEditing={(event) => {}}
+          />
+          <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
+        </View>
+        <PhotoGrid
+          source={this.dataImage}
+          width={width - 20}
+          height={width / 1.5}
+          ratio={0.5}
+        />
+      </View>
+    );
+  };
+
+  _renderMember = () => {
+    return (
+      <View style={{}}>
+        <Text>Hoi vien</Text>
+        <View style={{ backgroundColor: 'black', height: 1, flex: 1 }} />
+        <Text>Ngay dang ky:01-01-2018</Text>
+        <Text>Ngay dang ky: 01-01-2018</Text>
+        <TouchableOpacity>
+          <Text>Giay chung nhan hoi vien</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>Quyen loi hoi vien</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  _renderRegisterMember = () => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={{ flex: 1 }}>Dang ky hoi vien</Text>
+
+        {/* <ButtonBorder
+          my_style={[style_common.input_boder, { marginLeft: 5 }]}
+          lable={'Quyen loi-Chinh sach'}
+          onPress={this._login}
+        /> */}
+        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
+          <Text>Quyen loi-Chinh sach</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
+          <Text>Dang ky ngay</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   _renderFooter = () => {
-    return <View style={styles.content_footer} />;
+    return (
+      <View style={styles.content_footer}>
+        <MenuItem
+          title="Bài viết đã lưu"
+          nameIcon="bookmark"
+          onPress={() => {}}
+          style={styles.menu_bottom}
+        />
+        <MenuItem
+          title="Cac hoi vien dang theo doi"
+          nameIcon="user-plus"
+          onPress={() => {}}
+          style={styles.menu_bottom}
+        />
+        <MenuItem
+          title="Su kien da tham gia"
+          nameIcon="calendar-check"
+          onPress={() => {}}
+          style={styles.menu_bottom}
+        />
+      </View>
+    );
   };
   _renderLoading = () => {
     return this.state.isLoading ? (
@@ -131,6 +239,8 @@ class Profile extends Component {
           <View style={styles.parent}>
             {this._renderHeader()}
             {this._renderContent()}
+            {this._renderRegisterMember()}
+            {this._renderMember()}
             {this._renderFooter()}
           </View>
         </ScrollView>
@@ -210,4 +320,9 @@ const styles = StyleSheet.create({
     width: 100,
   },
   radio_form: { justifyContent: 'space-around', flex: 1 },
+  menu_bottom: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 5,
+  },
 });
