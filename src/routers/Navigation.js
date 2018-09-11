@@ -19,6 +19,7 @@ import Register from '../containers/app-auth/Register';
 import BinhLuan from '../containers/BinhLuan';
 import VerifyAccount from '../containers/app-auth/VerifyAccount';
 import Profile from '../containers/manage-user/Profile';
+import TaoBaiViet from "../containers/TaoBaiViet";
 
 const TabHome = createMaterialTopTabNavigator(
     {
@@ -152,6 +153,12 @@ const RootStack = createStackNavigator({
             header: null,
         },
     },
+    TaoBaiViet: {
+        screen: TaoBaiViet,
+        navigationOptions: {
+            header: null,
+        },
+    }
 });
 
 export default RootStack;

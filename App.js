@@ -24,8 +24,8 @@ const instructions = Platform.select({
 
 import { Provider } from 'react-redux'
 import store from './src/store/index'
-type Props = {};
-export default class App extends Component<Props> {
+import TaoBaiViet from "./src/containers/TaoBaiViet";
+export default class App extends Component {
     render() {
         YellowBox.ignoreWarnings([
             'Warning: componentWillMount is deprecated',
@@ -34,7 +34,7 @@ export default class App extends Component<Props> {
         ]);
         return (
             <Provider store={store}>
-                <RootStack/>
+                <TaoBaiViet/>
             </Provider>
         );
     }
