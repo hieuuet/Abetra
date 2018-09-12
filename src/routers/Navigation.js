@@ -4,7 +4,7 @@ import {
   createStackNavigator,
 } from 'react-navigation';
 import Home from '../containers/Home';
-import TinNhan from '../containers/TinNhan';
+import Message from '../containers/Message';
 import DoanhNghiep from '../containers/DoanhNghiep';
 import SuKien from '../containers/SuKien';
 import Menu from '../containers/Menu';
@@ -20,6 +20,7 @@ import BinhLuan from '../containers/BinhLuan';
 import VerifyAccount from '../containers/app-auth/VerifyAccount';
 import Profile from '../containers/manage-user/Profile';
 import TaoBaiViet from '../containers/TaoBaiViet';
+import Search from '../containers/Search';
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -32,8 +33,8 @@ const TabHome = createMaterialTopTabNavigator(
         ),
       },
     },
-    TinNhan: {
-      screen: TinNhan,
+    Message: {
+      screen: Message,
       navigationOptions: {
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (
@@ -112,10 +113,17 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
+  Search: {
+    screen: Search,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Profile: {
     screen: Profile,
     navigationOptions: {},
   },
+
   Intro: {
     screen: Intro,
     navigationOptions: {
@@ -128,12 +136,14 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
+
   Register: {
     screen: Register,
     navigationOptions: {
       header: null,
     },
   },
+
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {

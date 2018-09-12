@@ -4,8 +4,8 @@ export const COLOR = {
   TEXT_BUTTON: 'rgba(255,255,255,1)',
   BORDER_INPUT: '#9e9e9e',
   COLOR_BLACK: '#000000',
-  COLOR_WHITE:'#ffffff',
+  COLOR_WHITE: '#ffffff',
   COLOR_YELLOW: '#f9a825',
   COLOR_SKY: '#0081cb',
-  COLOR_GRAY: 'gray',
+  COLOR_GRAY: '#efebe9',
 };

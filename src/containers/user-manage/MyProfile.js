@@ -21,6 +21,7 @@ import RadioForm from '../../components/SimpleRadioButton';
 import PhotoGrid from '../../components/PhotoGrid';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import MenuItem from '../../components/MenuItem';
+import _ from 'lodash';
 const { width } = Dimensions.get('window');
 
 import Ionicon from 'react-native-vector-icons/dist/Ionicons';
@@ -61,11 +62,7 @@ class MyProfile extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      JSON.stringify(nextProps.userProfile) ===
-      JSON.stringify(this.props.userProfile)
-    )
-      return false;
+    if (_.isEqual(nextProps.userProfile, this.props.userProfile)) return false;
     return true;
   }
 
@@ -91,6 +88,9 @@ class MyProfile extends Component {
   };
 
   _renderHeader = () => {
+    console.log('avt', this.userProfile.Avatar);
+    console.log('avt2', this.userProfile.Avatar ? 'a' : 'b');
+
     return (
       <View>
         <View style={styles.contain_avatar}>
@@ -187,22 +187,41 @@ class MyProfile extends Component {
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
-        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            returnKeyType="done"
-            numberOfLines={5}
-            multiline={true}
-            placeholder={strings('login.placeholder.input_phone')}
-            onChangeText={(text) => {}}
-            style={[
-              style_common.input_boder,
-              { flex: 1, textAlignVertical: 'top', height: 100 },
-            ]}
-            onSubmitEditing={(event) => {}}
-          />
-          <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="done"
+          placeholder={strings('login.placeholder.input_pass')}
+          ref="pass"
+          onChangeText={(text) => {}}
+          style={[style_common.input_border, styles.text_address]}
+        />
+        <TextInput
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType="done"
+          numberOfLines={5}
+          multiline={true}
+          placeholder={strings('login.placeholder.input_phone')}
+          onChangeText={(text) => {}}
+          style={[style_common.input_border, styles.text_area]}
+          onSubmitEditing={(event) => {}}
+        />
+
+        <View style={styles.action}>
+          <TouchableOpacity style={styles.btn_action}>
+            <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn_action}>
+            <Image
+              style={styles.icon_img}
+              source={IMAGE.imag_icon}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn_save}>
+            <Text>Luu</Text>
+          </TouchableOpacity>
         </View>
         <PhotoGrid
           source={this.dataImage}
@@ -242,14 +261,18 @@ class MyProfile extends Component {
         <Text style={{ flex: 1 }}>Dang ky hoi vien</Text>
 
         {/* <ButtonBorder
-          my_style={[style_common.input_boder, { marginLeft: 5 }]}
+          my_style={[style_common.input_border, { marginLeft: 5 }]}
           label={'Quyen loi-Chinh sach'}
           onPress={this._login}
         /> */}
-        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
+        <TouchableOpacity
+          style={[style_common.input_border, { marginLeft: 5 }]}
+        >
           <Text>Quyen loi-Chinh sach</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
+        <TouchableOpacity
+          style={[style_common.input_border, { marginLeft: 5 }]}
+        >
           <Text>Dang ky ngay</Text>
         </TouchableOpacity>
       </View>
@@ -384,5 +407,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 5,
+  },
+  icon_img: {
+    width: 40,
+    height: 30,
+  },
+  text_area: { flex: 1, textAlignVertical: 'top', height: 100, marginTop: 10 },
+  text_address: { marginTop: 10 },
+  action: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'flex-end',
+    marginBottom: 10,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  btn_action: {
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_save: {
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: COLOR.COLOR_SKY,
+    backgroundColor: COLOR.COLOR_SKY,
+    borderRadius: 5,
+    minWidth: 50,
+    padding: 5,
+    borderWidth: 1,
   },
 });

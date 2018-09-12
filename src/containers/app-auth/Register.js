@@ -104,7 +104,7 @@ class Register extends Component {
           placeholder={strings('login.placeholder.input_phone')}
           keyboardType="numeric"
           onChangeText={(text) => (this.dataUser.userName = text)}
-          style={[style_common.input_boder, styles.text_input]}
+          style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={(event) => {
             this.refs.pass.focus();
           }}
@@ -117,7 +117,7 @@ class Register extends Component {
           placeholder={strings('login.placeholder.input_pass')}
           ref="pass"
           onChangeText={(text) => (this.dataUser.password = text)}
-          style={[style_common.input_boder, styles.text_input]}
+          style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={(event) => {
             this.refs.rePass.focus();
           }}
@@ -130,10 +130,10 @@ class Register extends Component {
           placeholder={strings('login.placeholder.input_rePass')}
           ref="rePass"
           onChangeText={(text) => (this.dataUser.rePassword = text)}
-          style={[style_common.input_boder, styles.text_input]}
+          style={[style_common.input_border, styles.text_input]}
         />
         <ButtonBorder
-          lable={strings('register.btn_register')}
+          label={strings('register.btn_register')}
           onPress={this._register}
         />
         <View style={styles.view_login}>
@@ -152,7 +152,7 @@ class Register extends Component {
             {strings('register.has_account')}
           </Text>
           <ButtonBorder
-            lable={strings('login.btn_login')}
+            label={strings('login.btn_login')}
             onPress={() => {
               this.props.navigation.navigate('Login');
             }}
@@ -161,7 +161,7 @@ class Register extends Component {
         <View style={styles.view_login}>
           <Text style={styles.text_login}>{strings('login.login_guest')}</Text>
           <ButtonBorder
-            lable={strings('login.btn_guest')}
+            label={strings('login.btn_guest')}
             onPress={() => {
               this.setState({ isLoading: true });
               setTimeout(() => {
