@@ -111,101 +111,57 @@ class TaoBaiViet extends Component {
     render() {
 
         return (
-            <View style={{justifyContent: 'space-between', flex: 1}}>
+            <View style={styles.view_container}>
                 <View>
-                    <FlatList
-                        data={this.state.ArrKieuBaiViet}
-                        horizontal={true}
-                        // style = {{marginLeft: 0}}
-                        renderItem={({item}) => {
-                            return (
-                                <View style={{flexDirection: 'row',justifyContent: 'space-between', alignItems: 'center', marginLeft: 20}}>
-                                    <TouchableOpacity onPress={() => {
-                                        this.setState({itemSelected: item.key}, () => {
-                                            // console.log('itemselected', this.state.itemSelected)
-                                        })
-                                    }}>
-                                        <View style={{
-                                            borderWidth: 1,
-                                            height: 30,
-                                            width: 100,
-
-                                            justifyContent: "center",
-                                            alignItems: 'center',
-                                            borderColor: "#B2DFDB",
-                                            backgroundColor: this.state.itemSelected === item.key ? '#00796B' : '#B2DFDB'
-                                        }}>
-                                            <Text>{item.Value}</Text>
-
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        }}
-                        extraData={this.state}
-                        keyExtractor={(item, index) => index.toString()}
-
-                    />
-                    <View>
-                        <View>
-
-                            <View style={{marginHorizontal: 10, marginTop: 10}}>
-                                <TextInput placeholder='Nhập nội dung?'
-                                           underlineColorAndroid="transparent"
-                                           onChangeText={(Status) => this.setState({Status})}
-                                           placeholderTextSize="20"
-                                           returnKeyType={"search"}
-                                    // onFocus={() => {
-                                    //     this.handleTextInput()
-                                    // }}
-                                />
-                            </View>
-                        </View>
+                    <View style={{marginHorizontal: 10, marginTop: 10}}>
+                        <TextInput placeholder='Nhập nội dung?'
+                                   underlineColorAndroid="transparent"
+                                   onChangeText={(Status) => this.setState({Status})}
+                                   placeholderTextSize="20"
+                                   returnKeyType={"search"}
+                            // onFocus={() => {
+                            //     this.handleTextInput()
+                            // }}
+                        />
                     </View>
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    marginTop: 50,
-                    minHeight: 30,
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}>
 
-                        <View style={{
-                            marginLeft: 10,
-                            borderWidth: 1,
-                            height: 25,
-                            borderColor: "#E0E0E0",
-                            backgroundColor: '#EEEEEE',
-                            alignItems: 'center',
-                            width: DEVICE_WIDTH / 2 - 20,
-                            flexDirection: 'row'
-                        }}>
-                            <Text style={{marginLeft: 5}}>Thêm vào bài viết</Text>
-                            {/*<Icon1 name="close" size={25} color="#757575" style = {{marginLeft: 5}}/>*/}
-                        </View>
-                    <View style={{flexDirection: 'row'}}>
+                </View>
+                <View style={styles.view_bottom}>
+                    <Text style = {{marginLeft: 10, color:'black'}}>Thêm vào bài viết</Text>
+                    <View style={styles.view_border}>
                         <TouchableOpacity>
-                            <Icon name="md-images" size={25} color="#900"
-                                  style={{flex: 1}}/>
+
+                            <View style={styles.view_vote}>
+                                <Text style={{marginLeft: 5, color: "black"}}>#Thămdòýkiến</Text>
+
+                            </View>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <View style={{
-                                marginLeft: 10,
-                                marginRight: 10,
-                                backgroundColor: '#B3E5FC',
-                                borderWidth: 1,
-                                borderRadius: 3,
-                                borderColor: '#81D4FA',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: 25,
-                                width: 65
-                            }}>
+                            <View style={styles.view_event}>
+                                <Text style={{marginLeft: 5, color: 'black'}}>#Sựkiện</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity>
+                            <Image source={require("../../assets/emoji.png")} style={styles.button_image}
+                                   resizeMode="cover"/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={require("../../assets/image_icon.png")} style={styles.button_image}
+                                   resizeMode="cover"/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={require("../../assets/hashtag.png")} style={styles.button_image}
+                                   resizeMode="cover"/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={styles.view_post}>
                                 <Text>Đăng</Text>
                             </View>
                         </TouchableOpacity>
+
                     </View>
+
 
                 </View>
             </View>
@@ -216,12 +172,54 @@ class TaoBaiViet extends Component {
 export default TaoBaiViet
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-    image_circle: {
-        height: DEVICE_WIDTH / 10,
-        width: DEVICE_WIDTH / 10,
-        borderRadius: DEVICE_WIDTH / 20,
-        marginLeft: 10,
-        // marginTop: 10
+    view_container: {
+        justifyContent: 'space-between', flex: 1
+    },
+    button_image: {
+        height: 20,
+        width: 20
 
     },
+    view_event: {
+        borderWidth: 1,
+        height: 25,
+        borderColor: "#E0E0E0",
+        backgroundColor: '#EEEEEE',
+        alignItems: 'center',
+        flexDirection: 'row'
+
+    },
+    view_vote: {
+        borderWidth: 1,
+        marginLeft: 10,
+        height: 25,
+        borderColor: "#E0E0E0",
+        backgroundColor: '#EEEEEE',
+        alignItems: 'center',
+        flexDirection: 'row'
+
+    },
+    view_post: {
+        marginLeft: 10,
+        marginRight: 10,
+        backgroundColor: '#B3E5FC',
+        borderWidth: 1,
+        borderRadius: 3,
+        borderColor: '#81D4FA',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 25,
+        width: 65
+    },
+    view_bottom: {
+        flexDirection: 'column'
+
+    },
+    view_border: {
+        flexDirection: 'row',
+        marginTop: 10,
+        minHeight: 30,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }
 })
