@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  createMaterialTopTabNavigator,
-  createStackNavigator,
+    createMaterialTopTabNavigator,
+    createStackNavigator,
 } from 'react-navigation';
 import Home from '../containers/Home';
 import Message from '../containers/Message';
@@ -18,157 +18,159 @@ import Intro from '../containers/app-intro/AppIntroSlider';
 import Register from '../containers/app-auth/Register';
 import BinhLuan from '../containers/BinhLuan';
 import VerifyAccount from '../containers/app-auth/VerifyAccount';
-import Profile from '../containers/manage-user/Profile';
 import TaoBaiViet from '../containers/TaoBaiViet';
 import Search from '../containers/Search';
+import Profile from "../containers/user-manage/Profile";
+
 
 const TabHome = createMaterialTopTabNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="home" size={23} style={{ color: tintColor }} />
-        ),
-      },
+    {
+        Home: {
+            screen: Home,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Icon name="home" size={23} style={{color: tintColor}}/>
+                ),
+            },
+        },
+        Message: {
+            screen: Message,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Icon1
+                        name="facebook-messenger"
+                        size={23}
+                        style={{color: tintColor}}
+                    />
+                ),
+            },
+        },
+        DoanhNghiep: {
+            screen: DoanhNghiep,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Icon2 name="location" size={23} style={{color: tintColor}}/>
+                ),
+            },
+        },
+        SuKien: {
+            screen: SuKien,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Icon3 name="event-note" size={23} style={{color: tintColor}}/>
+                ),
+            },
+        },
+        Menu: {
+            screen: Menu,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Icon2 name="menu" size={23} style={{color: tintColor}}/>
+                ),
+            },
+        },
     },
-    Message: {
-      screen: Message,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon1
-            name="facebook-messenger"
-            size={23}
-            style={{ color: tintColor }}
-          />
-        ),
-      },
-    },
-    DoanhNghiep: {
-      screen: DoanhNghiep,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon2 name="location" size={23} style={{ color: tintColor }} />
-        ),
-      },
-    },
-    SuKien: {
-      screen: SuKien,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon3 name="event-note" size={23} style={{ color: tintColor }} />
-        ),
-      },
-    },
-    Menu: {
-      screen: Menu,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon2 name="menu" size={23} style={{ color: tintColor }} />
-        ),
-      },
-    },
-  },
-  {
-    tabBarPosition: 'top',
-    lazy: true,
-    animationEnabled: true,
-    tabBarOptions: {
-      upperCaseLabel: false,
+    {
+        tabBarPosition: 'top',
+        lazy: true,
+        animationEnabled: true,
+        tabBarOptions: {
+            upperCaseLabel: false,
 
-      showIcon: true,
-      showLabel: false,
-      activeTintColor: 'black',
-      inactiveTintColor: 'white',
-      // activeBackgroundColor:'white',
-      // inactiveBackgroundColor:'#eaa33f',
-      // pressColor: 'white',
-      indicatorStyle: {
-        // backgroundColor: 'white'
-        backgroundColor: 'transparent',
-      },
-      labelStyle: {
-        fontSize: 11,
-        alignSelf: 'center',
-      },
-      // style: {
-      //     backgroundColor: '#fc9b03',
-      //
-      // },
-      // tabStyle: {
-      //     backgroundColor:'white'
-      // }
-    },
-  }
+            showIcon: true,
+            showLabel: false,
+            activeTintColor: 'black',
+            inactiveTintColor: 'white',
+            // activeBackgroundColor:'white',
+            // inactiveBackgroundColor:'#eaa33f',
+            // pressColor: 'white',
+            indicatorStyle: {
+                // backgroundColor: 'white'
+                backgroundColor: 'transparent',
+            },
+            labelStyle: {
+                fontSize: 11,
+                alignSelf: 'center',
+            },
+            // style: {
+            //     backgroundColor: '#fc9b03',
+            //
+            // },
+            // tabStyle: {
+            //     backgroundColor:'white'
+            // }
+        },
+    }
 );
 const RootStack = createStackNavigator({
-  Login: {
-    screen: Login,
-    navigationOptions: {
-      header: null,
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
-  Search: {
-    screen: Search,
-    navigationOptions: {
-      header: null,
+    Search: {
+        screen: Search,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
-  Profile: {
-    screen: Profile,
-    navigationOptions: {},
-  },
+    Profile: {
+        screen: Profile,
+        navigationOptions: {},
+    },
 
-  Intro: {
-    screen: Intro,
-    navigationOptions: {
-      header: null,
+    Intro: {
+        screen: Intro,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
-  TabHome: {
-    screen: TabHome,
-    navigationOptions: {
-      header: null,
+    TabHome: {
+        screen: TabHome,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
 
-  Register: {
-    screen: Register,
-    navigationOptions: {
-      header: null,
+    Register: {
+        screen: Register,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
 
-  VerifyAccount: {
-    screen: VerifyAccount,
-    navigationOptions: {
-      header: null,
+    VerifyAccount: {
+        screen: VerifyAccount,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
 
-  Chat: {
-    screen: Chat,
-    navigationOptions: {
-      header: null,
+    Chat: {
+        screen: Chat,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
-  BinhLuan: {
-    screen: BinhLuan,
-    navigationOptions: {
-      header: null,
+    BinhLuan: {
+        screen: BinhLuan,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
-  TaoBaiViet: {
-    screen: TaoBaiViet,
-    navigationOptions: {
-      header: null,
+    TaoBaiViet: {
+        screen: TaoBaiViet,
+        navigationOptions: {
+            header: null,
+        },
     },
-  },
+
 });
 
 export default RootStack;
