@@ -36,11 +36,11 @@ class VerifyAccount extends Component {
           placeholder={strings('verify.placeholder.input_code')}
           keyboardType="numeric"
           onChangeText={(text) => (this.verifyCode = text)}
-          style={[style_common.input_boder, styles.text_input]}
+          style={[style_common.input_border, styles.text_input]}
         />
         <Text style={styles.text_info}>{strings('verify.info')}</Text>
         <ButtonBorder
-          lable={strings('verify.btn_confirm')}
+          label={strings('verify.btn_confirm')}
           onPress={this.verify}
           my_style={{ marginBottom: 10 }}
         />
@@ -49,7 +49,7 @@ class VerifyAccount extends Component {
             {strings('verify.txt_notReceive')}
           </Text>
           <ButtonBorder
-            lable={strings('verify.btn_reSend')}
+            label={strings('verify.btn_reSend')}
             onPress={() => {
               alert(1);
             }}
@@ -60,7 +60,7 @@ class VerifyAccount extends Component {
             {strings('verify.txt_phoneIncorrect')}
           </Text>
           <ButtonBorder
-            lable={strings('verify.btn_reInput')}
+            label={strings('verify.btn_reInput')}
             onPress={() => {
               alert(2);
             }}

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import style_common from '../../style-common';
-import { ViewLoading } from '../../components/CommonView';
+import { ViewLoading, TabView } from '../../components/CommonView';
 import { COLOR } from '../../constant/Color';
 import MyProfile from './MyProfile';
 import { bindActionCreators } from 'redux';
@@ -19,7 +13,7 @@ class Profile extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      isTabAccount: true,
+      tabIndex: 0,
     };
 
     //get userProfile from Redux
@@ -59,34 +53,22 @@ class Profile extends Component {
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
-          <TouchableOpacity
+          <TabView
+            label="Tài khoản"
             onPress={() => {
-              Keyboard.dismiss();
-              this.setState({ isTabAccount: true });
+              this.setState({ tabIndex: 0 });
             }}
-            style={[
-              this.state.isTabAccount
-                ? styles.btn_tab_active
-                : styles.btn_tab_inActive,
-              { marginRight: 5 },
-            ]}
-          >
-            <Text style={styles.text_tab}>tab1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              !this.state.isTabAccount
-                ? styles.btn_tab_active
-                : styles.btn_tab_inActive,
-              { marginLeft: 5 },
-            ]}
+            isActive={this.state.tabIndex === 0}
+            style={styles.btn_margin_right}
+          />
+          <TabView
+            label="Hội viên"
             onPress={() => {
-              Keyboard.dismiss();
-              this.setState({ isTabAccount: false });
+              this.setState({ tabIndex: 1 });
             }}
-          >
-            <Text style={styles.text_tab}>tab2</Text>
-          </TouchableOpacity>
+            isActive={this.state.tabIndex === 1}
+            style={styles.btn_margin_left}
+          />
         </View>
         <View style={{ flex: 1 }}>
           <View
@@ -100,7 +82,7 @@ class Profile extends Component {
           <View
             style={[
               styles.content,
-              { zIndex: this.state.isTabAccount ? 0 : 1 },
+              { zIndex: this.state.isTabAccount ? 1 : 0 },
             ]}
           >
             <Member />
@@ -134,28 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: COLOR.COLOR_WHITE,
   },
-  btn_tab_active: {
-    flex: 1,
-    margin: 10,
-    minHeight: 40,
-    borderWidth: 1,
-    borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLOR.COLOR_SKY,
-    borderColor: COLOR.COLOR_SKY,
-  },
-  btn_tab_inActive: {
-    flex: 1,
-    margin: 10,
-    minHeight: 40,
-    borderRadius: 2,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: COLOR.COLOR_GRAY,
-    backgroundColor: COLOR.COLOR_GRAY,
-  },
+
   text_tab: {
     color: COLOR.COLOR_BLACK,
     fontWeight: 'bold',
@@ -167,5 +128,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: COLOR.COLOR_WHITE,
+  },
+  btn_margin_left: {
+    marginLeft: 5,
+  },
+  btn_margin_right: {
+    marginRight: 5,
   },
 });
