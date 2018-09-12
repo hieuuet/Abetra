@@ -12,9 +12,9 @@ class Menu extends Component {
           title="Đăng ký hội viên"
           nameIcon="home"
           style={styles.style_menu}
-          // onPress={() => {
-          //     this.state.value ? this.props.navigation.navigate('TaiKhoanCuaBanCuDan') : this.refs.modal.open()
-          // }}
+          onPress={() => {
+            this.props.navigation.navigate('Profile');
+          }}
         />
         <MenuItem
           title="Bài viết đã lưu"

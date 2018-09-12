@@ -2,223 +2,51 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Image,
   TouchableOpacity,
-  Dimensions,
+  Keyboard,
 } from 'react-native';
-
-import { IMAGE } from '../../constant/assets';
 import style_common from '../../style-common';
-import { ButtonBorder, ViewLoading } from '../../components/CommonView';
-import EditView from './EditView';
+import { ViewLoading } from '../../components/CommonView';
 import { COLOR } from '../../constant/Color';
-import { strings } from '../../i18n';
-import RadioForm from '../../components/SimpleRadioButton';
-import PhotoGrid from '../../components/PhotoGrid';
-import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import MenuItem from '../../components/MenuItem';
-const { width } = Dimensions.get('window');
-
-import Ionicon from 'react-native-vector-icons/dist/Ionicons';
+import MyProfile from './MyProfile';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadUserProfile } from '../../actions/loadUserProfileActions';
+import Member from './Member';
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
+      isTabAccount: true,
     };
 
-    this.radioData = [
-      {
-        label: strings('profile.man'),
-        value: 0,
-      },
-      { label: strings('profile.women'), value: 1 },
-      { label: strings('profile.undefined'), value: 2 },
-    ];
-    this.dataProfile = {};
-
-    this.dataImage = [
-      'https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a',
-      'https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33',
-      'https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2',
-      'https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd',
-      'https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e',
-      // 'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
-      // 'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
-      // 'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
-      // 'https://drscdn.500px.org/photo/216051623/m%3D2048_k%3D1_a%3D1/5a3732bb413f240ad71b8279b038a3ff',
-      // 'https://drscdn.500px.org/photo/216047335/m%3D2048_k%3D1_a%3D1/4237ac4606474f0ec7ccc05ca311772e',
-      // 'https://drscdn.500px.org/photo/216000289/m%3D2048_k%3D1_a%3D1/5ac2a21092f9281feef3ab8484d2b19c'
-    ];
+    //get userProfile from Redux
+    this.userProfile =
+      this.props.userProfile &&
+      this.props.userProfile.Value &&
+      this.props.userProfile.Value.length > 0
+        ? this.props.userProfile.Value[0]
+        : {};
   }
 
-  _renderHeader = () => {
-    return (
-      <View>
-        <View style={styles.contain_avatar}>
-          <Image source={IMAGE.logo} resizeMode="cover" style={styles.avatar} />
-          <View style={styles.right_avatar}>
-            <EditView
-              lable={strings('profile.name_login')}
-              text_edit="kien"
-              style_edit={styles.text_name}
-            />
-            <EditView
-              lable={strings('profile.name_display')}
-              text_edit="kien"
-              isEditAble={true}
-              style_edit={styles.text_name}
-            />
-            <View style={styles.change_pass}>
-              <Text style={style_common.text_color_base}>
-                {strings('profile.change_pass')}
-              </Text>
-              <TouchableOpacity style={styles.icon_pass}>
-                <Ionicon name="ios-lock" size={30} color={COLOR.COLOR_SKY} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <EditView
-          lable={strings('profile.birth_day')}
-          text_edit="kien"
-          isEditAble={true}
-        />
-        <View style={styles.change_pass}>
-          <Text
-            style={[style_common.text_color_base, styles.lable_radio_group]}
-          >
-            {strings('profile.gender')}
-          </Text>
-          <RadioForm
-            radio_props={this.radioData}
-            initial={2}
-            formHorizontal={true}
-            buttonColor={'gray'}
-            selectedButtonColor={'gray'}
-            buttonSize={5}
-            animation={true}
-            style={styles.radio_form}
-            onPress={(value) => {
-              alert(value);
-            }}
-          />
-        </View>
+  componentDidMount() {
+    this.reLoadProfile();
+  }
 
-        <EditView
-          lable={strings('profile.email')}
-          text_edit="kien"
-          isEditAble={true}
-        />
-        <EditView
-          lable={strings('profile.mobile')}
-          text_edit="kien"
-          isEditAble={true}
-        />
-      </View>
-    );
-  };
-  _renderContent = () => {
-    return (
-      <View style={style_common.wrapper}>
-        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            returnKeyType="done"
-            numberOfLines={5}
-            multiline={true}
-            placeholder={strings('login.placeholder.input_phone')}
-            onChangeText={(text) => {}}
-            style={[
-              style_common.input_boder,
-              { flex: 1, textAlignVertical: 'top', height: 100 },
-            ]}
-            onSubmitEditing={(event) => {}}
-          />
-          <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
-        </View>
-        <PhotoGrid
-          source={this.dataImage}
-          width={width - 20}
-          height={width / 1.5}
-          ratio={0.5}
-        />
-      </View>
-    );
+  reLoadProfile = async () => {
+    const { loadUserProfile, userProfile } = this.props;
+    if (!userProfile || !userProfile.UserID) {
+      return null;
+    }
+    await loadUserProfile({
+      user_id: userProfile.UserID,
+      option: 100,
+      lang_name: 'vi_VN',
+    });
   };
 
-  _renderMember = () => {
-    return (
-      <View style={{}}>
-        <Text>Hoi vien</Text>
-        <View style={{ backgroundColor: 'black', height: 1, flex: 1 }} />
-        <Text>Ngay dang ky:01-01-2018</Text>
-        <Text>Ngay dang ky: 01-01-2018</Text>
-        <TouchableOpacity>
-          <Text>Giay chung nhan hoi vien</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Quyen loi hoi vien</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  _renderRegisterMember = () => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Text style={{ flex: 1 }}>Dang ky hoi vien</Text>
-
-        {/* <ButtonBorder
-          my_style={[style_common.input_boder, { marginLeft: 5 }]}
-          lable={'Quyen loi-Chinh sach'}
-          onPress={this._login}
-        /> */}
-        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
-          <Text>Quyen loi-Chinh sach</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[style_common.input_boder, { marginLeft: 5 }]}>
-          <Text>Dang ky ngay</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  _renderFooter = () => {
-    return (
-      <View style={styles.content_footer}>
-        <MenuItem
-          title="Bài viết đã lưu"
-          nameIcon="bookmark"
-          onPress={() => {}}
-          style={styles.menu_bottom}
-        />
-        <MenuItem
-          title="Cac hoi vien dang theo doi"
-          nameIcon="user-plus"
-          onPress={() => {}}
-          style={styles.menu_bottom}
-        />
-        <MenuItem
-          title="Su kien da tham gia"
-          nameIcon="calendar-check"
-          onPress={() => {}}
-          style={styles.menu_bottom}
-        />
-      </View>
-    );
-  };
   _renderLoading = () => {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
@@ -226,103 +54,118 @@ class Profile extends Component {
   };
 
   render() {
+    console.log('render profile count');
+
     return (
-      <KeyboardAvoidingView
-        style={style_common.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={64}
-      >
-        <ScrollView
-          style={style_common.container}
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <View style={styles.parent}>
-            {this._renderHeader()}
-            {this._renderContent()}
-            {this._renderRegisterMember()}
-            {this._renderMember()}
-            {this._renderFooter()}
+      <View style={style_common.container}>
+        <View style={styles.tab}>
+          <TouchableOpacity
+            onPress={() => {
+              Keyboard.dismiss();
+              this.setState({ isTabAccount: true });
+            }}
+            style={[
+              this.state.isTabAccount
+                ? styles.btn_tab_active
+                : styles.btn_tab_inActive,
+              { marginRight: 5 },
+            ]}
+          >
+            <Text style={styles.text_tab}>tab1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              !this.state.isTabAccount
+                ? styles.btn_tab_active
+                : styles.btn_tab_inActive,
+              { marginLeft: 5 },
+            ]}
+            onPress={() => {
+              Keyboard.dismiss();
+              this.setState({ isTabAccount: false });
+            }}
+          >
+            <Text style={styles.text_tab}>tab2</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1 }}>
+          <View
+            style={[
+              styles.content,
+              { zIndex: this.state.isTabAccount ? 1 : 0 },
+            ]}
+          >
+            <MyProfile userProfile={this.userProfile} />
           </View>
-        </ScrollView>
+          <View
+            style={[
+              styles.content,
+              { zIndex: this.state.isTabAccount ? 0 : 1 },
+            ]}
+          >
+            <Member />
+          </View>
+        </View>
         {this._renderLoading()}
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.loadUserProfile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+  };
+};
+Profile = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
 export default Profile;
 
 const styles = StyleSheet.create({
-  parent: {
-    flex: 1,
-    padding: 10,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  contain_avatar: {
+  tab: {
     flexDirection: 'row',
+    backgroundColor: COLOR.COLOR_WHITE,
+  },
+  btn_tab_active: {
+    flex: 1,
+    margin: 10,
+    minHeight: 40,
+    borderWidth: 1,
+    borderRadius: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLOR.COLOR_SKY,
+    borderColor: COLOR.COLOR_SKY,
   },
-  right_avatar: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+  btn_tab_inActive: {
     flex: 1,
+    margin: 10,
+    minHeight: 40,
+    borderRadius: 2,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: COLOR.COLOR_GRAY,
+    backgroundColor: COLOR.COLOR_GRAY,
   },
-  text_name: {
-    color: COLOR.COLOR_SKY,
+  text_tab: {
+    color: COLOR.COLOR_BLACK,
     fontWeight: 'bold',
   },
-  text_input: {
-    marginHorizontal: 60,
-    marginTop: 10,
-    padding: 5,
-  },
-
-  img_fb: {
-    width: 50,
-    height: 50,
-  },
-  view_login: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10,
-    alignSelf: 'stretch',
-  },
-  view_fanpage: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  content_footer: {
-    justifyContent: 'flex-end',
-    marginTop: 10,
-    marginBottom: 10,
-    flex: 1,
-  },
-  text_login: {
-    flex: 1,
-    marginRight: 10,
-  },
-  text_info: {
-    margin: 10,
-  },
-  change_pass: { flexDirection: 'row', alignItems: 'center' },
-  icon_pass: {
-    marginLeft: 10,
-  },
-  lable_radio_group: {
-    width: 100,
-  },
-  radio_form: { justifyContent: 'space-around', flex: 1 },
-  menu_bottom: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 5,
+  content: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: COLOR.COLOR_WHITE,
   },
 });
