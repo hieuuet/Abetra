@@ -13,8 +13,7 @@ import {
     Dimensions
 
 } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons';
-import Icon1 from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 class TaoBaiViet extends Component {
@@ -23,68 +22,10 @@ class TaoBaiViet extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isCheckToolBar: 1, //interface toolbar
-            isCheckContent: 1, // interface content
-            type: 0,
-            ArrKieuBaiViet: [
-                {
-                    key: 1,
-                    Value: "Bài viết"
-                },
-                {
-                    key: 2,
-                    Value: "Thăm dò ý kiến"
-                },
-                {
-                    key: 3,
-                    Value: "Sự kiện"
-                }
-            ]
-            ,
+            isVote: false,
+            isEvent: false,
             ArrOptions: [
-                {
-                    option: "Lựa chọn 1",
-                    id: 1,
-                },
-                {
-                    option: "Lựa chọn 2",
-                    id: 2
-                }
-            ],
 
-            ArrButton: [
-                {
-                    key: 1,
-                    value: 1,
-                    option: "Nhà riêng"
-                },
-                {
-                    key: 2,
-                    value: 2,
-                    option: "Chung"
-                },
-            ],
-            itemSelected: 1, //button radio
-        }
-
-
-    }
-
-    //show toolbar
-    handleTextInput = () => {
-        this.setState({
-            isCheckToolBar: 4
-        })
-
-    }
-
-    //show tham do y kien
-    ThamDoYKien = () => {
-        this.setState({
-            isCheckContent: 2,
-            isCheckToolBar: 2,
-            type: 1,
-            ArrOptions: [
                 {
                     OptionContent: "Lựa chọn 1",
                     id: 1,
@@ -94,8 +35,26 @@ class TaoBaiViet extends Component {
                     id: 2
                 }
             ],
+        }
+
+
+    }
+
+    //show tham do y kien
+    _createVote = () => {
+        this.setState({
+            isVote: true,
+            isEvent: false
         })
     }
+    showEvent
+    _createEvent = () => {
+        this.setState({
+            isVote: false,
+            isEvent: true
+        })
+    }
+
     //them 1 lua chon
     Push = (index) => {
         // console.log('push')
@@ -109,6 +68,7 @@ class TaoBaiViet extends Component {
 
 
     render() {
+        console.log('isVote', this.state.isVote)
 
         return (
             <View style={styles.view_container}>
@@ -127,20 +87,96 @@ class TaoBaiViet extends Component {
 
                 </View>
                 <View style={styles.view_bottom}>
-                    <Text style = {{marginLeft: 10, color:'black'}}>Thêm vào bài viết</Text>
+                    {
+                        this.state.isVote ? <FlatList
+                            data={this.state.ArrOptions}
+                            renderItem={({item, index}) => {
+                                return (
+                                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                                        <View
+                                            style={{
+                                                marginLeft: 10,
+                                                borderRadius: 15,
+                                                flexDirection: 'row',
+                                                borderColor: '#E0E0E0',
+                                                borderWidth: 1,
+                                                width: "85%",
+                                            }}>
+                                            <TextInput
+                                                placeholder={item.OptionContent}
+                                                style={{padding: 0, marginLeft: 10, flex: 1}}
+                                                underlineColorAndroid="transparent" placeholderTextSize="20"
+                                                onChangeText={(text) => {
+                                                    const ArrOptions = this.state.ArrOptions.map(toa => {
+                                                        if (toa == item) {
+                                                            toa.OptionContent = text
+                                                        }
+                                                        return toa;
+                                                    })
+                                                    this.setState({
+                                                        ArrOptions
+                                                    })
+                                                }}
+                                            />
+                                        </View>
+                                        {
+                                            index === (this.state.ArrOptions.length - 1) ?
+                                                <View
+                                                    style={{
+                                                        justifyContent: "center",
+                                                        alignItems: 'center',
+                                                        width: "15%"
+                                                    }}>
+                                                    <TouchableOpacity onPress={() => this.Push(index)}>
+                                                        <Image
+                                                            source={require("../images/insert.png")}
+                                                            style={{
+                                                                height: 25,
+                                                                width: 25
+                                                            }}
+                                                            resizeMode="cover">
+                                                        </Image>
+                                                    </TouchableOpacity>
+                                                </View> : null
+                                        }
+                                    </View>
+                                )
+                            }}
+                            extraData={this.state}
+                            keyExtractor={(item, index) => index.toString()}
+                        /> : null
+
+                    }
+                    <Text style={{marginLeft: 10, color: 'black', marginTop: 10}}>Thêm vào bài viết</Text>
+
                     <View style={styles.view_border}>
-                        <TouchableOpacity>
+                        <View style={{flexDirection: "row"}}>
+                            <TouchableOpacity onPress={() => this._createVote()}>
 
-                            <View style={styles.view_vote}>
-                                <Text style={{marginLeft: 5, color: "black"}}>#Thămdòýkiến</Text>
+                                <View style={styles.view_vote}>
+                                    <Text style={{marginLeft: 5, color: "black"}}>#Thămdòýkiến</Text>
 
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.view_event}>
-                                <Text style={{marginLeft: 5, color: 'black'}}>#Sựkiện</Text>
-                            </View>
-                        </TouchableOpacity>
+
+                                </View>
+
+                            </TouchableOpacity>
+                            {
+                                this.state.isVote ?
+                                    <TouchableOpacity onPress={() => this.setState({
+                                        isVote: false
+                                    })}>
+                                        <Icon name="close" size={20} color="#E0E0E0"/>
+                                    </TouchableOpacity> : null
+                            }
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                            <TouchableOpacity onPress={() => this._createEvent()}>
+                                <View style={styles.view_event}>
+                                    <Text style={{marginLeft: 5, color: 'black'}}>#Sựkiện</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
 
                         <TouchableOpacity>
                             <Image source={require("../../assets/emoji.png")} style={styles.button_image}
