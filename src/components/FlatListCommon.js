@@ -9,7 +9,7 @@ export const TYPE = {
   BUSINESS: "business",
   CHANNEL: "channel",
   POST: "post",
-  ACCOUNT:'account'
+  ACCOUNT: "account",
 };
 
 export class FlatListCommon extends Component {
@@ -23,7 +23,19 @@ export class FlatListCommon extends Component {
   }
 
   _renderItem = (item) => {
-    const { navigation } = this.props;
+    const { navigation, type } = this.props;
+    if (type === TYPE.MESSAGE)
+      return <TinNhanItem dataItem={item} navigation={navigation} />;
+
+    if (type === TYPE.BUSINESS)
+      return <TinNhanItem dataItem={item} navigation={navigation} />;
+
+    if (type === TYPE.POST)
+      return <TinNhanItem dataItem={item} navigation={navigation} />;
+
+    if (type === TYPE.ACCOUNT)
+      return <TinNhanItem dataItem={item} navigation={navigation} />;
+
     return <TinNhanItem dataItem={item} navigation={navigation} />;
   };
   render() {
@@ -39,7 +51,12 @@ export class FlatListCommon extends Component {
 }
 FlatListCommon.propTypes = {
   data: PropTypes.array.isRequired,
-  type: PropTypes.oneOf([TYPE.MESSAGE, TYPE.CHANNEL, TYPE.BUSINESS, TYPE.POST,TYPE.ACCOUNT])
-    .isRequired,
+  type: PropTypes.oneOf([
+    TYPE.MESSAGE,
+    TYPE.CHANNEL,
+    TYPE.BUSINESS,
+    TYPE.POST,
+    TYPE.ACCOUNT,
+  ]).isRequired,
   navigation: PropTypes.object.isRequired,
 };

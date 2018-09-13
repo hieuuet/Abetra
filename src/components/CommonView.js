@@ -15,17 +15,23 @@ import PropTypes from "prop-types";
  *
  * custom for button border
  */
-export const ButtonBorder = ({ label = "", onPress, my_style = {} }) => {
+export const ButtonBorder = ({
+  label = "",
+  onPress,
+  my_style = {},
+  text_style = {},
+}) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.btn, my_style]}>
-      <Text style={styles.txt}>{label}</Text>
+      <Text style={[styles.txt, text_style]}>{label}</Text>
     </TouchableOpacity>
   );
 };
 ButtonBorder.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
-  my_style: PropTypes.number,
+  my_style: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+  text_style: PropTypes.number,
 };
 
 /**
@@ -51,8 +57,6 @@ export const TabView = ({
   isActive = false,
   style = {},
 }) => {
-  console.log("style", style);
-  console.log("isActive", isActive);
   return (
     <TouchableOpacity
       onPress={onPress}

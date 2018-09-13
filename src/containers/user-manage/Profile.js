@@ -1,21 +1,34 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import style_common from '../../style-common';
-import { ViewLoading, TabView } from '../../components/CommonView';
-import { COLOR } from '../../constant/Color';
-import MyProfile from './MyProfile';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { loadUserProfile } from '../../actions/loadUserProfileActions';
-import Member from './Member';
+import React, { Component } from "react";
+import { View, StyleSheet } from "react-native";
+import style_common from "../../style-common";
+import { ViewLoading, TabView } from "../../components/CommonView";
+import { COLOR } from "../../constant/Color";
+import MyProfile from "./MyProfile";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { loadUserProfile } from "../../actions/loadUserProfileActions";
+import Member from "./Member";
 class Profile extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+
+    return {
+      title: params.title,
+      // headerStyle: {
+      //   // backgroundColor: "#23b34c",
+      //   alignSelf: "center",
+      // },
+      headerTitleStyle: { color: COLOR.COLOR_BLACK },
+      headerTintColor: COLOR.COLOR_BLACK,
+    };
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       tabIndex: 0,
     };
-
     //get userProfile from Redux
     this.userProfile =
       this.props.userProfile &&
@@ -23,6 +36,15 @@ class Profile extends Component {
       this.props.userProfile.Value.length > 0
         ? this.props.userProfile.Value[0]
         : {};
+    console.log("sss", this.userProfile);
+
+    //set title for title bar
+    this.props.navigation.setParams({
+      title:
+        this.userProfile && this.userProfile.FullName
+          ? this.userProfile.FullName
+          : "Profile",
+    });
   }
 
   componentDidMount() {
@@ -37,7 +59,7 @@ class Profile extends Component {
     await loadUserProfile({
       user_id: userProfile.UserID,
       option: 100,
-      lang_name: 'vi_VN',
+      lang_name: "vi_VN",
     });
   };
 
@@ -48,7 +70,7 @@ class Profile extends Component {
   };
 
   render() {
-    console.log('render profile count');
+    console.log("render profile count");
 
     return (
       <View style={style_common.container}>
@@ -74,18 +96,21 @@ class Profile extends Component {
           <View
             style={[
               styles.content,
-              { zIndex: this.state.isTabAccount ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
             ]}
           >
-            <MyProfile userProfile={this.userProfile} />
+            <MyProfile
+              dataUser={this.userProfile}
+              navigation={this.props.navigation}
+            />
           </View>
           <View
             style={[
               styles.content,
-              { zIndex: this.state.isTabAccount ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
             ]}
           >
-            <Member />
+            <Member navigation={this.props.navigation} />
           </View>
         </View>
         {this._renderLoading()}
@@ -113,16 +138,16 @@ export default Profile;
 
 const styles = StyleSheet.create({
   tab: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: COLOR.COLOR_WHITE,
   },
 
   text_tab: {
     color: COLOR.COLOR_BLACK,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   content: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
     bottom: 0,

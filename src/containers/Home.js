@@ -106,6 +106,7 @@ class Home extends Component {
     // console.log("userProfile",userProfile)
   };
   render() {
+    console.log("render home");
     const { navigation } = this.props;
     return (
       <ScrollView style={{ flex: 1 }}>
