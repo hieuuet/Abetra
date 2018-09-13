@@ -14,6 +14,7 @@ import {
 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import HashTagModal from "../components/HashTagModal";
 
 
 class TaoBaiViet extends Component {
@@ -22,6 +23,7 @@ class TaoBaiViet extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            modalVisible: false,
             isVote: false,
             isEvent: false,
             ArrOptions: [
@@ -38,6 +40,10 @@ class TaoBaiViet extends Component {
         }
 
 
+    }
+    // show modal
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible});
     }
 
     //show tham do y kien
@@ -186,7 +192,9 @@ class TaoBaiViet extends Component {
                             <Image source={require("../../assets/image_icon.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            this.setModalVisible(true);
+                        }}>
                             <Image source={require("../../assets/hashtag.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
@@ -200,6 +208,8 @@ class TaoBaiViet extends Component {
 
 
                 </View>
+                <HashTagModal changeModalVisible={this.state.modalVisible}
+                               onChangeModalVisible={this.setModalVisible}/>
             </View>
         );
     }
