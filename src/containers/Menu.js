@@ -1,19 +1,66 @@
-import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import Dimensions from 'Dimensions';
-import MenuItem from '../components/MenuItem';
+import React, { Component } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import Dimensions from "Dimensions";
+import MenuItem from "../components/MenuItem";
+import { connect } from "react-redux";
+import { COLOR } from "../constant/Color";
+import { IMAGE } from "../constant/assets";
+import style_common from "../style-common";
 
 class Menu extends Component {
-  render() {
-    const { navigation } = this.props;
+  constructor(props) {
+    super(props);
+    this.userProfile =
+      this.props.userProfile &&
+      this.props.userProfile.Value &&
+      this.props.userProfile.Value.length > 0
+        ? this.props.userProfile.Value[0]
+        : {};
+  }
+  renderHeader = () => {
     return (
-      <ScrollView style={{ flexDirection: 'column', backgroundColor: 'white' }}>
+      <TouchableOpacity
+        style={[style_common.card_view, styles.header_container]}
+        onPress={() => this.props.navigation.navigate("Profile")}
+      >
+        <Image
+          source={
+            this.userProfile && this.userProfile.Avatar
+              ? { uri: this.userProfile.Avatar }
+              : IMAGE.logo
+          }
+          resizeMode="cover"
+          style={styles.avatar}
+        />
+        <View style={styles.name_container}>
+          <Text style={styles.text_name}>
+            {this.userProfile && this.userProfile.FullName
+              ? this.userProfile.FullName
+              : ""}
+          </Text>
+          <Text style={styles.text_rank}>Hội viên bạch kim</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  render() {
+    console.log('render menu');
+    return (
+      <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
+        {this.renderHeader()}
         <MenuItem
           title="Đăng ký hội viên"
           nameIcon="home"
           style={styles.style_menu}
           onPress={() => {
-            this.props.navigation.navigate('Profile');
+            this.props.navigation.navigate("Profile");
           }}
         />
         <MenuItem
@@ -85,45 +132,77 @@ class Menu extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.loadUserProfile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+Menu = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Menu);
 export default Menu;
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+const DEVICE_WIDTH = Dimensions.get("window").width;
+const DEVICE_HEIGHT = Dimensions.get("window").height;
 const styles = StyleSheet.create({
+  header_container: {
+    flexDirection: "row",
+    flex: 1,
+    margin: 0,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: COLOR.COLOR_GRAY,
+  },
+  name_container: {
+    flex: 1,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  text_name: {
+    fontWeight: "bold",
+    color: COLOR.COLOR_GREEN1,
+  },
+  text_rank: {
+    fontWeight: "bold",
+    color: COLOR.COLOR_ORANGE,
+  },
   style_menu: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 10,
     marginLeft: 10,
   },
-  image_circle: {
-    height: DEVICE_WIDTH / 3,
-    width: DEVICE_WIDTH / 3,
-    borderRadius: DEVICE_WIDTH / 6,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 20,
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   canhbao: {
     width: DEVICE_WIDTH / 2,
     height: 35,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: '#EF6C00',
-    backgroundColor: '#F57C00',
+    borderColor: "#EF6C00",
+    backgroundColor: "#F57C00",
   },
   modalContent: {
-    flexDirection: 'column',
-    backgroundColor: 'white',
+    flexDirection: "column",
+    backgroundColor: "white",
     padding: 22,
     // justifyContent: "center",
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 10,
     marginHorizontal: 10,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   bottomModal: {
     height: DEVICE_HEIGHT / 4,

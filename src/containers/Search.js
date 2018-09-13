@@ -184,6 +184,7 @@ export default class Search extends Component {
     ) : null;
   };
   render() {
+    
     return (
       <View style={style_common.container_white}>
         {this._renderHeader()}

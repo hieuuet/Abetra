@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { COLOR } from '../../constant/Color';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+} from "react-native";
+import PropTypes from "prop-types";
+import { COLOR } from "../../constant/Color";
+import Icon from "react-native-vector-icons/dist/FontAwesome";
 
 class EditView extends React.PureComponent {
   constructor(props) {
@@ -23,7 +23,6 @@ class EditView extends React.PureComponent {
     if (this.refs.input) this.refs.input.focus();
   }
   render() {
-    console.log('render count');
     return (
       <View style={styles.wrapper}>
         <Text style={[styles.label, this.props.style_label]}>
@@ -91,9 +90,9 @@ EditView.defaultProps = {
 };
 const styles = StyleSheet.create({
   wrapper: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
   },
   label: {
     minWidth: 100,
@@ -101,9 +100,9 @@ const styles = StyleSheet.create({
   },
   edit: {
     color: COLOR.COLOR_BLACK,
-    justifyContent: 'center',
-    textAlignVertical: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    textAlignVertical: "center",
+    alignItems: "center",
     margin: 1,
     flex: 1,
     height: 40,

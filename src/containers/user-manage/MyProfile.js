@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -10,48 +10,46 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-} from 'react-native';
+} from "react-native";
 
-import { IMAGE } from '../../constant/assets';
-import style_common from '../../style-common';
-import EditView from './EditView';
-import { COLOR } from '../../constant/Color';
-import { strings } from '../../i18n';
-import RadioForm from '../../components/SimpleRadioButton';
-import PhotoGrid from '../../components/PhotoGrid';
-import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import MenuItem from '../../components/MenuItem';
-import _ from 'lodash';
-const { width } = Dimensions.get('window');
+import { IMAGE } from "../../constant/assets";
+import style_common from "../../style-common";
+import EditView from "./EditView";
+import { COLOR } from "../../constant/Color";
+import { strings } from "../../i18n";
+import RadioForm from "../../components/SimpleRadioButton";
+import PhotoGrid from "../../components/PhotoGrid";
+import Icon from "react-native-vector-icons/dist/FontAwesome5";
+import MenuItem from "../../components/MenuItem";
+import _ from "lodash";
+const { width } = Dimensions.get("window");
 
-import Ionicon from 'react-native-vector-icons/dist/Ionicons';
-import PropTypes from 'prop-types';
+import Ionicon from "react-native-vector-icons/dist/Ionicons";
+import PropTypes from "prop-types";
 class MyProfile extends Component {
   constructor(props) {
     super(props);
 
-    console.log('profile', this.props.userProfile);
-
     this.radioData = [
       {
-        label: strings('profile.man'),
+        label: strings("profile.man"),
         value: 0,
       },
-      { label: strings('profile.women'), value: 1 },
-      { label: strings('profile.undefined'), value: 2 },
+      { label: strings("profile.women"), value: 1 },
+      { label: strings("profile.undefined"), value: 2 },
     ];
 
-    //get userProfile
-    this.userProfile = this.props.userProfile
-      ? this.props.userProfile
+    //get dataUser
+    this.dataUser = this.props.dataUser
+      ? this.props.dataUser
       : undefined;
 
     this.dataImage = [
-      'https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a',
-      'https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33',
-      'https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2',
-      'https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd',
-      'https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e',
+      "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
+      "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
+      "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
+      "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
+      "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
       // 'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
       // 'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
       // 'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
@@ -62,42 +60,39 @@ class MyProfile extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps.userProfile, this.props.userProfile)) return false;
+    if (_.isEqual(nextProps.dataUser, this.props.dataUser)) return false;
     return true;
   }
 
   reLoadProfile = async () => {
-    const { loadUserProfile, userProfile } = this.props;
-    if (!userProfile || !userProfile.UserID) {
+    const { loaddataUser, dataUser } = this.props;
+    if (!dataUser || !dataUser.UserID) {
       return null;
     }
 
-    await loadUserProfile({
-      user_id: userProfile.UserID,
+    await loaddataUser({
+      user_id: dataUser.UserID,
       option: 100,
-      lang_name: 'vi_VN',
+      lang_name: "vi_VN",
     });
   };
 
   getGender = () => {
-    return this.userProfile &&
-      this.userProfile.Gender &&
-      typeof this.userProfile.Gender === 'number'
-      ? this.userProfile.Gender
+    return this.dataUser &&
+      this.dataUser.Gender &&
+      typeof this.dataUser.Gender === "number"
+      ? this.dataUser.Gender
       : 2;
   };
 
   _renderHeader = () => {
-    console.log('avt', this.userProfile.Avatar);
-    console.log('avt2', this.userProfile.Avatar ? 'a' : 'b');
-
     return (
       <View>
         <View style={styles.contain_avatar}>
           <Image
             source={
-              this.userProfile && this.userProfile.Avatar
-                ? { uri: this.userProfile.Avatar }
+              this.dataUser && this.dataUser.Avatar
+                ? { uri: this.dataUser.Avatar }
                 : IMAGE.logo
             }
             resizeMode="cover"
@@ -105,27 +100,27 @@ class MyProfile extends Component {
           />
           <View style={styles.right_avatar}>
             <EditView
-              label={strings('profile.name_login')}
+              label={strings("profile.name_login")}
               text_edit={
-                this.userProfile && this.userProfile.UserName
-                  ? this.userProfile.UserName
-                  : ''
+                this.dataUser && this.dataUser.UserName
+                  ? this.dataUser.UserName
+                  : ""
               }
               style_edit={styles.text_name}
             />
             <EditView
-              label={strings('profile.name_display')}
+              label={strings("profile.name_display")}
               text_edit={
-                this.userProfile && this.userProfile.FullName
-                  ? this.userProfile.FullName
-                  : ''
+                this.dataUser && this.dataUser.FullName
+                  ? this.dataUser.FullName
+                  : ""
               }
               isEditAble={true}
               style_edit={styles.text_name}
             />
             <View style={styles.change_pass}>
               <Text style={style_common.text_color_base}>
-                {strings('profile.change_pass')}
+                {strings("profile.change_pass")}
               </Text>
               <TouchableOpacity style={styles.icon_pass}>
                 <Ionicon name="ios-lock" size={30} color={COLOR.COLOR_SKY} />
@@ -134,11 +129,11 @@ class MyProfile extends Component {
           </View>
         </View>
         <EditView
-          label={strings('profile.birth_day')}
+          label={strings("profile.birth_day")}
           text_edit={
-            this.userProfile && this.userProfile.BirdDate
-              ? this.userProfile.BirdDate
-              : ''
+            this.dataUser && this.dataUser.BirdDate
+              ? this.dataUser.BirdDate
+              : ""
           }
           isEditAble={true}
         />
@@ -146,14 +141,14 @@ class MyProfile extends Component {
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}
           >
-            {strings('profile.gender')}
+            {strings("profile.gender")}
           </Text>
           <RadioForm
             radio_props={this.radioData}
             initial={this.getGender()}
             formHorizontal={true}
-            buttonColor={'gray'}
-            selectedButtonColor={'gray'}
+            buttonColor={"gray"}
+            selectedButtonColor={"gray"}
             buttonSize={5}
             animation={true}
             style={styles.radio_form}
@@ -164,20 +159,20 @@ class MyProfile extends Component {
         </View>
 
         <EditView
-          label={strings('profile.email')}
+          label={strings("profile.email")}
           text_edit={
-            this.userProfile && this.userProfile.Email
-              ? this.userProfile.Email
-              : ''
+            this.dataUser && this.dataUser.Email
+              ? this.dataUser.Email
+              : ""
           }
           isEditAble={true}
         />
         <EditView
-          label={strings('profile.mobile')}
+          label={strings("profile.mobile")}
           text_edit={
-            this.userProfile && this.userProfile.Phone
-              ? this.userProfile.Phone
-              : ''
+            this.dataUser && this.dataUser.Phone
+              ? this.dataUser.Phone
+              : ""
           }
           isEditAble={true}
         />
@@ -191,7 +186,7 @@ class MyProfile extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={strings('login.placeholder.input_pass')}
+          placeholder={strings("login.placeholder.input_pass")}
           ref="pass"
           onChangeText={(text) => {}}
           style={[style_common.input_border, styles.text_address]}
@@ -202,7 +197,7 @@ class MyProfile extends Component {
           returnKeyType="done"
           numberOfLines={5}
           multiline={true}
-          placeholder={strings('login.placeholder.input_phone')}
+          placeholder={strings("login.placeholder.input_phone")}
           onChangeText={(text) => {}}
           style={[style_common.input_border, styles.text_area]}
           onSubmitEditing={(event) => {}}
@@ -233,70 +228,30 @@ class MyProfile extends Component {
     );
   };
 
-  _renderMember = () => {
-    return (
-      <View style={{}}>
-        <Text>Hoi vien</Text>
-        <View style={{ backgroundColor: 'black', height: 1, flex: 1 }} />
-        <Text>Ngay dang ky:01-01-2018</Text>
-        <Text>Ngay dang ky: 01-01-2018</Text>
-        <TouchableOpacity>
-          <Text>Giay chung nhan hoi vien</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Quyen loi hoi vien</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  _renderRegisterMember = () => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Text style={{ flex: 1 }}>Dang ky hoi vien</Text>
-
-        {/* <ButtonBorder
-          my_style={[style_common.input_border, { marginLeft: 5 }]}
-          label={'Quyen loi-Chinh sach'}
-          onPress={this._login}
-        /> */}
-        <TouchableOpacity
-          style={[style_common.input_border, { marginLeft: 5 }]}
-        >
-          <Text>Quyen loi-Chinh sach</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[style_common.input_border, { marginLeft: 5 }]}
-        >
-          <Text>Dang ky ngay</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   _renderFooter = () => {
     return (
       <View style={styles.content_footer}>
         <MenuItem
           title="Bài viết đã lưu"
           nameIcon="bookmark"
+          icon_color={COLOR.COLOR_SKY}
+          title_color={COLOR.COLOR_SKY}
           onPress={() => {}}
           style={styles.menu_bottom}
         />
         <MenuItem
           title="Cac hoi vien dang theo doi"
           nameIcon="user-plus"
+          icon_color={COLOR.COLOR_SKY}
+          title_color={COLOR.COLOR_SKY}
           onPress={() => {}}
           style={styles.menu_bottom}
         />
         <MenuItem
           title="Su kien da tham gia"
           nameIcon="calendar-check"
+          icon_color={COLOR.COLOR_SKY}
+          title_color={COLOR.COLOR_SKY}
           onPress={() => {}}
           style={styles.menu_bottom}
         />
@@ -305,11 +260,11 @@ class MyProfile extends Component {
   };
 
   render() {
-    console.log('render account');
+    console.log("render account");
     return (
       <KeyboardAvoidingView
         style={style_common.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        behavior={Platform.OS === "ios" ? "padding" : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView
@@ -319,8 +274,6 @@ class MyProfile extends Component {
           <View style={styles.parent}>
             {this._renderHeader()}
             {this._renderContent()}
-            {this._renderRegisterMember()}
-            {this._renderMember()}
             {this._renderFooter()}
           </View>
         </ScrollView>
@@ -331,7 +284,7 @@ class MyProfile extends Component {
 export default MyProfile;
 
 MyProfile.propTypes = {
-  userProfile: PropTypes.object.isRequired,
+  dataUser: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -345,18 +298,18 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   contain_avatar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   right_avatar: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+    flexDirection: "column",
+    justifyContent: "flex-start",
     flex: 1,
   },
   text_name: {
     color: COLOR.COLOR_SKY,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   text_input: {
     marginHorizontal: 60,
@@ -369,21 +322,21 @@ const styles = StyleSheet.create({
     height: 50,
   },
   view_login: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   view_fanpage: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
   content_footer: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
     flex: 1,
@@ -395,42 +348,42 @@ const styles = StyleSheet.create({
   text_info: {
     margin: 10,
   },
-  change_pass: { flexDirection: 'row', alignItems: 'center' },
+  change_pass: { flexDirection: "row", alignItems: "center" },
   icon_pass: {
     marginLeft: 10,
   },
   label_radio_group: {
     width: 100,
   },
-  radio_form: { justifyContent: 'space-around', flex: 1 },
+  radio_form: { justifyContent: "space-around", flex: 1 },
   menu_bottom: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 5,
   },
   icon_img: {
     width: 40,
     height: 30,
   },
-  text_area: { flex: 1, textAlignVertical: 'top', height: 100, marginTop: 10 },
+  text_area: { flex: 1, textAlignVertical: "top", height: 100, marginTop: 10 },
   text_address: { marginTop: 10 },
   action: {
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    alignSelf: "stretch",
+    justifyContent: "flex-end",
     marginBottom: 10,
     marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   btn_action: {
     marginLeft: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   btn_save: {
     marginLeft: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderColor: COLOR.COLOR_SKY,
     backgroundColor: COLOR.COLOR_SKY,
     borderRadius: 5,

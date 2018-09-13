@@ -33,11 +33,9 @@ class Message extends Component {
     if (UserProfile.length <= 0) {
       return null;
     }
-    console.log("userProfile", UserProfile);
     let ArrMsg = await loadMsgGroup({
       IntUserID: UserProfile.Value[0].IntUserID,
     });
-    console.log("ArrMsg", ArrMsg);
     if (ArrMsg.Error === null) {
       this.setState({
         ArrTinNhan: ArrMsg.ObjectResult,
@@ -52,6 +50,7 @@ class Message extends Component {
   };
 
   render() {
+    console.log("render message");
     return (
       <View style={style_common.container_white}>
         <SearchView
@@ -87,7 +86,7 @@ class Message extends Component {
             <FlatListCommon
               data={this.state.ArrTinNhan}
               type={TYPE.MESSAGE}
-              {...this.props}
+              navigation={this.props.navigation}
             />
           </View>
           <View
@@ -99,7 +98,7 @@ class Message extends Component {
             <FlatListCommon
               data={this.state.ArrChannel}
               type={TYPE.CHANNEL}
-              {...this.props}
+              navigation={this.props.navigation}
             />
           </View>
         </View>
