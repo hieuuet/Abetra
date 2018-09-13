@@ -1,4 +1,4 @@
-package com.starterkit;
+package com.pateco.aibetra;
 
 import android.app.Application;
 
