@@ -16,6 +16,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HashTagModal from "../components/HashTagModal";
+import {COLOR} from "../constant/Color";
 
 
 class TaoBaiViet extends Component {
@@ -154,6 +155,54 @@ class TaoBaiViet extends Component {
                         /> : null
 
                     }
+                    {
+                        this.state.isEvent ? <View>
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                                returnKeyType="next"
+                                placeholder="Tiêu đề sự kiện"
+                                onChangeText={(text) => this.setState({text})}
+                                style={{marginLeft: 5, padding: 0, borderWidth: 1,
+                                    borderColor: COLOR.BORDER_INPUT,
+                                    borderRadius: 5,
+                                    padding: 0,
+                                    marginHorizontal: 10
+
+                                }}
+                            />
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                                returnKeyType="next"
+                                placeholder="Thời gian"
+                                onChangeText={(text) => this.setState({text})}
+                                style={{marginTop: 10,marginLeft: 5, padding: 0, borderWidth: 1,
+                                    borderColor: COLOR.BORDER_INPUT,
+                                    borderRadius: 5,
+                                    padding: 0,
+                                    marginHorizontal: 10
+
+                                }}
+                            />
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                                returnKeyType="next"
+                                placeholder="Địa điểm"
+                                onChangeText={(text) => this.setState({text})}
+                                style={{marginTop: 10, marginLeft: 5, padding: 0, borderWidth: 1,
+                                    borderColor: COLOR.BORDER_INPUT,
+                                    borderRadius: 5,
+                                    padding: 0,
+                                    marginHorizontal: 10
+
+                                }}
+                            />
+
+                        </View> : null
+                    }
+
                     <Text style={{marginLeft: 10, color: 'black', marginTop: 10}}>Thêm vào bài viết</Text>
 
                     <View style={styles.view_border}>
@@ -182,6 +231,14 @@ class TaoBaiViet extends Component {
                                     <Text style={{marginLeft: 5, color: 'black'}}>#Sựkiện</Text>
                                 </View>
                             </TouchableOpacity>
+                            {
+                                this.state.isEvent ?
+                                    <TouchableOpacity onPress={() => this.setState({
+                                        isEvent: false
+                                    })}>
+                                        <Icon name="close" size={20} color="#E0E0E0"/>
+                                    </TouchableOpacity> : null
+                            }
 
                         </View>
 
