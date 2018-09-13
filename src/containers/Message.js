@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loadMsgGroup } from '../actions/loadMsgGroupActions';
-import { COLOR } from '../constant/Color';
-import style_common from '../style-common';
-import { ListChannel, ListMessage } from '../components/flatlist';
-import { ViewLoading, SearchView, TabView } from '../components/CommonView';
+import React, { Component } from "react";
+import { View, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { loadMsgGroup } from "../actions/loadMsgGroupActions";
+import { COLOR } from "../constant/Color";
+import style_common from "../style-common";
+import { FlatListCommon, TYPE } from "../components/FlatListCommon";
+import { ViewLoading, SearchView, TabView } from "../components/CommonView";
 class Message extends Component {
   constructor(props) {
     super(props);
@@ -14,10 +14,10 @@ class Message extends Component {
       ArrTinNhan: [],
       ArrChannel: [
         {
-          MsgGroupID: 'C925550C-FF2A-4C4D-BBA0-785AF34BDF05',
-          FullNameOrGroupName: 'Nguyen Viet Thinh',
-          Time: '',
-          Content: 'hi',
+          MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+          FullNameOrGroupName: "Nguyen Viet Thinh",
+          Time: "",
+          Content: "hi",
         },
       ],
       isLoading: false,
@@ -28,16 +28,16 @@ class Message extends Component {
   componentDidMount() {}
 
   _loadMsgGroup = async () => {
-    console.log('load msg gr');
+    console.log("load msg gr");
     const { loadMsgGroup, UserProfile } = this.props;
     if (UserProfile.length <= 0) {
       return null;
     }
-    console.log('userProfile', UserProfile);
+    console.log("userProfile", UserProfile);
     let ArrMsg = await loadMsgGroup({
       IntUserID: UserProfile.Value[0].IntUserID,
     });
-    console.log('ArrMsg', ArrMsg);
+    console.log("ArrMsg", ArrMsg);
     if (ArrMsg.Error === null) {
       this.setState({
         ArrTinNhan: ArrMsg.ObjectResult,
@@ -56,7 +56,7 @@ class Message extends Component {
       <View style={style_common.container_white}>
         <SearchView
           onPress={() => {
-            this.props.navigation.navigate('Search');
+            this.props.navigation.navigate("Search");
           }}
         />
         <View style={styles.tab}>
@@ -84,7 +84,11 @@ class Message extends Component {
               { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
             ]}
           >
-            <ListMessage dataMessage={this.state.ArrTinNhan} {...this.props} />
+            <FlatListCommon
+              data={this.state.ArrTinNhan}
+              type={TYPE.MESSAGE}
+              {...this.props}
+            />
           </View>
           <View
             style={[
@@ -92,7 +96,11 @@ class Message extends Component {
               { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
             ]}
           >
-            <ListChannel dataChannel={this.state.ArrChannel} {...this.props} />
+            <FlatListCommon
+              data={this.state.ArrChannel}
+              type={TYPE.CHANNEL}
+              {...this.props}
+            />
           </View>
         </View>
         {this._renderLoading()}
@@ -120,16 +128,16 @@ Message = connect(
 export default Message;
 const styles = StyleSheet.create({
   tab: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: COLOR.COLOR_WHITE,
   },
 
   text_tab: {
     color: COLOR.COLOR_BLACK,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   content: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
     bottom: 0,

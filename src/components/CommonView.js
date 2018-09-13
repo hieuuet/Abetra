@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,16 +6,16 @@ import {
   View,
   Image,
   ActivityIndicator,
-} from 'react-native';
-import { COLOR } from '../constant/Color';
-import { IMAGE } from '../constant/assets';
-import style_common from '../style-common';
-import PropTypes from 'prop-types';
+} from "react-native";
+import { COLOR } from "../constant/Color";
+import { IMAGE } from "../constant/assets";
+import style_common from "../style-common";
+import PropTypes from "prop-types";
 /**
  *
  * custom for button border
  */
-export const ButtonBorder = ({ label = '', onPress, my_style = {} }) => {
+export const ButtonBorder = ({ label = "", onPress, my_style = {} }) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.btn, my_style]}>
       <Text style={styles.txt}>{label}</Text>
@@ -46,13 +46,13 @@ export const ViewLoading = (isLoadingIndicator = true) => {
  * Buton for each tab
  */
 export const TabView = ({
-  label = '',
+  label = "",
   onPress,
   isActive = false,
   style = {},
 }) => {
-  console.log('style', style);
-  console.log('isActive', isActive);
+  console.log("style", style);
+  console.log("isActive", isActive);
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -75,11 +75,11 @@ TabView.propTypes = {
 /**
  * Header search view
  */
-export const SearchView = (onPress, style = {}) => {
+export const SearchView = ({ onPress, style = {} }) => {
   return (
     <TouchableOpacity
       style={[styles.container_search, style_common.card_view, style]}
-      onPress={onPress.onPress}
+      onPress={onPress}
     >
       <Image
         source={IMAGE.search_icon}
@@ -90,15 +90,18 @@ export const SearchView = (onPress, style = {}) => {
     </TouchableOpacity>
   );
 };
-
+SearchView.propTypes = {
+  onPress: PropTypes.func,
+  style: PropTypes.number,
+};
 const styles = StyleSheet.create({
   btn: {
     borderWidth: 1,
     borderColor: COLOR.BACKGROUND_BUTTON,
     backgroundColor: COLOR.BACKGROUND_BUTTON,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 8,
     minWidth: 100,
     shadowOffset: { width: 0, height: 2 },
@@ -114,17 +117,17 @@ const styles = StyleSheet.create({
     bottom: -10,
     left: -10,
     right: -10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
     zIndex: 1,
-    backgroundColor: 'rgba(52, 52, 52, 0.5)',
+    backgroundColor: "rgba(52, 52, 52, 0.5)",
   },
   container_search: {
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignSelf: "stretch",
+    justifyContent: "flex-start",
+    alignItems: "center",
     minHeight: 40,
     margin: 10,
     backgroundColor: COLOR.COLOR_GRAY,
@@ -135,11 +138,11 @@ const styles = StyleSheet.create({
   search: {
     width: 30,
     height: 30,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   text_tab: {
     color: COLOR.COLOR_BLACK,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

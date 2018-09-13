@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   StyleSheet,
@@ -6,18 +6,13 @@ import {
   TouchableOpacity,
   Platform,
   TextInput,
-} from 'react-native';
-import style_common from '../style-common';
-import { IMAGE } from '../constant/assets';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
-import { COLOR } from '../constant/Color';
-import { ViewLoading, TabView } from '../components/CommonView';
-import {
-  ListAccount,
-  ListBusiness,
-  ListMessage,
-  ListPost,
-} from '../components/flatlist';
+} from "react-native";
+import style_common from "../style-common";
+import { IMAGE } from "../constant/assets";
+import Icon from "react-native-vector-icons/dist/Ionicons";
+import { COLOR } from "../constant/Color";
+import { ViewLoading, TabView } from "../components/CommonView";
+import { FlatListCommon,TYPE } from "../components/FlatListCommon";
 
 export default class Search extends Component {
   constructor(props) {
@@ -27,34 +22,34 @@ export default class Search extends Component {
       tabIndex: 0,
       arrPost: [
         {
-          MsgGroupID: 'C925550C-FF2A-4C4D-BBA0-785AF34BDF05',
-          FullNameOrGroupName: 'Lo Van Kien',
-          Time: '',
-          Content: 'helo Hieu',
+          MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+          FullNameOrGroupName: "Lo Van Kien",
+          Time: "",
+          Content: "helo Hieu",
         },
       ],
       arrBussiness: [
         {
-          MsgGroupID: 'C925550C-FF2A-4C4D-BBA0-785AF34BDF05',
-          FullNameOrGroupName: 'Nguyen Viet Thinh',
-          Time: '',
-          Content: 'hi',
+          MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+          FullNameOrGroupName: "Nguyen Viet Thinh",
+          Time: "",
+          Content: "hi",
         },
       ],
       arrMessage: [
         {
-          MsgGroupID: 'C925550C-FF2A-4C4D-BBA0-785AF34BDF05',
-          FullNameOrGroupName: 'Nguyen Viet Bao',
-          Time: '',
-          Content: 'chao',
+          MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+          FullNameOrGroupName: "Nguyen Viet Bao",
+          Time: "",
+          Content: "chao",
         },
       ],
       arrAccount: [
         {
-          MsgGroupID: 'C925550C-FF2A-4C4D-BBA0-785AF34BDF05',
-          FullNameOrGroupName: 'Nguyen Van Hieu',
-          Time: '',
-          Content: '',
+          MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+          FullNameOrGroupName: "Nguyen Van Hieu",
+          Time: "",
+          Content: "",
         },
       ],
     };
@@ -72,7 +67,7 @@ export default class Search extends Component {
           <Icon
             style={styles.back}
             name={
-              Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'
+              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
             }
             color="#000000"
             size={30}
@@ -82,7 +77,7 @@ export default class Search extends Component {
           <TouchableOpacity
             style={styles.btn_search}
             onPress={() => {
-              alert('start search');
+              alert("start search");
             }}
           >
             <Image
@@ -96,7 +91,7 @@ export default class Search extends Component {
             autoCapitalize="none"
             returnKeyType="done"
             numberOfLines={1}
-            placeholder={'Tim kiem'}
+            placeholder={"Tim kiem"}
             onChangeText={(text) => {}}
             style={styles.text_input}
             onSubmitEditing={(event) => {}}
@@ -153,7 +148,7 @@ export default class Search extends Component {
             { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
           ]}
         >
-          <ListPost dataPost={this.state.arrPost} {...this.props} />
+          <FlatListCommon data={this.state.arrPost} type={TYPE.POST} {...this.props} />
         </View>
         <View
           style={[
@@ -161,10 +156,7 @@ export default class Search extends Component {
             { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
           ]}
         >
-          <ListBusiness
-            dataBusiness={this.state.arrBussiness}
-            {...this.props}
-          />
+          <FlatListCommon data={this.state.arrBussiness} type={TYPE.BUSINESS} {...this.props} />
         </View>
         <View
           style={[
@@ -172,7 +164,7 @@ export default class Search extends Component {
             { zIndex: this.state.tabIndex === 2 ? 1 : 0 },
           ]}
         >
-          <ListMessage dataMessage={this.state.arrMessage} {...this.props} />
+          <FlatListCommon data={this.state.arrMessage} type={TYPE.MESSAGE} {...this.props} />
         </View>
         <View
           style={[
@@ -180,7 +172,7 @@ export default class Search extends Component {
             { zIndex: this.state.tabIndex === 3 ? 1 : 0 },
           ]}
         >
-          <ListAccount dataAccount={this.state.arrAccount} {...this.props} />
+          <FlatListCommon data={this.state.arrAccount} type={TYPE.ACCOUNT} {...this.props} />
         </View>
       </View>
     );
@@ -205,30 +197,30 @@ export default class Search extends Component {
 const styles = StyleSheet.create({
   header: {
     minHeight: 50,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     backgroundColor: COLOR.COLOR_GRAY,
     borderRadius: 0,
   },
   search_border: {
     borderRadius: 2,
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
   },
   search_icon: {
     width: 30,
     height: 30,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   back: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginLeft: 10,
     marginRight: 10,
   },
   btn_search: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   text_input: {
     flex: 1,
@@ -236,16 +228,16 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   tab: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: COLOR.COLOR_WHITE,
   },
 
   text_tab: {
     color: COLOR.COLOR_BLACK,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   content: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
     bottom: 0,

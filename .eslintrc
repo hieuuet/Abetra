@@ -28,7 +28,7 @@
     "no-var": "warn",
     "prefer-spread": "warn",
     "prefer-template": "warn",
-    "quotes": ["error", "single"],
+    "quotes": ["off", "single"],
     "require-yield": "error",
     "semi": "error",
     "arrow-parens": "warn",
