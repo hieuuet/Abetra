@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import _ from "lodash";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
@@ -11,12 +20,51 @@ import PhotoGrid from "../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../components/MenuItem";
 import { ButtonBorder } from "../../components/CommonView";
+import EditTags from "./EditTags";
 
 class Member extends Component {
   constructor(props) {
     super(props);
 
     this.isMember = true;
+    this.allTags = [
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+      {
+        hashtag: "#FoodMessage",
+      },
+    ];
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -51,56 +99,84 @@ class Member extends Component {
 
   _renderMember = () => {
     return (
-      <View style={styles.container}>
-        <Text
-          style={{
-            alignSelf: "stretch",
-            textAlign: "center",
-            color: COLOR.COLOR_ORANGE,
-            fontWeight: "bold",
-          }}
+      <KeyboardAvoidingView
+        style={style_common.container}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={64}
+      >
+        <ScrollView
+          style={style_common.container}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
-          HỘI VIÊN VÀNG
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <Text style={style_common.text_color_base}>
-              Ngày đăng ký: 01-01-2018
-            </Text>
-            <Text style={style_common.text_color_base}>
-              Ngày hết hạn: 01-01-2019
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("Benifet");
+          <View style={styles.container}>
+            <Text
+              style={{
+                alignSelf: "stretch",
+                textAlign: "center",
+                color: COLOR.COLOR_ORANGE,
+                fontWeight: "bold",
               }}
             >
-              <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("Benifet");
+              HỘI VIÊN VÀNG
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Text style={styles.text_link}>
-                Tham khảo quyền lợi chính sách hội viên
+              <View style={{ flex: 1 }}>
+                <Text style={style_common.text_color_base}>
+                  Ngày đăng ký: 01-01-2018
+                </Text>
+                <Text style={style_common.text_color_base}>
+                  Ngày hết hạn: 01-01-2019
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("Benifet");
+                  }}
+                >
+                  <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("Benifet");
+                  }}
+                >
+                  <Text style={styles.text_link}>
+                    Tham khảo quyền lợi chính sách hội viên
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Image
+                source={IMAGE.logo}
+                resizeMode="cover"
+                style={styles.avatar}
+              />
+            </View>
+            <View style={style_common.line} />
+            <EditTags data={this.allTags} />
+            <View style={style_common.line} />
+            <Text style={style_common.text_color_base}>Đăng bài viết mới</Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("TaoBaiViet")}
+              style={styles.btn_create_post}
+            >
+              <Text style={style_common.text_color_base}>
+                Nội dung bài viết
               </Text>
             </TouchableOpacity>
+            <Text style={style_common.text_color_base}>Bài viết đã tạo</Text>
+
+            {/* Tạo flatlist bài viết ở đây */}
           </View>
-          <Image source={IMAGE.logo} resizeMode="cover" style={styles.avatar} />
-        </View>
-        <View
-          style={{ height: 1, backgroundColor: COLOR.COLOR_GRAY, marginTop: 5 }}
-        />
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   };
+
   render() {
     return this.isMember ? this._renderMember() : this._renderRegisterMember();
   }
@@ -131,5 +207,17 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+  },
+  btn_create_post: {
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    paddingLeft: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: COLOR.COLOR_GRAY,
+    backgroundColor: COLOR.COLOR_WHITE,
+    borderRadius: 25,
+    minHeight: 40,
   },
 });

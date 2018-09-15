@@ -15,7 +15,7 @@ import {
 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HashTagModal from "../components/HashTagModal";
+import HashTagModal from "../components/hashtag/HashTagModal";
 import {COLOR} from "../constant/Color";
 
 

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { COLOR } from '../constant/Color';
+import { StyleSheet } from "react-native";
+import { COLOR } from "../constant/Color";
 //eslint-disable-next-line
 export default (style = StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export default (style = StyleSheet.create({
   },
 
   content_horizontal: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
   },
   card_view: {
@@ -23,8 +23,8 @@ export default (style = StyleSheet.create({
     shadowOpacity: 0.8,
     borderRadius: 2,
     borderWidth: 1,
-    borderColor: '#ddd',
-    shadowColor: '#000',
+    borderColor: "#ddd",
+    shadowColor: "#000",
   },
   img_logo: {
     width: 50,
@@ -33,21 +33,21 @@ export default (style = StyleSheet.create({
   },
   content_center: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   input_border: {
     borderWidth: 1,
     borderColor: COLOR.BORDER_INPUT,
     borderRadius: 5,
     padding: 5,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   wrapper: {
     flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
   },
   text_color_base: {
     color: COLOR.COLOR_BLACK,
@@ -58,8 +58,8 @@ export default (style = StyleSheet.create({
     minHeight: 40,
     borderWidth: 1,
     borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: COLOR.COLOR_SKY,
     borderColor: COLOR.COLOR_SKY,
   },
@@ -69,9 +69,14 @@ export default (style = StyleSheet.create({
     minHeight: 40,
     borderRadius: 2,
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderColor: COLOR.COLOR_GRAY,
     backgroundColor: COLOR.COLOR_GRAY,
+  },
+  line: {
+    height: 1,
+    backgroundColor: COLOR.COLOR_GRAY,
+    marginTop: 5,
   },
 }));

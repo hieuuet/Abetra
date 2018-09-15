@@ -40,9 +40,7 @@ class MyProfile extends Component {
     ];
 
     //get dataUser
-    this.dataUser = this.props.dataUser
-      ? this.props.dataUser
-      : undefined;
+    this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
 
     this.dataImage = [
       "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
@@ -161,18 +159,14 @@ class MyProfile extends Component {
         <EditView
           label={strings("profile.email")}
           text_edit={
-            this.dataUser && this.dataUser.Email
-              ? this.dataUser.Email
-              : ""
+            this.dataUser && this.dataUser.Email ? this.dataUser.Email : ""
           }
           isEditAble={true}
         />
         <EditView
           label={strings("profile.mobile")}
           text_edit={
-            this.dataUser && this.dataUser.Phone
-              ? this.dataUser.Phone
-              : ""
+            this.dataUser && this.dataUser.Phone ? this.dataUser.Phone : ""
           }
           isEditAble={true}
         />
@@ -186,8 +180,7 @@ class MyProfile extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={strings("login.placeholder.input_pass")}
-          ref="pass"
+          placeholder={"Địa chỉ"}
           onChangeText={(text) => {}}
           style={[style_common.input_border, styles.text_address]}
         />
@@ -197,7 +190,11 @@ class MyProfile extends Component {
           returnKeyType="done"
           numberOfLines={5}
           multiline={true}
-          placeholder={strings("login.placeholder.input_phone")}
+          placeholder={`Giới thiệu về ${
+            this.dataUser && this.dataUser.FullName
+              ? this.dataUser.FullName
+              : ""
+          }`}
           onChangeText={(text) => {}}
           style={[style_common.input_border, styles.text_area]}
           onSubmitEditing={(event) => {}}
@@ -223,6 +220,7 @@ class MyProfile extends Component {
           width={width - 20}
           height={width / 1.5}
           ratio={0.5}
+          navigation={this.props.navigation}
         />
       </View>
     );
@@ -285,6 +283,7 @@ export default MyProfile;
 
 MyProfile.propTypes = {
   dataUser: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

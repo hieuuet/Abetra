@@ -22,6 +22,7 @@ import TaoBaiViet from "../containers/TaoBaiViet";
 import Search from "../containers/Search";
 import Profile from "../containers/user-manage/Profile";
 import Benifet from "../containers/Benifet";
+import ImageDetail from "../containers/ImageDetail";
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -118,6 +119,7 @@ const RootStack = createStackNavigator({
     screen: Profile,
     navigationOptions: {},
   },
+
   Search: {
     screen: Search,
     navigationOptions: {
@@ -169,6 +171,12 @@ const RootStack = createStackNavigator({
   },
   TaoBaiViet: {
     screen: TaoBaiViet,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  ImageDetail: {
+    screen: ImageDetail,
     navigationOptions: {
       header: null,
     },
