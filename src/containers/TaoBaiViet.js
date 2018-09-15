@@ -11,12 +11,14 @@ import {
     Button, StyleSheet,
     Keyboard,
     FlatList,
-    Dimensions
+    Dimensions,
+    NativeModules
 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HashTagModal from "../components/hashtag/HashTagModal";
 import {COLOR} from "../constant/Color";
+var ImagePicker = NativeModules.ImageCropPicker;
 
 
 class TaoBaiViet extends Component {
@@ -42,6 +44,29 @@ class TaoBaiViet extends Component {
         }
 
 
+    }
+    pickMultiple() {
+        let ArrImage =[]
+        ImagePicker.openPicker({
+            multiple: true,
+            waitAnimationEnd: false,
+            includeBase64: true,
+            includeExif: true,
+            forceJpg: true,
+        }).then(images => {
+
+
+            this.setState({
+                image: null,
+                images: images.map(i => {
+                    // this._uploadImage(i.data)
+                    // this._uploadImageTMP(i.data)
+                    return {uri: i.path, base64: i.data};
+                }, () => {
+                    console.log('linkImg', this.state.linkImg)
+                })
+            });
+        }).catch(e => alert(e));
     }
     // show modal
     setModalVisible = (visible) => {
@@ -94,6 +119,29 @@ class TaoBaiViet extends Component {
                     </View>
 
                 </View>
+                {
+                    this.state.images ?
+                        <FlatList
+                            data={this.state.images}
+                            // horizontal={true}
+                            // style = {{marginLeft: 0}}
+                            numColumns = {5}
+                            renderItem={({item}) => {
+                                return (
+                                    <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 6}}>
+                                        <Image style={styles.image_circle}
+                                               source={item}
+                                               resizeMode="cover"
+                                        >
+                                        </Image>
+                                    </View>
+                                )
+                            }}
+                            extraData={this.state}
+                            keyExtractor={(item, index) => index.toString()}
+
+                        /> : null
+                }
                 <View style={styles.view_bottom}>
                     {
                         this.state.isVote ? <FlatList
@@ -163,7 +211,7 @@ class TaoBaiViet extends Component {
                                 returnKeyType="next"
                                 placeholder="Tiêu đề sự kiện"
                                 onChangeText={(text) => this.setState({text})}
-                                style={{marginLeft: 5, padding: 0, borderWidth: 1,
+                                style={{marginLeft: 5, borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
                                     padding: 0,
@@ -177,7 +225,7 @@ class TaoBaiViet extends Component {
                                 returnKeyType="next"
                                 placeholder="Thời gian"
                                 onChangeText={(text) => this.setState({text})}
-                                style={{marginTop: 10,marginLeft: 5, padding: 0, borderWidth: 1,
+                                style={{marginTop: 10,marginLeft: 5,borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
                                     padding: 0,
@@ -191,7 +239,7 @@ class TaoBaiViet extends Component {
                                 returnKeyType="next"
                                 placeholder="Địa điểm"
                                 onChangeText={(text) => this.setState({text})}
-                                style={{marginTop: 10, marginLeft: 5, padding: 0, borderWidth: 1,
+                                style={{marginTop: 10, marginLeft: 5,  borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
                                     padding: 0,
@@ -246,7 +294,7 @@ class TaoBaiViet extends Component {
                             <Image source={require("../../assets/emoji.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
                             <Image source={require("../../assets/image_icon.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
@@ -325,5 +373,11 @@ const styles = StyleSheet.create({
         minHeight: 30,
         justifyContent: 'space-between',
         alignItems: 'center'
-    }
+    },
+    image_circle: {
+        height: DEVICE_WIDTH / 6 + 20,
+        width: DEVICE_WIDTH / 6,
+        // borderRadius: DEVICE_WIDTH / 12,
+
+    },
 })

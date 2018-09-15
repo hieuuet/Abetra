@@ -17,6 +17,7 @@
     "react-native-fbsdk": "^0.7.0",
     "react-native-fcm": "^16.2.0",
     "react-native-i18n": "^2.0.15",
+    "react-native-image-crop-picker": "^0.21.1",
     "react-native-image-placeholder": "^1.0.14",
     "react-native-read-more-text": "^1.1.0",
     "react-native-text-input-reset": "^1.0.2",
