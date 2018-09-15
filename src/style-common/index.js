@@ -78,5 +78,12 @@ export default (style = StyleSheet.create({
     height: 1,
     backgroundColor: COLOR.COLOR_GRAY,
     marginTop: 5,
+    marginBottom: 5,
+  },
+  text_h1: {
+    color: COLOR.COLOR_BLACK,
+    marginTop: 10,
+    marginBottom: 10,
+    fontWeight: "bold",
   },
 }));

@@ -12,13 +12,7 @@ import {
 import _ from "lodash";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
-import EditView from "./EditView";
 import { COLOR } from "../../constant/Color";
-import { strings } from "../../i18n";
-import RadioForm from "../../components/SimpleRadioButton";
-import PhotoGrid from "../../components/PhotoGrid";
-import Icon from "react-native-vector-icons/dist/FontAwesome5";
-import MenuItem from "../../components/MenuItem";
 import { ButtonBorder } from "../../components/CommonView";
 import EditTags from "./EditTags";
 
@@ -91,7 +85,7 @@ class Member extends Component {
           my_style={[style_common.input_border, styles.btn_register]}
           text_style={styles.text_btn}
           label={"Đăng ký ngay"}
-          onPress={() => {}}
+          onPress={() => this.props.navigation.navigate("RegisterMember")}
         />
       </View>
     );
@@ -106,27 +100,12 @@ class Member extends Component {
       >
         <ScrollView
           style={style_common.container}
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={styles.scroll_view}
         >
           <View style={styles.container}>
-            <Text
-              style={{
-                alignSelf: "stretch",
-                textAlign: "center",
-                color: COLOR.COLOR_ORANGE,
-                fontWeight: "bold",
-              }}
-            >
-              HỘI VIÊN VÀNG
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flex: 1 }}>
+            <Text style={styles.text_h1}>HỘI VIÊN VÀNG</Text>
+            <View style={styles.wrap_header}>
+              <View style={style_common.container}>
                 <Text style={style_common.text_color_base}>
                   Ngày đăng ký: 01-01-2018
                 </Text>
@@ -219,5 +198,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE,
     borderRadius: 25,
     minHeight: 40,
+  },
+  text_h1: {
+    alignSelf: "stretch",
+    textAlign: "center",
+    color: COLOR.COLOR_ORANGE,
+    fontWeight: "bold",
+  },
+  scroll_view: { flexGrow: 1 },
+  wrap_header: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

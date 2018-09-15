@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import HashTagEdit from "../../components/hashtag/HashTagEdit";
@@ -45,6 +45,7 @@ class EditTags extends Component {
         <HashTagEdit
           data={this.props.data}
           editable={this.state.editable}
+          selectable
           onSubmitEdit={this.onSubmitEditTag}
           onPressItemTag={this.onPressItemTag}
           numColumns={2}

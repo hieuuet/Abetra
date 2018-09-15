@@ -23,6 +23,7 @@ import Search from "../containers/Search";
 import Profile from "../containers/user-manage/Profile";
 import Benifet from "../containers/Benifet";
 import ImageDetail from "../containers/ImageDetail";
+import RegisterMember from "../containers/user-manage/RegisterMember";
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -115,6 +116,10 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
+  RegisterMember: {
+    screen: RegisterMember,
+  },
+
   Profile: {
     screen: Profile,
     navigationOptions: {},

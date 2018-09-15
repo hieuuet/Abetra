@@ -7,7 +7,7 @@ export const COLOR = {
   COLOR_WHITE: "#ffffff",
   COLOR_YELLOW: "#f9a825",
   COLOR_SKY: "#0081cb",
-  COLOR_GRAY: "#efebe9",
+  COLOR_GRAY: "#eeeeee",
   COLOR_GREEN1: "#00c853",
   COLOR_ORANGE: "#ff9100",
   COLOR_TAG: "#b2dfdb",

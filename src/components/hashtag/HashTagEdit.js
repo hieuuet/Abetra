@@ -15,16 +15,21 @@ export default class HashTagEdit extends Component {
   constructor(props) {
     super(props);
 
+    _.forEach(this.props.data, (tag) => {
+      tag.select = false;
+    });
+
+    this.state = {
+      data: this.props.data,
+    };
+
     const widthTag = parseInt((width - 20) / this.props.numColumns);
     this.style_edit = {
       width: widthTag - 10,
       color: COLOR.COLOR_BLACK,
     };
-
-    this.latetestData = this.props.data;
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps, this.props)) return false;
     return true;
   }
   onChangeItem = (textChange, index) => {
@@ -32,14 +37,21 @@ export default class HashTagEdit extends Component {
       this.tempData[index] = textChange;
     }
   };
-
+  onPress = (index, tagSelected) => {
+    if (this.props.selectable) {
+      const currentState = this.props.data[index].select;
+      const stateCoppy = [...this.state.data];
+      stateCoppy[index].select = !currentState;
+      this.setState({ data: stateCoppy });
+    }
+    this.props.onPressItemTag;
+  };
   _renderItemTag = (itemTag) => {
-    // console.log("render item", itemTag);
     return (
       <View key={itemTag.index} style={styles.containerTag}>
         <TouchableOpacity
-          onPress={this.props.onPressItemTag}
-          style={styles.bg_btn}
+          onPress={() => this.onPress(itemTag.index, itemTag.item.hashtag)}
+          style={itemTag.item.select ? styles.bg_select : styles.bg_unselect}
         >
           <TextInput
             underlineColorAndroid="transparent"
@@ -60,7 +72,7 @@ export default class HashTagEdit extends Component {
     console.log("render flatlist tag");
     return (
       <FlatList
-        data={this.props.data}
+        data={this.state.data}
         numColumns={this.props.numColumns}
         snapToAlignment={"center"}
         renderItem={this._renderItemTag}
@@ -73,12 +85,14 @@ HashTagEdit.propTypes = {
   data: PropTypes.array.isRequired,
   onPressItemTag: PropTypes.func,
   editable: PropTypes.bool.isRequired,
+  selectable: PropTypes.bool.isRequired,
   numColumns: PropTypes.number,
 };
 
 HashTagEdit.defaultProps = {
   numColumns: 3,
   editable: false,
+  selectable: false,
 };
 
 const styles = StyleSheet.create({
@@ -87,9 +101,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 5,
   },
-  bg_btn: {
+  bg_unselect: {
     borderRadius: 25,
     backgroundColor: COLOR.COLOR_TAG,
+    flexDirection: "row",
+  },
+  bg_select: {
+    borderRadius: 25,
+    backgroundColor: COLOR.COLOR_ORANGE,
     flexDirection: "row",
   },
 });
