@@ -5,6 +5,10 @@ import {loadUserProfile} from './loadUserProfileReducers'
 import {createMsgGroup} from './createMsgGroupReducers'
 import {loadMsgGroup} from './loadMsgGroupReducers'
 import {detailMsg} from './detailMsgReducers'
+import { getTopPost } from './getTopPostReducers'
+import { createPost } from './createPostReducers'
+import { createCmt } from './createCmtReducers'
+import { searchCmt } from './searchCmtReducers'
 
 
 const appStore = combineReducers({
@@ -13,7 +17,12 @@ const appStore = combineReducers({
     loadUserProfile,
     createMsgGroup,
     loadMsgGroup,
-    detailMsg
+    detailMsg,
+    getTopPost,
+    createPost,
+    createCmt,
+    searchCmt
+
 
 })
 export default appStore
