@@ -10,18 +10,11 @@ import {
   ScrollView,
 } from "react-native";
 import _ from "lodash";
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
-import EditView from "./EditView";
-import { COLOR } from "../../constant/Color";
-import { strings } from "../../i18n";
-import RadioForm from "../../components/SimpleRadioButton";
-import PhotoGrid from "../../components/PhotoGrid";
-import Icon from "react-native-vector-icons/dist/FontAwesome5";
-import MenuItem from "../../components/MenuItem";
-import { ButtonBorder } from "../../components/CommonView";
-import EditTags from "./EditTags";
-import HashTagEdit from "../../components/hashtag/HashTagEdit";
+import style_common from "../../../style-common";
+import { COLOR } from "../../../constant/Color";
+import RadioForm from "../../../components/SimpleRadioButton";
+import { ButtonBorder } from "../../../components/CommonView";
+import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 
 class RegisterMember extends Component {
   constructor(props) {
@@ -67,9 +60,9 @@ class RegisterMember extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))
-      return false;
-    return true;
+    return !(
+      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
+    );
   }
 
   onPressItemTag = () => {};

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import PropTypes from "prop-types";
-import { COLOR } from "../../constant/Color";
+import { COLOR } from "../../../constant/Color";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
 
 class EditView extends React.PureComponent {

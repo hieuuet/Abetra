@@ -10,42 +10,18 @@ import {
   ScrollView,
 } from "react-native";
 import _ from "lodash";
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
-import { COLOR } from "../../constant/Color";
-import { ButtonBorder } from "../../components/CommonView";
-import EditTags from "./EditTags";
+import { IMAGE } from "../../../constant/assets";
+import style_common from "../../../style-common";
+import { COLOR } from "../../../constant/Color";
+import { ButtonBorder } from "../../../components/CommonView";
+import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 
-class Member extends Component {
+class MyProfileTab2 extends Component {
   constructor(props) {
     super(props);
 
     this.isMember = true;
     this.allTags = [
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
       {
         hashtag: "#FoodMessage",
       },
@@ -65,6 +41,7 @@ class Member extends Component {
     if (_.isEqual(nextProps, this.props)) return false;
     return true;
   }
+  onEditTags = () => {};
 
   _renderRegisterMember = () => {
     return (
@@ -136,7 +113,21 @@ class Member extends Component {
               />
             </View>
             <View style={style_common.line} />
-            <EditTags data={this.allTags} />
+            <View style={styles.container_title}>
+              <Text style={styles.text_title}>Lĩnh vực hoạt động</Text>
+              <ButtonBorder
+                my_style={[style_common.input_border, styles.btn_save]}
+                text_style={styles.text_btn}
+                label={"Sửa"}
+                onPress={this.onEditTags}
+              />
+            </View>
+            <HashTagEdit
+              data={this.allTags}
+              selectable={false}
+              numColumns={2}
+              ref="hashTag"
+            />
             <View style={style_common.line} />
             <Text style={style_common.text_color_base}>Đăng bài viết mới</Text>
             <TouchableOpacity
@@ -161,7 +152,7 @@ class Member extends Component {
   }
 }
 
-export default Member;
+export default MyProfileTab2;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -210,5 +201,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  container_title: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  btn_save: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+    minWidth: 80,
+    minHeight: 40,
+    backgroundColor: COLOR.COLOR_GRAY,
+    borderColor: COLOR.COLOR_GRAY,
+  },
+  text_title: {
+    flex: 1,
+    marginRight: 5,
+    color: COLOR.COLOR_BLACK,
   },
 });

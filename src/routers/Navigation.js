@@ -20,10 +20,13 @@ import BinhLuan from "../containers/BinhLuan";
 import VerifyAccount from "../containers/app-auth/VerifyAccount";
 import TaoBaiViet from "../containers/TaoBaiViet";
 import Search from "../containers/Search";
-import Profile from "../containers/user-manage/Profile";
 import Benifet from "../containers/Benifet";
 import ImageDetail from "../containers/ImageDetail";
-import RegisterMember from "../containers/user-manage/RegisterMember";
+import {
+  MemberProfile,
+  Profile,
+  RegisterMember,
+} from "../containers/user-manage";
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -116,13 +119,16 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
-  RegisterMember: {
-    screen: RegisterMember,
+  MemberProfile: {
+    screen: MemberProfile,
   },
-
   Profile: {
     screen: Profile,
     navigationOptions: {},
+  },
+
+  RegisterMember: {
+    screen: RegisterMember,
   },
 
   Search: {

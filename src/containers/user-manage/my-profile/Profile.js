@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import style_common from "../../style-common";
-import { ViewLoading, TabView } from "../../components/CommonView";
-import { COLOR } from "../../constant/Color";
-import MyProfile from "./MyProfile";
+import style_common from "../../../style-common";
+import { ViewLoading, TabView } from "../../../components/CommonView";
+import { COLOR } from "../../../constant/Color";
+import MyProfileTab1 from "./MyProfileTab1";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../actions/loadUserProfileActions";
-import Member from "./Member";
+import { loadUserProfile } from "../../../actions/loadUserProfileActions";
+import MyProfileTab2 from "./MyProfileTab2";
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -99,7 +99,7 @@ class Profile extends Component {
               { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
             ]}
           >
-            <MyProfile
+            <MyProfileTab1
               dataUser={this.userProfile}
               navigation={this.props.navigation}
             />
@@ -110,7 +110,7 @@ class Profile extends Component {
               { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
             ]}
           >
-            <Member navigation={this.props.navigation} />
+            <MyProfileTab2 navigation={this.props.navigation} />
           </View>
         </View>
         {this._renderLoading()}

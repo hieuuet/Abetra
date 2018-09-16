@@ -69,15 +69,17 @@ export default class HashTagEdit extends Component {
     );
   };
   render() {
-    console.log("render flatlist tag");
+    console.log("render flatlist tag", this.state.data);
     return (
-      <FlatList
-        data={this.state.data}
-        numColumns={this.props.numColumns}
-        snapToAlignment={"center"}
-        renderItem={this._renderItemTag}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <View >
+        <FlatList
+          data={this.state.data}
+          numColumns={this.props.numColumns}
+          snapToAlignment={"center"}
+          renderItem={this._renderItemTag}
+          keyExtractor={(item, index) => index}
+        />
+      </View>
     );
   }
 }

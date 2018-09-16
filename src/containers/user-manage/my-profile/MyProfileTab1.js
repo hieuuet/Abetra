@@ -12,21 +12,21 @@ import {
   Dimensions,
 } from "react-native";
 
-import { IMAGE } from "../../constant/assets";
-import style_common from "../../style-common";
+import { IMAGE } from "../../../constant/assets";
+import style_common from "../../../style-common";
 import EditView from "./EditView";
-import { COLOR } from "../../constant/Color";
-import { strings } from "../../i18n";
-import RadioForm from "../../components/SimpleRadioButton";
-import PhotoGrid from "../../components/PhotoGrid";
+import { COLOR } from "../../../constant/Color";
+import { strings } from "../../../i18n";
+import RadioForm from "../../../components/SimpleRadioButton";
+import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
-import MenuItem from "../../components/MenuItem";
+import MenuItem from "../../../components/MenuItem";
 import _ from "lodash";
 const { width } = Dimensions.get("window");
 
 import Ionicon from "react-native-vector-icons/dist/Ionicons";
 import PropTypes from "prop-types";
-class MyProfile extends Component {
+class MyProfileTab1 extends Component {
   constructor(props) {
     super(props);
 
@@ -279,9 +279,9 @@ class MyProfile extends Component {
     );
   }
 }
-export default MyProfile;
+export default MyProfileTab1;
 
-MyProfile.propTypes = {
+MyProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired
 };
