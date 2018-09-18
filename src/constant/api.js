@@ -17,6 +17,9 @@ export const API = {
     CREATE_CMT: URL_BASE + "/api/Comment/CreateComment",
     SEARCH_CMT: URL_BASE + "/api/Comment/SearchComment",
 
+    //Image
+    UPLOAD_IMAGE: URL_BASE + "/api/FaceHomeIO/UploadListImage",
+
 
     //Api realtime
     CREATE_MSG_GROUP: URL_REALTIME + "/socket/createmsggroups",

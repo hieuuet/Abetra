@@ -13,15 +13,18 @@ import {
   Keyboard,
   FlatList,
   Dimensions,
-  NativeModules,
-  BackHandler
+  NativeModules
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import HashTagModal from "../components/hashtag/HashTagModal";
-import { COLOR } from "../constant/Color";
+import HashTagModal from "../../components/hashtag/HashTagModal";
+import { COLOR } from "../../constant/Color";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { uploadImage } from "../../actions/uploadImageActions";
+import { createPost } from "../../actions/createPostActions";
 var ImagePicker = NativeModules.ImageCropPicker;
 
-class TaoBaiViet extends Component {
+class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,20 +43,22 @@ class TaoBaiViet extends Component {
       ]
     };
   }
-
-  componentDidMount() {
-    this.reLoadProfile();
-
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.refs.modal && this.refs.modal.state.isOpen) {
-        this.refs.modal.close();
-        return true;
-      }
+  //upload Image
+  _uploadImage = async (arrImage = []) => {
+    console.log("arrImage", arrImage);
+    const { UserProfile, uploadImage } = this.props;
+    if (UserProfile.length <= 0) {
+      return null;
+    }
+    // console.log('UserProfile', UserProfile.Value[0].UserID)
+    let linkImage = await uploadImage({
+      user_id: UserProfile.Value[0].UserID,
+      base64Datas: arrImage,
+      LangID: 129,
+      lang_name: "vi_VN"
     });
-  }
-  componentWillUnmount() {
-    this.backHandler.remove();
-  }
+    console.log("linkImage", linkImage);
+  };
   pickMultiple() {
     let ArrImage = [];
     ImagePicker.openPicker({
@@ -64,22 +69,56 @@ class TaoBaiViet extends Component {
       forceJpg: true
     })
       .then(images => {
-        this.setState({
-          image: null,
-          images: images.map(
-            i => {
-              // this._uploadImage(i.data)
-              // this._uploadImageTMP(i.data)
+        // console.log('images', images)
+
+        this.setState(
+          {
+            image: null,
+            images: images.map(i => {
+              ArrImage.push(i.data);
+              // console.log('i.data', i.data)
+              console.log("ArrImage", ArrImage);
+
               return { uri: i.path, base64: i.data };
-            },
-            () => {
-              console.log("linkImg", this.state.linkImg);
-            }
-          )
-        });
+            })
+          },
+          () => this._uploadImage(ArrImage)
+        );
       })
       .catch(e => alert(e));
   }
+  //create post
+  _createPost = async () => {
+    const { UserProfile, createPost } = this.props;
+    if (UserProfile.length <= 0) {
+      return null;
+    }
+    let post = await createPost({
+      ProfileID: UserProfile.Value[0].UserID,
+      UserID: "sample string 2",
+      UserType: 64,
+      FullName: "sample string 4",
+      Avatar: "sample string 5",
+      Images: "sample string 6",
+      Videos: "sample string 7",
+      Post_content: "sample string 8",
+      Pin: 64,
+      Type: 10,
+      ltPoll: [
+        {
+          OptionContent: "sample string 1"
+        },
+        {
+          OptionContent: "sample string 1"
+        }
+      ],
+      Target: "sample string 11",
+      DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
+      IsAdvs: 64,
+      LangID: 14,
+      lang_name: "sample string 15"
+    });
+  };
   // show modal
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
@@ -92,7 +131,7 @@ class TaoBaiViet extends Component {
       isEvent: false
     });
   };
-  showEvent;
+  //showEvent
   _createEvent = () => {
     this.setState({
       isVote: false,
@@ -112,8 +151,6 @@ class TaoBaiViet extends Component {
   };
 
   render() {
-    console.log("isVote", this.state.isVote);
-
     return (
       <View style={styles.view_container}>
         <View>
@@ -208,7 +245,7 @@ class TaoBaiViet extends Component {
                       >
                         <TouchableOpacity onPress={() => this.Push(index)}>
                           <Image
-                            source={require("../images/insert.png")}
+                            source={require("../../images/insert.png")}
                             style={{
                               height: 25,
                               width: 25
@@ -323,14 +360,14 @@ class TaoBaiViet extends Component {
 
             <TouchableOpacity>
               <Image
-                source={require("../../assets/emoji.png")}
+                source={require("../../../assets/emoji.png")}
                 style={styles.button_image}
                 resizeMode="cover"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
               <Image
-                source={require("../../assets/image_icon.png")}
+                source={require("../../../assets/image_icon.png")}
                 style={styles.button_image}
                 resizeMode="cover"
               />
@@ -341,7 +378,7 @@ class TaoBaiViet extends Component {
               }}
             >
               <Image
-                source={require("../../assets/hashtag.png")}
+                source={require("../../../assets/hashtag.png")}
                 style={styles.button_image}
                 resizeMode="cover"
               />
@@ -361,8 +398,24 @@ class TaoBaiViet extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    UserProfile: state.loadUserProfile
+  };
+};
 
-export default TaoBaiViet;
+const mapDispatchToProps = dispatch => {
+  return {
+    uploadImage: bindActionCreators(uploadImage, dispatch),
+    createPost: bindActionCreators(createPost, dispatch)
+  };
+};
+
+CreatePost = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreatePost);
+export default CreatePost;
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   view_container: {
