@@ -76,7 +76,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          value="0963250397"
+          value="0963250390"
           placeholder={strings('login.placeholder.input_phone')}
           keyboardType="numeric"
           onChangeText={(text) => (this.dataUser.userName = text)}

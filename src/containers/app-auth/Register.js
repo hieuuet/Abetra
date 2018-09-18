@@ -20,6 +20,7 @@ import CheckBox from '../../components/CheckBox ';
 import { ButtonBorder, ViewLoading } from '../../components/CommonView';
 import { facebookLogin } from './Loginfb';
 import { strings } from '../../i18n';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 class Register extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class Register extends Component {
 
     this.dataUser = {
       userName: '',
-      fullName: 'test1',
+      fullName: '',
       password: '',
       rePassword: '',
     };
@@ -40,14 +41,14 @@ class Register extends Component {
 
   _register = async () => {
     //TODO: remove after call api
-    this.props.navigation.navigate('VerifyAccount');
+
 
     const { userName, fullName, password, rePassword } = this.dataUser;
 
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
         'Thông báo',
-        'Password không hợp lệ',
+        'Mật khẩu không trùng khớp',
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
@@ -59,19 +60,19 @@ class Register extends Component {
     let register = await postRegister({
       Username: userName,
       FullName: fullName,
-      Email: 'fsfd@gmail.com',
+      Email: userName + "@gmail.com",
       Password: password,
       lang_name: 'vi_VN',
     });
     this.setState({ isLoading: false });
     console.log('register', register);
     if (register.ErrorCode === '00') {
-      Alert.alert(
-        'Thông báo',
-        register.Message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-        { cancelable: false }
-      );
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Login' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+        // this.props.navigation.navigate('VerifyAccount');
     } else {
       Alert.alert(
         'Thông báo',
@@ -109,6 +110,18 @@ class Register extends Component {
             this.refs.pass.focus();
           }}
         />
+          <TextInput
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              returnKeyType="next"
+              placeholder={strings('login.placeholder.input_fullname')}
+              keyboardType="numeric"
+              onChangeText={(text) => (this.dataUser.fullName = text)}
+              style={[style_common.input_border, styles.text_input]}
+              onSubmitEditing={(event) => {
+                  this.refs.pass.focus();
+              }}
+          />
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"

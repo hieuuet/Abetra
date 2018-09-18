@@ -55,15 +55,16 @@ class EditView extends React.PureComponent {
             }}
           />
         )}
-        {this.props.isEditAble ? (
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ allowEdit: true });
-            }}
-          >
-            <Icon name="edit" size={30} color={COLOR.COLOR_BLACK} />
-          </TouchableOpacity>
-        ) : null}
+          {this.props.isEditAble ?
+              <TouchableOpacity
+                  onPress={() => {
+                      this.setState({allowEdit: true});
+                  }}
+              >
+                  <Icon name="edit" size={20} color={COLOR.COLOR_BLACK}/>
+              </TouchableOpacity>
+              : null
+          }
       </View>
     );
   }
