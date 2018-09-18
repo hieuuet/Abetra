@@ -92,10 +92,8 @@ class Home extends Component {
             option: 100,
             lang_name: "vi_VN",
         });
-        // console.log("userProfile",userProfile.Value[0].LtProfile)
-        // let LtPro = userProfile.Value[0].LtProfile
-        // let LtPro1 = JSON.parse(LtPro)
-        // console.log('ltpro', LtPro1)
+        // console.log("userProfile",userProfile.Value[0])
+
     };
     _renderLoading = () => {
         return this.state.isLoading ? (
