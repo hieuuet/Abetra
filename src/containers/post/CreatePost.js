@@ -16,12 +16,12 @@ import {
 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HashTagModal from "../components/hashtag/HashTagModal";
-import {COLOR} from "../constant/Color";
+import HashTagModal from "../../components/hashtag/HashTagModal";
+import {COLOR} from "../../constant/Color";
 import {bindActionCreators} from "redux";
 import {connect } from "react-redux";
-import {uploadImage} from "../actions/uploadImageActions";
-import {createPost} from "../actions/createPostActions";
+import {uploadImage} from "../../actions/uploadImageActions";
+import {createPost} from "../../actions/createPostActions";
 var ImagePicker = NativeModules.ImageCropPicker;
 
 
@@ -238,7 +238,7 @@ class CreatePost extends Component {
                                                     }}>
                                                     <TouchableOpacity onPress={() => this.Push(index)}>
                                                         <Image
-                                                            source={require("../images/insert.png")}
+                                                            source={require("../../images/insert.png")}
                                                             style={{
                                                                 height: 25,
                                                                 width: 25
@@ -344,17 +344,17 @@ class CreatePost extends Component {
                         </View>
 
                         <TouchableOpacity>
-                            <Image source={require("../../assets/emoji.png")} style={styles.button_image}
+                            <Image source={require("../../../assets/emoji.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
-                            <Image source={require("../../assets/image_icon.png")} style={styles.button_image}
+                            <Image source={require("../../../assets/image_icon.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
                             this.setModalVisible(true);
                         }}>
-                            <Image source={require("../../assets/hashtag.png")} style={styles.button_image}
+                            <Image source={require("../../../assets/hashtag.png")} style={styles.button_image}
                                    resizeMode="cover"/>
                         </TouchableOpacity>
                         <TouchableOpacity>

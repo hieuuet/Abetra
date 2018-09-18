@@ -67,9 +67,9 @@ class Menu extends Component {
           title="Bài viết đã lưu"
           nameIcon="bookmark"
           style={styles.style_menu}
-          // onPress={() => {
-          //     this.state.Profile ? this.props.navigation.navigate('HangXom') : this.refs.modal.open()
-          // }}
+          onPress={() => {
+               this.props.navigation.navigate('SavePost')
+          }}
         />
         <MenuItem
           title="Đăng xuất"

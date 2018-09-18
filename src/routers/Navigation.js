@@ -3,7 +3,7 @@ import {
     createMaterialTopTabNavigator,
     createStackNavigator,
 } from "react-navigation";
-import Home from "../containers/Home";
+import Home from "../containers/post/Home";
 import Message from "../containers/Message";
 import DoanhNghiep from "../containers/DoanhNghiep";
 import SuKien from "../containers/SuKien";
@@ -18,7 +18,7 @@ import Intro from "../containers/app-intro/AppIntroSlider";
 import Register from "../containers/app-auth/Register";
 import BinhLuan from "../containers/BinhLuan";
 import VerifyAccount from "../containers/app-auth/VerifyAccount";
-import CreatePost from "../containers/CreatePost";
+import CreatePost from "../containers/post/CreatePost";
 import Search from "../containers/Search";
 import Benifet from "../containers/Benifet";
 import ImageDetail from "../containers/ImageDetail";
@@ -27,6 +27,7 @@ import {
     Profile,
     RegisterMember,
 } from "../containers/user-manage";
+import SavePost from "../containers/post/SavePost";
 
 const TabHome = createMaterialTopTabNavigator(
     {
@@ -192,6 +193,12 @@ const RootStack = createStackNavigator({
             header: null,
         },
     },
+    SavePost: {
+        screen: SavePost,
+        navigationOptions: {
+            header: null,
+        },
+    }
 });
 
 export default RootStack;
