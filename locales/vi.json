@@ -3,7 +3,8 @@
     "placeholder": {
       "input_phone": "Nhập số điện thoại",
       "input_pass": "Nhập mật khẩu",
-      "input_rePass": "Nhập lại mật khẩu"
+      "input_rePass": "Nhập lại mật khẩu",
+      "input_fullname": "Nhập họ tên"
     },
     "login_fb": "Đăng nhập bằng Facebook",
     "login_guest": "Dùng tài khoản khách",

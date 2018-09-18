@@ -1,18 +1,8 @@
-import {postRequestApi} from "../constant/callApi";
-import {API} from "../constant/api";
+import { postRequestApi } from "../constant/callApi";
+import { API } from "../constant/api";
 
-
-export const postRegister = (data = {}) => {
-    return async dispatch => {
-
-        let result = await postRequestApi( API.REGISTER, data,  dispatch);
-
-        if (result) {
-            dispatch({
-                type: 'REGISTER',
-                payload: result
-            });
-        }
-        return result;
-    }
-}
+// KienLv comment: not need to save state of register on redux store
+export const postRegister = async (data = {}) => {
+  return postRequestApi(API.REGISTER, data);
+};
+export default postRegister;
