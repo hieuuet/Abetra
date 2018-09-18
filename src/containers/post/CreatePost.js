@@ -31,6 +31,7 @@ class CreatePost extends Component {
       modalVisible: false,
       isVote: false,
       isEvent: false,
+        ArrImg: [],
       ArrOptions: [
         {
           OptionContent: "Lựa chọn 1",
@@ -58,6 +59,12 @@ class CreatePost extends Component {
       lang_name: "vi_VN"
     });
     console.log("linkImage", linkImage);
+    let Imgs = JSON.parse(linkImage)
+      console.log('img', Imgs.Value)
+      this.setState({
+          ArrImg: Imgs.Value
+
+      })
   };
   pickMultiple() {
     let ArrImage = [];
@@ -89,35 +96,32 @@ class CreatePost extends Component {
   }
   //create post
   _createPost = async () => {
+    const {Status} = this.state
     const { UserProfile, createPost } = this.props;
     if (UserProfile.length <= 0) {
       return null;
     }
     let post = await createPost({
-      ProfileID: UserProfile.Value[0].UserID,
-      UserID: "sample string 2",
-      UserType: 64,
-      FullName: "sample string 4",
-      Avatar: "sample string 5",
-      Images: "sample string 6",
-      Videos: "sample string 7",
-      Post_content: "sample string 8",
-      Pin: 64,
-      Type: 10,
+      ProfileID: UserProfile.Value[0].ProfileID,
+      UserID: UserProfile.Value[0].UserID,
+      UserType: UserProfile.Value[0].Type,
+      FullName: UserProfile.Value[0].FullName,
+      Avatar: UserProfile.Value[0].Avatar?UserProfile.Value[0].Avatar: "",
+      Images: this.state.ArrImg? this.state.ArrImg: null,
+      Videos: "",
+      Post_content: Status,
+      Pin: 0,
+      Type: 0,
       ltPoll: [
-        {
-          OptionContent: "sample string 1"
-        },
-        {
-          OptionContent: "sample string 1"
-        }
+
       ],
-      Target: "sample string 11",
+      Target: "#FOOD",
       DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
-      IsAdvs: 64,
-      LangID: 14,
-      lang_name: "sample string 15"
+      IsAdvs: "",
+      LangID: 129,
+      lang_name: "vi_VN"
     });
+    console.log('post', post)
   };
   // show modal
   setModalVisible = visible => {
@@ -383,7 +387,7 @@ class CreatePost extends Component {
                 resizeMode="cover"
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress = {()=> this._createPost()}>
               <View style={styles.view_post}>
                 <Text>Đăng</Text>
               </View>
