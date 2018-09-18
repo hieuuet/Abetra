@@ -131,7 +131,7 @@ class MyProfileTab2 extends Component {
             <View style={style_common.line} />
             <Text style={style_common.text_color_base}>Đăng bài viết mới</Text>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("TaoBaiViet")}
+              onPress={() => this.props.navigation.navigate("CreatePost")}
               style={styles.btn_create_post}
             >
               <Text style={style_common.text_color_base}>

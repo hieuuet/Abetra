@@ -9,6 +9,8 @@ import { getTopPost } from './getTopPostReducers'
 import { createPost } from './createPostReducers'
 import { createCmt } from './createCmtReducers'
 import { searchCmt } from './searchCmtReducers'
+import { uploadImage} from "./uploadImageReducers";
+import { searchPost} from "./searchPostReducers";
 
 
 const appStore = combineReducers({
@@ -21,7 +23,9 @@ const appStore = combineReducers({
     getTopPost,
     createPost,
     createCmt,
-    searchCmt
+    searchCmt,
+    uploadImage,
+    searchPost
 
 
 })
