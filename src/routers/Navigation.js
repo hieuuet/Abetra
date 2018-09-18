@@ -119,12 +119,12 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
-  MemberProfile: {
-    screen: MemberProfile,
-  },
   Profile: {
     screen: Profile,
     navigationOptions: {},
+  },
+  MemberProfile: {
+    screen: MemberProfile,
   },
 
   RegisterMember: {

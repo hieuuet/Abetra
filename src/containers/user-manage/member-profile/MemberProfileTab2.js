@@ -22,26 +22,30 @@ class MemberProfileTab2 extends Component {
     this.allTags = [
       {
         hashtag: "#FoodMessage",
+        select: true,
       },
       {
         hashtag: "#FoodMessage",
+        select: true,
       },
       {
         hashtag: "#FoodMessage",
+        select: true,
       },
       {
         hashtag: "#FoodMessage",
+        select: true,
       },
     ];
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !(
-      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
-    );
+    return !// _.isEqual(nextProps, this.props) &&
+    _.isEqual(nextState, this.state);
   }
 
   render() {
+    console.log("render tab2 member");
     return (
       <KeyboardAvoidingView
         style={style_common.container}

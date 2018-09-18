@@ -58,8 +58,10 @@ class MyProfileTab1 extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps.dataUser, this.props.dataUser)) return false;
-    return true;
+    return !(
+      _.isEqual(nextProps.dataUser, this.props.dataUser) &&
+      _.isEqual(nextState, this.state)
+    );
   }
 
   reLoadProfile = async () => {
@@ -258,7 +260,7 @@ class MyProfileTab1 extends Component {
   };
 
   render() {
-    console.log("render account");
+    // console.log("render tab1");
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -283,7 +285,7 @@ export default MyProfileTab1;
 
 MyProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -310,43 +312,14 @@ const styles = StyleSheet.create({
     color: COLOR.COLOR_SKY,
     fontWeight: "bold",
   },
-  text_input: {
-    marginHorizontal: 60,
-    marginTop: 10,
-    padding: 5,
-  },
 
-  img_fb: {
-    width: 50,
-    height: 50,
-  },
-  view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10,
-    alignSelf: "stretch",
-  },
-  view_fanpage: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
   content_footer: {
     justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
     flex: 1,
   },
-  text_login: {
-    flex: 1,
-    marginRight: 10,
-  },
-  text_info: {
-    margin: 10,
-  },
+
   change_pass: { flexDirection: "row", alignItems: "center" },
   icon_pass: {
     marginLeft: 10,

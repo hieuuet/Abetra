@@ -15,33 +15,22 @@ import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
+import PropTypes from "prop-types";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
     super(props);
+    this.state = { isModalShow: false };
 
     this.isMember = true;
-    this.allTags = [
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-    ];
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps, this.props)) return false;
-    return true;
+    return !(
+      _.isEqual(nextProps.tagSelected, this.props.tagSelected) &&
+      _.isEqual(nextState, this.state)
+    );
   }
-  onEditTags = () => {};
 
   _renderRegisterMember = () => {
     return (
@@ -69,6 +58,10 @@ class MyProfileTab2 extends Component {
   };
 
   _renderMember = () => {
+    // console.log("render tab2");
+    const tagSelected = this.props.tagSelected.filter(
+      (tag) => tag.select === true
+    );
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -119,11 +112,11 @@ class MyProfileTab2 extends Component {
                 my_style={[style_common.input_border, styles.btn_save]}
                 text_style={styles.text_btn}
                 label={"Sửa"}
-                onPress={this.onEditTags}
+                onPress={this.props.onClickShowModal}
               />
             </View>
             <HashTagEdit
-              data={this.allTags}
+              data={tagSelected}
               selectable={false}
               numColumns={2}
               ref="hashTag"
@@ -153,6 +146,12 @@ class MyProfileTab2 extends Component {
 }
 
 export default MyProfileTab2;
+MyProfileTab2.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  onClickShowModal: PropTypes.func.isRequired,
+  tagSelected: PropTypes.array.isRequired,
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

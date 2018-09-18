@@ -43,6 +43,7 @@ class MemberProfile extends Component {
   };
 
   render() {
+    console.log("render member");
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
@@ -98,10 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE,
   },
 
-  text_tab: {
-    color: COLOR.COLOR_BLACK,
-    fontWeight: "bold",
-  },
+ 
   content: {
     position: "absolute",
     top: 0,

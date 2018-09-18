@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-} from 'react-native';
+} from "react-native";
 
 export default class HashTagModal extends Component {
   constructor(props) {
@@ -15,40 +15,40 @@ export default class HashTagModal extends Component {
     this.state = {
       ArrHashTag: [
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
         {
-          hashtag: '#FoodMessage',
+          hashtag: "#FoodMessage",
         },
       ],
     };
@@ -62,15 +62,15 @@ export default class HashTagModal extends Component {
         transparent={false}
         visible={changeModalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
         }}
       >
         <View
           style={{
             flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            backgroundColor: "rgba(0,0,0,0.5)",
             // alignItems: 'center',
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
           }}
         >
           <TouchableOpacity
@@ -78,7 +78,7 @@ export default class HashTagModal extends Component {
             onPress={() => onChangeModalVisible(false)}
           />
           <View
-            style={{ backgroundColor: 'white', flex: 1, alignItems: 'center' }}
+            style={{ backgroundColor: "white", flex: 1, alignItems: "center" }}
           >
             <FlatList
               data={this.state.ArrHashTag}
@@ -91,10 +91,10 @@ export default class HashTagModal extends Component {
                       style={{
                         borderWidth: 1,
                         borderRadius: 5,
-                        borderColor: '#A7FFEB',
-                        backgroundColor: '#A7FFEB',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        borderColor: "#A7FFEB",
+                        backgroundColor: "#A7FFEB",
+                        alignItems: "center",
+                        justifyContent: "center",
                         height: 30,
                         width: DEVICE_WIDTH / 3 - 10,
                         marginLeft: 5,
@@ -114,4 +114,4 @@ export default class HashTagModal extends Component {
     );
   }
 }
-const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_WIDTH = Dimensions.get("window").width;

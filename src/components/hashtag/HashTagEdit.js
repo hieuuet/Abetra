@@ -15,10 +15,6 @@ export default class HashTagEdit extends Component {
   constructor(props) {
     super(props);
 
-    _.forEach(this.props.data, (tag) => {
-      tag.select = false;
-    });
-
     this.state = {
       data: this.props.data,
     };
@@ -29,20 +25,24 @@ export default class HashTagEdit extends Component {
       color: COLOR.COLOR_BLACK,
     };
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ data: nextProps.data });
   }
-  onChangeItem = (textChange, index) => {
-    if (this.tempData && this.tempData.length > 0) {
-      this.tempData[index] = textChange;
-    }
-  };
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(
+      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
+    );
+  }
+
+  onChangeItem = (textChange, index) => {};
   onPress = (index, tagSelected) => {
     if (this.props.selectable) {
-      const currentState = this.props.data[index].select;
-      const stateCoppy = [...this.state.data];
+      const currentState = this.state.data[index].select;
+      const stateCoppy = _.cloneDeep(this.state.data);
       stateCoppy[index].select = !currentState;
       this.setState({ data: stateCoppy });
+      this.props.onDataSelected(stateCoppy);
     }
     this.props.onPressItemTag;
   };
@@ -50,15 +50,21 @@ export default class HashTagEdit extends Component {
     return (
       <View key={itemTag.index} style={styles.containerTag}>
         <TouchableOpacity
-          onPress={() => this.onPress(itemTag.index, itemTag.item.hashtag)}
-          style={itemTag.item.select ? styles.bg_select : styles.bg_unselect}
+          onPress={() =>
+            this.props.selectable &&
+            this.onPress(itemTag.index, itemTag.item.hashtag)
+          }
+          style={
+            itemTag.item.select && this.props.selectable
+              ? styles.bg_select
+              : styles.bg_unselect
+          }
         >
           <TextInput
             underlineColorAndroid="transparent"
             autoCapitalize="none"
             returnKeyType="done"
             multiline={true}
-            // autoFocus={this.props.editable && itemTag.index === 0}
             editable={this.props.editable}
             defaultValue={itemTag.item.hashtag}
             onChangeText={this.onChangeItem}
@@ -69,9 +75,9 @@ export default class HashTagEdit extends Component {
     );
   };
   render() {
-    console.log("render flatlist tag", this.state.data);
+    console.log("render list tag");
     return (
-      <View >
+      <View>
         <FlatList
           data={this.state.data}
           numColumns={this.props.numColumns}
@@ -89,6 +95,7 @@ HashTagEdit.propTypes = {
   editable: PropTypes.bool.isRequired,
   selectable: PropTypes.bool.isRequired,
   numColumns: PropTypes.number,
+  onDataSelected: PropTypes.func,
 };
 
 HashTagEdit.defaultProps = {
