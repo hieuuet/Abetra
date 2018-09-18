@@ -5,6 +5,7 @@ import {
   Image,
   View,
   Text,
+  AsyncStorage,
   TouchableOpacity,
 } from "react-native";
 import Dimensions from "Dimensions";
@@ -13,6 +14,8 @@ import { connect } from "react-redux";
 import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
+import { USER_ID } from "../constant/KeyConstant";
+import { NavigationActions, StackActions } from "react-navigation";
 
 class Menu extends Component {
   constructor(props) {
@@ -24,6 +27,15 @@ class Menu extends Component {
         ? this.props.userProfile.Value[0]
         : {};
   }
+
+  logout = () => {
+    AsyncStorage.removeItem(USER_ID);
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "Login" })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
   renderHeader = () => {
     return (
       <TouchableOpacity
@@ -51,7 +63,7 @@ class Menu extends Component {
     );
   };
   render() {
-    console.log('render menu');
+    console.log("render menu");
     return (
       <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
         {this.renderHeader()}
@@ -68,14 +80,14 @@ class Menu extends Component {
           nameIcon="bookmark"
           style={styles.style_menu}
           onPress={() => {
-               this.props.navigation.navigate('SavePost')
+            this.props.navigation.navigate("SavePost");
           }}
         />
         <MenuItem
           title="Đăng xuất"
           nameIcon="sign-out-alt"
           style={styles.style_menu}
-          // onPress={() => this.props.navigation.navigate('ThongTinKDTCuDan')}
+          onPress={this.logout}
         />
         <MenuItem
           title="Sự kiện"

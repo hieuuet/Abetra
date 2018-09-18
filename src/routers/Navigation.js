@@ -22,6 +22,7 @@ import CreatePost from "../containers/post/CreatePost";
 import Search from "../containers/Search";
 import Benifet from "../containers/Benifet";
 import ImageDetail from "../containers/ImageDetail";
+import SplashScreen from "../containers/SplashScreen";
 import {
   MemberProfile,
   Profile,
@@ -114,6 +115,12 @@ const TabHome = createMaterialTopTabNavigator(
   }
 );
 const RootStack = createStackNavigator({
+  SplashScreen: {
+    screen: SplashScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Login: {
     screen: Login,
     navigationOptions: {

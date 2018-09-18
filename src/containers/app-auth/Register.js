@@ -18,12 +18,13 @@ import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
+import { NavigationActions, StackActions } from "react-navigation";
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: false,
+      isChecked: true,
       isLoading: false,
       isLoadingIndicator: true,
     };
@@ -35,7 +36,14 @@ class Register extends Component {
       rePassword: "",
     };
   }
-
+  goTologin = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "Login" })],
+    });
+    this.props.navigation.dispatch(resetAction);
+    // this.props.navigation.navigate('VerifyAccount');
+  };
   _register = async () => {
     const { userName, fullName, password, rePassword } = this.dataUser;
     console.log("data register", this.dataUser);
@@ -43,7 +51,7 @@ class Register extends Component {
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
         "Thông báo",
-        "Password không hợp lệ",
+        "Mật khẩu không trùng khớp",
         [{ text: "OK", onPress: () => console.log("OK Pressed") }],
         { cancelable: false }
       );
@@ -64,12 +72,7 @@ class Register extends Component {
       Alert.alert(
         "Thông báo",
         register.Message,
-        [
-          {
-            text: "OK",
-            onPress: () => this.props.navigation.navigate("VerifyAccount"),
-          },
-        ],
+        [{ text: "OK", onPress: this.goTologin }],
         { cancelable: false }
       );
     } else {

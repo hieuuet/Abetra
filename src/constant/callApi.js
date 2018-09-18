@@ -1,11 +1,11 @@
-import { AsyncStorage } from 'react-native';
-import axios from 'axios';
+// import { AsyncStorage } from "react-native";
+import axios from "axios";
 
 export const getRequestApi = async (url) => {
   // let token = await AsyncStorage.getItem('token');
   let config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       // "access-token": token
     },
   };
@@ -21,7 +21,7 @@ export const getRequestApi = async (url) => {
       return response;
     })
     .catch((err) => {
-      console.log('err', err);
+      console.log("err", err);
     });
 };
 
@@ -29,7 +29,7 @@ export const postRequestApi = async (url, data, dispatch) => {
   // let  token = await AsyncStorage.getItem('token') ? await AsyncStorage.getItem('token') : ''
   let config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       // "access-token": token
     },
   };
@@ -45,6 +45,6 @@ export const postRequestApi = async (url, data, dispatch) => {
       return response;
     })
     .catch((err) => {
-      console.log('err', err);
+      console.log("err", err);
     });
 };

@@ -38,14 +38,18 @@ ButtonBorder.propTypes = {
  *Viewloading for app
  * @param {using default loading for facebook} isLoadingIndicator
  */
-export const ViewLoading = (isLoadingIndicator = true) => {
+export const ViewLoading = ({ isLoadingIndicator = true }) => {
+  console.log("isLoadingIndicator", isLoadingIndicator);
   return (
     <View style={styles.loading}>
-      {isLoadingIndicator.isLoadingIndicator ? (
+      {isLoadingIndicator ? (
         <ActivityIndicator size="large" color={COLOR.BACKGROUND_BUTTON} />
       ) : null}
     </View>
   );
+};
+ViewLoading.propTypes = {
+  isLoadingIndicator: PropTypes.bool,
 };
 
 /**

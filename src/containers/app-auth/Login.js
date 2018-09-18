@@ -10,6 +10,7 @@ import {
   ScrollView,
   Platform,
   TextInput,
+  AsyncStorage,
 } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -19,6 +20,9 @@ import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { postLogin } from "../../actions/loginActions";
 import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
+import { NavigationActions, StackActions } from "react-navigation";
+import { USER_ID } from "../../constant/KeyConstant";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -27,11 +31,18 @@ class Login extends Component {
       isLoadingIndicator: true,
     };
     this.dataUser = {
-      userName: "0963250397",
+      userName: "0123456789",
       password: "123456",
     };
   }
 
+  goToHomeTab = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "TabHome" })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
   _login = async () => {
     const { userName, password } = this.dataUser;
 
@@ -45,7 +56,19 @@ class Login extends Component {
     console.log("login", login);
     this.setState({ isLoading: false });
     if (login.ErrorCode === "00") {
-      this.props.navigation.navigate("TabHome");
+      if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
+        // const dataLoginJson = JSON.stringify(login);
+        // AsyncStorage.setItem(DATA_USER, dataLoginJson);
+        await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
+        this.goToHomeTab();
+      } else {
+        Alert.alert(
+          "Thông báo",
+          "Không tìm thấy UserID",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+      }
     } else {
       Alert.alert(
         "Thông báo",
