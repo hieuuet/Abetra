@@ -13,12 +13,14 @@ import {
 } from "react-native";
 import style_common from "../../style-common/index";
 import { IMAGE } from "../../constant/assets";
-import { postRegister } from "../../actions/registerActions";
 import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
+import { postRegister, loginGuest } from "../../actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 class Register extends Component {
   constructor(props) {
@@ -36,6 +38,21 @@ class Register extends Component {
       rePassword: "",
     };
   }
+  loginAsGuest = () => {
+    this.props.loginGuest(true);
+    this.setState({ isLoading: true });
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+      this.goToHomeTab();
+    }, 500);
+  };
+  goToHomeTab = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "TabHome" })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
   goTologin = () => {
     const resetAction = StackActions.reset({
       index: 0,
@@ -177,12 +194,7 @@ class Register extends Component {
           <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
           <ButtonBorder
             label={strings("login.btn_guest")}
-            onPress={() => {
-              this.setState({ isLoading: true });
-              setTimeout(() => {
-                this.setState({ isLoading: false });
-              }, 3000);
-            }}
+            onPress={this.loginAsGuest}
           />
         </View>
       </View>
@@ -243,7 +255,22 @@ class Register extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    // login: state.login
+  };
+};
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginGuest: bindActionCreators(loginGuest, dispatch),
+  };
+};
+
+Register = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);
 export default Register;
 
 const styles = StyleSheet.create({

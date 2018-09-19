@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { postLogin } from "../../actions/loginActions";
+import { postLogin, loginGuest } from "../../actions";
 import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
@@ -43,6 +43,15 @@ class Login extends Component {
     });
     this.props.navigation.dispatch(resetAction);
   };
+
+  loginAsGuest = () => {
+    this.props.loginGuest(true);
+    this.setState({ isLoading: true });
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+      this.goToHomeTab();
+    }, 500);
+  };
   _login = async () => {
     const { userName, password } = this.dataUser;
 
@@ -57,9 +66,8 @@ class Login extends Component {
     this.setState({ isLoading: false });
     if (login.ErrorCode === "00") {
       if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
-        // const dataLoginJson = JSON.stringify(login);
-        // AsyncStorage.setItem(DATA_USER, dataLoginJson);
         await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
+        this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
         Alert.alert(
@@ -145,15 +153,7 @@ class Login extends Component {
         </View>
         <View style={styles.view_login}>
           <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
-          <ButtonBorder
-            label="Guest"
-            onPress={() => {
-              this.setState({ isLoading: true });
-              setTimeout(() => {
-                this.setState({ isLoading: false });
-              }, 3000);
-            }}
-          />
+          <ButtonBorder label="Guest" onPress={this.loginAsGuest} />
         </View>
       </View>
     );
@@ -219,6 +219,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postLogin: bindActionCreators(postLogin, dispatch),
+    loginGuest: bindActionCreators(loginGuest, dispatch),
   };
 };
 

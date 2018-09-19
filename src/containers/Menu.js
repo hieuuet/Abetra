@@ -16,6 +16,8 @@ import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
 import { USER_ID } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
+import { resetStore } from "../actions";
+import { bindActionCreators } from "redux";
 
 class Menu extends Component {
   constructor(props) {
@@ -30,6 +32,7 @@ class Menu extends Component {
 
   logout = () => {
     AsyncStorage.removeItem(USER_ID);
+    this.props.resetStore();
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: "Login" })],
@@ -151,7 +154,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return { resetStore: bindActionCreators(resetStore, dispatch) };
 };
 
 Menu = connect(

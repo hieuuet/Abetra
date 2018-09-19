@@ -10,8 +10,9 @@ import { createCmt } from "./createCmtReducers";
 import { searchCmt } from "./searchCmtReducers";
 import { uploadImage } from "./uploadImageReducers";
 import { searchPost } from "./searchPostReducers";
+import { loginGuest } from "./guestReducers";
 
-const appStore = combineReducers({
+const appReducer = combineReducers({
   login,
   loadUserProfile,
   createMsgGroup,
@@ -23,5 +24,14 @@ const appStore = combineReducers({
   searchCmt,
   uploadImage,
   searchPost,
+  loginGuest,
 });
-export default appStore;
+
+export const rootReducer = (state, action) => {
+  if (action.type === "RESET_STORE") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+export default rootReducer;
