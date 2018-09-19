@@ -13,7 +13,7 @@ class BinhLuanItem extends Component {
     const { item } = this.props.dataItem;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row" , alignItems:"center"}}>
           <Image
             style={styles.image_circle}
             source={{
@@ -25,21 +25,15 @@ class BinhLuanItem extends Component {
           <Text style={styles.textName}>{item.FullName}</Text>
         </View>
         <View style={styles.viewCmt}>
+          <View style = {{marginRight: 10, flex: 1,
+              backgroundColor: '#BDBDBD', borderRadius: 14,
+              padding: 10, justifyContent: 'center', flexWrap: 'wrap'}}>
           <Text style={styles.textCmt}>{item.Content}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text>{item.Time}</Text>
-            <Text style={{ marginLeft: 15, color: "black" }}>Like</Text>
-            <Text style={{ marginLeft: 15, color: "black" }}>Reply</Text>
+          </View>
+          <View style={{ flexDirection: "row" , justifyContent:'flex-end'}}>
+            <Text style={{  color: "#03A9F4", marginRight:15}}>Trả lời</Text>
           </View>
         </View>
-        <View
-          style={{
-            height: 1,
-            backgroundColor: "#E0E0E0",
-            marginLeft: DEVICE_WIDTH / 10 + 10,
-            marginTop: 10,
-          }}
-        />
       </View>
     );
   }
@@ -48,9 +42,9 @@ export default BinhLuanItem;
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   image_circle: {
-    height: DEVICE_WIDTH / 10,
-    width: DEVICE_WIDTH / 10,
-    borderRadius: DEVICE_WIDTH / 20,
+    height: DEVICE_WIDTH / 12,
+    width: DEVICE_WIDTH / 12,
+    borderRadius: DEVICE_WIDTH / 24,
     marginLeft: 10,
     marginTop: 10,
   },
@@ -62,11 +56,10 @@ const styles = StyleSheet.create({
   textName: {
     color: "black",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 13,
     marginLeft: 5,
-    marginTop: DEVICE_WIDTH / 20,
   },
   viewCmt: {
-    marginLeft: DEVICE_WIDTH / 10 + 15,
+    marginLeft: DEVICE_WIDTH / 12+15,
   },
 });

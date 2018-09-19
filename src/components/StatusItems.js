@@ -22,7 +22,7 @@ class StatusItems extends Component {
         super(props);
 
         this.state = {
-            images:[
+            images: [
                 "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
                 "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
                 "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
@@ -73,18 +73,21 @@ class StatusItems extends Component {
                             resizeMode="cover"
                         />
 
-                        <View style={{marginLeft: 10, flex:1}}>
-                            <View style = {{justifyContent: 'space-between', alignItems: "center", flexDirection:'row'}}>
+                        <View style={{marginLeft: 10, flex: 1}}>
+                            <View style={{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
                                 <Text style={{color: "#2196F3", fontWeight: "bold"}}>
                                     {item.FullName}
                                 </Text>
                                 <TouchableOpacity>
-                                    <IconMore name="ios-more" size={25} color="black" style = {{marginRight: 10}}/>
+                                    <IconMore name="ios-more" size={25} color="black" style={{marginRight: 10}}/>
                                 </TouchableOpacity>
-                            </View >
-                            <View style = {{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
-                                <Text style = {{color: "black"}}>Quản trị viên</Text>
-                                <Text style = {{marginRight: 10,color:'black'}}>{moment(item.CreatedDate).format("DD/MM/YY HH:mm")}</Text>
+                            </View>
+                            <View style={{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
+                                <Text style={{color: "black"}}>Quản trị viên</Text>
+                                <Text style={{
+                                    marginRight: 10,
+                                    color: 'black'
+                                }}>{moment(item.CreatedDate).format("DD/MM/YY HH:mm")}</Text>
 
                             </View>
                         </View>
@@ -102,10 +105,10 @@ class StatusItems extends Component {
                         </View>
                     </View>
                     {/*{item.Images ? (*/}
-                        <PhotoGrid
-                            source={this.state.images}
-                            navigation={this.props.navigation}
-                        />
+                    <PhotoGrid
+                        source={this.state.images}
+                        navigation={this.props.navigation}
+                    />
                     {/*) : null}*/}
 
                     <View
@@ -116,15 +119,15 @@ class StatusItems extends Component {
                             alignItems: 'center'
                         }}
                     >
-                        <View style={{flexDirection: "row", marginLeft: 10, alignItems:'center'}}>
+                        <View style={{flexDirection: "row", marginLeft: 10, alignItems: 'center'}}>
                             <Icon1 name="like" size={25} color="#42A5F5"/>
                             <Text style={{color: "#42A5F5"}}> 99</Text>
                         </View>
-                        <View style={{flexDirection: "row",  alignItems:'center'}}>
+                        <View style={{flexDirection: "row", alignItems: 'center'}}>
                             <Icon1 name="comment" size={25} color="#42A5F5"/>
                             <Text style={{color: "#42A5F5"}}>99</Text>
                         </View>
-                        <View style={{flexDirection: "row", marginRight: 10,  alignItems:'center'}}>
+                        <View style={{flexDirection: "row", marginRight: 10, alignItems: 'center'}}>
                             <Icon name="share-outline" size={25} color="#42A5F5"/>
                             <Text style={{color: "#42A5F5"}}>99</Text>
                         </View>
@@ -137,21 +140,23 @@ class StatusItems extends Component {
                             flexDirection: "row",
                             marginTop: 10,
                             justifyContent: "space-between",
-                            alignItems:"center"
+                            alignItems: "center"
                         }}
                     >
-                        <View style={{flexDirection: "row", marginLeft: 20, alignItems:"center"}}>
+                        <View style={{flexDirection: "row", marginLeft: 20, alignItems: "center"}}>
                             <Icon1 name="like" size={25} color="#424242"/>
                             <TouchableOpacity>
                                 <Text>Thích</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flexDirection: "row", alignItems:"center"}}>
-                            <Icon1 name="comment" size={25} color="#424242"/>
+                        <TouchableOpacity onPress = {()=> this.props.navigation.navigate('BinhLuan', {item: item})}>
+                            <View style={{flexDirection: "row", alignItems: "center"}}>
+                                <Icon1 name="comment" size={25} color="#424242"/>
 
-                            <Text style={{color: "#424242"}}>Bình luận</Text>
-                        </View>
-                        <View style={{flexDirection: "row", marginRight: 20, alignItems:"center"}}>
+                                <Text style={{color: "#424242"}}>Bình luận</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{flexDirection: "row", marginRight: 20, alignItems: "center"}}>
                             <Icon name="share-outline" size={25} color="#424242"/>
 
                             <Text style={{color: "#424242"}}>Share</Text>
@@ -159,40 +164,40 @@ class StatusItems extends Component {
                     </View>
 
                     {/*<View*/}
-                        {/*style={{*/}
-                            {/*flexDirection: "row",*/}
-                            {/*marginTop: 5,*/}
-                            {/*marginRight: 15,*/}
-                            {/*alignItems: "center",*/}
-                        {/*}}*/}
+                    {/*style={{*/}
+                    {/*flexDirection: "row",*/}
+                    {/*marginTop: 5,*/}
+                    {/*marginRight: 15,*/}
+                    {/*alignItems: "center",*/}
+                    {/*}}*/}
                     {/*>*/}
-                        {/*<Image*/}
-                            {/*style={styles.image_circle}*/}
-                            {/*source={{*/}
-                                {/*uri:*/}
-                                    {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
-                            {/*}}*/}
-                            {/*resizeMode="cover"*/}
-                        {/*/>*/}
-                        {/*<TouchableOpacity*/}
-                            {/*onPress={() => this.props.navigation.navigate("BinhLuan")}*/}
-                            {/*style={{*/}
-                                {/*marginLeft: 10,*/}
-                                {/*flex: 1,*/}
-                                {/*backgroundColor: "#F5F5F5",*/}
-                                {/*borderRadius: 25,*/}
-                                {/*borderWidth: 1,*/}
-                                {/*borderColor: "#757575",*/}
-                                {/*paddingLeft: 10,*/}
-                                {/*paddingRight: 10,*/}
-                                {/*paddingTop: 10,*/}
-                                {/*paddingBottom: 10,*/}
-                            {/*}}*/}
-                        {/*>*/}
-                            {/*<View>*/}
-                                {/*<Text>Viết bình luận ...</Text>*/}
-                            {/*</View>*/}
-                        {/*</TouchableOpacity>*/}
+                    {/*<Image*/}
+                    {/*style={styles.image_circle}*/}
+                    {/*source={{*/}
+                    {/*uri:*/}
+                    {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
+                    {/*}}*/}
+                    {/*resizeMode="cover"*/}
+                    {/*/>*/}
+                    {/*<TouchableOpacity*/}
+                    {/*onPress={() => this.props.navigation.navigate("BinhLuan")}*/}
+                    {/*style={{*/}
+                    {/*marginLeft: 10,*/}
+                    {/*flex: 1,*/}
+                    {/*backgroundColor: "#F5F5F5",*/}
+                    {/*borderRadius: 25,*/}
+                    {/*borderWidth: 1,*/}
+                    {/*borderColor: "#757575",*/}
+                    {/*paddingLeft: 10,*/}
+                    {/*paddingRight: 10,*/}
+                    {/*paddingTop: 10,*/}
+                    {/*paddingBottom: 10,*/}
+                    {/*}}*/}
+                    {/*>*/}
+                    {/*<View>*/}
+                    {/*<Text>Viết bình luận ...</Text>*/}
+                    {/*</View>*/}
+                    {/*</TouchableOpacity>*/}
                     {/*</View>*/}
                 </View>
 
