@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, AsyncStorage, Image } from "react-native";
 import { IMAGE } from "../constant/assets";
-import { USER_ID } from "../constant/KeyConstant";
+import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
 
 class SplashScreen extends Component {
@@ -13,10 +13,15 @@ class SplashScreen extends Component {
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
-    const userID = await AsyncStorage.getItem(USER_ID);
-    console.log("data in async storeage", userID);
+    const isFirstInstall = await AsyncStorage.getItem(FIRST_INSTALL);
     let routerName = "Login";
-    // if (userID) routerName = "TabHome";
+    if (isFirstInstall === null) {
+      routerName = "Intro";
+    } else {
+      const userID = await AsyncStorage.getItem(USER_ID);
+      if (userID) routerName = "TabHome";
+    }
+
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: routerName })],

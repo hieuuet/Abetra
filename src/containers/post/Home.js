@@ -11,7 +11,6 @@ import {
 import SocketIOClient from "socket.io-client";
 
 import StatusItems from "../../components/StatusItems";
-import Icon from "react-native-vector-icons/dist/EvilIcons";
 import Icon1 from "react-native-vector-icons/dist/Entypo";
 import { URL_SOCKET } from "../../constant/api";
 import { bindActionCreators } from "redux";
@@ -58,7 +57,6 @@ class Home extends Component {
       Pin: 255,
       Option: 0,
       LangID: 129,
-      lang_name: "vi_VN",
     });
     if (listPost.ErrorCode === "00") {
       this.setState({
@@ -73,7 +71,6 @@ class Home extends Component {
     loadUserProfile({
       user_id: userID,
       option: 100,
-      lang_name: "vi_VN",
     });
   };
   _renderLoading = () => {

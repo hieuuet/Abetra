@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
@@ -16,13 +17,16 @@ import style_common from "../../style-common";
 import ItemSlider from "./ItemSlider";
 import ModalDropdown from "../../components/ModalDropdown";
 const { width, height } = Dimensions.get("window");
+import { FIRST_INSTALL } from "../../constant/KeyConstant";
+import { NavigationActions, StackActions } from "react-navigation";
+
 const heightHeader = 100;
 const isIphoneX =
   Platform.OS === "ios" &&
   !Platform.isPad &&
   !Platform.isTVOS &&
   (height === 812 || width === 812);
-class GioiThieuAbetra extends Component {
+class AppIntroSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,7 +76,12 @@ class GioiThieuAbetra extends Component {
   };
   onDone = () => {
     //Navigate to new screen
-    this.props.navigation.navigate("Register");
+    AsyncStorage.setItem(FIRST_INSTALL, "1");
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "Register" })]
+    });
+    this.props.navigation.dispatch(resetAction);
   };
 
   _onLayout = () => {
@@ -265,4 +274,4 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-export default GioiThieuAbetra;
+export default AppIntroSlider;

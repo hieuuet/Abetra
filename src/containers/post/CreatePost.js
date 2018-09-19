@@ -59,7 +59,6 @@ class CreatePost extends Component {
             user_id: UserProfile.Value[0].UserID,
             base64Datas: arrImage,
             LangID: 129,
-            lang_name: "vi_VN"
         });
         // console.log("linkImage", linkImage);
         // let Imgs = [];
@@ -128,7 +127,6 @@ class CreatePost extends Component {
             DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
             IsAdvs: "",
             LangID: 129,
-            lang_name: "vi_VN"
         });
         console.log('post', post)
     };

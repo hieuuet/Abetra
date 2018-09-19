@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { login } from "./loginReducers";
-import { loadUserProfile } from "./loadUserProfileReducers";
+import { loadUserProfile } from "./UserProfileReducers";
 import { createMsgGroup } from "./createMsgGroupReducers";
 import { loadMsgGroup } from "./loadMsgGroupReducers";
 import { detailMsg } from "./detailMsgReducers";

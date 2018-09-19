@@ -59,8 +59,7 @@ class Login extends Component {
     this.setState({ isLoading: true });
     let login = await postLogin({
       so_dien_thoai: userName,
-      mat_khau: password,
-      lang_name: "vi_VN",
+      mat_khau: password
     });
     console.log("login", login);
     this.setState({ isLoading: false });

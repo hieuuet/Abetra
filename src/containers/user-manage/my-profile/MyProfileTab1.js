@@ -73,7 +73,6 @@ class MyProfileTab1 extends Component {
     await loaddataUser({
       user_id: dataUser.UserID,
       option: 100,
-      lang_name: "vi_VN",
     });
   };
 

@@ -1,5 +1,7 @@
-// import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "react-native";
 import axios from "axios";
+import { LANGUAGE } from "../constant/KeyConstant";
+const DefaultLanguge = "vi_VN";
 
 export const getRequestApi = async (url) => {
   // let token = await AsyncStorage.getItem('token');
@@ -26,7 +28,10 @@ export const getRequestApi = async (url) => {
 };
 
 export const postRequestApi = async (url, data, dispatch) => {
-  // let  token = await AsyncStorage.getItem('token') ? await AsyncStorage.getItem('token') : ''
+  //Config get set for all api
+  let language = await AsyncStorage.getItem(LANGUAGE);
+  if (language === null) language = DefaultLanguge;
+  data = { ...data, lang_name: language };
   let config = {
     headers: {
       "Content-Type": "application/json",

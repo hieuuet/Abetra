@@ -6,7 +6,7 @@ import { COLOR } from "../../../constant/Color";
 import MyProfileTab1 from "./MyProfileTab1";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../../actions/loadUserProfileActions";
+import { loadUserProfile } from "../../../actions/UserProfileActions";
 import MyProfileTab2 from "./MyProfileTab2";
 import _ from "lodash";
 
@@ -112,7 +112,6 @@ class Profile extends Component {
     await loadUserProfile({
       user_id: userProfile.UserID,
       option: 100,
-      lang_name: "vi_VN",
     });
   };
 

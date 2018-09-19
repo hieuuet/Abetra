@@ -16,7 +16,7 @@ import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
 import { USER_ID } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { resetStore } from "../actions";
+import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 
 class Menu extends Component {
@@ -43,7 +43,10 @@ class Menu extends Component {
     return (
       <TouchableOpacity
         style={[style_common.card_view, styles.header_container]}
-        onPress={() => this.props.navigation.navigate("Profile")}
+        onPress={() => {
+          if (this.props.isGuest) return requestRegister(this.props.navigation);
+          this.props.navigation.navigate("Profile");
+        }}
       >
         <Image
           source={
@@ -60,7 +63,9 @@ class Menu extends Component {
               ? this.userProfile.FullName
               : ""}
           </Text>
-          <Text style={styles.text_rank}>Hội viên bạch kim</Text>
+          <Text style={styles.text_rank}>
+            {this.props.isGuest ? "Guest" : "Hội viên bạch kim"}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -71,18 +76,12 @@ class Menu extends Component {
       <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
         {this.renderHeader()}
         <MenuItem
-          title="Đăng ký hội viên"
-          nameIcon="home"
-          style={styles.style_menu}
-          onPress={() => {
-            this.props.navigation.navigate("Profile");
-          }}
-        />
-        <MenuItem
           title="Bài viết đã lưu"
           nameIcon="bookmark"
           style={styles.style_menu}
           onPress={() => {
+            if (this.props.isGuest)
+              return requestRegister(this.props.navigation);
             this.props.navigation.navigate("SavePost");
           }}
         />
@@ -150,6 +149,7 @@ class Menu extends Component {
 const mapStateToProps = (state) => {
   return {
     userProfile: state.loadUserProfile,
+    isGuest: state.loginGuest.isGuest,
   };
 };
 

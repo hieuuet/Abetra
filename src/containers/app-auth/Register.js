@@ -81,7 +81,6 @@ class Register extends Component {
       FullName: fullName,
       Email: `${userName}@gmail.com`,
       Password: password,
-      lang_name: "vi_VN",
     });
     this.setState({ isLoading: false });
     console.log("register result", register);
