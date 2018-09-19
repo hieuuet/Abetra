@@ -16,7 +16,7 @@ class SplashScreen extends Component {
     const userID = await AsyncStorage.getItem(USER_ID);
     console.log("data in async storeage", userID);
     let routerName = "Login";
-    if (userID) routerName = "TabHome";
+    // if (userID) routerName = "TabHome";
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: routerName })],

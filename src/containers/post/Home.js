@@ -16,10 +16,9 @@ import Icon1 from "react-native-vector-icons/dist/Entypo";
 import { URL_SOCKET } from "../../constant/api";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../actions/loadUserProfileActions";
+import { loadUserProfile, requestRegister, searchPost } from "../../actions";
 import { SearchView, ViewLoading } from "../../components/CommonView";
 import style_common from "../../style-common/index";
-import { searchPost } from "../../actions/searchPostActions";
 import { USER_ID } from "../../constant/KeyConstant";
 
 class Home extends Component {
@@ -38,21 +37,14 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    // AsyncStorage.getItem('UserID').then(value => {
-    //     console.log('userId', value)
-    // })
-    await this._loadUserProfile();
-    await this._searchPost();
+    this._searchPost();
+    if (!this.props.isGuest) this._loadUserProfile();
   }
   _searchPost = async () => {
     this.setState({
       isLoading: true,
     });
-    const { UserProfile, searchPost } = this.props;
-    if (UserProfile.length <= 0) {
-      return null;
-    }
-    console.log("userProfile", UserProfile);
+    const { searchPost } = this.props;
     let listPost = await searchPost({
       Page_size: 20,
       Page_index: 1,
@@ -68,7 +60,6 @@ class Home extends Component {
       LangID: 129,
       lang_name: "vi_VN",
     });
-    console.log("listPost", listPost);
     if (listPost.ErrorCode === "00") {
       this.setState({
         isLoading: false,
@@ -79,7 +70,7 @@ class Home extends Component {
   _loadUserProfile = async () => {
     const { loadUserProfile } = this.props;
     const userID = await AsyncStorage.getItem(USER_ID);
-    await loadUserProfile({
+    loadUserProfile({
       user_id: userID,
       option: 100,
       lang_name: "vi_VN",
@@ -117,7 +108,10 @@ class Home extends Component {
                 justifyContent: "center",
                 marginRight: 10,
               }}
-              onPress={() => this.props.navigation.navigate("CreatePost")}
+              onPress={() => {
+                if (this.props.isGuest) return requestRegister(navigation);
+                this.props.navigation.navigate("CreatePost");
+              }}
             >
               <View
                 style={{
@@ -163,6 +157,7 @@ const mapStateToProps = (state) => {
   return {
     LoginData: state.login,
     UserProfile: state.loadUserProfile,
+    isGuest: state.loginGuest.isGuest,
   };
 };
 
