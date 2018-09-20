@@ -64,14 +64,16 @@ class StatusItems extends Component {
             <View>
                 <View>
                     <View style={{flexDirection: "row", marginTop: 10, alignItems: 'center'}}>
-                        <Image
-                            style={styles.image_circle}
-                            source={{
-                                uri:
-                                    "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
-                            }}
-                            resizeMode="cover"
-                        />
+                        <TouchableOpacity onPress = {() => this.props.navigation.navigate("MemberProfile", {item: item})}>
+                            <Image
+                                style={styles.image_circle}
+                                source={{
+                                    uri:
+                                        "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
+                                }}
+                                resizeMode="cover"
+                            />
+                        </TouchableOpacity>
 
                         <View style={{marginLeft: 10, flex: 1}}>
                             <View style={{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
@@ -149,7 +151,7 @@ class StatusItems extends Component {
                                 <Text>Thích</Text>
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress = {()=> this.props.navigation.navigate('BinhLuan', {item: item})}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BinhLuan', {item: item})}>
                             <View style={{flexDirection: "row", alignItems: "center"}}>
                                 <Icon1 name="comment" size={25} color="#424242"/>
 

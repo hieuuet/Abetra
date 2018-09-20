@@ -62,7 +62,7 @@ class Home extends Component {
       this.setState({
         isLoading: false,
         ArrPost: listPost.Value,
-      });
+      },()=> console.log('ArrPost', this.state.ArrPost));
     }
   };
   _loadUserProfile = async () => {

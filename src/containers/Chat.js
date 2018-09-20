@@ -59,6 +59,7 @@ class Chat extends Component {
     _loadMsgDetail = async () => {
         const { navigation, UserProfile, loadDetailMsg } = this.props;
         const MsgGroupID = navigation.getParam('MsgGroupID');
+        console.log("MsgGroupID", MsgGroupID)
         if(UserProfile.length <=0 ){
             return null
         }
@@ -66,7 +67,7 @@ class Chat extends Component {
             MsgGroupID : MsgGroupID,
             IntUserID: UserProfile.Value[0].IntUserID,
             Index: 1,
-            Today: 1
+            Today: 0
         })
         console.log("msgDetail", msgDetail)
         if(msgDetail.Error === null){
@@ -77,13 +78,14 @@ class Chat extends Component {
     }
     onReceiveTextInputClick = (text) => {
         console.log('-------onReceiveTextInputClick--------')
-        // const {params} = this.props.navigation.state
-        // console.log('params', params)
-        const {UserProfile} = this.props;
+        const { navigation,UserProfile } = this.props;
+        const MsgGroupID = navigation.getParam('MsgGroupID');
+        const ProfileMember = navigation.getParam('ProfileMember')
+        console.log("ProfileMember", ProfileMember)
         if (UserProfile.length <= 0) {
             return null;
         }
-        console.log('UserProfile', UserProfile)
+        // console.log('UserProfile', UserProfile)
 
         if (text === "")
             return;
@@ -91,13 +93,13 @@ class Chat extends Component {
         //object need send to server
         // console.log('userid gui di', InfoUser[0].UserID)
         let dataSend = {
-            MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
+            MsgGroupID: MsgGroupID,
             IntUserID: UserProfile.Value[0].IntUserID,
             FullName: UserProfile.Value[0].FullName,
-            Avatar: "",
-            RefIntUserID: 736,
-            RefName: "Nguyen Van Hieu",
-            RefAvatar: "" ,
+            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar: "",
+            RefIntUserID: ProfileMember[0].IntUserID,
+            RefName: ProfileMember[0].FullName,
+            RefAvatar: ProfileMember[0].Avatar ? ProfileMember[0].Avatar : "" ,
             Content: text,
         }
         console.log('dataSend', dataSend)
@@ -111,7 +113,11 @@ class Chat extends Component {
     };
 
     render () {
-        const {navigation} = this.props
+        // const {navigation} = this.props
+        const { UserProfile } = this.props;
+        if(UserProfile.length <=0 ){
+            return null
+        }
         return (
 
             <KeyboardAvoidingView style={{ flex: 1 }}
@@ -126,6 +132,7 @@ class Chat extends Component {
                         return (
                             <ChatItem
                                 dataItem={item}
+                                myIntUserID={UserProfile.Value[0].IntUserID}
                                 // navigation={navigation}
                             />
                         )

@@ -20,7 +20,7 @@ export default class ChatItem extends Component {
         return (
             <View style={{ flex: 1 }}>
                 {
-                    item.IntUserID === "734" ?
+                    item.IntUserID === this.props.myIntUserID ?
                         <View style={{
                             flex: 1,
                             marginLeft: DEVICE_WIDTH / 3,
