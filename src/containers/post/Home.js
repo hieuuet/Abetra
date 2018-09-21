@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   AsyncStorage,
+  Text,
 } from "react-native";
 import SocketIOClient from "socket.io-client";
 
@@ -59,10 +60,17 @@ class Home extends Component {
       LangID: 129,
     });
     if (listPost.ErrorCode === "00") {
+      this.setState(
+        {
+          isLoading: false,
+          ArrPost: listPost.Value,
+        },
+        () => console.log("ArrPost", this.state.ArrPost)
+      );
+    } else {
       this.setState({
         isLoading: false,
-        ArrPost: listPost.Value,
-      },()=> console.log('ArrPost', this.state.ArrPost));
+      });
     }
   };
   _loadUserProfile = async () => {
@@ -76,9 +84,16 @@ class Home extends Component {
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
   };
-
+  _renderEmpty = () => {
+    return (
+      <View style={style_common.content_center}>
+        <Text>Không có dữ liệu</Text>
+      </View>
+    );
+  };
   render() {
     const { navigation } = this.props;
+
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -126,23 +141,27 @@ class Home extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <FlatList
-            // refreshing={this.state.refresh}
-            // onRefresh={() => {
-            //     this.GetPost()
-            // }}
-            data={this.state.ArrPost}
-            renderItem={(item) => {
-              return (
-                <StatusItems
-                  dataItem={item}
-                  // onReloadBack ={this.onReloadBack}
-                  navigation={navigation}
-                />
-              );
-            }}
-            keyExtractor={(item, index) => index.toString()}
-          />
+          {this.state.ArrPost.length === 0 ? (
+            this._renderEmpty()
+          ) : (
+            <FlatList
+              // refreshing={this.state.refresh}
+              // onRefresh={() => {
+              //     this.GetPost()
+              // }}
+              data={this.state.ArrPost}
+              renderItem={(item) => {
+                return (
+                  <StatusItems
+                    dataItem={item}
+                    // onReloadBack ={this.onReloadBack}
+                    navigation={navigation}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          )}
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>

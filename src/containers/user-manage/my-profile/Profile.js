@@ -85,7 +85,6 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.reLoadProfile();
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       if (this.refs.modal && this.refs.modal.state.isOpen) {
@@ -101,16 +100,17 @@ class Profile extends Component {
     );
   }
   componentWillUnmount() {
+    this.reLoadProfile();
     this.backHandler.remove();
   }
 
   reLoadProfile = async () => {
-    const { loadUserProfile, userProfile } = this.props;
-    if (!userProfile || !userProfile.UserID) {
+    const { loadUserProfile } = this.props;
+    if (!this.userProfile || !this.userProfile.UserID) {
       return null;
     }
-    await loadUserProfile({
-      user_id: userProfile.UserID,
+    loadUserProfile({
+      user_id: this.userProfile.UserID,
       option: 100,
     });
   };

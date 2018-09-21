@@ -10,5 +10,5 @@ export { postLogin } from "./loginActions";
 export { postRegister } from "./registerActions";
 export { searchCmt } from "./searchCmtActions";
 export { searchPost } from "./searchPostActions";
-export { uploadImage } from "./uploadImageActions";
+export { uploadImage,uploadImage2 } from "./UploadImageActions";
 export { resetStore } from "./resetStoreAction";

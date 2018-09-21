@@ -27,7 +27,7 @@ export const getRequestApi = async (url) => {
     });
 };
 
-export const postRequestApi = async (url, data, dispatch) => {
+export const postRequestApi = async (url, data, isShowLog = false) => {
   //Config get set for all api
   let language = await AsyncStorage.getItem(LANGUAGE);
   if (language === null) language = DefaultLanguge;
@@ -45,7 +45,12 @@ export const postRequestApi = async (url, data, dispatch) => {
   return axios
     .post(url, data, config, timeRequest)
     .then((res) => {
-      // console.log('dataRes post request', res)
+      if (isShowLog === true) {
+        console.log(`%cCall Api ${url}:\n`, "color: #009933;font-size: 15px;", {
+          input: data,
+          response: res.data,
+        });
+      }
       const response = res.data;
       return response;
     })

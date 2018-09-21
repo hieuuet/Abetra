@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import {View, StyleSheet, AsyncStorage} from "react-native";
+import { View, StyleSheet } from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
 import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
-import {loadUserProfile} from "../../../actions";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {USER_ID} from "../../../constant/KeyConstant";
+import { loadUserProfile } from "../../../actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -25,7 +24,7 @@ class MemberProfile extends Component {
     this.state = {
       isLoading: false,
       tabIndex: 0,
-        profileMember: [],
+      profileMember: [],
     };
 
     this.userProfile = {};
@@ -37,24 +36,24 @@ class MemberProfile extends Component {
 
   componentDidMount() {
     this.reLoadProfile();
-    this._loadUserProfile()
+    this._loadUserProfile();
   }
 
-    _loadUserProfile = async () => {
-        const { navigation } = this.props;
-        const itemStatus = navigation.getParam('item');
-        const { loadUserProfile } = this.props;
-        let profile_member = await loadUserProfile({
-            user_id: itemStatus.UserID,
-            option: 100,
-        });
-        console.log('profile', profile_member)
-        if(profile_member.ErrorCode ==="00"){
-          this.setState({
-              profileMember: profile_member.Value
-          })
-        }
-    };
+  _loadUserProfile = async () => {
+    const { navigation } = this.props;
+    const itemStatus = navigation.getParam("item");
+    const { loadUserProfile } = this.props;
+    let profile_member = await loadUserProfile({
+      user_id: itemStatus.UserID,
+      option: 100,
+    });
+    console.log("profile", profile_member);
+    if (profile_member.ErrorCode === "00") {
+      this.setState({
+        profileMember: profile_member.Value,
+      });
+    }
+  };
   reLoadProfile = async () => {};
 
   _renderLoading = () => {
@@ -113,22 +112,20 @@ class MemberProfile extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        LoginData: state.login,
-        UserProfile: state.loadUserProfile,
-        isGuest: state.loginGuest.isGuest,
-    };
+  return {
+    UserProfile: state.loadUserProfile,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
-    };
+  return {
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+  };
 };
 
 MemberProfile = connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MemberProfile);
 export default MemberProfile;
 
@@ -138,7 +135,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE,
   },
 
- 
   content: {
     position: "absolute",
     top: 0,

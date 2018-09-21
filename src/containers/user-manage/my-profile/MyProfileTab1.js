@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  NativeModules,
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -21,14 +22,21 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../../components/MenuItem";
+import { updateUserProfile, uploadImage2 } from "../../../actions";
 import _ from "lodash";
 const { width } = Dimensions.get("window");
+import { URL_BASE } from "../../../constant/api";
+
+const ImagePicker = NativeModules.ImageCropPicker;
 
 import Ionicon from "react-native-vector-icons/dist/Ionicons";
 import PropTypes from "prop-types";
 class MyProfileTab1 extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      localAvatar: undefined,
+    };
 
     this.radioData = [
       {
@@ -41,6 +49,12 @@ class MyProfileTab1 extends Component {
 
     //get dataUser
     this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
+    this.textAddress =
+      this.dataUser && this.dataUser.Address ? this.dataUser.Address : "";
+    this.textDescription =
+      this.dataUser && this.dataUser.Description
+        ? this.dataUser.Description
+        : "";
 
     this.dataImage = [
       "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
@@ -48,12 +62,9 @@ class MyProfileTab1 extends Component {
       "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
       "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
       "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
-      // 'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
-      // 'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
-      // 'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
-      // 'https://drscdn.500px.org/photo/216051623/m%3D2048_k%3D1_a%3D1/5a3732bb413f240ad71b8279b038a3ff',
-      // 'https://drscdn.500px.org/photo/216047335/m%3D2048_k%3D1_a%3D1/4237ac4606474f0ec7ccc05ca311772e',
-      // 'https://drscdn.500px.org/photo/216000289/m%3D2048_k%3D1_a%3D1/5ac2a21092f9281feef3ab8484d2b19c'
+      "https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b",
+      "https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990",
+      "https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602",
     ];
   }
 
@@ -64,39 +75,91 @@ class MyProfileTab1 extends Component {
     );
   }
 
-  reLoadProfile = async () => {
-    const { loaddataUser, dataUser } = this.props;
-    if (!dataUser || !dataUser.UserID) {
-      return null;
-    }
-
-    await loaddataUser({
-      user_id: dataUser.UserID,
-      option: 100,
+  callApiUpdateProfile = ({ field, value }) => {
+    updateUserProfile({
+      profile_id: this.dataUser.IntUserID,
+      user_id: this.dataUser.UserID,
+      field,
+      value,
     });
   };
 
+  updateAddress = () => {
+    if (this.dataUser && this.textAddress !== this.dataUser.textAddress) {
+      this.dataUser.textAddress = this.textAddress;
+      this.callApiUpdateProfile({
+        field: "Address",
+        value: this.textAddress,
+      });
+    }
+    if (this.dataUser && this.textDescription !== this.dataUser.Description) {
+      this.dataUser.Description = this.textDescription;
+      this.callApiUpdateProfile({
+        field: "Description",
+        value: this.textDescription,
+      });
+    }
+  };
+
+  pickImageToUpload = () => {
+    ImagePicker.openPicker({
+      // ImagePicker.openCamera({
+      waitAnimationEnd: false,
+      includeBase64: true,
+      includeExif: true,
+      forceJpg: true,
+    })
+      .then(async (image) => {
+        if (image && image.data) {
+          this.setState({ localAvatar: image.path });
+
+          const responUpload = await uploadImage2({
+            base64Data: image.data,
+            user_id: this.dataUser.UserID,
+            extension: "jpeg",
+          });
+
+          if (responUpload) {
+            const linkImgUploaded = JSON.parse(responUpload);
+            if (linkImgUploaded) {
+              this.callApiUpdateProfile({
+                field: "Avatar",
+                value: linkImgUploaded.Value,
+              });
+            }
+          }
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   getGender = () => {
-    return this.dataUser &&
-      this.dataUser.Gender &&
-      typeof this.dataUser.Gender === "number"
-      ? this.dataUser.Gender
-      : 2;
+    if (
+      typeof this.dataUser.Gender !== "number" ||
+      (this.dataUser && !!this.dataUser.Gender === null)
+    ) {
+      return 2;
+    }
+    return this.dataUser.Gender;
   };
 
   _renderHeader = () => {
     return (
       <View>
         <View style={styles.contain_avatar}>
-          <Image
-            source={
-              this.dataUser && this.dataUser.Avatar
-                ? { uri: this.dataUser.Avatar }
-                : IMAGE.logo
-            }
-            resizeMode="cover"
-            style={styles.avatar}
-          />
+          <TouchableOpacity onPress={this.pickImageToUpload}>
+            <Image
+              source={
+                this.state.localAvatar
+                  ? { uri: this.state.localAvatar }
+                  : this.dataUser && this.dataUser.Avatar
+                    ? { uri: URL_BASE + this.dataUser.Avatar }
+                    : IMAGE.logo
+              }
+              resizeMode="cover"
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
           <View style={styles.right_avatar}>
             <EditView
               label={strings("profile.name_login")}
@@ -116,6 +179,15 @@ class MyProfileTab1 extends Component {
               }
               isEditAble={true}
               style_edit={styles.text_name}
+              onSubmit={(text) => {
+                if (!this.dataUser || text.trim() === this.dataUser.FullName)
+                  return;
+                this.dataUser.FullName = !this.dataUser || text.trim();
+                this.callApiUpdateProfile({
+                  field: "FullName",
+                  value: !this.dataUser || text.trim(),
+                });
+              }}
             />
             <View style={styles.change_pass}>
               <Text style={style_common.text_color_base}>
@@ -128,6 +200,7 @@ class MyProfileTab1 extends Component {
           </View>
         </View>
         <EditView
+          placeHolder="dd-MM-YYYY"
           label={strings("profile.birth_day")}
           text_edit={
             this.dataUser && this.dataUser.BirdDate
@@ -135,6 +208,20 @@ class MyProfileTab1 extends Component {
               : ""
           }
           isEditAble={true}
+          onSubmit={(text) => {
+            if (!this.dataUser || text.trim() === this.dataUser.BirdDate)
+              return;
+            //TODO: need to validate birth date here
+            // const m = text
+            //   .trim()
+            //   .match(/(3[01]|[2][0-9]|0\d)-(1[0-2]|0\[1-9])-\d{4}/);
+            // console.log("m--", m);
+            this.dataUser.BirdDate = !this.dataUser || text.trim();
+            this.callApiUpdateProfile({
+              field: "BirdDate",
+              value: !this.dataUser || text.trim(),
+            });
+          }}
         />
         <View style={styles.change_pass}>
           <Text
@@ -152,24 +239,46 @@ class MyProfileTab1 extends Component {
             animation={true}
             style={styles.radio_form}
             onPress={(value) => {
-              alert(value);
+              this.callApiUpdateProfile({
+                field: "Gender",
+                value,
+              });
             }}
           />
         </View>
 
         <EditView
           label={strings("profile.email")}
+          keyboardType="email-address"
           text_edit={
             this.dataUser && this.dataUser.Email ? this.dataUser.Email : ""
           }
           isEditAble={true}
+          onSubmit={(text) => {
+            if (!this.dataUser || text.trim() === this.dataUser.Email) return;
+
+            this.dataUser.Email = !this.dataUser || text.trim();
+            this.callApiUpdateProfile({
+              field: "Email",
+              value: !this.dataUser || text.trim(),
+            });
+          }}
         />
         <EditView
           label={strings("profile.mobile")}
+          keyboardType="numeric"
           text_edit={
             this.dataUser && this.dataUser.Phone ? this.dataUser.Phone : ""
           }
           isEditAble={true}
+          onSubmit={(text) => {
+            if (!this.dataUser || text.trim() === this.dataUser.Phone) return;
+            this.dataUser.Phone = !this.dataUser || text.trim();
+            this.callApiUpdateProfile({
+              field: "Phone",
+              value: !this.dataUser || text.trim(),
+            });
+          }}
         />
       </View>
     );
@@ -182,7 +291,10 @@ class MyProfileTab1 extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           placeholder={"Địa chỉ"}
-          onChangeText={(text) => {}}
+          defaultValue={this.textAddress}
+          onChangeText={(text) => {
+            this.textAddress = text.trim();
+          }}
           style={[style_common.input_border, styles.text_address]}
         />
         <TextInput
@@ -191,12 +303,15 @@ class MyProfileTab1 extends Component {
           returnKeyType="done"
           numberOfLines={5}
           multiline={true}
+          defaultValue={this.textDescription}
           placeholder={`Giới thiệu về ${
             this.dataUser && this.dataUser.FullName
               ? this.dataUser.FullName
               : ""
           }`}
-          onChangeText={(text) => {}}
+          onChangeText={(text) => {
+            this.textDescription = text.trim();
+          }}
           style={[style_common.input_border, styles.text_area]}
           onSubmitEditing={(event) => {}}
         />
@@ -212,8 +327,11 @@ class MyProfileTab1 extends Component {
               resizeMode="cover"
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn_save}>
-            <Text>Luu</Text>
+          <TouchableOpacity
+            style={styles.btn_save}
+            onPress={this.updateAddress}
+          >
+            <Text>Lưu</Text>
           </TouchableOpacity>
         </View>
         <PhotoGrid
@@ -259,7 +377,7 @@ class MyProfileTab1 extends Component {
   };
 
   render() {
-    // console.log("render tab1");
+    this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
     return (
       <KeyboardAvoidingView
         style={style_common.container}

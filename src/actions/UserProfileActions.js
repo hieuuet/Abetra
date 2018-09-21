@@ -16,7 +16,7 @@ export const loadUserProfile = (data = {}) => {
 };
 
 export const updateUserProfile = (data = {}) => {
-  return async (dispatch) => {
-    return await postRequestApi(API.UPDATE_USER_PROFILE, data);
-  };
+  return postRequestApi(API.UPDATE_USER_PROFILE, data, true);
 };
+
+

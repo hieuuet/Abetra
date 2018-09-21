@@ -39,7 +39,6 @@ ButtonBorder.propTypes = {
  * @param {using default loading for facebook} isLoadingIndicator
  */
 export const ViewLoading = ({ isLoadingIndicator = true }) => {
-  console.log("isLoadingIndicator", isLoadingIndicator);
   return (
     <View style={styles.loading}>
       {isLoadingIndicator ? (

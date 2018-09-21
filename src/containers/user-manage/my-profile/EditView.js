@@ -41,8 +41,10 @@ class EditView extends React.PureComponent {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
             returnKeyType="done"
+            keyboardType={this.props.keyboardType}
             ref="input"
             numberOfLines={1}
+            placeholder={this.props.placeHolder}
             editable={this.state.allowEdit}
             defaultValue={this.currentText}
             onChangeText={(text) => {
@@ -52,19 +54,20 @@ class EditView extends React.PureComponent {
             style={[styles.edit, this.props.style_edit]}
             onBlur={(event) => {
               this.setState({ allowEdit: false });
+
+              this.props.onSubmit(this.currentText);
             }}
           />
         )}
-          {this.props.isEditAble ?
-              <TouchableOpacity
-                  onPress={() => {
-                      this.setState({allowEdit: true});
-                  }}
-              >
-                  <Icon name="edit" size={20} color={COLOR.COLOR_BLACK}/>
-              </TouchableOpacity>
-              : null
-          }
+        {this.props.isEditAble ? (
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ allowEdit: true });
+            }}
+          >
+            <Icon name="edit" size={20} color={COLOR.COLOR_BLACK} />
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }
@@ -81,6 +84,9 @@ EditView.propTypes = {
   style_label: PropTypes.number,
   style_edit: PropTypes.number,
   onChangeText: PropTypes.func,
+  onSubmit: PropTypes.func,
+  placeHolder: PropTypes.string,
+  keyboardType: PropTypes.string,
 };
 
 /**
@@ -88,6 +94,8 @@ EditView.propTypes = {
  **/
 EditView.defaultProps = {
   isEditAble: false,
+  placeHolder: "",
+  keyboardType: "default",
 };
 const styles = StyleSheet.create({
   wrapper: {

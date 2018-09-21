@@ -18,16 +18,12 @@ import { USER_ID } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
 import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
+import { URL_BASE } from "../constant/api";
 
 class Menu extends Component {
   constructor(props) {
     super(props);
-    this.userProfile =
-      this.props.userProfile &&
-      this.props.userProfile.Value &&
-      this.props.userProfile.Value.length > 0
-        ? this.props.userProfile.Value[0]
-        : {};
+    this.userProfile = {};
   }
 
   logout = () => {
@@ -51,7 +47,7 @@ class Menu extends Component {
         <Image
           source={
             this.userProfile && this.userProfile.Avatar
-              ? { uri: this.userProfile.Avatar }
+              ? { uri: URL_BASE + this.userProfile.Avatar }
               : IMAGE.logo
           }
           resizeMode="cover"
@@ -71,6 +67,12 @@ class Menu extends Component {
     );
   };
   render() {
+    this.userProfile =
+      this.props.userProfile &&
+      this.props.userProfile.Value &&
+      this.props.userProfile.Value.length > 0
+        ? this.props.userProfile.Value[0]
+        : {};
     console.log("render menu");
     return (
       <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
@@ -147,6 +149,7 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("state redux change", state.loadUserProfile);
   return {
     userProfile: state.loadUserProfile,
     isGuest: state.loginGuest.isGuest,
