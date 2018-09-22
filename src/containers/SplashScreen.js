@@ -14,12 +14,15 @@ class SplashScreen extends Component {
 
   componentDidMount() {
     this.props.getCurrentLanguage();
+    this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
     const isFirstInstall = await AsyncStorage.getItem(FIRST_INSTALL);
     let routerName = "Login";
+    let allLanguage = {};
     if (isFirstInstall === null) {
       routerName = "Intro";
+      allLanguage = await getAllLanguage();
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);
       if (userID) routerName = "TabHome";
@@ -27,7 +30,12 @@ class SplashScreen extends Component {
 
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: routerName })],
+      actions: [
+        NavigationActions.navigate({
+          routeName: routerName,
+          params: allLanguage,
+        }),
+      ],
     });
     this.props.navigation.dispatch(resetAction);
   };
