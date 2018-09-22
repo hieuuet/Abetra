@@ -33,7 +33,7 @@ class Home extends Component {
       pingInterval: 30000,
       transports: ["websocket"],
     });
-    // console.log('this.socket', this.socket)
+    console.log('this.socket', this.socket)
   }
 
   async componentDidMount() {

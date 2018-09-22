@@ -59,6 +59,8 @@ class StatusItems extends Component {
 
     render() {
         const {item} = this.props.dataItem;
+        let ArrImg = item.Images ? item.Images : null
+        ArrImg = JSON.parse(ArrImg)
 
         return (
             <View>
@@ -106,12 +108,12 @@ class StatusItems extends Component {
                             </ReadMore>
                         </View>
                     </View>
-                    {/*{item.Images ? (*/}
+                    { ArrImg ? (
                     <PhotoGrid
-                        source={this.state.images}
+                        source={ArrImg}
                         navigation={this.props.navigation}
                     />
-                    {/*) : null}*/}
+                    ) : null}
 
                     <View
                         style={{

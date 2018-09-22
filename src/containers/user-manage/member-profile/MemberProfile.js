@@ -8,6 +8,10 @@ import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadUserProfile } from "../../../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import {API} from "../../../constant/api";
+import axios from "axios"
+
+
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -39,20 +43,49 @@ class MemberProfile extends Component {
     this._loadUserProfile();
   }
 
-  _loadUserProfile = async () => {
+  _loadUserProfile = () => {
     const { navigation } = this.props;
     const itemStatus = navigation.getParam("item");
-    const { loadUserProfile } = this.props;
-    let profile_member = await loadUserProfile({
-      user_id: itemStatus.UserID,
-      option: 100,
-    });
-    console.log("profile", profile_member);
-    if (profile_member.ErrorCode === "00") {
-      this.setState({
-        profileMember: profile_member.Value,
-      });
-    }
+    console.log('Itemstatus', itemStatus)
+    console.log('UserID', itemStatus.UserID)
+      // axios.post("http://123.16.53.210:9000/api/Users/LoadUserProfile", {
+      //     headers: {'Content-Type': 'application/json'},
+      //     params: {
+      //         user_id: "2C6E403D-D01B-4B3B-920C-BC04E21F502C",
+      //         option: 100
+      //     }
+      // })
+      //     .then(function (response) {
+      //         console.log("response", response.data);
+      //     })
+      //     .catch(function (error) {
+      //         console.log(error);
+      //     });
+      fetch(API.LOAD_USER_PROFILE, {
+          method: 'POST',
+
+          headers: {'Content-Type': 'application/json'},
+
+          body: JSON.stringify({
+                  user_id: itemStatus.UserID,
+                  option: 100
+          })
+
+      })
+          .then((response) => response.json())
+          .then((dataRes)=> {
+              if (dataRes.ErrorCode == "00") {
+                  this.setState({
+                      profileMember: dataRes.Value,
+                  });
+              }
+
+              console.log("dataRes",dataRes)
+
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
   };
   reLoadProfile = async () => {};
 

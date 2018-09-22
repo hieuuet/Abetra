@@ -7,33 +7,36 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import moment from "moment";
 
 class BinhLuanItem extends Component {
   render() {
     const { item } = this.props.dataItem;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: "row" , alignItems:"center"}}>
-          <Image
-            style={styles.image_circle}
-            source={{
-              uri:
-                "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
-            }}
-            resizeMode="cover"
-          />
-          <Text style={styles.textName}>{item.FullName}</Text>
-        </View>
-        <View style={styles.viewCmt}>
-          <View style = {{marginRight: 10, flex: 1,
-              backgroundColor: '#BDBDBD', borderRadius: 14,
-              padding: 10, justifyContent: 'center', flexWrap: 'wrap'}}>
-          <Text style={styles.textCmt}>{item.Content}</Text>
+          <View style = {{flexDirection: 'row', alignItems:"center"}}>
+              <Image
+                  style={styles.image_circle}
+                  source={{
+                      uri:
+                          "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
+                  }}
+                  resizeMode="cover"
+              >
+              </Image>
+
+              <Text style = {styles.textName}>{item.FullName}</Text>
           </View>
-          <View style={{ flexDirection: "row" , justifyContent:'flex-end'}}>
-            <Text style={{  color: "#03A9F4", marginRight:15}}>Trả lời</Text>
+
+          <View style = {styles.viewCmt}>
+              <Text style = {styles.textCmt}>{item.Content}</Text>
+              <View style = {{flexDirection:'row'}}>
+                  <Text>{moment(item.DatePost).format("DD-MM-YYYY HH:mm")}</Text>
+              </View>
+
           </View>
-        </View>
+          <View style = {{height:1, backgroundColor:'#E0E0E0', marginLeft: DEVICE_WIDTH / 10 + 10, marginTop:10}}>
+          </View>
       </View>
     );
   }
