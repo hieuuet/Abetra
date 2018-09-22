@@ -5,7 +5,11 @@ export { createPost } from "./createPostActions";
 export { loadDetailMsg } from "./detailMsgActions";
 export { getTopPost } from "./getTopPostActions";
 export { loadMsgGroup } from "./loadMsgGroupActions";
-export { loadUserProfile, updateUserProfile,loadProfileMember } from "./UserProfileActions";
+export {
+  loadUserProfile,
+  updateUserProfile,
+  loadProfileMember,
+} from "./UserProfileActions";
 export { postLogin } from "./loginActions";
 export { postRegister } from "./registerActions";
 export { searchCmt } from "./searchCmtActions";

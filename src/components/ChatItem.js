@@ -17,8 +17,6 @@ export default class ChatItem extends Component {
 
     render() {
     const {item} = this.props.dataItem;
-    console.log('this.props.mymyIntUserID', this.props.myIntUserID)
-        console.log(' item.IntUserID',  item.IntUserID)
         return (
             <View style={{ flex: 1 }}>
                 {
