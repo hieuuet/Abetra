@@ -10,7 +10,7 @@ import {
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
 import { COLOR } from "../../constant/Color";
-import _ from "lodash";
+import {isEqual} from "lodash";
 export default class HashTagEdit extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ export default class HashTagEdit extends Component {
   }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
+      _.isEqual(nextProps, this.props) && isEqual(nextState, this.state)
     );
   }
 

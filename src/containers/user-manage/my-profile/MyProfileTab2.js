@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import _ from "lodash";
+import {isEqual} from "lodash";
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
@@ -27,8 +27,8 @@ class MyProfileTab2 extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps.tagSelected, this.props.tagSelected) &&
-      _.isEqual(nextState, this.state)
+      isEqual(nextProps.tagSelected, this.props.tagSelected) &&
+      isEqual(nextState, this.state)
     );
   }
 

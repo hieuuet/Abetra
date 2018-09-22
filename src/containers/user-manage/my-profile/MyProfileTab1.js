@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
   NativeModules,
+  Alert,
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -23,7 +24,8 @@ import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../../components/MenuItem";
 import { updateUserProfile, uploadImage2 } from "../../../actions";
-import _ from "lodash";
+import { isEqual } from "lodash";
+import moment from "moment";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
 
@@ -70,8 +72,8 @@ class MyProfileTab1 extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps.dataUser, this.props.dataUser) &&
-      _.isEqual(nextState, this.state)
+      isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextState, this.state)
     );
   }
 
@@ -200,22 +202,29 @@ class MyProfileTab1 extends Component {
           </View>
         </View>
         <EditView
-          placeHolder="dd-MM-YYYY"
+          placeHolder="yyyy/MM/dd"
           label={strings("profile.birth_day")}
           text_edit={
             this.dataUser && this.dataUser.BirdDate
-              ? this.dataUser.BirdDate
+              ? moment(this.dataUser.BirdDate).format("YYYY/MM/DD")
               : ""
           }
           isEditAble={true}
           onSubmit={(text) => {
             if (!this.dataUser || text.trim() === this.dataUser.BirdDate)
               return;
-            //TODO: need to validate birth date here
-            // const m = text
-            //   .trim()
-            //   .match(/(3[01]|[2][0-9]|0\d)-(1[0-2]|0\[1-9])-\d{4}/);
-            // console.log("m--", m);
+            const validate = text
+              .trim()
+              //eslint-disable-next-line
+              .match(/^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/);
+            if (validate === null) {
+              return Alert.alert(
+                "Thông báo",
+                "Ngày tháng không đúng định dạng: yyyy/MM/dd",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+              );
+            }
             this.dataUser.BirdDate = !this.dataUser || text.trim();
             this.callApiUpdateProfile({
               field: "BirdDate",

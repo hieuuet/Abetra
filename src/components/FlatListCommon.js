@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
 import TinNhanItem from "./TinNhanItem";
-import _ from "lodash";
+import{isEqual} from "lodash";
 import PropTypes from "prop-types";
 
 export const TYPE = {
@@ -18,7 +18,7 @@ export class FlatListCommon extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextProps.data, this.props.data)) return false;
+    if (isEqual(nextProps.data, this.props.data)) return false;
     return true;
   }
 

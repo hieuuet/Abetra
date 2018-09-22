@@ -17,7 +17,7 @@ import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
-import _ from "lodash";
+import {isEqual} from "lodash";
 
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
@@ -48,8 +48,8 @@ class MemberProfileTab1 extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps.dataUser, this.props.dataUser) &&
-      _.isEqual(nextState, this.state)
+      isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextState, this.state)
     );
   }
   _createMsgGroup = async () => {

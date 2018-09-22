@@ -3,13 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   TextInput,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import _ from "lodash";
+import { isEqual } from "lodash";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import RadioForm from "../../../components/SimpleRadioButton";
@@ -60,9 +59,7 @@ class RegisterMember extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !(
-      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
-    );
+    return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
   }
 
   onPressItemTag = () => {};

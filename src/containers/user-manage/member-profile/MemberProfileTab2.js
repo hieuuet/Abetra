@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import _ from "lodash";
+import {isEqual} from "lodash";
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
@@ -41,7 +41,7 @@ class MemberProfileTab2 extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !// _.isEqual(nextProps, this.props) &&
-    _.isEqual(nextState, this.state);
+    isEqual(nextState, this.state);
   }
 
   render() {

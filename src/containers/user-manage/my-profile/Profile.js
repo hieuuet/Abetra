@@ -8,7 +8,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loadUserProfile } from "../../../actions/UserProfileActions";
 import MyProfileTab2 from "./MyProfileTab2";
-import _ from "lodash";
+import {isEqual} from "lodash";
 
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
@@ -96,7 +96,7 @@ class Profile extends Component {
   componentWillReceiveProps(nextProps) {}
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state)
+      isEqual(nextProps, this.props) && isEqual(nextState, this.state)
     );
   }
   componentWillUnmount() {
