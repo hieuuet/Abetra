@@ -95,25 +95,25 @@ class Chat extends Component {
 
         //object need send to server
         // console.log('userid gui di', InfoUser[0].UserID)
-        let dataSend = {
-            MsgGroupID: MsgGroupID,
-            IntUserID: UserProfile.Value[0].IntUserID,
-            FullName: UserProfile.Value[0].FullName,
-            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
-            RefIntUserID: ProfileMember[0].IntUserID,
-            RefName: ProfileMember[0].FullName,
-            RefAvatar: ProfileMember[0].Avatar ? ProfileMember[0].Avatar : "",
-            Content: text,
-            IsEnterprise: 0
-        }
-        console.log('dataSend', dataSend)
-        this.socket.emit("SENDMSG", dataSend);
-        // console.log('send ok')
-        let newMsg = this.state.ArrMess;
-        newMsg.push(dataSend);
-        this.setState({ArrMess: newMsg}, () => {
-            console.log('ArrMess', this.state.ArrMess)
-        });
+        // let dataSend = {
+        //     MsgGroupID: MsgGroupID,
+        //     IntUserID: UserProfile.Value[0].IntUserID,
+        //     FullName: UserProfile.Value[0].FullName,
+        //     Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
+        //     RefIntUserID: ProfileMember[0].IntUserID,
+        //     RefName: ProfileMember[0].FullName,
+        //     RefAvatar: ProfileMember[0].Avatar ? ProfileMember[0].Avatar : "",
+        //     Content: text,
+        //     IsEnterprise: 0
+        // }
+        // console.log('dataSend', dataSend)
+        // this.socket.emit("SENDMSG", dataSend);
+        // // console.log('send ok')
+        // let newMsg = this.state.ArrMess;
+        // newMsg.push(dataSend);
+        // this.setState({ArrMess: newMsg}, () => {
+        //     console.log('ArrMess', this.state.ArrMess)
+        // });
     };
 
     render() {

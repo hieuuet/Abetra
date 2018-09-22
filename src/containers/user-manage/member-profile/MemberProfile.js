@@ -50,7 +50,7 @@ class MemberProfile extends Component {
     console.log('UserID', itemStatus.UserID)
       // axios.post("http://123.16.53.210:9000/api/Users/LoadUserProfile", {
       //     headers: {'Content-Type': 'application/json'},
-      //     params: {
+      //     {
       //         user_id: "2C6E403D-D01B-4B3B-920C-BC04E21F502C",
       //         option: 100
       //     }

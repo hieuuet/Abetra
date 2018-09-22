@@ -16,6 +16,9 @@ export default class TinNhanItem extends Component {
 
   render() {
     const { item } = this.props.dataItem;
+    let ProfileMember = item.ChatTo
+      // ProfileMember = JSON.parse(ProfileMember)
+      console.log("ProfileMember", ProfileMember)
 
     return (
       <TouchableOpacity
