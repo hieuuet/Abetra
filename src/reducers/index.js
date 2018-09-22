@@ -11,6 +11,7 @@ import { searchCmt } from "./searchCmtReducers";
 import { uploadImage } from "./uploadImageReducers";
 import { searchPost } from "./searchPostReducers";
 import { loginGuest } from "./guestReducers";
+import { currentLanguage } from "./LanguageReducers";
 
 const appReducer = combineReducers({
   login,
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
   uploadImage,
   searchPost,
   loginGuest,
+  currentLanguage,
 });
 
 export const rootReducer = (state, action) => {

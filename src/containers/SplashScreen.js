@@ -3,6 +3,9 @@ import { View, AsyncStorage, Image } from "react-native";
 import { IMAGE } from "../constant/assets";
 import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
+import { getAllLanguage, getCurrentLanguage } from "../actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -10,13 +13,16 @@ class SplashScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.getCurrentLanguage();
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
     const isFirstInstall = await AsyncStorage.getItem(FIRST_INSTALL);
     let routerName = "Login";
+    let allLanguage = {};
     if (isFirstInstall === null) {
       routerName = "Intro";
+      allLanguage = await getAllLanguage();
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);
       if (userID) routerName = "TabHome";
@@ -24,7 +30,12 @@ class SplashScreen extends Component {
 
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: routerName })],
+      actions: [
+        NavigationActions.navigate({
+          routeName: routerName,
+          params: allLanguage,
+        }),
+      ],
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -47,4 +58,19 @@ class SplashScreen extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch),
+  };
+};
+
+SplashScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SplashScreen);
 export default SplashScreen;

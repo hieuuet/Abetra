@@ -5,12 +5,11 @@ import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
 import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
-import { loadUserProfile } from "../../../actions";
+import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {API} from "../../../constant/api";
-import axios from "axios"
-
+import { API } from "../../../constant/api";
+import axios from "axios";
 
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -43,24 +42,9 @@ class MemberProfile extends Component {
     this._loadUserProfile();
   }
 
-  _loadUserProfile = () => {
+  _loadUserProfile = async () => {
     const { navigation } = this.props;
     const itemStatus = navigation.getParam("item");
-    console.log('Itemstatus', itemStatus)
-    console.log('UserID', itemStatus.UserID)
-      // axios.post("http://123.16.53.210:9000/api/Users/LoadUserProfile", {
-      //     headers: {'Content-Type': 'application/json'},
-      //     {
-      //         user_id: "2C6E403D-D01B-4B3B-920C-BC04E21F502C",
-      //         option: 100
-      //     }
-      // })
-      //     .then(function (response) {
-      //         console.log("response", response.data);
-      //     })
-      //     .catch(function (error) {
-      //         console.log(error);
-      //     });
       fetch(API.LOAD_USER_PROFILE, {
           method: 'POST',
 
@@ -150,16 +134,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
-  };
-};
-
-MemberProfile = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MemberProfile);
+MemberProfile = connect(mapStateToProps)(MemberProfile);
 export default MemberProfile;
 
 const styles = StyleSheet.create({

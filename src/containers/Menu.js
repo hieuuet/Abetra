@@ -149,7 +149,6 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state redux change", state.loadUserProfile);
   return {
     userProfile: state.loadUserProfile,
     isGuest: state.loginGuest.isGuest,
