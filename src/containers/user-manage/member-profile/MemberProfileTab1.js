@@ -82,7 +82,7 @@ class MemberProfileTab1 extends Component {
         // console.log('IntUserID', UserProfile.Value[0].IntUserID)
         console.log('IntUserID1', this.props.dataUser[0].IntUserID)
         if (MsgGroupID.Error == null){
-            this.props.navigation.navigate("Chat", {MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID, ProfileMember: this.props.dataUser})
+            this.props.navigation.navigate("Chat", {MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID, ProfileMember: this.props.dataUser[0]})
         }
         else {
             Alert.alert(

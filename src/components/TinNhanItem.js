@@ -16,15 +16,16 @@ export default class TinNhanItem extends Component {
 
   render() {
     const { item } = this.props.dataItem;
-    let ProfileMember = item.ChatTo
-      // ProfileMember = JSON.parse(ProfileMember)
-      console.log("ProfileMember", ProfileMember)
+    let ProfileMember = item.ChatTo ? item.ChatTo : null
+      ProfileMember = JSON.parse(ProfileMember)
+      // console.log("ProfileMember", ProfileMember)
 
     return (
       <TouchableOpacity
         onPress={() =>
           this.props.navigation.navigate('Chat', {
             MsgGroupID: item.MsgGroupID,
+              ProfileMember: ProfileMember
           })
         }
       >
