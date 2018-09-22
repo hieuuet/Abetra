@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    zIndex: 1,
+    zIndex: 1000,
     backgroundColor: "rgba(52, 52, 52, 0.5)",
   },
   container_search: {

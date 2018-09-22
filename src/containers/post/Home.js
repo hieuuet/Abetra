@@ -28,15 +28,17 @@ class Home extends Component {
       isLoading: false,
       ArrPost: [],
     };
+
     this.socket = SocketIOClient(URL_SOCKET, {
       pingTimeout: 30000,
       pingInterval: 30000,
       transports: ["websocket"],
     });
-    console.log('this.socket', this.socket)
+    console.log("this.socket", this.socket);
   }
 
   async componentDidMount() {
+    this.userID = await AsyncStorage.getItem(USER_ID);
     this._searchPost();
     if (!this.props.isGuest) this._loadUserProfile();
   }
@@ -45,6 +47,7 @@ class Home extends Component {
       isLoading: true,
     });
     const { searchPost } = this.props;
+
     let listPost = await searchPost({
       Page_size: 20,
       Page_index: 1,
@@ -59,7 +62,8 @@ class Home extends Component {
       Option: 0,
       LangID: 129,
     });
-    if (listPost.ErrorCode === "00") {
+
+    if (listPost && listPost.ErrorCode === "00") {
       this.setState(
         {
           isLoading: false,
@@ -75,9 +79,8 @@ class Home extends Component {
   };
   _loadUserProfile = async () => {
     const { loadUserProfile } = this.props;
-    const userID = await AsyncStorage.getItem(USER_ID);
     loadUserProfile({
-      user_id: userID,
+      user_id: this.userID,
       option: 100,
     });
   };
@@ -154,6 +157,7 @@ class Home extends Component {
                 return (
                   <StatusItems
                     dataItem={item}
+                    userID={this.userID}
                     // onReloadBack ={this.onReloadBack}
                     navigation={navigation}
                   />

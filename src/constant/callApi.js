@@ -30,7 +30,7 @@ export const getRequestApi = async (url, isShowLog = false) => {
       return response;
     })
     .catch((err) => {
-      console.log("err", err);
+      console.log(err);
     });
 };
 

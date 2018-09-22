@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Alert } from "react";
 import { View, StyleSheet } from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
@@ -7,16 +7,13 @@ import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { API } from "../../../constant/api";
-import axios from "axios";
 
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
 
     return {
-      title: params.title,
+      title: params.title ? params.title : "Member Profile",
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
       headerTintColor: COLOR.COLOR_BLACK,
     };
@@ -27,35 +24,41 @@ class MemberProfile extends Component {
     this.state = {
       isLoading: false,
       tabIndex: 0,
-      profileMember: [],
+      memberProfile: {},
     };
-
-    this.userProfile = {};
-    //set title for title bar
-    this.props.navigation.setParams({
-      title: "MemberProfile",
-    });
   }
 
   componentDidMount() {
-    this.reLoadProfile();
-    this._loadUserProfile();
+    this._loadMemberProfile();
   }
 
-  _loadUserProfile = async () => {
-    const { navigation } = this.props;
-    const itemStatus = navigation.getParam("item");
-    console.log("Itemstatus", itemStatus);
-    console.log("UserID", itemStatus.UserID);
+  _loadMemberProfile = async () => {
+    const dataMember = this.props.navigation.getParam("item");
+    if (!dataMember || !dataMember.UserID) return;
+    this.setState({ isLoading: true });
     const dataProfile = await loadProfileMember({
-      user_id: "2C6E403D-D01B-4B3B-920C-BC04E21F502C",
+      user_id: dataMember.UserID,
       option: 100,
     });
+    if (!dataProfile || dataProfile.ErrorCode !== "00") {
+      Alert.alert(
+        "Thông báo",
+        dataProfile.Message,
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+      return this.setState({
+        isLoading: false,
+      });
+    }
     this.setState({
-      profileMember: dataProfile,
+      memberProfile: dataProfile.Value[0],
+      isLoading: false,
+    });
+    this.props.navigation.setParams({
+      title: dataProfile.Value[0].FullName,
     });
   };
-  reLoadProfile = async () => {};
 
   _renderLoading = () => {
     return this.state.isLoading ? (
@@ -64,7 +67,7 @@ class MemberProfile extends Component {
   };
 
   render() {
-    console.log("render member");
+    // console.log("render member");
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
@@ -85,6 +88,7 @@ class MemberProfile extends Component {
             style={styles.btn_margin_left}
           />
         </View>
+
         <View style={{ flex: 1 }}>
           <View
             style={[
@@ -93,7 +97,7 @@ class MemberProfile extends Component {
             ]}
           >
             <MemberProfileTab1
-              dataUser={this.state.profileMember}
+              dataUser={this.state.memberProfile}
               navigation={this.props.navigation}
             />
           </View>
@@ -113,9 +117,7 @@ class MemberProfile extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    UserProfile: state.loadUserProfile,
-  };
+  return {};
 };
 
 MemberProfile = connect(mapStateToProps)(MemberProfile);

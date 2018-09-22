@@ -45,7 +45,7 @@ class MemberProfileTab2 extends Component {
   }
 
   render() {
-    console.log("render tab2 member");
+    // console.log("render tab2 member");
     return (
       <KeyboardAvoidingView
         style={style_common.container}
