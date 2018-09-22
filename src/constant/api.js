@@ -19,10 +19,13 @@ export const API = {
 
   //Image
   UPLOAD_LIST_IMAGE: `${URL_BASE}/api/FaceHomeIO/UploadListImage`,
-  UPLOAD_IMAGE:`${URL_BASE}/api/FaceHomeIO/UploadImage`,
+  UPLOAD_IMAGE: `${URL_BASE}/api/FaceHomeIO/UploadImage`,
 
   //Api realtime
   CREATE_MSG_GROUP: `${URL_REALTIME}/socket/createmsggroups`,
   LOAD_MSG_GROUP: `${URL_REALTIME}/socket/loadmgsgroups`,
   DETAIL_MSG: `${URL_REALTIME}/socket/detailmessagebygroup`,
+
+  //Language
+  GET_LANGUAGE: `${URL_REALTIME}/Common/GetAllLanguage`,
 };
