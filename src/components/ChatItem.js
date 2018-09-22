@@ -17,10 +17,12 @@ export default class ChatItem extends Component {
 
     render() {
     const {item} = this.props.dataItem;
+    console.log('this.props.mymyIntUserID', this.props.myIntUserID)
+        console.log(' item.IntUserID',  item.IntUserID)
         return (
             <View style={{ flex: 1 }}>
                 {
-                    item.IntUserID === this.props.myIntUserID ?
+                    item.IntUserID == this.props.myIntUserID ?
                         <View style={{
                             flex: 1,
                             marginLeft: DEVICE_WIDTH / 3,

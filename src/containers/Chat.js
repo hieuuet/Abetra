@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     Text,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import ChatItem from "../components/ChatItem";
 import TextInputChat from "../components/TextInputChat";
-import {SOCKET} from "../constant/api";
+import {SOCKET, URL_SOCKET} from "../constant/api";
 import SocketIOClient from "socket.io-client";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
@@ -16,22 +16,22 @@ import {loadDetailMsg} from "../actions/detailMsgActions";
 
 
 class Chat extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             ArrMess: []
         }
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const MsgGroupID = navigation.getParam('MsgGroupID');
         // console.log('MsgGroupID', MsgGroupID)
-        const { UserProfile } = this.props
-        if(UserProfile.length <=0 ){
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
             return null
 
         }
 
         // console.log("UserProfile", UserProfile)
-        this.socket = SocketIOClient("http://123.16.53.210:9006/", {
+        this.socket = SocketIOClient(URL_SOCKET, {
             pingTimeout: 30000,
             pingInterval: 30000,
             transports: ['websocket']
@@ -52,25 +52,27 @@ class Chat extends Component {
         })
 
     }
+
     componentDidMount() {
         this._loadMsgDetail()
 
     }
+
     _loadMsgDetail = async () => {
-        const { navigation, UserProfile, loadDetailMsg } = this.props;
+        const {navigation, UserProfile, loadDetailMsg} = this.props;
         const MsgGroupID = navigation.getParam('MsgGroupID');
         console.log("MsgGroupID", MsgGroupID)
-        if(UserProfile.length <=0 ){
+        if (UserProfile.length <= 0) {
             return null
         }
         let msgDetail = await loadDetailMsg({
-            MsgGroupID : MsgGroupID,
+            MsgGroupID: MsgGroupID,
             IntUserID: UserProfile.Value[0].IntUserID,
             Index: 1,
-            Today: 0
+            Today: 1
         })
         console.log("msgDetail", msgDetail)
-        if(msgDetail.Error === null){
+        if (msgDetail.Error === null) {
             this.setState({
                 ArrMess: msgDetail.ObjectResult
             })
@@ -78,8 +80,9 @@ class Chat extends Component {
     }
     onReceiveTextInputClick = (text) => {
         console.log('-------onReceiveTextInputClick--------')
-        const { navigation,UserProfile } = this.props;
+        const {navigation, UserProfile} = this.props;
         const MsgGroupID = navigation.getParam('MsgGroupID');
+        console.log('msggroupId', MsgGroupID)
         const ProfileMember = navigation.getParam('ProfileMember')
         console.log("ProfileMember", ProfileMember)
         if (UserProfile.length <= 0) {
@@ -96,11 +99,12 @@ class Chat extends Component {
             MsgGroupID: MsgGroupID,
             IntUserID: UserProfile.Value[0].IntUserID,
             FullName: UserProfile.Value[0].FullName,
-            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar: "",
+            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
             RefIntUserID: ProfileMember[0].IntUserID,
             RefName: ProfileMember[0].FullName,
-            RefAvatar: ProfileMember[0].Avatar ? ProfileMember[0].Avatar : "" ,
+            RefAvatar: ProfileMember[0].Avatar ? ProfileMember[0].Avatar : "",
             Content: text,
+            IsEnterprise: 0
         }
         console.log('dataSend', dataSend)
         this.socket.emit("SENDMSG", dataSend);
@@ -112,15 +116,15 @@ class Chat extends Component {
         });
     };
 
-    render () {
+    render() {
         // const {navigation} = this.props
-        const { UserProfile } = this.props;
-        if(UserProfile.length <=0 ){
+        const {UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
             return null
         }
         return (
 
-            <KeyboardAvoidingView style={{ flex: 1 }}
+            <KeyboardAvoidingView style={{flex: 1}}
 
                                   behavior={Platform.OS === 'ios' ? "padding" : null}
                                   keyboardVerticalOffset={64}
@@ -141,14 +145,15 @@ class Chat extends Component {
                     extraData={this.state}
                 />
                 <TextInputChat
-                    style={{marginTop:5}}
-                    onReceiveTextInputClick ={this.onReceiveTextInputClick}
+                    style={{marginTop: 5}}
+                    onReceiveTextInputClick={this.onReceiveTextInputClick}
                 />
             </KeyboardAvoidingView>
 
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         UserProfile: state.loadUserProfile

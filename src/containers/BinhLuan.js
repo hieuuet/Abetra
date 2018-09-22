@@ -8,6 +8,7 @@ import {
     Image, AsyncStorage,
     KeyboardAvoidingView,
     Platform,
+    ScrollView,
     BackHandler,
     Alert, StyleSheet, Dimensions
 } from 'react-native';
@@ -22,6 +23,9 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {searchCmt} from "../actions/searchCmtActions";
 import {createCmt} from "../actions/createCmtActions";
+import {URL_SOCKET} from "../constant/api";
+import SocketIOClient from "socket.io-client";
+import PhotoGrid from "../components/PhotoGrid";
 
 
 class BinhLuan extends Component {
@@ -29,17 +33,36 @@ class BinhLuan extends Component {
         super(props)
         this.state = {
             ArrCmt: [
-                {
-                    FullName: "Nguyễn Văn Hiệu",
-                    Content: "Không có gì quý hơn độc lập tự do",
-                    Avt: "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
-                    Time: '05/09/2018',
-                    Img: "https://kenh14cdn.com/thumb_w/600/3qsvZHBxXH8xPdzaJmLFPEqgKxHka/Image/2015/03/10919541_326321127564559_1570986608_n-02055.jpg"
-                }
 
             ]
 
         }
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+
+        }
+        const { navigation } = this.props;
+        const itemStatus = navigation.getParam('item');
+        this.socket = SocketIOClient(URL_SOCKET, {
+            pingTimeout: 30000,
+            pingInterval: 30000,
+            transports: ['websocket']
+        });
+        console.log('socket', this.socket)
+        this.socket.emit('LOGINCOMMENT', {
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: itemStatus.PostID
+        })
+        this.socket.on('RECEIVERCOMMENT', (dataRes) => {
+            // console.log('receiveCMT', dataRes)
+            let newCmt = this.state.ArrCmt;
+            //add message to array
+            newCmt.push(dataRes);
+            this.setState({ArrCmt: newCmt});
+        })
+
+
 
 
     }
@@ -66,6 +89,9 @@ class BinhLuan extends Component {
             lang_name: "vi_VN"
         })
         console.log('ArrCmt', ArrCmt)
+        this.setState({
+            ArrCmt:ArrCmt.Value
+        })
 
 
 
@@ -87,7 +113,28 @@ class BinhLuan extends Component {
             lang_name: "vi_VN"
         })
         console.log('cmt',Cmt)
+        if (Cmt.ErrorCode =="00"){
+            this._sendCmt(Cmt.Value.CreatedTime, cmt_content)
 
+        }
+
+    }
+    _sendCmt = (DatePost, Content) => {
+        const {navigation, UserProfile} = this.props;
+        const itemStatus = navigation.getParam('item');
+        let dataSend = {
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: itemStatus.PostID,
+            FullName: UserProfile.Value[0].FullName,
+            DatePost: DatePost,
+            Content: Content,
+            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
+            IntUserIDPost: itemStatus.IntUserID,
+            LangID: 129
+        }
+        console.log('dataSend', dataSend)
+        this.socket.emit("COMMENT", dataSend);
+        // console.log('send ok')
     }
 
 
@@ -105,12 +152,16 @@ class BinhLuan extends Component {
     render() {
         const { navigation } = this.props;
         const itemStatus = navigation.getParam('item');
+        let ArrImg = itemStatus.Images ? itemStatus.Images : null
+        ArrImg = JSON.parse(ArrImg)
+
         return (
 
             <KeyboardAvoidingView style={{ flex: 1 }}
                                   behavior={Platform.OS === 'ios' ? "padding" : null}
                                   keyboardVerticalOffset={64}
             >
+                <ScrollView>
                 <View style={{flexDirection: "row", marginTop: 10, alignItems: 'center'}}>
                     <Image
                         style={styles.image_circle}
@@ -146,12 +197,12 @@ class BinhLuan extends Component {
                             <Text>{itemStatus.PostContent}</Text>
                     </View>
                 </View>
-                {/*{item.Images ? (*/}
-                {/*<PhotoGrid*/}
-                    {/*source={this.state.images}*/}
-                    {/*navigation={this.props.navigation}*/}
-                {/*/>*/}
-                {/*) : null}*/}
+                {ArrImg ? (
+                <PhotoGrid
+                    source={ArrImg}
+                    navigation={this.props.navigation}
+                />
+                ) : null}
 
                 <View
                     style={{
@@ -191,13 +242,13 @@ class BinhLuan extends Component {
                             <Text>Thích</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress = {()=> this.props.navigation.navigate('BinhLuan', {item: item})}>
+                    {/*<TouchableOpacity onPress = {()=> this.props.navigation.navigate('BinhLuan', {item: item})}>*/}
                         <View style={{flexDirection: "row", alignItems: "center"}}>
                             <Icon1 name="comment" size={25} color="#424242"/>
 
                             <Text style={{color: "#424242"}}>Bình luận</Text>
                         </View>
-                    </TouchableOpacity>
+                    {/*</TouchableOpacity>*/}
                     <View style={{flexDirection: "row", marginRight: 20, alignItems: "center"}}>
                         <Icon name="share-outline" size={25} color="#424242"/>
 
@@ -227,10 +278,12 @@ class BinhLuan extends Component {
                     }
                     }
                 />
+                </ScrollView>
                 <TextInputChat
                     style={{marginTop:5}}
                     onReceiveTextInputClick={this.onReceiveTextInputClick}
                 />
+
             </KeyboardAvoidingView>
         );
     }

@@ -5,9 +5,12 @@ import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
 import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
-import { loadUserProfile } from "../../../actions";
+import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { API } from "../../../constant/api";
+import axios from "axios";
+
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -42,17 +45,15 @@ class MemberProfile extends Component {
   _loadUserProfile = async () => {
     const { navigation } = this.props;
     const itemStatus = navigation.getParam("item");
-    const { loadUserProfile } = this.props;
-    let profile_member = await loadUserProfile({
-      user_id: itemStatus.UserID,
+    console.log("Itemstatus", itemStatus);
+    console.log("UserID", itemStatus.UserID);
+    const dataProfile = await loadProfileMember({
+      user_id: "2C6E403D-D01B-4B3B-920C-BC04E21F502C",
       option: 100,
     });
-    console.log("profile", profile_member);
-    if (profile_member.ErrorCode === "00") {
-      this.setState({
-        profileMember: profile_member.Value,
-      });
-    }
+    this.setState({
+      profileMember: dataProfile,
+    });
   };
   reLoadProfile = async () => {};
 
@@ -117,16 +118,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
-  };
-};
-
-MemberProfile = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MemberProfile);
+MemberProfile = connect(mapStateToProps)(MemberProfile);
 export default MemberProfile;
 
 const styles = StyleSheet.create({

@@ -18,3 +18,7 @@ export const loadUserProfile = (data = {}) => {
 export const updateUserProfile = (data = {}) => {
   return postRequestApi(API.UPDATE_USER_PROFILE, data, true);
 };
+
+export const loadProfileMember = (data = {}) => {
+  return postRequestApi(API.LOAD_USER_PROFILE, data, true);
+};

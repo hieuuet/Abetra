@@ -73,10 +73,14 @@ class MemberProfileTab1 extends Component {
 
             ],
             GroupName: this.props.dataUser ? this.props.dataUser[0].FullName: "",
-            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : ""
+            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
+            IsEnterprise: 0
 
         })
         console.log('MsgGroupID', MsgGroupID)
+        console.log('IntUserID', UserProfile.Value[0].IntUserID)
+        // console.log('IntUserID', UserProfile.Value[0].IntUserID)
+        console.log('IntUserID1', this.props.dataUser[0].IntUserID)
         if (MsgGroupID.Error == null){
             this.props.navigation.navigate("Chat", {MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID, ProfileMember: this.props.dataUser})
         }
