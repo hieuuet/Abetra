@@ -29,12 +29,26 @@ class Home extends Component {
       ArrPost: [],
     };
 
-    this.socket = SocketIOClient(URL_SOCKET, {
-      pingTimeout: 30000,
-      pingInterval: 30000,
-      transports: ["websocket"],
-    });
-    console.log("this.socket", this.socket);
+      const {UserProfile} = this.props;
+      if (UserProfile.length <= 0) {
+          return null;
+      }
+      this.socket = SocketIOClient(URL_SOCKET, {
+          pingTimeout: 30000,
+          pingInterval: 30000,
+          transports: ["websocket"]
+      });
+      console.log("socket", this.socket);
+      this.socket.emit("LOGINPOST", {
+          IntUserID: UserProfile.Value[0].IntUserID
+      });
+      this.socket.on('RECEIVERPOST', (dataRes) => {
+          console.log('receivePOST', dataRes)
+          let newPost = this.state.ArrPost;
+          //add post to array
+          newPost.push(dataRes);
+          this.setState({ArrPost: newPost});
+      })
   }
 
   async componentDidMount() {
