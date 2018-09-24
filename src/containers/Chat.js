@@ -57,6 +57,27 @@ class Chat extends Component {
         this._loadMsgDetail()
 
     }
+    componentWillUnmount() {
+        const {navigation} = this.props;
+        const MsgGroupID = navigation.getParam('MsgGroupID');
+        // console.log('MsgGroupID', MsgGroupID)
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+
+        }
+        this.socket = SocketIOClient(URL_SOCKET, {
+            pingTimeout: 30000,
+            pingInterval: 30000,
+            transports: ['websocket']
+        });
+
+        this.socket.emit("LOGOUTMSG", {
+            IntUserID: UserProfile.Value[0].IntUserID,
+            MsgGroupID: MsgGroupID
+
+        })
+    }
 
     _loadMsgDetail = async () => {
         const {navigation, UserProfile, loadDetailMsg} = this.props;
