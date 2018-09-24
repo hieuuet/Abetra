@@ -19,6 +19,7 @@ import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { isEqual } from "lodash";
 import { formatDate, getGender } from "../../../constant/UtilsFunction";
+import { URL_BASE } from "../../../constant/api";
 
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
@@ -103,7 +104,7 @@ class MemberProfileTab1 extends Component {
           <Image
             source={
               this.props.dataUser && this.props.dataUser.Avatar
-                ? { uri: this.dataUser.Avatar }
+                ? { uri: URL_BASE + this.dataUser.Avatar }
                 : IMAGE.logo
             }
             resizeMode="cover"

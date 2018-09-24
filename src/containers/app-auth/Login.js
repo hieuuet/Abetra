@@ -63,12 +63,12 @@ class Login extends Component {
     });
     this.setState({ isLoading: false });
     if (login.ErrorCode === "00") {
-        const IntUserID = login.Value[0].IntUserID.toString()
-        const ProfileID = login.Value[0].ProfileID.toString()
+      const IntUserID = login.Value[0].IntUserID.toString();
+      const ProfileID = login.Value[0].ProfileID.toString();
       if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
         await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
-        await AsyncStorage.setItem('IntUserID', IntUserID);
-        await AsyncStorage.setItem('ProfileID', ProfileID);
+        await AsyncStorage.setItem("IntUserID", IntUserID);
+        await AsyncStorage.setItem("ProfileID", ProfileID);
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
