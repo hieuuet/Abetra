@@ -37,9 +37,9 @@ export const getRequestApi = async (url, isShowLog = false) => {
 export const postRequestApi = async (url, data, isShowLog = false) => {
   //Config get set for all api
   let language = store.getState().currentLanguage;
-  if (language === null || language === undefined || !language.Code)
+  if (language === null || language === undefined || !language.LangID)
     language = DEFAULT_LANGUGE;
-  data = { ...data, lang_name: language.Code, LangID: language.LangID };
+  data = { ...data, LangID: language.LangID };
 
   let config = {
     headers: {

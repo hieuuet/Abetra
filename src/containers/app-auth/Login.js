@@ -59,9 +59,8 @@ class Login extends Component {
     this.setState({ isLoading: true });
     let login = await postLogin({
       so_dien_thoai: userName,
-      mat_khau: password
+      mat_khau: password,
     });
-    console.log("login", login);
     this.setState({ isLoading: false });
     if (login.ErrorCode === "00") {
       if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
@@ -188,6 +187,7 @@ class Login extends Component {
         keyboardVerticalOffset={64}
       >
         <ScrollView
+          keyboardShouldPersistTaps="handled"
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >

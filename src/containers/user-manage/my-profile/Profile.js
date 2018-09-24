@@ -8,10 +8,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loadUserProfile } from "../../../actions/UserProfileActions";
 import MyProfileTab2 from "./MyProfileTab2";
-import {isEqual} from "lodash";
+import { isEqual } from "lodash";
 
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
+import { NavigationActions, StackActions } from "react-navigation";
+
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -95,13 +97,21 @@ class Profile extends Component {
   }
   componentWillReceiveProps(nextProps) {}
   shouldComponentUpdate(nextProps, nextState) {
-    return !(
-      isEqual(nextProps, this.props) && isEqual(nextState, this.state)
-    );
+    return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
   }
   componentWillUnmount() {
     this.reLoadProfile();
     this.backHandler.remove();
+
+    //check if navigate from verify screen,navigate to home
+    const fromVerify = this.props.navigation.getParam("fromVerify");
+    if (fromVerify) {
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "TabHome" })],
+      });
+      this.props.navigation.dispatch(resetAction);
+    }
   }
 
   reLoadProfile = async () => {

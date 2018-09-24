@@ -25,9 +25,10 @@ import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../../components/MenuItem";
 import { updateUserProfile, uploadImage2 } from "../../../actions";
 import { isEqual } from "lodash";
-import moment from "moment";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
+import { GENDER_STATE } from "../../../constant/KeyConstant";
+import { formatDate } from "../../../constant/UtilsFunction";
 
 const ImagePicker = NativeModules.ImageCropPicker;
 
@@ -43,10 +44,10 @@ class MyProfileTab1 extends Component {
     this.radioData = [
       {
         label: strings("profile.man"),
-        value: 0,
+        value: GENDER_STATE.MAN,
       },
-      { label: strings("profile.women"), value: 1 },
-      { label: strings("profile.undefined"), value: 2 },
+      { label: strings("profile.women"), value: GENDER_STATE.WOMEN },
+      { label: strings("profile.undefined"), value: GENDER_STATE.OTHER },
     ];
 
     //get dataUser
@@ -79,7 +80,7 @@ class MyProfileTab1 extends Component {
 
   callApiUpdateProfile = ({ field, value }) => {
     updateUserProfile({
-      profile_id: this.dataUser.IntUserID,
+      profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
       field,
       value,
@@ -135,7 +136,7 @@ class MyProfileTab1 extends Component {
       .catch((e) => console.log(e));
   };
 
-  getGender = () => {
+  getGenderState = () => {
     if (
       typeof this.dataUser.Gender !== "number" ||
       (this.dataUser && !!this.dataUser.Gender === null)
@@ -206,7 +207,7 @@ class MyProfileTab1 extends Component {
           label={strings("profile.birth_day")}
           text_edit={
             this.dataUser && this.dataUser.BirdDate
-              ? moment(this.dataUser.BirdDate).format("YYYY/MM/DD")
+              ? formatDate(this.dataUser.BirdDate)
               : ""
           }
           isEditAble={true}
@@ -240,7 +241,7 @@ class MyProfileTab1 extends Component {
           </Text>
           <RadioForm
             radio_props={this.radioData}
-            initial={this.getGender()}
+            initial={this.getGenderState()}
             formHorizontal={true}
             buttonColor={"gray"}
             selectedButtonColor={"gray"}

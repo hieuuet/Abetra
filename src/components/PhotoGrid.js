@@ -13,7 +13,7 @@ import {
   ImageBackground,
   Alert
 } from "react-native";
-import _ from "lodash";
+import {each,take} from "lodash";
 import ImageLoad from "react-native-image-placeholder";
 
 const { width } = Dimensions.get("window");
@@ -34,12 +34,12 @@ class PhotoGrid extends Component {
 
   render() {
     const { imageProps } = this.props;
-    const source = _.take(this.props.source, 5);
+    const source = take(this.props.source, 5);
     const firstViewImages = [];
     const secondViewImages = [];
     const firstItemCount = source.length === 5 ? 2 : 1;
     let index = 0;
-    _.each(source, (img, callback) => {
+    each(source, (img, callback) => {
       if (index === 0) {
         firstViewImages.push(img);
       } else if (index === 1 && firstItemCount === 2) {

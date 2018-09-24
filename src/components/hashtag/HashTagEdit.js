@@ -10,7 +10,7 @@ import {
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
 import { COLOR } from "../../constant/Color";
-import {isEqual} from "lodash";
+import {isEqual,cloneDeep} from "lodash";
 export default class HashTagEdit extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ export default class HashTagEdit extends Component {
   }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      _.isEqual(nextProps, this.props) && isEqual(nextState, this.state)
+      isEqual(nextProps, this.props) && isEqual(nextState, this.state)
     );
   }
 
@@ -39,7 +39,7 @@ export default class HashTagEdit extends Component {
   onPress = (index, tagSelected) => {
     if (this.props.selectable) {
       const currentState = this.state.data[index].select;
-      const stateCoppy = _.cloneDeep(this.state.data);
+      const stateCoppy = cloneDeep(this.state.data);
       stateCoppy[index].select = !currentState;
       this.setState({ data: stateCoppy });
       this.props.onDataSelected(stateCoppy);

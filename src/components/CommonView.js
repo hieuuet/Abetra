@@ -6,6 +6,8 @@ import {
   View,
   Image,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
@@ -15,24 +17,37 @@ import PropTypes from "prop-types";
  *
  * custom for button border
  */
-export const ButtonBorder = ({
-  label = "",
-  onPress,
-  my_style = {},
-  text_style = {},
-}) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={[styles.btn, my_style]}>
-      <Text style={[styles.txt, text_style]}>{label}</Text>
-    </TouchableOpacity>
+
+const DismissKeyboardHOC = (Comp) => {
+  const ButtonBorder = ({
+    label = "",
+    onPress,
+    my_style = {},
+    text_style = {},
+  }) => (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+        onPress();
+      }}
+      accessible={false}
+      style={[styles.btn, my_style]}
+    >
+      <Comp style={[styles.btn, my_style]}>
+        <Text style={[styles.txt, text_style]}>{label}</Text>
+      </Comp>
+    </TouchableWithoutFeedback>
   );
+  ButtonBorder.propTypes = {
+    label: PropTypes.string.isRequired,
+    onPress: PropTypes.func,
+    my_style: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+    text_style: PropTypes.number,
+  };
+  return ButtonBorder;
 };
-ButtonBorder.propTypes = {
-  label: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
-  my_style: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
-  text_style: PropTypes.number,
-};
+
+export const ButtonBorder = DismissKeyboardHOC(View);
 
 /**
  *Viewloading for app

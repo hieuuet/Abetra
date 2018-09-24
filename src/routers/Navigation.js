@@ -121,6 +121,12 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
+  VerifyAccount: {
+    screen: VerifyAccount,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Login: {
     screen: Login,
     navigationOptions: {
@@ -167,13 +173,6 @@ const RootStack = createStackNavigator({
   },
   Benifet: {
     screen: Benifet,
-  },
-
-  VerifyAccount: {
-    screen: VerifyAccount,
-    navigationOptions: {
-      header: null,
-    },
   },
 
   Chat: {

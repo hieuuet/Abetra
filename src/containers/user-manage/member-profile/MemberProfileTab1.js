@@ -17,7 +17,8 @@ import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
-import {isEqual} from "lodash";
+import { isEqual } from "lodash";
+import { formatDate, getGender } from "../../../constant/UtilsFunction";
 
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
@@ -67,9 +68,7 @@ class MemberProfileTab1 extends Component {
         {
           IntUserID: this.props.dataUser.IntUserID,
           FullName: this.props.dataUser.FullName,
-          Avatar: this.props.dataUser.Avatar
-            ? this.props.dataUser.Avatar
-            : "",
+          Avatar: this.props.dataUser.Avatar ? this.props.dataUser.Avatar : "",
         },
       ],
       GroupName: this.props.dataUser ? this.props.dataUser.FullName : "",
@@ -96,7 +95,8 @@ class MemberProfileTab1 extends Component {
   };
 
   _renderHeader = () => {
-    
+    console.log("-----------------", this.props.dataUser);
+
     return (
       <View style={styles.contain_avatar}>
         <View>
@@ -118,13 +118,11 @@ class MemberProfileTab1 extends Component {
               : "Beauty Spa"}
           </Text>
           <Text style={style_common.text_color_base}>
-            {this.props.dataUser && this.props.dataUser.Gender
-              ? this.props.dataUser.Gender
-              : "Nam"}
+            {getGender(this.props.dataUser.Gender)}
           </Text>
           <Text style={style_common.text_color_base}>
             {this.props.dataUser && this.props.dataUser.BirdDate
-              ? this.props.dataUser.BirdDate
+              ? formatDate(this.props.dataUser.BirdDate)
               : "Sinh nhật"}
           </Text>
           <Text style={style_common.text_color_base}>

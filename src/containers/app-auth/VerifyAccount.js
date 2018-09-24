@@ -9,12 +9,21 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Alert,
+  AsyncStorage,
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { strings } from "../../i18n";
+
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { postLogin, loginGuest, loadUserProfile } from "../../actions";
+import { USER_ID } from "../../constant/KeyConstant";
+import { COLOR } from "../../constant/Color";
+
 class VerifyAccount extends Component {
   constructor(props) {
     super(props);
@@ -24,8 +33,71 @@ class VerifyAccount extends Component {
     this.verifyCode = "";
   }
 
-  verify = () => {
-    this.props.navigation.navigate("Login");
+  verify = async () => {
+    await this._login();
+  };
+  reSendCode = () => {
+    Alert.alert(
+      "Thông báo",
+      "Tính năng đang phát triển",
+      [{ text: "OK", onPress: () => {} }],
+      { cancelable: false }
+    );
+  };
+  loadUserProfile = async (userID) => {
+    const { loadUserProfile } = this.props;
+    const userProfile = await loadUserProfile({
+      user_id: userID,
+      option: 100,
+    });
+    this.setState({ isLoading: false });
+    if (!userProfile) {
+      return Alert.alert(
+        "Thông báo",
+        "Không thể tải trang cá nhân",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    }
+
+    this.goToProfile();
+  };
+  goToProfile = () => {
+    this.props.navigation.navigate("Profile", { fromVerify: true });
+  };
+  _login = async () => {
+    const userName = this.props.navigation.getParam("userName");
+    const password = this.props.navigation.getParam("password");
+
+    const { postLogin } = this.props;
+    this.setState({ isLoading: true });
+    let login = await postLogin({
+      so_dien_thoai: userName,
+      mat_khau: password,
+    });
+    if (login.ErrorCode === "00") {
+      if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
+        await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
+        this.props.loginGuest(false);
+        this.loadUserProfile(login.Value[0].UserID);
+      } else {
+        this.setState({ isLoading: false });
+        Alert.alert(
+          "Thông báo",
+          "Không tìm thấy UserID",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+      }
+    } else {
+      this.setState({ isLoading: false });
+      Alert.alert(
+        "Thông báo",
+        login.Message,
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    }
   };
 
   _renderContent = () => {
@@ -48,25 +120,12 @@ class VerifyAccount extends Component {
           // my_style={{ marginBottom: 10 }}
         />
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>
+          <Text style={[styles.text_login, style_common.text_color_base]}>
             {strings("verify.txt_notReceive")}
           </Text>
           <ButtonBorder
             label={strings("verify.btn_reSend")}
-            onPress={() => {
-              alert(1);
-            }}
-          />
-        </View>
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>
-            {strings("verify.txt_phoneIncorrect")}
-          </Text>
-          <ButtonBorder
-            label={strings("verify.btn_reInput")}
-            onPress={() => {
-              alert(2);
-            }}
+            onPress={this.reSendCode}
           />
         </View>
       </View>
@@ -83,7 +142,9 @@ class VerifyAccount extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>{strings("verify.txt_fanpage")}</Text>
+          <Text style={style_common.text_color_base}>
+            {strings("verify.txt_fanpage")}
+          </Text>
           <TouchableOpacity onPress={this.facebookLogin}>
             <Image
               style={styles.img_fb}
@@ -104,6 +165,7 @@ class VerifyAccount extends Component {
         keyboardVerticalOffset={64}
       >
         <ScrollView
+          keyboardShouldPersistTaps="handled"
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
@@ -123,6 +185,19 @@ class VerifyAccount extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postLogin: bindActionCreators(postLogin, dispatch),
+    loginGuest: bindActionCreators(loginGuest, dispatch),
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+  };
+};
+
+VerifyAccount = connect(
+  null,
+  mapDispatchToProps
+)(VerifyAccount);
 export default VerifyAccount;
 
 const styles = StyleSheet.create({
@@ -166,5 +241,6 @@ const styles = StyleSheet.create({
   },
   text_info: {
     margin: 10,
+    color: COLOR.COLOR_BLACK,
   },
 });

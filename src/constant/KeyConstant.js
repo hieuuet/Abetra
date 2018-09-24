@@ -12,3 +12,10 @@ export const DEFAULT_LANGUGE = {
   Status: 1,
   TotalRow: 4,
 };
+
+//state
+export const GENDER_STATE = {
+  WOMEN: 0,
+  MAN: 1,
+  OTHER: 2,
+};

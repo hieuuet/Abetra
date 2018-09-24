@@ -40,7 +40,7 @@ class MemberProfileTab2 extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !// _.isEqual(nextProps, this.props) &&
+    return !// isEqual(nextProps, this.props) &&
     isEqual(nextState, this.state);
   }
 

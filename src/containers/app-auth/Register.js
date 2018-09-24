@@ -38,14 +38,14 @@ class Register extends Component {
       rePassword: "",
     };
   }
-  loginAsGuest = () => {
-    this.props.loginGuest(true);
-    this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-      this.goToHomeTab();
-    }, 500);
-  };
+  // loginAsGuest = () => {
+  //   this.props.loginGuest(true);
+  //   this.setState({ isLoading: true });
+  //   setTimeout(() => {
+  //     this.setState({ isLoading: false });
+  //     this.goToHomeTab();
+  //   }, 500);
+  // };
   goToHomeTab = () => {
     const resetAction = StackActions.reset({
       index: 0,
@@ -59,17 +59,31 @@ class Register extends Component {
       actions: [NavigationActions.navigate({ routeName: "Login" })],
     });
     this.props.navigation.dispatch(resetAction);
-    // this.props.navigation.navigate('VerifyAccount');
+  };
+  gotToVerify = () => {
+    this.props.navigation.navigate("VerifyAccount", {
+      userName: this.dataUser.userName,
+      password: this.dataUser.password,
+    });
   };
   _register = async () => {
     const { userName, fullName, password, rePassword } = this.dataUser;
     console.log("data register", this.dataUser);
 
+    if (password.length === 0 || rePassword.length === 0) {
+      Alert.alert(
+        "Thông báo",
+        "Bạn phải nhập mật khẩu",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+      return;
+    }
     if (password.length < 6 || password !== rePassword) {
       Alert.alert(
         "Thông báo",
         "Mật khẩu không trùng khớp",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        [{ text: "OK", onPress: () => {} }],
         { cancelable: false }
       );
       return;
@@ -88,7 +102,7 @@ class Register extends Component {
       Alert.alert(
         "Thông báo",
         register.Message,
-        [{ text: "OK", onPress: this.goTologin }],
+        [{ text: "OK", onPress: this.gotToVerify }],
         { cancelable: false }
       );
     } else {
@@ -167,6 +181,9 @@ class Register extends Component {
           label={strings("register.btn_register")}
           onPress={this._register}
         />
+        {/* <DismissKeyboardView>
+          <Text >afv</Text>
+        </DismissKeyboardView> */}
         <View style={styles.view_login}>
           <Text>{strings("login.login_fb")}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
@@ -189,13 +206,13 @@ class Register extends Component {
             }}
           />
         </View>
-        <View style={styles.view_login}>
+        {/* <View style={styles.view_login}>
           <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
           <ButtonBorder
             label={strings("login.btn_guest")}
             onPress={this.loginAsGuest}
           />
-        </View>
+        </View> */}
       </View>
     );
   };
@@ -236,6 +253,7 @@ class Register extends Component {
         <ScrollView
           // keyboardShouldPersistTaps="always"
           // keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
