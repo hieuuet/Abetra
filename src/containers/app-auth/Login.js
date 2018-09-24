@@ -64,8 +64,10 @@ class Login extends Component {
     console.log("login", login);
     this.setState({ isLoading: false });
     if (login.ErrorCode === "00") {
+        const IntUserID = login.Value[0].IntUserID.toString()
       if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
         await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
+        await AsyncStorage.setItem('IntUserID', IntUserID);
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {

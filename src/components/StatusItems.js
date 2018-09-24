@@ -160,11 +160,11 @@ class StatusItems extends Component {
               }}
             >
               <Icon1 name="like" size={25} color="#42A5F5" />
-              <Text style={{ color: "#42A5F5" }}> 99</Text>
+              <Text style={{ color: "#42A5F5" }}> {item.TotalLike}</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Icon1 name="comment" size={25} color="#42A5F5" />
-              <Text style={{ color: "#42A5F5" }}>99</Text>
+              <Text style={{ color: "#42A5F5" }}>{item.TotalComment}</Text>
             </View>
             <View
               style={{
@@ -174,7 +174,7 @@ class StatusItems extends Component {
               }}
             >
               <Icon name="share-outline" size={25} color="#42A5F5" />
-              <Text style={{ color: "#42A5F5" }}>99</Text>
+              <Text style={{ color: "#42A5F5" }}>{item.TotalShare}</Text>
             </View>
           </View>
           <View style={{ height: 1, backgroundColor: "#cccccc" }} />

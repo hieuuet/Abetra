@@ -28,6 +28,7 @@ class Menu extends Component {
 
   logout = () => {
     AsyncStorage.removeItem(USER_ID);
+    AsyncStorage.removeItem('IntUserID');
     this.props.resetStore();
     const resetAction = StackActions.reset({
       index: 0,
