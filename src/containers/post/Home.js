@@ -16,10 +16,11 @@ import Icon1 from "react-native-vector-icons/dist/Entypo";
 import {URL_SOCKET} from "../../constant/api";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {loadUserProfile, requestRegister, searchPost} from "../../actions";
+import {loadUserProfile, requestRegister, searchPost, updateUserProfile} from "../../actions";
 import {SearchView, ViewLoading} from "../../components/CommonView";
 import style_common from "../../style-common/index";
 import {USER_ID} from "../../constant/KeyConstant";
+import {default as FCM, FCMEvent} from "react-native-fcm";
 
 class Home extends Component {
     constructor(props) {
@@ -38,11 +39,23 @@ class Home extends Component {
         console.log("socket", this.socket);
 
     }
+    pushDeviceToken = async( profile_id, user_id, token_device) => {
+        let pushToken = await updateUserProfile({
+            profile_id: profile_id,
+            user_id: user_id,
+            field: "TokenKey",
+            value: token_device,
+        });
+        console.log('pushToken', pushToken)
+
+    }
 
     async componentDidMount() {
         this.userID = await AsyncStorage.getItem(USER_ID);
         const IntUserID = await AsyncStorage.getItem('IntUserID');
-        console.log('IntUserID', IntUserID)
+        const ProfileID = await AsyncStorage.getItem('ProfileID');
+        // console.log('IntUserID', IntUserID)
+        // console.log('ProfileID', ProfileID)
         this.socket.emit("LOGINPOST", {
             IntUserID: IntUserID
         });
@@ -55,6 +68,51 @@ class Home extends Component {
         })
         this._searchPost();
         if (!this.props.isGuest) this._loadUserProfile();
+
+        //firebase
+        // iOS: show permission prompt for the first call. later just check permission in user settings
+        // Android: check permission in user settings
+        FCM.requestPermissions().then(() => console.log('granted')).catch(() => console.log('notification permission rejected'));
+
+        FCM.getFCMToken().then(token => {
+            console.log('token', token)
+            // AsyncStorage.setItem('token', token);
+            this.pushDeviceToken(ProfileID, this.userID, token);
+            // store fcm token in your server
+        });
+
+        this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
+
+            // console.log("receive noti listent", notif);
+            // optional, do some component related stuff
+            if (notif && notif.opened_from_tray && notif.opened_from_tray == 1) {
+                return;
+            }
+            if (notif.fcm) {
+                console.log(("abcd", notif.fcm));
+                FCM.presentLocalNotification({
+                    vibrate: 500,
+                    title: notif.fcm.title,
+                    body: notif.fcm.body,
+                    priority: "high",
+                    sound: "default",
+                    icon: "ic_launcher",
+                    wake_screen: true,
+                    show_in_foreground: true,
+                    // click_action: notif.fcm.action,
+
+                });
+            }
+
+
+        });
+
+        // initial notification contains the notification that launchs the app. If user launchs app by clicking banner, the banner notification info will be here rather than through FCM.on event
+        // sometimes Android kills activity when app goes to background, and when resume it broadcasts notification before JS is run. You can use FCM.getInitialNotification() to capture those missed events.
+        // initial notification will be triggered all the time even when open app by icon so send some action identifier when you send notification
+        FCM.getInitialNotification().then(notif => {
+            // console.log("click noti:", notif)
+        });
     }
 
     _searchPost = async () => {
