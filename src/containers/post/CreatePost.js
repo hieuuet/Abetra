@@ -114,7 +114,7 @@ class CreatePost extends Component {
                     () => this._uploadImage(ArrImage)
                 );
             })
-            .catch(e => alert(e));
+            .catch(e => console.log('e', e));
     }
 
     //create post
