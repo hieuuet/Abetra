@@ -1,13 +1,13 @@
-/* Quyền lợi và chính sách hội viên */
+/* Điều khoản dịch vụ */
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { COLOR } from "../constant/Color";
 
-class Benifet extends Component {
+class TermServices extends Component {
   static navigationOptions = ({ navigation }) => {
     // console.log("state change redender");
     return {
-      title: "Quyền lợi & Chính sách",
+      title: "Điều khoản dịch vụ",
       // headerStyle: {
       //   // backgroundColor: "#23b34c",
       //   alignSelf: "center",
@@ -19,9 +19,9 @@ class Benifet extends Component {
   render() {
     return (
       <View>
-        <Text>Quyền lợi và chính sách hội viên</Text>
+        <Text>Điều khoản dịch vụ</Text>
       </View>
     );
   }
 }
-export default Benifet;
+export default TermServices;

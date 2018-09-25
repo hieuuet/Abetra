@@ -13,9 +13,16 @@ export const DEFAULT_LANGUGE = {
   TotalRow: 4,
 };
 
-//state
+//state of gender
 export const GENDER_STATE = {
   WOMEN: 0,
   MAN: 1,
   OTHER: 2,
+};
+
+//state of account
+export const TYPE_ACCOUNT = {
+  PERSONAL: 2, //cá nhân
+  BUSINESS: 3, //doanh nghiệp
+  TEMP: 4, //vãng lai
 };

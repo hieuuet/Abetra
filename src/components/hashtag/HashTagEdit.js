@@ -10,7 +10,7 @@ import {
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
 import { COLOR } from "../../constant/Color";
-import {isEqual,cloneDeep} from "lodash";
+import { isEqual, cloneDeep } from "lodash";
 export default class HashTagEdit extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,7 @@ export default class HashTagEdit extends Component {
     this.style_edit = {
       width: widthTag - 10,
       color: COLOR.COLOR_BLACK,
+      textAlign: "center",
     };
   }
 
@@ -30,9 +31,7 @@ export default class HashTagEdit extends Component {
     this.setState({ data: nextProps.data });
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return !(
-      isEqual(nextProps, this.props) && isEqual(nextState, this.state)
-    );
+    return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
   }
 
   onChangeItem = (textChange, index) => {};

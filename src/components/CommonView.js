@@ -6,7 +6,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import { COLOR } from "../constant/Color";
@@ -25,7 +24,7 @@ const DismissKeyboardHOC = (Comp) => {
     my_style = {},
     text_style = {},
   }) => (
-    <TouchableWithoutFeedback
+    <TouchableOpacity
       onPress={() => {
         Keyboard.dismiss();
         onPress();
@@ -33,10 +32,10 @@ const DismissKeyboardHOC = (Comp) => {
       accessible={false}
       style={[styles.btn, my_style]}
     >
-      <Comp style={[styles.btn, my_style]}>
+      <Comp>
         <Text style={[styles.txt, text_style]}>{label}</Text>
       </Comp>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
   ButtonBorder.propTypes = {
     label: PropTypes.string.isRequired,

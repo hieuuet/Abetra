@@ -21,6 +21,7 @@ import VerifyAccount from "../containers/app-auth/VerifyAccount";
 import CreatePost from "../containers/post/CreatePost";
 import Search from "../containers/Search";
 import Benifet from "../containers/Benifet";
+import TermServices from "../containers/TermServices";
 import ImageDetail from "../containers/ImageDetail";
 import SplashScreen from "../containers/SplashScreen";
 import {
@@ -173,6 +174,9 @@ const RootStack = createStackNavigator({
   },
   Benifet: {
     screen: Benifet,
+  },
+  TermServices: {
+    screen: TermServices,
   },
 
   Chat: {

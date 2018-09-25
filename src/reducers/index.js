@@ -12,7 +12,11 @@ import { uploadImage } from "./uploadImageReducers";
 import { searchPost } from "./searchPostReducers";
 import { loginGuest } from "./guestReducers";
 import { currentLanguage } from "./LanguageReducers";
+
 import { loadSavePost } from "./loadSavePostReducers";
+
+import { allRank, allHashTag } from "./CommonReducers";
+
 
 const appReducer = combineReducers({
   login,
@@ -28,7 +32,9 @@ const appReducer = combineReducers({
   searchPost,
   loginGuest,
   currentLanguage,
-    loadSavePost
+    loadSavePost,
+  allRank,
+  allHashTag,
 });
 
 export const rootReducer = (state, action) => {

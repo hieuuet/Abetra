@@ -28,6 +28,13 @@ export const API = {
     LOAD_MSG_GROUP: `${URL_REALTIME}/socket/loadmgsgroups`,
     DETAIL_MSG: `${URL_REALTIME}/socket/detailmessagebygroup`,
 
-    //Language
-    GET_LANGUAGE: `${URL_REALTIME}/Common/GetAllLanguage`,
+
+  //Language
+  GET_LANGUAGE: `${URL_REALTIME}/Common/GetAllLanguage`,
+
+  //Rank
+  GET_RANK: `${URL_BASE}/Rank/Getall`,
+  //Hashtah
+  GET_ALL_HASHTAG: `${URL_BASE}/Common/GetAllHashTag`,
+
 };

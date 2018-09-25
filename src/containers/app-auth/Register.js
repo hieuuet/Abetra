@@ -36,6 +36,7 @@ class Register extends Component {
       fullName: "",
       password: "",
       rePassword: "",
+      email: "",
     };
   }
   // loginAsGuest = () => {
@@ -67,7 +68,7 @@ class Register extends Component {
     });
   };
   _register = async () => {
-    const { userName, fullName, password, rePassword } = this.dataUser;
+    const { userName, fullName, password, rePassword, email } = this.dataUser;
     console.log("data register", this.dataUser);
 
     if (password.length === 0 || rePassword.length === 0) {
@@ -93,7 +94,7 @@ class Register extends Component {
     let register = await postRegister({
       Username: userName,
       FullName: fullName,
-      Email: `${userName}@gmail.com`,
+      Email: email,
       Password: password,
     });
     this.setState({ isLoading: false });
@@ -121,9 +122,41 @@ class Register extends Component {
     this.setState({ isLoading: false, isLoadingIndicator: true });
 
     if (dataFB !== undefined) {
-      this.dataUser = { ...this.dataUser, ...dataFB };
+      this.dataUser = {
+        userName: dataFB.id,
+        fullName: dataFB.fullName,
+        email: dataFB.email ? dataFB.email : "",
+        password: "123456",
+        rePassword: "123456",
+      };
       console.log("dataUser", this.dataUser);
       //TODO: Call api server with data from fb
+      const { userName, fullName, password, email } = this.dataUser;
+
+      this.setState({ isLoading: true });
+      let register = await postRegister({
+        Username: userName,
+        FullName: fullName,
+        Email: email,
+        Password: password,
+      });
+      this.setState({ isLoading: false });
+      console.log("register result", register);
+      // if (register.ErrorCode === "00") {
+      //   Alert.alert(
+      //     "Thông báo",
+      //     register.Message,
+      //     [{ text: "OK", onPress: this.gotToVerify }],
+      //     { cancelable: false }
+      //   );
+      // } else {
+      //   Alert.alert(
+      //     "Thông báo",
+      //     register.Message,
+      //     [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      //     { cancelable: false }
+      //   );
+      // }
     }
   };
 
@@ -228,7 +261,7 @@ class Register extends Component {
             }}
             isChecked={this.state.isChecked}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('TermServices')}>
             <Text style={styles.txt_underline}>
               {strings("register.agree_term")}
             </Text>

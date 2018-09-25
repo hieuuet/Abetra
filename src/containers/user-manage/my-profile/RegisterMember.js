@@ -7,6 +7,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from "react-native";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
@@ -14,56 +15,90 @@ import { COLOR } from "../../../constant/Color";
 import RadioForm from "../../../components/SimpleRadioButton";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 
 class RegisterMember extends Component {
+  static navigationOptions = ({ navigation }) => {
+    // const { params = {} } = navigation.state;
+    return {
+      title: "Đăng ký hội viên",
+      headerTitleStyle: { color: COLOR.COLOR_BLACK },
+      headerTintColor: COLOR.COLOR_BLACK,
+    };
+  };
+
   constructor(props) {
     super(props);
 
-    this.allTags = [
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-      {
-        hashtag: "#FoodMessage",
-      },
-    ];
+    this.allTags = this.props.allHashTag.map((tag) => {
+      return {
+        ...tag,
+        hashtag: tag.Name,
+      };
+    });
 
-    this.radioRankData = [
-      {
-        label: "Hạng đồng",
-        value: 0,
-      },
-      { label: "Hạng bạc", value: 1 },
-      { label: "Hạng vàng", value: 2 },
-      { label: "Hạng kim cương", value: 3 },
-    ];
+    this.radioRankData = this.props.allRank.map((rank) => {
+      return {
+        ...rank,
+        label: rank.RankName,
+        value: rank.ID,
+      };
+    });
+
     this.radioTypeData = [
       {
         label: "Cá nhân",
-        value: 0,
+        value: TYPE_ACCOUNT.PERSONAL,
       },
-      { label: "Doanh nghiệp", value: 1 },
+      {
+        label: "Doanh nghiệp",
+        value: TYPE_ACCOUNT.BUSINESS,
+      },
     ];
+
+    this.phone = this.props.userProfile ? this.props.userProfile.Phone : "";
+    this.name = this.props.userProfile ? this.props.userProfile.FullName : "";
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
   }
 
-  onPressItemTag = () => {};
+  onDataSelected = (hashtagSelected) => {
+    if (hashtagSelected !== undefined) this.tagSelected = hashtagSelected;
+  };
 
+  registerMember = () => {
+    if (
+      !this.tagSelected ||
+      this.tagSelected.every((tag) => tag.select === false)
+    ) {
+      return Alert.alert(
+        "Thông báo",
+        "Bạn chưa chọn lĩnh vực hoạt động nào",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    }
+
+    if (this.name.trim().length === 0 || this.phone.trim().length === 0) {
+      return Alert.alert(
+        "Thông báo",
+        "Thông tin liên hệ không được để trống",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    }
+
+    return Alert.alert(
+      "Thông báo",
+      "Chức năng đang phát triển",
+      [{ text: "OK", onPress: () => {} }],
+      { cancelable: false }
+    );
+  };
   render() {
     return (
       <KeyboardAvoidingView
@@ -72,6 +107,7 @@ class RegisterMember extends Component {
         keyboardVerticalOffset={64}
       >
         <ScrollView
+          keyboardShouldPersistTaps="handled"
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
@@ -96,6 +132,7 @@ class RegisterMember extends Component {
               editable={false}
               selectable
               onPressItemTag={this.onPressItemTag}
+              onDataSelected={this.onDataSelected}
               numColumns={2}
               ref="hashTag"
             />
@@ -121,9 +158,11 @@ class RegisterMember extends Component {
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 returnKeyType="done"
-                secureTextEntry={true}
+                defaultValue={this.name}
                 placeholder={"Nhập họ tên"}
-                onChangeText={(text) => {}}
+                onChangeText={(text) => {
+                  this.name = text;
+                }}
                 style={[style_common.input_border, styles.text_input]}
               />
             </View>
@@ -133,10 +172,13 @@ class RegisterMember extends Component {
               <TextInput
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
+                keyboardType="numeric"
                 returnKeyType="done"
-                secureTextEntry={true}
+                defaultValue={this.phone}
                 placeholder={"01678910"}
-                onChangeText={(text) => {}}
+                onChangeText={(text) => {
+                  this.phone = text;
+                }}
                 style={[style_common.input_border, styles.text_input]}
               />
             </View>
@@ -156,7 +198,7 @@ class RegisterMember extends Component {
               ]}
               text_style={style_common.text_color_base}
               label={"Đăng ký"}
-              onPress={() => {}}
+              onPress={this.registerMember}
             />
           </View>
         </ScrollView>
@@ -165,6 +207,23 @@ class RegisterMember extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.loadUserProfile.Value[0],
+    allRank: state.allRank,
+    allHashTag: state.allHashTag,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+  };
+};
+RegisterMember = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterMember);
 export default RegisterMember;
 const styles = StyleSheet.create({
   container: {
@@ -188,8 +247,9 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignSelf: "center",
     padding: 5,
-    minHeight: 40,
+    minHeight: 35,
     marginTop: 20,
+    marginBottom: 20,
     backgroundColor: COLOR.COLOR_GRAY,
     borderColor: COLOR.COLOR_BLACK,
   },

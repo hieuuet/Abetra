@@ -16,12 +16,20 @@ import Icon1 from "react-native-vector-icons/dist/Entypo";
 import {URL_SOCKET} from "../../constant/api";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {loadUserProfile, requestRegister, searchPost, updateUserProfile} from "../../actions";
+import {
+    loadUserProfile,
+    requestRegister,
+    searchPost,
+    updateUserProfile,
+    getAllRank,
+    getAllHashTag,
+} from "../../actions";
 import {SearchView, ViewLoading} from "../../components/CommonView";
 import style_common from "../../style-common/index";
 import {USER_ID} from "../../constant/KeyConstant";
 import {default as FCM, FCMEvent} from "react-native-fcm";
 import MenuPost from "../../components/menu_post/MenuPost";
+
 
 class Home extends Component {
     constructor(props) {
@@ -36,55 +44,61 @@ class Home extends Component {
         this.socket = SocketIOClient(URL_SOCKET, {
             pingTimeout: 30000,
             pingInterval: 30000,
-            transports: ["websocket"]
+            transports: ["websocket"],
         });
         console.log("socket", this.socket);
-
     }
-    pushDeviceToken = async( profile_id, user_id, token_device) => {
+
+    pushDeviceToken = async (profile_id, user_id, token_device) => {
         let pushToken = await updateUserProfile({
-            profile_id: profile_id,
-            user_id: user_id,
+            profile_id,
+            user_id,
             field: "TokenKey",
             value: token_device,
         });
-        console.log('pushToken', pushToken)
-
-    }
+        console.log("pushToken", pushToken);
+    };
 
     async componentDidMount() {
         this.userID = await AsyncStorage.getItem(USER_ID);
-        const IntUserID = await AsyncStorage.getItem('IntUserID');
-        const ProfileID = await AsyncStorage.getItem('ProfileID');
+        const IntUserID = await AsyncStorage.getItem("IntUserID");
+        const ProfileID = await AsyncStorage.getItem("ProfileID");
         // console.log('IntUserID', IntUserID)
         // console.log('ProfileID', ProfileID)
         this.socket.emit("LOGINPOST", {
-            IntUserID: IntUserID
+            IntUserID,
         });
-        this.socket.on('RECEIVERPOST', (dataRes) => {
-            console.log('receivePOST', dataRes)
+        this.socket.on("RECEIVERPOST", (dataRes) => {
+            console.log("receivePOST", dataRes);
             let newPost = this.state.ArrPost;
             //add post to array
             newPost.unshift(dataRes);
-            this.setState({ArrPost: newPost}, () => console.log('this.state.ArrPost',this.state.ArrPost))
-        })
+            this.setState({ArrPost: newPost}, () =>
+                console.log("this.state.ArrPost", this.state.ArrPost)
+            );
+        });
         this._searchPost();
-        if (!this.props.isGuest) this._loadUserProfile();
+        if (!this.props.isGuest) {
+            this._loadUserProfile();
+            this.props.getAllRank();
+            this.props.getAllHashTag();
+        }
 
         //firebase
         // iOS: show permission prompt for the first call. later just check permission in user settings
         // Android: check permission in user settings
-        FCM.requestPermissions().then(() => console.log('granted')).catch(() => console.log('notification permission rejected'));
+        FCM.requestPermissions()
+            .then(() => console.log("granted"))
+            .catch(() => console.log("notification permission rejected"));
 
-        FCM.getFCMToken().then(token => {
-            console.log('token', token)
+        FCM.getFCMToken().then((token) => {
+            console.log("token", token);
             // AsyncStorage.setItem('token', token);
             this.pushDeviceToken(ProfileID, this.userID, token);
             // store fcm token in your server
         });
 
         this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
-
             // console.log("receive noti listent", notif);
             // optional, do some component related stuff
             if (notif && notif.opened_from_tray && notif.opened_from_tray == 1) {
@@ -102,17 +116,14 @@ class Home extends Component {
                     wake_screen: true,
                     show_in_foreground: true,
                     // click_action: notif.fcm.action,
-
                 });
             }
-
-
         });
 
         // initial notification contains the notification that launchs the app. If user launchs app by clicking banner, the banner notification info will be here rather than through FCM.on event
         // sometimes Android kills activity when app goes to background, and when resume it broadcasts notification before JS is run. You can use FCM.getInitialNotification() to capture those missed events.
         // initial notification will be triggered all the time even when open app by icon so send some action identifier when you send notification
-        FCM.getInitialNotification().then(notif => {
+        FCM.getInitialNotification().then((notif) => {
             // console.log("click noti:", notif)
         });
     }
@@ -169,6 +180,8 @@ class Home extends Component {
             </View>
         );
     };
+
+
     // show modal
     setModalVisible = (visible) => {
         console.log('setModalVisible')
@@ -241,7 +254,7 @@ class Home extends Component {
                                         userID={this.userID}
                                         // onReloadBack ={this.onReloadBack}
                                         navigation={navigation}
-                                        setModalVisible = {this.setModalVisible}
+                                        setModalVisible={this.setModalVisible}
                                     />
                                 );
                             }}
@@ -258,6 +271,7 @@ class Home extends Component {
             </KeyboardAvoidingView>
         );
     }
+
 }
 
 const mapStateToProps = (state) => {
@@ -272,6 +286,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
         searchPost: bindActionCreators(searchPost, dispatch),
+        getAllRank: bindActionCreators(getAllRank, dispatch),
+        getAllHashTag: bindActionCreators(getAllHashTag, dispatch),
     };
 };
 
