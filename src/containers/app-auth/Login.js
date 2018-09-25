@@ -22,6 +22,7 @@ import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
 import { USER_ID } from "../../constant/KeyConstant";
+import { web } from "../../components/Communications";
 
 class Login extends Component {
   constructor(props) {
@@ -165,7 +166,7 @@ class Login extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <Text>{strings("verify.txt_fanpage")}</Text>
-          <TouchableOpacity onPress={this.facebookLogin}>
+          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"

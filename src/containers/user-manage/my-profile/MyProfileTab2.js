@@ -9,13 +9,14 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import {isEqual} from "lodash";
+import { isEqual } from "lodash";
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
+import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class MyProfileTab2 extends Component {
   };
 
   _renderMember = () => {
-    // console.log("render tab2");
+    console.log("render tab2");
     const tagSelected = this.props.tagSelected.filter(
       (tag) => tag.select === true
     );
@@ -141,15 +142,20 @@ class MyProfileTab2 extends Component {
   };
 
   render() {
-    return this.isMember ? this._renderMember() : this._renderRegisterMember();
+    if (this.props.dataUser.Type === TYPE_ACCOUNT.TEMP)
+      return this._renderRegisterMember();
+    return this._renderMember();
   }
 }
 
 export default MyProfileTab2;
 MyProfileTab2.propTypes = {
+  dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   onClickShowModal: PropTypes.func.isRequired,
   tagSelected: PropTypes.array.isRequired,
+  onLoading: PropTypes.func.isRequired,
+  allRank: PropTypes.array.isRequired,
 };
 
 const styles = StyleSheet.create({

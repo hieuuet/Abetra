@@ -28,4 +28,9 @@ export const API = {
 
   //Language
   GET_LANGUAGE: `${URL_REALTIME}/Common/GetAllLanguage`,
+
+  //Rank
+  GET_RANK: `${URL_BASE}/Rank/Getall`,
+  //Hashtah
+  GET_ALL_HASHTAG: `${URL_BASE}/Common/GetAllHashTag`,
 };

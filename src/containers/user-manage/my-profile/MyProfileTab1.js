@@ -23,7 +23,11 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../../components/MenuItem";
-import { updateUserProfile, uploadImage2 } from "../../../actions";
+import {
+  updateUserProfile,
+  uploadImage2,
+  uploadMultipleImage,
+} from "../../../actions";
 import { isEqual } from "lodash";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
@@ -39,6 +43,9 @@ class MyProfileTab1 extends Component {
     super(props);
     this.state = {
       localAvatar: undefined,
+      dataImage: [
+        "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
+      ],
     };
 
     this.radioData = [
@@ -59,16 +66,16 @@ class MyProfileTab1 extends Component {
         ? this.dataUser.Description
         : "";
 
-    this.dataImage = [
-      "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
-      "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
-      "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
-      "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
-      "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
-      "https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b",
-      "https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990",
-      "https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602",
-    ];
+    // this.dataImage = [
+    //   "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
+    //   "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
+    //   "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
+    //   "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
+    //   "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
+    //   "https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b",
+    //   "https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990",
+    //   "https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602",
+    // ];
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -78,8 +85,8 @@ class MyProfileTab1 extends Component {
     );
   }
 
-  callApiUpdateProfile = ({ field, value }) => {
-    updateUserProfile({
+  callApiUpdateProfile = async ({ field, value }) => {
+    return updateUserProfile({
       profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
       field,
@@ -104,9 +111,11 @@ class MyProfileTab1 extends Component {
     }
   };
 
-  pickImageToUpload = () => {
+  /**
+   * Pick avatar to upload
+   */
+  pickOneImageToUpload = () => {
     ImagePicker.openPicker({
-      // ImagePicker.openCamera({
       waitAnimationEnd: false,
       includeBase64: true,
       includeExif: true,
@@ -136,6 +145,69 @@ class MyProfileTab1 extends Component {
       .catch((e) => console.log(e));
   };
 
+  pickMultipleImageToUpload = () => {
+    ImagePicker.openPicker({
+      multiple: true,
+      waitAnimationEnd: false,
+      includeBase64: true,
+      includeExif: true,
+      forceJpg: true,
+    })
+      .then(async (images) => {
+        console.log("images", images);
+        if (images) {
+          let arrBase64 = [];
+          let arrPath = [];
+          images.forEach((image) => {
+            arrBase64.push(image.data);
+            arrPath.push(image.path);
+          });
+          if (arrPath.length > 0) {
+            //loading here
+
+            this.props.onLoading(true);
+            const resultUpload = await uploadMultipleImage({
+              user_id: this.dataUser.UserID,
+              base64Datas: arrBase64,
+            });
+            if (resultUpload) {
+              const arrLink = JSON.parse(resultUpload).Value;
+              if (arrLink !== null && arrLink !== undefined) {
+                const arrFullLink = arrLink.map((imgLink) => {
+                  return URL_BASE + imgLink;
+                });
+
+                const allImage = [...this.state.dataImage, ...arrFullLink];
+                // const jsonImgs = JSON.stringify(allImage);
+                console.log("all image", allImage);
+                const resultUpdate = await this.callApiUpdateProfile({
+                  field: "Image",
+                  value: JSON.stringify(allImage),
+                });
+
+                if (resultUpdate && resultUpdate.ErrorCode === "00") {
+                  this.setState({ dataImage: allImage });
+                  return this.props.onLoading(false);
+                }
+              }
+            }
+
+            this.props.onLoading(false);
+            return Alert.alert(
+              "Thông báo",
+              "Upload ảnh không thành công",
+              [{ text: "OK", onPress: () => {} }],
+              { cancelable: false }
+            );
+          }
+        }
+      })
+      .catch((e) => {
+        this.props.onLoading(false);
+        alert(e);
+      });
+  };
+
   getGenderState = () => {
     if (
       typeof this.dataUser.Gender !== "number" ||
@@ -150,7 +222,7 @@ class MyProfileTab1 extends Component {
     return (
       <View>
         <View style={styles.contain_avatar}>
-          <TouchableOpacity onPress={this.pickImageToUpload}>
+          <TouchableOpacity onPress={this.pickOneImageToUpload}>
             <Image
               source={
                 this.state.localAvatar
@@ -330,7 +402,10 @@ class MyProfileTab1 extends Component {
           <TouchableOpacity style={styles.btn_action}>
             <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn_action}>
+          <TouchableOpacity
+            style={styles.btn_action}
+            onPress={this.pickMultipleImageToUpload}
+          >
             <Image
               style={styles.icon_img}
               source={IMAGE.imag_icon}
@@ -345,7 +420,7 @@ class MyProfileTab1 extends Component {
           </TouchableOpacity>
         </View>
         <PhotoGrid
-          source={this.dataImage}
+          source={this.state.dataImage}
           width={width - 20}
           height={width / 1.5}
           ratio={0.5}
@@ -387,6 +462,7 @@ class MyProfileTab1 extends Component {
   };
 
   render() {
+    console.log("render tab 1");
     this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
     return (
       <KeyboardAvoidingView
@@ -413,6 +489,7 @@ export default MyProfileTab1;
 MyProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  onLoading: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

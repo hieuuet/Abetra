@@ -175,8 +175,8 @@ class AppIntroSlider extends Component {
     );
   };
 
-  _renderNextButton = () => this._renderButton("Tiếp tục", this.onNextPress);
-  _renderDoneButton = () => this._renderButton("Xong", this.onDone);
+  _renderNextButton = () => this._renderButton("Tiếp", this.onNextPress);
+  _renderDoneButton = () => this._renderButton("Tiếp", this.onDone);
   _renderPagination = () => {
     const isLastSlide = this.state.activeIndex === this.slides.length - 1;
     const isFirstSlide = this.state.activeIndex === 0;

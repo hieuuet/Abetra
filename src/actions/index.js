@@ -14,6 +14,11 @@ export { postLogin } from "./loginActions";
 export { postRegister } from "./registerActions";
 export { searchCmt } from "./searchCmtActions";
 export { searchPost } from "./searchPostActions";
-export { uploadImage, uploadImage2 } from "./UploadImageActions";
+export {
+  uploadImage,
+  uploadImage2,
+  uploadMultipleImage,
+} from "./UploadImageActions";
 export { resetStore } from "./resetStoreAction";
 export { getAllLanguage, getCurrentLanguage } from "./LanguageActions";
+export { getAllRank, getAllHashTag } from "./CommonActions";

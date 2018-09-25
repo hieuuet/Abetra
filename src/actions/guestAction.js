@@ -22,7 +22,10 @@ export const requestRegister = (navigation) => {
   Alert.alert(
     "Thông báo",
     "Để sử dụng tính năng bạn cần đăng ký tải khoản. Đăng ký ngay ?",
-    [{ text: "OK", onPress: goRegister }],
-    { cancelable: true }
+    [
+      { text: "Đăng ký", onPress: goRegister },
+      { text: "Để sau", onPress: () => {} },
+    ],
+    { cancelable: false }
   );
 };

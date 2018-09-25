@@ -114,6 +114,10 @@ class Profile extends Component {
     }
   }
 
+  onLoading = (isLoading) => {
+    this.setState({ isLoading });
+  };
+
   reLoadProfile = async () => {
     const { loadUserProfile } = this.props;
     if (!this.userProfile || !this.userProfile.UserID) {
@@ -143,7 +147,7 @@ class Profile extends Component {
   };
 
   render() {
-    // console.log("render profile");
+    console.log("render profile");
 
     return (
       <View style={style_common.container}>
@@ -175,6 +179,7 @@ class Profile extends Component {
             <MyProfileTab1
               dataUser={this.userProfile}
               navigation={this.props.navigation}
+              onLoading={this.onLoading}
             />
           </View>
           <View
@@ -184,9 +189,12 @@ class Profile extends Component {
             ]}
           >
             <MyProfileTab2
+              dataUser={this.userProfile}
               navigation={this.props.navigation}
               onClickShowModal={this.onClickShowModal}
               tagSelected={this.state.allTag}
+              onLoading={this.onLoading}
+              allRank={this.props.allRank}
             />
           </View>
         </View>
@@ -214,6 +222,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
   return {
     userProfile: state.loadUserProfile,
+    allRank: state.allRank,
   };
 };
 

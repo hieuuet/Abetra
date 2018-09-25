@@ -26,3 +26,10 @@ export const uploadImage = (data = {}) => {
 export const uploadImage2 = (data = {}) => {
   return postRequestApi(API.UPLOAD_IMAGE, data, true);
 };
+/**
+ * Upload multiple image not using redux
+ * @param {*} data
+ */
+export const uploadMultipleImage = (data = {}) => {
+  return postRequestApi(API.UPLOAD_LIST_IMAGE, data, true);
+};
