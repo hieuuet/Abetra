@@ -13,7 +13,7 @@ import { searchPost } from "./searchPostReducers";
 import { loginGuest } from "./guestReducers";
 import { currentLanguage } from "./LanguageReducers";
 
-import { loadSavePost } from "./loadSavePostReducers";
+import { loadSavePost, savePost } from "./loadSavePostReducers";
 
 import { allRank, allHashTag } from "./CommonReducers";
 
@@ -35,6 +35,7 @@ const appReducer = combineReducers({
     loadSavePost,
   allRank,
   allHashTag,
+    savePost
 });
 
 export const rootReducer = (state, action) => {

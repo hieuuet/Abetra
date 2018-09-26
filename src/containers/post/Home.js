@@ -28,14 +28,12 @@ import {SearchView, ViewLoading} from "../../components/CommonView";
 import style_common from "../../style-common/index";
 import {USER_ID} from "../../constant/KeyConstant";
 import {default as FCM, FCMEvent} from "react-native-fcm";
-import MenuPost from "../../components/menu_post/MenuPost";
 
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: false,
             isLoading: false,
             ArrPost: [],
         };
@@ -181,13 +179,6 @@ class Home extends Component {
         );
     };
 
-
-    // show modal
-    setModalVisible = (visible) => {
-        console.log('setModalVisible')
-        this.setState({modalVisible: visible});
-    };
-
     render() {
         const {navigation} = this.props;
 
@@ -254,7 +245,6 @@ class Home extends Component {
                                         userID={this.userID}
                                         // onReloadBack ={this.onReloadBack}
                                         navigation={navigation}
-                                        setModalVisible={this.setModalVisible}
                                     />
                                 );
                             }}
@@ -262,10 +252,6 @@ class Home extends Component {
                             keyExtractor={(item, index) => index.toString()}
                         />
                     )}
-                    <MenuPost
-                        changeModalVisible={this.state.modalVisible}
-                        onChangeModalVisible={this.setModalVisible}
-                    />
                 </ScrollView>
                 {this._renderLoading()}
             </KeyboardAvoidingView>

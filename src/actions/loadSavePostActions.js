@@ -16,3 +16,18 @@ export const loadSavePost = (data = {}) => {
         return result;
     }
 }
+export const savePost = (data = {}) => {
+    return async dispatch => {
+
+        let result = await postRequestApi( API.SAVE_POST, data,  dispatch);
+
+        if (result) {
+            dispatch({
+                type: 'SAVE_POST',
+                payload: result
+            });
+        }
+        return result;
+    }
+}
+

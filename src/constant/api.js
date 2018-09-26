@@ -14,6 +14,7 @@ export const API = {
     GET_TOP_POST: `${URL_BASE}/api/Post/GetTopPost`,
     SEARCH_POST: `${URL_BASE}/api/Post/SearchPost`,
     LOAD_SAVE_POST: `${URL_REALTIME}/socket/loadsavepost`,
+    SAVE_POST: `${URL_REALTIME}/socket/savepost`,
 
     //cmt
     CREATE_CMT: `${URL_BASE}/api/Comment/CreateComment`,

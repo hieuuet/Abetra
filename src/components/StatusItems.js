@@ -15,12 +15,15 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconMore from "react-native-vector-icons/Ionicons";
 import ReadMore from "react-native-read-more-text";
 import PhotoGrid from "./PhotoGrid";
+import MenuPost from "./menu_post/MenuPost";
 
 class StatusItems extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            modalVisible: false,
+        };
     }
 
     _renderTruncatedFooter = (handlePress) => {
@@ -49,6 +52,11 @@ class StatusItems extends Component {
         }
         this.props.navigation.navigate("MemberProfile", {item});
     };
+    setModalVisible = (visible) => {
+        // console.log('setModalVisible')
+        this.setState({modalVisible: visible});
+    };
+
 
     render() {
         const {item} = this.props.dataItem;
@@ -88,7 +96,11 @@ class StatusItems extends Component {
                                 <Text style={{color: "#2196F3", fontWeight: "bold"}}>
                                     {item.FullName}
                                 </Text>
-                                <TouchableOpacity onPress = {setModalVisible}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setModalVisible(true);
+                                    }}
+                                >
                                     <IconMore
                                         name="ios-more"
                                         size={25}
@@ -210,46 +222,15 @@ class StatusItems extends Component {
                         </View>
                     </View>
 
-                    {/*<View*/}
-                    {/*style={{*/}
-                    {/*flexDirection: "row",*/}
-                    {/*marginTop: 5,*/}
-                    {/*marginRight: 15,*/}
-                    {/*alignItems: "center",*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<Image*/}
-                    {/*style={styles.image_circle}*/}
-                    {/*source={{*/}
-                    {/*uri:*/}
-                    {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
-                    {/*}}*/}
-                    {/*resizeMode="cover"*/}
-                    {/*/>*/}
-                    {/*<TouchableOpacity*/}
-                    {/*onPress={() => this.props.navigation.navigate("BinhLuan")}*/}
-                    {/*style={{*/}
-                    {/*marginLeft: 10,*/}
-                    {/*flex: 1,*/}
-                    {/*backgroundColor: "#F5F5F5",*/}
-                    {/*borderRadius: 25,*/}
-                    {/*borderWidth: 1,*/}
-                    {/*borderColor: "#757575",*/}
-                    {/*paddingLeft: 10,*/}
-                    {/*paddingRight: 10,*/}
-                    {/*paddingTop: 10,*/}
-                    {/*paddingBottom: 10,*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<View>*/}
-                    {/*<Text>Viết bình luận ...</Text>*/}
-                    {/*</View>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
                 </View>
 
                 <View
                     style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}
+                />
+                <MenuPost
+                    item = {item}
+                    changeModalVisible={this.state.modalVisible}
+                    onChangeModalVisible={this.setModalVisible}
                 />
             </View>
         );

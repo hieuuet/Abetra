@@ -10,15 +10,28 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon1 from "react-native-vector-icons/Feather";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {savePost} from "../../actions/loadSavePostActions";
 
-
-export default class MenuPost extends Component {
+class MenuPost extends Component {
     constructor(props) {
         super(props);
         this.state = {}
     }
+    _savePost = async (PostID) => {
+        const { UserProfile, savePost } = this.props
+        let save = await savePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: PostID
+
+        })
+        console.log('save', save)
+    }
+
 
     render() {
+        // console.log('this.item', this.props.item)
         const {changeModalVisible, onChangeModalVisible} = this.props;
         return (
             <Modal
@@ -44,7 +57,10 @@ export default class MenuPost extends Component {
                     <View
                         style={{backgroundColor: "white", flex: 1, justifyContent: "center"}}
                     >
-                        <TouchableOpacity onPress={() => onChangeModalVisible(false)}>
+                        <TouchableOpacity onPress={() => {
+                            this._savePost(this.props.item.PostID)
+                            onChangeModalVisible(false)
+                        }}>
                             <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 10}}>
                                 <Icon1 name="bookmark" size={25} color="#E0E0E0"/>
 
@@ -64,4 +80,21 @@ export default class MenuPost extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        UserProfile: state.loadUserProfile
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        savePost: bindActionCreators(savePost, dispatch),
+    };
+};
+
+MenuPost = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MenuPost);
+export default MenuPost;
 const DEVICE_WIDTH = Dimensions.get("window").width;

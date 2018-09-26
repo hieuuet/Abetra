@@ -6,3 +6,12 @@ export const loadSavePost = (state = [], action = {}) => {
             return state
     }
 };
+export const savePost = (state = [], action = {}) => {
+    switch (action.type) {
+        case 'SAVE_POST':
+            return action.payload;
+        default:
+            return state
+    }
+};
+
