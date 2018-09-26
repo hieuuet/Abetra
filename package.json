@@ -20,6 +20,7 @@
     "react-native-image-crop-picker": "^0.21.1",
     "react-native-image-placeholder": "^1.0.14",
     "react-native-read-more-text": "^1.1.0",
+    "react-native-share": "^1.1.2",
     "react-native-text-input-reset": "^1.0.2",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.11.2",

@@ -6,7 +6,7 @@ import {
     Image,
     StyleSheet,
     Alert,
-    Dimensions,
+    Dimensions, Button,
 } from "react-native";
 
 import moment from "moment";
@@ -16,6 +16,8 @@ import IconMore from "react-native-vector-icons/Ionicons";
 import ReadMore from "react-native-read-more-text";
 import PhotoGrid from "./PhotoGrid";
 import MenuPost from "./menu_post/MenuPost";
+import Share from "react-native-share";
+
 
 class StatusItems extends Component {
     constructor(props) {
@@ -57,6 +59,13 @@ class StatusItems extends Component {
         this.setState({modalVisible: visible});
     };
 
+    onShare() {
+        const shareOptions = {
+            title: 'Share Status',
+            url: "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2264_ZING.jpg",
+        };
+        return Share.open(shareOptions);
+    }
 
     render() {
         const {item} = this.props.dataItem;
@@ -209,17 +218,19 @@ class StatusItems extends Component {
                                 <Text style={{color: "#424242"}}>Bình luận</Text>
                             </View>
                         </TouchableOpacity>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginRight: 20,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Icon name="share-outline" size={25} color="#424242"/>
+                        <TouchableOpacity  onPress={() => this.onShare()}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginRight: 20,
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Icon name="share-outline" size={25} color="#424242"/>
 
-                            <Text style={{color: "#424242"}}>Share</Text>
-                        </View>
+                                <Text style={{color: "#424242"}}>Share</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
@@ -228,7 +239,7 @@ class StatusItems extends Component {
                     style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}
                 />
                 <MenuPost
-                    item = {item}
+                    item={item}
                     changeModalVisible={this.state.modalVisible}
                     onChangeModalVisible={this.setModalVisible}
                 />
