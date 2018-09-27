@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
+  Alert
 } from "react-native";
 import style_common from "../../style-common/index";
 import { IMAGE } from "../../constant/assets";
@@ -28,7 +28,7 @@ class Register extends Component {
     this.state = {
       isChecked: true,
       isLoading: false,
-      isLoadingIndicator: true,
+      isLoadingIndicator: true
     };
 
     this.dataUser = {
@@ -36,7 +36,7 @@ class Register extends Component {
       fullName: "",
       password: "",
       rePassword: "",
-      email: "",
+      email: ""
     };
   }
   // loginAsGuest = () => {
@@ -50,21 +50,21 @@ class Register extends Component {
   goToHomeTab = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "TabHome" })],
+      actions: [NavigationActions.navigate({ routeName: "TabHome" })]
     });
     this.props.navigation.dispatch(resetAction);
   };
   goTologin = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "Login" })],
+      actions: [NavigationActions.navigate({ routeName: "Login" })]
     });
     this.props.navigation.dispatch(resetAction);
   };
   gotToVerify = () => {
     this.props.navigation.navigate("VerifyAccount", {
       userName: this.dataUser.userName,
-      password: this.dataUser.password,
+      password: this.dataUser.password
     });
   };
   _register = async () => {
@@ -94,8 +94,8 @@ class Register extends Component {
     let register = await postRegister({
       Username: userName,
       FullName: fullName,
-      Email: email,
-      Password: password,
+      Email: userName + "@gmail.com",
+      Password: password
     });
     this.setState({ isLoading: false });
     console.log("register result", register);
@@ -127,7 +127,7 @@ class Register extends Component {
         fullName: dataFB.fullName,
         email: dataFB.email ? dataFB.email : "",
         password: "123456",
-        rePassword: "123456",
+        rePassword: "123456"
       };
       console.log("dataUser", this.dataUser);
       //TODO: Call api server with data from fb
@@ -138,7 +138,7 @@ class Register extends Component {
         Username: userName,
         FullName: fullName,
         Email: email,
-        Password: password,
+        Password: password
       });
       this.setState({ isLoading: false });
       console.log("register result", register);
@@ -169,9 +169,9 @@ class Register extends Component {
           returnKeyType="next"
           placeholder={strings("login.placeholder.input_phone")}
           keyboardType="numeric"
-          onChangeText={(text) => (this.dataUser.userName = text)}
+          onChangeText={text => (this.dataUser.userName = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.full_name.focus();
           }}
         />
@@ -181,9 +181,9 @@ class Register extends Component {
           returnKeyType="next"
           ref="full_name"
           placeholder={strings("login.placeholder.input_fullname")}
-          onChangeText={(text) => (this.dataUser.fullName = text)}
+          onChangeText={text => (this.dataUser.fullName = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.pass.focus();
           }}
         />
@@ -194,9 +194,9 @@ class Register extends Component {
           secureTextEntry={true}
           placeholder={strings("login.placeholder.input_pass")}
           ref="pass"
-          onChangeText={(text) => (this.dataUser.password = text)}
+          onChangeText={text => (this.dataUser.password = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.rePass.focus();
           }}
         />
@@ -207,7 +207,7 @@ class Register extends Component {
           secureTextEntry={true}
           placeholder={strings("login.placeholder.input_rePass")}
           ref="rePass"
-          onChangeText={(text) => (this.dataUser.rePassword = text)}
+          onChangeText={text => (this.dataUser.rePassword = text)}
           style={[style_common.input_border, styles.text_input]}
         />
         <ButtonBorder
@@ -256,12 +256,14 @@ class Register extends Component {
           <CheckBox
             onClick={() => {
               this.setState({
-                isChecked: !this.state.isChecked,
+                isChecked: !this.state.isChecked
               });
             }}
             isChecked={this.state.isChecked}
           />
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate('TermServices')}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TermServices")}
+          >
             <Text style={styles.txt_underline}>
               {strings("register.agree_term")}
             </Text>
@@ -305,15 +307,15 @@ class Register extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     // login: state.login
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loginGuest: bindActionCreators(loginGuest, dispatch),
+    loginGuest: bindActionCreators(loginGuest, dispatch)
   };
 };
 
@@ -326,17 +328,17 @@ export default Register;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100,
+    height: 100
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5,
+    padding: 5
   },
 
   img_fb: {
     width: 50,
-    height: 50,
+    height: 50
   },
   view_login: {
     justifyContent: "flex-start",
@@ -345,20 +347,20 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
   parent_checkbox: {
     justifyContent: "flex-start",
     alignSelf: "stretch",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   text_login: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10
   },
   txt_underline: {
     textDecorationLine: "underline",
-    paddingLeft: 5,
+    paddingLeft: 5
   },
   content_footer: {
     justifyContent: "flex-end",
@@ -366,6 +368,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 30,
     marginBottom: 10,
-    flex: 1,
-  },
+    flex: 1
+  }
 });

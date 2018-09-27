@@ -1,5 +1,5 @@
-import React, { Component, Alert } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
@@ -15,7 +15,7 @@ class MemberProfile extends Component {
     return {
       title: params.title ? params.title : "Member Profile",
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK,
+      headerTintColor: COLOR.COLOR_BLACK
     };
   };
 
@@ -24,7 +24,7 @@ class MemberProfile extends Component {
     this.state = {
       isLoading: false,
       tabIndex: 0,
-      memberProfile: {},
+      memberProfile: {}
     };
   }
 
@@ -38,26 +38,26 @@ class MemberProfile extends Component {
     this.setState({ isLoading: true });
     const dataProfile = await loadProfileMember({
       user_id: dataMember.UserID,
-      option: 100,
+      option: 100
     });
-    if (!dataProfile || dataProfile.ErrorCode !== "00") {
-      Alert.alert(
-        "Thông báo",
-        dataProfile.Message,
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-      return this.setState({
-        isLoading: false,
+    if (!dataProfile || dataProfile.Message !== null) {
+      this.setState({
+        memberProfile: dataProfile.Value[0],
+        isLoading: false
+      });
+      return this.props.navigation.setParams({
+        title: dataProfile.Value[0].FullName
       });
     }
     this.setState({
-      memberProfile: dataProfile.Value[0],
-      isLoading: false,
+      isLoading: false
     });
-    this.props.navigation.setParams({
-      title: dataProfile.Value[0].FullName,
-    });
+    return Alert.alert(
+      "Thông báo",
+      (dataProfile && dataProfile.Message) || "Lỗi không xác định",
+      [{ text: "OK", onPress: () => {} }],
+      { cancelable: false }
+    );
   };
 
   _renderLoading = () => {
@@ -67,7 +67,7 @@ class MemberProfile extends Component {
   };
 
   render() {
-    // console.log("render member");
+    console.log("render member", this.state.memberProfile);
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
@@ -93,7 +93,7 @@ class MemberProfile extends Component {
           <View
             style={[
               styles.content,
-              { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 0 ? 1 : 0 }
             ]}
           >
             <MemberProfileTab1
@@ -104,7 +104,7 @@ class MemberProfile extends Component {
           <View
             style={[
               styles.content,
-              { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 1 ? 1 : 0 }
             ]}
           >
             <MemberProfileTab2 navigation={this.props.navigation} />
@@ -116,7 +116,7 @@ class MemberProfile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {};
 };
 
@@ -126,7 +126,7 @@ export default MemberProfile;
 const styles = StyleSheet.create({
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE,
+    backgroundColor: COLOR.COLOR_WHITE
   },
 
   content: {
@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: COLOR.COLOR_WHITE,
+    backgroundColor: COLOR.COLOR_WHITE
   },
   btn_margin_left: {
-    marginLeft: 5,
+    marginLeft: 5
   },
   btn_margin_right: {
-    marginRight: 5,
-  },
+    marginRight: 5
+  }
 });

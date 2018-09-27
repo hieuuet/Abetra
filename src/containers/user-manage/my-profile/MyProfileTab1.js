@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
   NativeModules,
-  Alert,
+  Alert
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -27,6 +27,7 @@ import {
   updateUserProfile,
   uploadImage2,
   uploadMultipleImage,
+  updateAddressDesscription
 } from "../../../actions";
 import { isEqual } from "lodash";
 const { width } = Dimensions.get("window");
@@ -41,43 +42,31 @@ import PropTypes from "prop-types";
 class MyProfileTab1 extends Component {
   constructor(props) {
     super(props);
+
+    const dataImage = this.props.dataUser.ImageDescription
+      ? JSON.parse(this.props.dataUser.ImageDescription)
+      : [];
     this.state = {
       localAvatar: undefined,
-      dataImage: [
-        "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
-      ],
+      dataImage
     };
 
     this.radioData = [
       {
         label: strings("profile.man"),
-        value: GENDER_STATE.MAN,
+        value: GENDER_STATE.MAN
       },
       { label: strings("profile.women"), value: GENDER_STATE.WOMEN },
-      { label: strings("profile.undefined"), value: GENDER_STATE.OTHER },
+      { label: strings("profile.undefined"), value: GENDER_STATE.OTHER }
     ];
 
-    //get dataUser
-    this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
-    this.textAddress =
-      this.dataUser && this.dataUser.Address ? this.dataUser.Address : "";
-    this.textDescription =
-      this.dataUser && this.dataUser.Description
-        ? this.dataUser.Description
-        : "";
-
-    // this.dataImage = [
-    //   "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
-    //   "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
-    //   "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
-    //   "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
-    //   "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
-    //   "https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b",
-    //   "https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990",
-    //   "https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602",
-    // ];
+    this.arrBase64 = [];
+    this.arrPath = [];
+    this.textAddress = (this.props.dataUser && this.props.dataUser.Address) || "";
+    this.textDescription = (this.props.dataUser && this.props.dataUser.Description) || "";
   }
 
+  componentWillReceiveProps(props) {}
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.dataUser, this.props.dataUser) &&
@@ -90,25 +79,54 @@ class MyProfileTab1 extends Component {
       profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
       field,
-      value,
+      value
     });
   };
 
-  updateAddress = () => {
-    if (this.dataUser && this.textAddress !== this.dataUser.textAddress) {
-      this.dataUser.textAddress = this.textAddress;
-      this.callApiUpdateProfile({
-        field: "Address",
-        value: this.textAddress,
-      });
+  updateAddress = async () => {
+    this.props.onLoading(true);
+    const resultUpload = await uploadMultipleImage({
+      user_id: this.dataUser.UserID,
+      base64Datas: this.arrBase64
+    });
+    if (resultUpload) {
+      const arrLink = JSON.parse(resultUpload).Value;
+      if (arrLink !== null && arrLink !== undefined) {
+        const arrFullLink = arrLink.map(imgLink => {
+          return URL_BASE + imgLink;
+        });
+        const oldImage =
+          this.dataUser && this.dataUser.ImageDescription
+            ? JSON.parse(this.dataUser.ImageDescription)
+            : [];
+        console.log("oldImage", oldImage);
+        console.log("arrFullLink", arrFullLink);
+        const allImage = [...oldImage, ...arrFullLink];
+        console.log("all image", allImage);
+
+        const resultUpdate = await updateAddressDesscription({
+          profile_id: this.dataUser.ProfileID,
+          user_id: this.dataUser.UserID,
+          Description: this.textAddress,
+          Address: this.textDescription,
+          ImageDescription: JSON.stringify(allImage)
+        });
+
+        if (resultUpdate && resultUpdate.ErrorCode === "00") {
+          this.setState({ dataImage: allImage });
+          this.props.reLoadProfile();
+          return this.props.onLoading(false);
+        }
+      }
     }
-    if (this.dataUser && this.textDescription !== this.dataUser.Description) {
-      this.dataUser.Description = this.textDescription;
-      this.callApiUpdateProfile({
-        field: "Description",
-        value: this.textDescription,
-      });
-    }
+
+    this.props.onLoading(false);
+    return Alert.alert(
+      "Thông báo",
+      "Upload ảnh không thành công",
+      [{ text: "OK", onPress: () => {} }],
+      { cancelable: false }
+    );
   };
 
   /**
@@ -119,30 +137,32 @@ class MyProfileTab1 extends Component {
       waitAnimationEnd: false,
       includeBase64: true,
       includeExif: true,
-      forceJpg: true,
+      forceJpg: true
     })
-      .then(async (image) => {
+      .then(async image => {
         if (image && image.data) {
           this.setState({ localAvatar: image.path });
-
+          this.props.onLoading(true);
           const responUpload = await uploadImage2({
             base64Data: image.data,
             user_id: this.dataUser.UserID,
-            extension: "jpeg",
+            extension: "jpeg"
           });
 
           if (responUpload) {
             const linkImgUploaded = JSON.parse(responUpload);
             if (linkImgUploaded) {
-              this.callApiUpdateProfile({
+              await this.callApiUpdateProfile({
                 field: "Avatar",
-                value: linkImgUploaded.Value,
+                value: linkImgUploaded.Value
               });
             }
           }
+
+          return this.props.onLoading(false);
         }
       })
-      .catch((e) => console.log(e));
+      .catch(e => console.log(e));
   };
 
   pickMultipleImageToUpload = () => {
@@ -151,58 +171,24 @@ class MyProfileTab1 extends Component {
       waitAnimationEnd: false,
       includeBase64: true,
       includeExif: true,
-      forceJpg: true,
+      forceJpg: true
     })
-      .then(async (images) => {
+      .then(async images => {
         console.log("images", images);
         if (images) {
-          let arrBase64 = [];
-          let arrPath = [];
-          images.forEach((image) => {
-            arrBase64.push(image.data);
-            arrPath.push(image.path);
+          // this.arrBase64 = [];
+          // this.arrPath = [];
+          images.forEach(image => {
+            this.arrBase64.push(image.data);
+            this.arrPath.push(image.path);
           });
-          if (arrPath.length > 0) {
-            //loading here
 
-            this.props.onLoading(true);
-            const resultUpload = await uploadMultipleImage({
-              user_id: this.dataUser.UserID,
-              base64Datas: arrBase64,
-            });
-            if (resultUpload) {
-              const arrLink = JSON.parse(resultUpload).Value;
-              if (arrLink !== null && arrLink !== undefined) {
-                const arrFullLink = arrLink.map((imgLink) => {
-                  return URL_BASE + imgLink;
-                });
-
-                const allImage = [...this.state.dataImage, ...arrFullLink];
-                // const jsonImgs = JSON.stringify(allImage);
-                console.log("all image", allImage);
-                const resultUpdate = await this.callApiUpdateProfile({
-                  field: "Image",
-                  value: JSON.stringify(allImage),
-                });
-
-                if (resultUpdate && resultUpdate.ErrorCode === "00") {
-                  this.setState({ dataImage: allImage });
-                  return this.props.onLoading(false);
-                }
-              }
-            }
-
-            this.props.onLoading(false);
-            return Alert.alert(
-              "Thông báo",
-              "Upload ảnh không thành công",
-              [{ text: "OK", onPress: () => {} }],
-              { cancelable: false }
-            );
-          }
+          this.setState({
+            dataImage: [...this.state.dataImage, ...this.arrPath]
+          });
         }
       })
-      .catch((e) => {
+      .catch(e => {
         this.props.onLoading(false);
         alert(e);
       });
@@ -254,13 +240,13 @@ class MyProfileTab1 extends Component {
               }
               isEditAble={true}
               style_edit={styles.text_name}
-              onSubmit={(text) => {
+              onSubmit={text => {
                 if (!this.dataUser || text.trim() === this.dataUser.FullName)
                   return;
                 this.dataUser.FullName = !this.dataUser || text.trim();
                 this.callApiUpdateProfile({
                   field: "FullName",
-                  value: !this.dataUser || text.trim(),
+                  value: !this.dataUser || text.trim()
                 });
               }}
             />
@@ -268,7 +254,14 @@ class MyProfileTab1 extends Component {
               <Text style={style_common.text_color_base}>
                 {strings("profile.change_pass")}
               </Text>
-              <TouchableOpacity style={styles.icon_pass}>
+              <TouchableOpacity
+                style={styles.icon_pass}
+                onPress={() =>
+                  this.props.navigation.navigate("ChangePassword", {
+                    user_name: this.dataUser.UserName
+                  })
+                }
+              >
                 <Ionicon name="ios-lock" size={30} color={COLOR.COLOR_SKY} />
               </TouchableOpacity>
             </View>
@@ -283,7 +276,7 @@ class MyProfileTab1 extends Component {
               : ""
           }
           isEditAble={true}
-          onSubmit={(text) => {
+          onSubmit={text => {
             if (!this.dataUser || text.trim() === this.dataUser.BirdDate)
               return;
             const validate = text
@@ -301,7 +294,7 @@ class MyProfileTab1 extends Component {
             this.dataUser.BirdDate = !this.dataUser || text.trim();
             this.callApiUpdateProfile({
               field: "BirdDate",
-              value: !this.dataUser || text.trim(),
+              value: !this.dataUser || text.trim()
             });
           }}
         />
@@ -320,10 +313,10 @@ class MyProfileTab1 extends Component {
             buttonSize={5}
             animation={true}
             style={styles.radio_form}
-            onPress={(value) => {
+            onPress={value => {
               this.callApiUpdateProfile({
                 field: "Gender",
-                value,
+                value
               });
             }}
           />
@@ -336,13 +329,13 @@ class MyProfileTab1 extends Component {
             this.dataUser && this.dataUser.Email ? this.dataUser.Email : ""
           }
           isEditAble={true}
-          onSubmit={(text) => {
+          onSubmit={text => {
             if (!this.dataUser || text.trim() === this.dataUser.Email) return;
 
             this.dataUser.Email = !this.dataUser || text.trim();
             this.callApiUpdateProfile({
               field: "Email",
-              value: !this.dataUser || text.trim(),
+              value: !this.dataUser || text.trim()
             });
           }}
         />
@@ -352,13 +345,14 @@ class MyProfileTab1 extends Component {
           text_edit={
             this.dataUser && this.dataUser.Phone ? this.dataUser.Phone : ""
           }
+          onPress={() => this.props.navigation.navigate("ChangePhone")}
           isEditAble={true}
-          onSubmit={(text) => {
+          onSubmit={text => {
             if (!this.dataUser || text.trim() === this.dataUser.Phone) return;
             this.dataUser.Phone = !this.dataUser || text.trim();
             this.callApiUpdateProfile({
               field: "Phone",
-              value: !this.dataUser || text.trim(),
+              value: !this.dataUser || text.trim()
             });
           }}
         />
@@ -368,17 +362,21 @@ class MyProfileTab1 extends Component {
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
+        <Text style={[style_common.text_color_base, styles.txt_title]}>
+          Địa chỉ
+        </Text>
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
           placeholder={"Địa chỉ"}
           defaultValue={this.textAddress}
-          onChangeText={(text) => {
-            this.textAddress = text.trim();
-          }}
+          onChangeText={text => (this.textAddress = text.trim())}
           style={[style_common.input_border, styles.text_address]}
         />
+        <Text style={[style_common.text_color_base, styles.txt_title]}>
+          Giới thiệu
+        </Text>
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -391,11 +389,11 @@ class MyProfileTab1 extends Component {
               ? this.dataUser.FullName
               : ""
           }`}
-          onChangeText={(text) => {
+          onChangeText={text => {
             this.textDescription = text.trim();
           }}
           style={[style_common.input_border, styles.text_area]}
-          onSubmitEditing={(event) => {}}
+          onSubmitEditing={event => {}}
         />
 
         <View style={styles.action}>
@@ -463,7 +461,10 @@ class MyProfileTab1 extends Component {
 
   render() {
     console.log("render tab 1");
-    this.dataUser = this.props.dataUser ? this.props.dataUser : undefined;
+    console.log("state", this.state.dataImage);
+    //get dataUser
+    this.dataUser = this.props.dataUser || undefined;
+    
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -484,77 +485,80 @@ class MyProfileTab1 extends Component {
     );
   }
 }
+
 export default MyProfileTab1;
 
 MyProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   onLoading: PropTypes.func.isRequired,
+  reLoadProfile: PropTypes.func
 };
 
 const styles = StyleSheet.create({
   parent: {
     flex: 1,
-    padding: 10,
+    padding: 10
   },
+  txt_title: { alignSelf: "flex-start", marginTop: 10 },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 50
   },
   contain_avatar: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   right_avatar: {
     flexDirection: "column",
     justifyContent: "flex-start",
-    flex: 1,
+    flex: 1
   },
   text_name: {
     color: COLOR.COLOR_SKY,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
 
   content_footer: {
     justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
-    flex: 1,
+    flex: 1
   },
 
   change_pass: { flexDirection: "row", alignItems: "center" },
   icon_pass: {
-    marginLeft: 10,
+    marginLeft: 10
   },
   label_radio_group: {
-    width: 100,
+    width: 100
   },
   radio_form: { justifyContent: "space-around", flex: 1 },
   menu_bottom: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 5,
+    marginTop: 5
   },
   icon_img: {
     width: 40,
-    height: 30,
+    height: 30
   },
-  text_area: { flex: 1, textAlignVertical: "top", height: 100, marginTop: 10 },
-  text_address: { marginTop: 10 },
+  text_area: { flex: 1, textAlignVertical: "top", height: 100, marginTop: 0 },
+  text_address: { marginTop: 0 },
   action: {
     flexDirection: "row",
     alignSelf: "stretch",
     justifyContent: "flex-end",
     marginBottom: 10,
     marginTop: 10,
-    alignItems: "center",
+    alignItems: "center"
   },
   btn_action: {
     marginLeft: 10,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   btn_save: {
     marginLeft: 10,
@@ -565,6 +569,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     minWidth: 50,
     padding: 5,
-    borderWidth: 1,
-  },
+    borderWidth: 1
+  }
 });

@@ -6,7 +6,7 @@ import { COLOR } from "../../../constant/Color";
 import MyProfileTab1 from "./MyProfileTab1";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../../actions/UserProfileActions";
+import { loadUserProfile } from "../../../actions";
 import MyProfileTab2 from "./MyProfileTab2";
 import { isEqual } from "lodash";
 
@@ -25,7 +25,7 @@ class Profile extends Component {
       //   alignSelf: "center",
       // },
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK,
+      headerTintColor: COLOR.COLOR_BLACK
     };
   };
 
@@ -37,52 +37,46 @@ class Profile extends Component {
       allTag: [
         {
           hashtag: "#FoodMessage1",
-          select: true,
+          select: true
         },
         {
           hashtag: "#FoodMessage2",
-          select: true,
+          select: true
         },
         {
           hashtag: "#FoodMessage3",
-          select: true,
+          select: true
         },
         {
           hashtag: "#FoodMessage4",
-          select: true,
+          select: true
         },
         {
           hashtag: "#FoodMessage5",
-          select: false,
+          select: false
         },
         {
           hashtag: "#FoodMessage6",
-          select: false,
+          select: false
         },
         {
           hashtag: "#FoodMessage7",
-          select: false,
+          select: false
         },
         {
           hashtag: "#FoodMessage8",
-          select: false,
-        },
-      ],
+          select: false
+        }
+      ]
     };
-    //get userProfile from Redux
-    this.userProfile =
-      this.props.userProfile &&
-      this.props.userProfile.Value &&
-      this.props.userProfile.Value.length > 0
-        ? this.props.userProfile.Value[0]
-        : {};
 
     //set title for title bar
     this.props.navigation.setParams({
       title:
-        this.userProfile && this.userProfile.FullName
-          ? this.userProfile.FullName
-          : "Profile",
+        (this.props.userProfile &&
+          this.props.userProfile.Value[0] &&
+          this.props.userProfile.Value[0].FullName) ||
+        "Profile"
     });
   }
 
@@ -108,13 +102,13 @@ class Profile extends Component {
     if (fromVerify) {
       const resetAction = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: "TabHome" })],
+        actions: [NavigationActions.navigate({ routeName: "TabHome" })]
       });
       this.props.navigation.dispatch(resetAction);
     }
   }
 
-  onLoading = (isLoading) => {
+  onLoading = isLoading => {
     this.setState({ isLoading });
   };
 
@@ -125,7 +119,7 @@ class Profile extends Component {
     }
     loadUserProfile({
       user_id: this.userProfile.UserID,
-      option: 100,
+      option: 100
     });
   };
 
@@ -142,13 +136,19 @@ class Profile extends Component {
       this.setState({ allTag: this.tagSelected });
     }
   };
-  onDataSelected = (hashtagSelected) => {
+  onDataSelected = hashtagSelected => {
     if (hashtagSelected !== undefined) this.tagSelected = hashtagSelected;
   };
 
   render() {
+    //get userProfile from Redux
+    this.userProfile =
+      this.props.userProfile &&
+      this.props.userProfile.Value &&
+      this.props.userProfile.Value.length > 0
+        ? this.props.userProfile.Value[0]
+        : {};
     console.log("render profile");
-
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
@@ -173,19 +173,20 @@ class Profile extends Component {
           <View
             style={[
               styles.content,
-              { zIndex: this.state.tabIndex === 0 ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 0 ? 1 : 0 }
             ]}
           >
             <MyProfileTab1
               dataUser={this.userProfile}
               navigation={this.props.navigation}
               onLoading={this.onLoading}
+              reLoadProfile = {this.reLoadProfile}
             />
           </View>
           <View
             style={[
               styles.content,
-              { zIndex: this.state.tabIndex === 1 ? 1 : 0 },
+              { zIndex: this.state.tabIndex === 1 ? 1 : 0 }
             ]}
           >
             <MyProfileTab2
@@ -219,16 +220,16 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
-    allRank: state.allRank,
+    allRank: state.allRank
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch)
   };
 };
 Profile = connect(
@@ -240,7 +241,7 @@ export default Profile;
 const styles = StyleSheet.create({
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE,
+    backgroundColor: COLOR.COLOR_WHITE
   },
 
   content: {
@@ -249,13 +250,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: COLOR.COLOR_WHITE,
+    backgroundColor: COLOR.COLOR_WHITE
   },
   btn_margin_left: {
-    marginLeft: 5,
+    marginLeft: 5
   },
   btn_margin_right: {
-    marginRight: 5,
+    marginRight: 5
   },
-  modal: { height: 200 },
+  modal: { height: 200 }
 });

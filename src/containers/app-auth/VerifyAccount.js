@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 import { postLogin, loginGuest, loadUserProfile } from "../../actions";
 import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
+import { web } from "../../components/Communications";
 
 class VerifyAccount extends Component {
   constructor(props) {
@@ -145,7 +146,7 @@ class VerifyAccount extends Component {
           <Text style={style_common.text_color_base}>
             {strings("verify.txt_fanpage")}
           </Text>
-          <TouchableOpacity onPress={this.facebookLogin}>
+          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"

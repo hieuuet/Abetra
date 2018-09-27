@@ -14,7 +14,7 @@
   "globals": { "Promise": true },
   "parser": "babel-eslint",
   "rules": {
-    "comma-dangle": ["warn", "always-multiline"],
+    "comma-dangle": ["off", "always-multiline"],
     "constructor-super": "error",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "jsx-quotes": "warn",
@@ -31,7 +31,7 @@
     "quotes": ["off", "single"],
     "require-yield": "error",
     "semi": "error",
-    "arrow-parens": "warn",
+    "arrow-parens": ["warn", "as-needed"],
     "generator-star-spacing": "warn",
     "object-shorthand": "warn",
     "no-await-in-loop": "warn",

@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  Alert,
+  Alert
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -31,14 +31,14 @@ class MemberProfileTab1 extends Component {
   constructor(props) {
     super(props);
 
-    this.dataUser = undefined;
+    this.dataUser = this.props.dataUser;
 
     this.dataImage = [
       "https://drscdn.500px.org/photo/216465193/m%3D2048_k%3D1_a%3D1/dda61fd7cea5013f8ebe7661b7abea3a",
       "https://drscdn.500px.org/photo/215467843/m%3D2048_k%3D1_a%3D1/344703e86f31e1fffb2d63effa2cee33",
       "https://drscdn.500px.org/photo/216340727/m%3D2048_k%3D1_a%3D1/20d583e15467fb39d06d48131767edc2",
       "https://drscdn.500px.org/photo/215498077/m%3D2048_k%3D1_a%3D1/f79e906eb96938807f6f9d758fc652fd",
-      "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e",
+      "https://drscdn.500px.org/photo/216559713/m%3D2048_k%3D1_a%3D1/393ef5251fa94964fe62cad52a416b7e"
       // 'https://drscdn.500px.org/photo/214943889/m%3D2048_k%3D1_a%3D1/90bd2e3619dfcaae53fed683561aae1b',
       // 'https://drscdn.500px.org/photo/216158509/m%3D2048_k%3D1_a%3D1/cf70d51aab6ca4c4a3c1ecc225c69990',
       // 'https://drscdn.500px.org/photo/216111469/m%3D2048_k%3D1_a%3D1/d2d83296c838258095dbf2bffda70602',
@@ -64,17 +64,17 @@ class MemberProfileTab1 extends Component {
         {
           IntUserID: UserProfile.Value[0].IntUserID,
           FullName: UserProfile.Value[0].FullName,
-          Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
+          Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : ""
         },
         {
           IntUserID: this.props.dataUser.IntUserID,
           FullName: this.props.dataUser.FullName,
-          Avatar: this.props.dataUser.Avatar ? this.props.dataUser.Avatar : "",
-        },
+          Avatar: this.props.dataUser.Avatar ? this.props.dataUser.Avatar : ""
+        }
       ],
       GroupName: this.props.dataUser ? this.props.dataUser.FullName : "",
       Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
-      IsEnterprise: 0,
+      IsEnterprise: 0
     });
     console.log("MsgGroupID", MsgGroupID);
     console.log("IntUserID", UserProfile.Value[0].IntUserID);
@@ -83,7 +83,7 @@ class MemberProfileTab1 extends Component {
     if (MsgGroupID.Error == null) {
       this.props.navigation.navigate("Chat", {
         MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID,
-        ProfileMember: this.props.dataUser,
+        ProfileMember: this.props.dataUser
       });
     } else {
       Alert.alert(
@@ -122,21 +122,23 @@ class MemberProfileTab1 extends Component {
             {getGender(this.props.dataUser.Gender)}
           </Text>
           <Text style={style_common.text_color_base}>
+            Sinh nhật:
             {this.props.dataUser && this.props.dataUser.BirdDate
               ? formatDate(this.props.dataUser.BirdDate)
-              : "Sinh nhật"}
+              : ""}
           </Text>
           <Text style={style_common.text_color_base}>
+            Mobile:
             {this.props.dataUser && this.props.dataUser.UserName
               ? this.props.dataUser.UserName
-              : "Mobile: 0423432234"}
+              : "0423432234"}
           </Text>
         </View>
         <TouchableOpacity
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginRight: 10,
+            marginRight: 10
           }}
           onPress={() => this._createMsgGroup()}
         >
@@ -189,16 +191,16 @@ class MemberProfileTab1 extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     UserProfile: state.loadUserProfile,
-    isGuest: state.loginGuest.isGuest,
+    isGuest: state.loginGuest.isGuest
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    createMsgGroup: bindActionCreators(createMsgGroup, dispatch),
+    createMsgGroup: bindActionCreators(createMsgGroup, dispatch)
   };
 };
 
@@ -211,38 +213,38 @@ export default MemberProfileTab1;
 
 MemberProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
   parent: {
     flex: 1,
-    padding: 10,
+    padding: 10
   },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 50
   },
   contain_avatar: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   right_avatar: {
     flexDirection: "column",
     justifyContent: "flex-start",
     flex: 1,
-    marginLeft: 10,
+    marginLeft: 10
   },
   text_name: {
     color: COLOR.COLOR_SKY,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   text_h1: {
     alignSelf: "stretch",
     textAlign: "center",
     color: COLOR.COLOR_ORANGE,
-    fontWeight: "bold",
-  },
+    fontWeight: "bold"
+  }
 });

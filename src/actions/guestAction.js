@@ -24,7 +24,10 @@ export const requestRegister = (navigation) => {
     "Để sử dụng tính năng bạn cần đăng ký tải khoản. Đăng ký ngay ?",
     [
       { text: "Đăng ký", onPress: goRegister },
-      { text: "Để sau", onPress: () => {} },
+      {
+        text: "Để sau",
+        onPress: () => {},
+      },
     ],
     { cancelable: false }
   );

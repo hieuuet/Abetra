@@ -9,6 +9,8 @@ export {
   loadUserProfile,
   updateUserProfile,
   loadProfileMember,
+  changePassword,
+  updateAddressDesscription
 } from "./UserProfileActions";
 export { postLogin } from "./loginActions";
 export { postRegister } from "./registerActions";
@@ -17,7 +19,7 @@ export { searchPost } from "./searchPostActions";
 export {
   uploadImage,
   uploadImage2,
-  uploadMultipleImage,
+  uploadMultipleImage
 } from "./UploadImageActions";
 export { resetStore } from "./resetStoreAction";
 export { getAllLanguage, getCurrentLanguage } from "./LanguageActions";

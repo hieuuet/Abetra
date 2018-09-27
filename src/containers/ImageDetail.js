@@ -1,14 +1,12 @@
 import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   FlatList,
   Platform,
   Dimensions,
-  Image,
+  Image
 } from "react-native";
 import PropTypes from "prop-types";
 import { COLOR } from "../constant/Color";
@@ -26,7 +24,7 @@ class ImageDetail extends React.PureComponent {
     this.state = {
       width,
       height,
-      activeIndex: this.props.currentIndex,
+      activeIndex: this.props.currentIndex
     };
     this.data = this.props.navigation.getParam("data");
     this.currentIndex = this.props.navigation.getParam("currentIndex");
@@ -41,13 +39,13 @@ class ImageDetail extends React.PureComponent {
       const func = () => {
         this.flatList.scrollToOffset({
           offset: this.state.activeIndex * width,
-          animated: false,
+          animated: false
         });
       };
       Platform.OS === "android" ? setTimeout(func, 0) : func();
     }
   };
-  _onMomentumScrollEnd = (e) => {
+  _onMomentumScrollEnd = e => {
     const offset = e.nativeEvent.contentOffset.x;
     // Touching very very quickly and continuous brings about
     // a variation close to - but not quite - the width.
@@ -64,7 +62,7 @@ class ImageDetail extends React.PureComponent {
     this.goToSlide(newIndex);
   };
 
-  goToSlide = (pageNum) => {
+  goToSlide = pageNum => {
     this.setState({ activeIndex: pageNum });
     this.flatList.scrollToOffset({ offset: pageNum * this.state.width });
   };
@@ -87,13 +85,14 @@ class ImageDetail extends React.PureComponent {
     );
   };
   render() {
+    console.log("img=============", this.data);
     return (
       <View style={styles.wrapper}>
         <FlatList
           data={this.data}
           horizontal
           showsHorizontalScrollIndicator={false}
-          ref={(ref) => (this.flatList = ref)}
+          ref={ref => (this.flatList = ref)}
           initialScrollIndex={this.currentIndex}
           onMomentumScrollEnd={this._onMomentumScrollEnd}
           renderItem={this._renderItem}
@@ -118,29 +117,31 @@ export default ImageDetail;
 ImageDetail.propTypes = {
   data: PropTypes.array,
   currentIndex: PropTypes.number,
-  navigation: PropTypes.object,
+  navigation: PropTypes.object
 };
 
 /**
  * Default props if not set parameter
  **/
 ImageDetail.defaultProps = {
-  currentIndex: 0,
+  currentIndex: 0
 };
 const styles = StyleSheet.create({
   wrapper: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: COLOR.COLOR_BLACK,
+    backgroundColor: COLOR.COLOR_BLACK
   },
   image: {
     width,
     height,
+    flex: 1,
+    alignSelf: "stretch"
   },
   close: {
     position: "absolute",
     top: 10,
-    left: 10,
-  },
+    left: 10
+  }
 });

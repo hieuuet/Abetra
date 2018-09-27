@@ -16,13 +16,12 @@ class EditView extends React.PureComponent {
     this.state = {
       allowEdit: false,
     };
-
-    this.currentText = this.props.text_edit;
   }
   componentDidUpdate() {
     if (this.refs.input) this.refs.input.focus();
   }
   render() {
+    this.currentText = this.props.text_edit;
     return (
       <View style={styles.wrapper}>
         <Text style={[styles.label, this.props.style_label]}>
@@ -61,9 +60,12 @@ class EditView extends React.PureComponent {
         )}
         {this.props.isEditAble ? (
           <TouchableOpacity
-            onPress={() => {
-              this.setState({ allowEdit: true });
-            }}
+            onPress={
+              this.props.onPress ||
+              (() => {
+                this.setState({ allowEdit: true });
+              })
+            }
           >
             <Icon name="edit" size={20} color={COLOR.COLOR_BLACK} />
           </TouchableOpacity>
@@ -87,6 +89,7 @@ EditView.propTypes = {
   onSubmit: PropTypes.func,
   placeHolder: PropTypes.string,
   keyboardType: PropTypes.string,
+  onPress: PropTypes.func || PropTypes.number,
 };
 
 /**

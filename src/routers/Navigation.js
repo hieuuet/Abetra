@@ -24,6 +24,9 @@ import Benifet from "../containers/Benifet";
 import TermServices from "../containers/TermServices";
 import ImageDetail from "../containers/ImageDetail";
 import SplashScreen from "../containers/SplashScreen";
+import ChangePassword from "../containers/user-manage/my-profile/ChangePassword";
+import ChangePhone from "../containers/user-manage/my-profile/ChangePhone";
+
 import {
   MemberProfile,
   Profile,
@@ -122,6 +125,13 @@ const RootStack = createStackNavigator({
       header: null,
     },
   },
+  ChangePassword: {
+    screen: ChangePassword,
+  },
+  ChangePhone: {
+    screen: ChangePhone,
+  },
+
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {
