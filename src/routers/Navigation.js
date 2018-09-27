@@ -6,7 +6,7 @@ import {
 import Home from "../containers/post/Home";
 import Message from "../containers/Message";
 import DoanhNghiep from "../containers/DoanhNghiep";
-import SuKien from "../containers/SuKien";
+import Event from "../containers/Event";
 import Menu from "../containers/Menu";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
@@ -67,8 +67,8 @@ const TabHome = createMaterialTopTabNavigator(
         ),
       },
     },
-    SuKien: {
-      screen: SuKien,
+    Event: {
+      screen: Event,
       navigationOptions: {
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor }) => (

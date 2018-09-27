@@ -3,7 +3,7 @@
 // import Home from "../containers/Home";
 // import TinNhan from "../containers/TinNhan";
 // import DoanhNghiep from "../containers/DoanhNghiep";
-// import SuKien from "../containers/SuKien";
+// import Event from "../containers/Event";
 // import Menu from "../containers/Menu";
 //
 // const TabHome = createMaterialTopTabNavigator ({
@@ -16,8 +16,8 @@
 //     DoanhNghiep: {
 //         screen: DoanhNghiep
 //     },
-//     SuKien: {
-//         screen: SuKien
+//     Event: {
+//         screen: Event
 //     },
 //     Menu: {
 //         screen: Menu

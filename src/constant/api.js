@@ -39,4 +39,8 @@ export const API = {
   GET_ALL_HASHTAG: `${URL_BASE}/Common/GetAllHashTag`,
   //change pass
   CHANGE_PASS: `${URL_BASE}/api/Users/ChangePassword`,
+  //event
+  ADD_EVENT: `${URL_BASE}/Event/AddOrUpdate`,
+  GET_EVENT: `${URL_BASE}/Event/GetAll`,
+  DEL_EVENT: `${URL_BASE}/Event/Delete`
 };
