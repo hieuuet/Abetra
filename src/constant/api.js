@@ -37,5 +37,9 @@ export const API = {
   GET_RANK: `${URL_BASE}/Rank/Getall`,
   //Hashtah
   GET_ALL_HASHTAG: `${URL_BASE}/Common/GetAllHashTag`,
+    //event
+    ADD_EVENT: `${URL_BASE}/Event/AddOrUpdate`,
+    GET_EVENT: `${URL_BASE}/Event/GetAll`,
+    DEL_EVENT: `${URL_BASE}/Event/Delete`,
 
 };

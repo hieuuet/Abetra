@@ -99,10 +99,9 @@ class Menu extends Component {
           title="Sự kiện"
           nameIcon="calendar-alt"
           style={styles.style_menu}
-          // onPress={() => {
-          //     // this.chatToAdmin()
-          //     this.state.Profile ? this.chatToAdmin() : this.refs.modal.open()
-          // }}
+          onPress={() => {
+              this.props.navigation.navigate('Event')
+          }}
         />
 
         <MenuItem
