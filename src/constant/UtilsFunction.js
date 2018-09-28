@@ -6,7 +6,7 @@ import moment from "moment";
  * get string gender from state
  * @param {*0/1/2} state
  */
-export const getGender = (state) => {
+export const getGender = state => {
   if (typeof state !== "number" || state === null || state === undefined) {
     state = 2;
   }
@@ -24,6 +24,17 @@ export const getGender = (state) => {
  * format date
  * @param {param date} stringDate
  */
-export const formatDate = (stringDate) => {
+export const formatDate = stringDate => {
   return moment(stringDate).format("YYYY/MM/DD");
+};
+
+/**
+ * Get rank from PackgeID
+ */
+export const getRank = (PackgeID, allRank = []) => {
+  if (!PackgeID || allRank.length === 0) {
+    return "";
+  }
+  const rank = allRank.find(rank => rank.ID === PackgeID);
+  return (rank && rank.RankName) || "";
 };

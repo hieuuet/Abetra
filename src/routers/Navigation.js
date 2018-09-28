@@ -26,6 +26,7 @@ import ImageDetail from "../containers/ImageDetail";
 import SplashScreen from "../containers/SplashScreen";
 import ChangePassword from "../containers/user-manage/my-profile/ChangePassword";
 import ChangePhone from "../containers/user-manage/my-profile/ChangePhone";
+import CertificateMember from "../containers/CertificateMember"
 
 import {
   MemberProfile,
@@ -137,6 +138,9 @@ const RootStack = createStackNavigator({
     navigationOptions: {
       header: null,
     },
+  },
+  CertificateMember:{
+    screen:CertificateMember
   },
   Login: {
     screen: Login,

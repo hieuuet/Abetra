@@ -85,7 +85,6 @@ class ImageDetail extends React.PureComponent {
     );
   };
   render() {
-    console.log("img=============", this.data);
     return (
       <View style={styles.wrapper}>
         <FlatList

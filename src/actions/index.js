@@ -12,8 +12,8 @@ export {
   changePassword,
   updateAddressDesscription
 } from "./UserProfileActions";
-export { postLogin } from "./loginActions";
-export { postRegister } from "./registerActions";
+
+export { loginFacebook, postLogin, postRegister } from "./AuthActions";
 export { searchCmt } from "./searchCmtActions";
 export { searchPost } from "./searchPostActions";
 export {
@@ -24,3 +24,7 @@ export {
 export { resetStore } from "./resetStoreAction";
 export { getAllLanguage, getCurrentLanguage } from "./LanguageActions";
 export { getAllRank, getAllHashTag } from "./CommonActions";
+export {
+  registerBusinessMember,
+  registerPersonalMember
+} from "./MemberActions";

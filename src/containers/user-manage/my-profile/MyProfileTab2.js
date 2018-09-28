@@ -7,7 +7,7 @@ import {
   Image,
   Platform,
   KeyboardAvoidingView,
-  ScrollView,
+  ScrollView
 } from "react-native";
 import { isEqual } from "lodash";
 import { IMAGE } from "../../../constant/assets";
@@ -17,13 +17,12 @@ import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
+import { getRank } from "../../../constant/UtilsFunction";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
     super(props);
     this.state = { isModalShow: false };
-
-    this.isMember = true;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -61,7 +60,7 @@ class MyProfileTab2 extends Component {
   _renderMember = () => {
     console.log("render tab2");
     const tagSelected = this.props.tagSelected.filter(
-      (tag) => tag.select === true
+      tag => tag.select === true
     );
     return (
       <KeyboardAvoidingView
@@ -74,7 +73,9 @@ class MyProfileTab2 extends Component {
           contentContainerStyle={styles.scroll_view}
         >
           <View style={styles.container}>
-            <Text style={styles.text_h1}>HỘI VIÊN VÀNG</Text>
+            <Text style={styles.text_h1}>
+              {getRank(this.props.dataUser.PackgeID, this.props.allRank)}
+            </Text>
             <View style={styles.wrap_header}>
               <View style={style_common.container}>
                 <Text style={style_common.text_color_base}>
@@ -92,7 +93,7 @@ class MyProfileTab2 extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate("Benifet");
+                    this.props.navigation.navigate("CertificateMember");
                   }}
                 >
                   <Text style={styles.text_link}>
@@ -155,13 +156,13 @@ MyProfileTab2.propTypes = {
   onClickShowModal: PropTypes.func.isRequired,
   tagSelected: PropTypes.array.isRequired,
   onLoading: PropTypes.func.isRequired,
-  allRank: PropTypes.array.isRequired,
+  allRank: PropTypes.array.isRequired
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    margin: 10
   },
   btn_register: {
     alignContent: "center",
@@ -169,19 +170,19 @@ const styles = StyleSheet.create({
     padding: 5,
     minHeight: 40,
     backgroundColor: COLOR.COLOR_SKY,
-    borderColor: COLOR.COLOR_SKY,
+    borderColor: COLOR.COLOR_SKY
   },
 
   text_link: {
-    color: COLOR.COLOR_SKY,
+    color: COLOR.COLOR_SKY
   },
   text_btn: {
-    color: COLOR.COLOR_BLACK,
+    color: COLOR.COLOR_BLACK
   },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 50
   },
   btn_create_post: {
     borderWidth: 1,
@@ -193,25 +194,25 @@ const styles = StyleSheet.create({
     borderColor: COLOR.COLOR_GRAY,
     backgroundColor: COLOR.COLOR_WHITE,
     borderRadius: 25,
-    minHeight: 40,
+    minHeight: 40
   },
   text_h1: {
     alignSelf: "stretch",
     textAlign: "center",
     color: COLOR.COLOR_ORANGE,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   scroll_view: { flexGrow: 1 },
   wrap_header: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   container_title: {
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: 10
   },
   btn_save: {
     justifyContent: "center",
@@ -220,11 +221,11 @@ const styles = StyleSheet.create({
     minWidth: 80,
     minHeight: 40,
     backgroundColor: COLOR.COLOR_GRAY,
-    borderColor: COLOR.COLOR_GRAY,
+    borderColor: COLOR.COLOR_GRAY
   },
   text_title: {
     flex: 1,
     marginRight: 5,
-    color: COLOR.COLOR_BLACK,
-  },
+    color: COLOR.COLOR_BLACK
+  }
 });

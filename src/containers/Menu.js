@@ -6,7 +6,7 @@ import {
   View,
   Text,
   AsyncStorage,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import Dimensions from "Dimensions";
 import MenuItem from "../components/MenuItem";
@@ -19,7 +19,7 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";
-
+import { getRank } from "../constant/UtilsFunction";
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -28,12 +28,12 @@ class Menu extends Component {
 
   logout = () => {
     AsyncStorage.removeItem(USER_ID);
-    AsyncStorage.removeItem('IntUserID');
-    AsyncStorage.removeItem('ProfileID');
+    AsyncStorage.removeItem("IntUserID");
+    AsyncStorage.removeItem("ProfileID");
     this.props.resetStore();
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "Login" })],
+      actions: [NavigationActions.navigate({ routeName: "Login" })]
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -62,7 +62,9 @@ class Menu extends Component {
               : ""}
           </Text>
           <Text style={styles.text_rank}>
-            {this.props.isGuest ? "Guest" : "Hội viên bạch kim"}
+            {this.props.isGuest
+              ? "Guest"
+              : getRank(this.userProfile.PackgeID, this.props.allRank)}
           </Text>
         </View>
       </TouchableOpacity>
@@ -100,7 +102,7 @@ class Menu extends Component {
           nameIcon="calendar-alt"
           style={styles.style_menu}
           onPress={() => {
-              this.props.navigation.navigate('Event')
+            this.props.navigation.navigate("Event");
           }}
         />
 
@@ -149,14 +151,15 @@ class Menu extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
     isGuest: state.loginGuest.isGuest,
+    allRank: state.allRank
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return { resetStore: bindActionCreators(resetStore, dispatch) };
 };
 
@@ -175,32 +178,32 @@ const styles = StyleSheet.create({
     margin: 0,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: COLOR.COLOR_GRAY,
+    backgroundColor: COLOR.COLOR_GRAY
   },
   name_container: {
     flex: 1,
     margin: 10,
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "flex-start"
   },
   text_name: {
     fontWeight: "bold",
-    color: COLOR.COLOR_GREEN1,
+    color: COLOR.COLOR_GREEN1
   },
   text_rank: {
     fontWeight: "bold",
-    color: COLOR.COLOR_ORANGE,
+    color: COLOR.COLOR_ORANGE
   },
   style_menu: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginLeft: 10,
+    marginLeft: 10
   },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 50
   },
   canhbao: {
     width: DEVICE_WIDTH / 2,
@@ -210,7 +213,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     borderColor: "#EF6C00",
-    backgroundColor: "#F57C00",
+    backgroundColor: "#F57C00"
   },
   modalContent: {
     flexDirection: "column",
@@ -220,12 +223,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     marginHorizontal: 10,
-    borderColor: "rgba(0, 0, 0, 0.1)",
+    borderColor: "rgba(0, 0, 0, 0.1)"
   },
   bottomModal: {
     height: DEVICE_HEIGHT / 4,
     borderRadius: 5,
     marginLeft: 10,
-    marginRight: 10,
-  },
+    marginRight: 10
+  }
 });

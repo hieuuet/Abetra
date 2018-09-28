@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { postLogin, loginGuest } from "../../actions";
+import { postLogin, loginGuest, loginFacebook } from "../../actions";
 import { facebookLogin } from "./Loginfb";
 import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
@@ -32,7 +32,7 @@ class Login extends Component {
       isLoadingIndicator: true
     };
     this.dataUser = {
-      userName: "0123456789",
+      userName: "01234567893",
       password: "123456"
     };
   }
@@ -53,6 +53,7 @@ class Login extends Component {
       this.goToHomeTab();
     }, 500);
   };
+  //Call api login account
   _login = async () => {
     const { userName, password } = this.dataUser;
 
@@ -63,11 +64,48 @@ class Login extends Component {
       mat_khau: password
     });
     this.setState({ isLoading: false });
-    if (login.ErrorCode === "00") {
-      const IntUserID = login.Value[0].IntUserID.toString();
-      const ProfileID = login.Value[0].ProfileID.toString();
-      if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
-        await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
+    this._handleLoginResult(login);
+  };
+  //Call api login facebook
+  handleLoginFB = async () => {
+    this.setState({ isLoading: true, isLoadingIndicator: false });
+
+    const dataFB = await facebookLogin();
+    this.setState({ isLoading: false, isLoadingIndicator: true });
+
+    if (dataFB !== undefined) {
+      this.setState({ isLoading: true });
+
+      const resultLogin = await this.props.loginFacebook({
+        Username: dataFB.id,
+        FullName: dataFB.fullName,
+        Email: dataFB.email || "",
+        Password: "123456"
+      });
+      console.log("resultLogin", resultLogin);
+      this.setState({ isLoading: false });
+      this._handleLoginResult(resultLogin);
+    } else {
+      Alert.alert(
+        "Thông báo",
+        "Không lấy được dữ liệu từ Facebook",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    }
+  };
+
+  //Handle result after login
+  _handleLoginResult = async loginResult => {
+    if (loginResult.ErrorCode === "00") {
+      const IntUserID = loginResult.Value[0].IntUserID.toString();
+      const ProfileID = loginResult.Value[0].ProfileID.toString();
+      if (
+        loginResult.Value &&
+        loginResult.Value.length > 0 &&
+        loginResult.Value[0].UserID
+      ) {
+        await AsyncStorage.setItem(USER_ID, loginResult.Value[0].UserID);
         await AsyncStorage.setItem("IntUserID", IntUserID);
         await AsyncStorage.setItem("ProfileID", ProfileID);
         this.props.loginGuest(false);
@@ -76,30 +114,17 @@ class Login extends Component {
         Alert.alert(
           "Thông báo",
           "Không tìm thấy UserID",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          [{ text: "OK", onPress: () => {} }],
           { cancelable: false }
         );
       }
     } else {
       Alert.alert(
         "Thông báo",
-        login.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        loginResult.Message,
+        [{ text: "OK", onPress: () => {} }],
         { cancelable: false }
       );
-    }
-  };
-
-  handleLoginFB = async () => {
-    this.setState({ isLoading: true, isLoadingIndicator: false });
-
-    const dataFB = await facebookLogin();
-    this.setState({ isLoading: false, isLoadingIndicator: true });
-
-    if (dataFB !== undefined) {
-      this.dataUser = { ...this.dataUser, ...dataFB };
-      console.log("dataUser", this.dataUser);
-      //TODO: Call api server with data from fb
     }
   };
 
@@ -223,7 +248,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     postLogin: bindActionCreators(postLogin, dispatch),
-    loginGuest: bindActionCreators(loginGuest, dispatch)
+    loginGuest: bindActionCreators(loginGuest, dispatch),
+    loginFacebook: bindActionCreators(loginFacebook, dispatch)
   };
 };
 

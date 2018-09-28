@@ -23,6 +23,7 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MenuItem from "../../../components/MenuItem";
+import MyDatePicker from "../../../components/DatePicker";
 import {
   updateUserProfile,
   uploadImage2,
@@ -43,12 +44,15 @@ class MyProfileTab1 extends Component {
   constructor(props) {
     super(props);
 
-    const dataImage = this.props.dataUser.ImageDescription
-      ? JSON.parse(this.props.dataUser.ImageDescription)
-      : [];
+    //get all image has been on the profile
+    this.oldImage =
+      this.props.dataUser && this.props.dataUser.ImageDescription
+        ? JSON.parse(this.props.dataUser.ImageDescription)
+        : [];
+
     this.state = {
       localAvatar: undefined,
-      dataImage
+      dataImage: this.oldImage
     };
 
     this.radioData = [
@@ -62,8 +66,10 @@ class MyProfileTab1 extends Component {
 
     this.arrBase64 = [];
     this.arrPath = [];
-    this.textAddress = (this.props.dataUser && this.props.dataUser.Address) || "";
-    this.textDescription = (this.props.dataUser && this.props.dataUser.Description) || "";
+    this.textAddress =
+      (this.props.dataUser && this.props.dataUser.Address) || "";
+    this.textDescription =
+      (this.props.dataUser && this.props.dataUser.Description) || "";
   }
 
   componentWillReceiveProps(props) {}
@@ -83,50 +89,72 @@ class MyProfileTab1 extends Component {
     });
   };
 
-  updateAddress = async () => {
+  /**
+   * Upload image first before upload data of address and description
+   */
+  updateProfileAddressDes = async () => {
     this.props.onLoading(true);
-    const resultUpload = await uploadMultipleImage({
-      user_id: this.dataUser.UserID,
-      base64Datas: this.arrBase64
-    });
-    if (resultUpload) {
-      const arrLink = JSON.parse(resultUpload).Value;
-      if (arrLink !== null && arrLink !== undefined) {
-        const arrFullLink = arrLink.map(imgLink => {
-          return URL_BASE + imgLink;
-        });
-        const oldImage =
-          this.dataUser && this.dataUser.ImageDescription
-            ? JSON.parse(this.dataUser.ImageDescription)
-            : [];
-        console.log("oldImage", oldImage);
-        console.log("arrFullLink", arrFullLink);
-        const allImage = [...oldImage, ...arrFullLink];
-        console.log("all image", allImage);
 
-        const resultUpdate = await updateAddressDesscription({
-          profile_id: this.dataUser.ProfileID,
-          user_id: this.dataUser.UserID,
-          Description: this.textAddress,
-          Address: this.textDescription,
-          ImageDescription: JSON.stringify(allImage)
-        });
+    //If have image on description, upload image before
+    if (this.arrBase64.length > 0) {
+      const resultUpload = await uploadMultipleImage({
+        user_id: this.dataUser.UserID,
+        base64Datas: this.arrBase64
+      });
+      //upload success
+      if (resultUpload) {
+        const arrLink = JSON.parse(resultUpload).Value;
+        if (arrLink !== null && arrLink !== undefined) {
+          const arrFullLink = arrLink.map(imgLink => {
+            return URL_BASE + imgLink;
+          });
 
-        if (resultUpdate && resultUpdate.ErrorCode === "00") {
-          this.setState({ dataImage: allImage });
-          this.props.reLoadProfile();
-          return this.props.onLoading(false);
+          //combine old image and new image just upload
+          const allImage = [...this.oldImage, ...arrFullLink];
+          console.log("all image", allImage);
+          return this.callApiUploadAddress(allImage);
         }
       }
-    }
 
-    this.props.onLoading(false);
-    return Alert.alert(
-      "Thông báo",
-      "Upload ảnh không thành công",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
+      //upload image error
+      this.props.onLoading(false);
+      return Alert.alert(
+        "Thông báo",
+        "Upload ảnh không thành công",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } else {
+      //Not select image to upload
+      this.callApiUploadAddress(this.oldImage);
+    }
+  };
+
+  /**
+   * Call api upload address and description
+   */
+  callApiUploadAddress = async allImage => {
+    //check if data not change
+    if (
+      this.textAddress === this.dataUser.Address &&
+      this.textDescription === this.dataUser.Description &&
+      allImage === this.oldImage
+    )
+      return this.props.onLoading(false);
+    const resultUpdate = await updateAddressDesscription({
+      profile_id: this.dataUser.ProfileID,
+      user_id: this.dataUser.UserID,
+      Address: this.textAddress,
+      Description: this.textDescription,
+      ImageDescription: JSON.stringify(allImage)
+    });
+
+    if (resultUpdate && resultUpdate.ErrorCode === "00") {
+      this.setState({ dataImage: allImage });
+      this.props.reLoadProfile();
+      return this.props.onLoading(false);
+    }
+    return this.props.onLoading(false);
   };
 
   /**
@@ -176,8 +204,6 @@ class MyProfileTab1 extends Component {
       .then(async images => {
         console.log("images", images);
         if (images) {
-          // this.arrBase64 = [];
-          // this.arrPath = [];
           images.forEach(image => {
             this.arrBase64.push(image.data);
             this.arrPath.push(image.path);
@@ -190,7 +216,6 @@ class MyProfileTab1 extends Component {
       })
       .catch(e => {
         this.props.onLoading(false);
-        alert(e);
       });
   };
 
@@ -243,10 +268,10 @@ class MyProfileTab1 extends Component {
               onSubmit={text => {
                 if (!this.dataUser || text.trim() === this.dataUser.FullName)
                   return;
-                this.dataUser.FullName = !this.dataUser || text.trim();
+                this.dataUser.FullName = text.trim();
                 this.callApiUpdateProfile({
                   field: "FullName",
-                  value: !this.dataUser || text.trim()
+                  value: text.trim()
                 });
               }}
             />
@@ -267,37 +292,30 @@ class MyProfileTab1 extends Component {
             </View>
           </View>
         </View>
-        <EditView
-          placeHolder="yyyy/MM/dd"
-          label={strings("profile.birth_day")}
-          text_edit={
-            this.dataUser && this.dataUser.BirdDate
-              ? formatDate(this.dataUser.BirdDate)
-              : ""
-          }
-          isEditAble={true}
-          onSubmit={text => {
-            if (!this.dataUser || text.trim() === this.dataUser.BirdDate)
-              return;
-            const validate = text
-              .trim()
-              //eslint-disable-next-line
-              .match(/^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/);
-            if (validate === null) {
-              return Alert.alert(
-                "Thông báo",
-                "Ngày tháng không đúng định dạng: yyyy/MM/dd",
-                [{ text: "OK", onPress: () => {} }],
-                { cancelable: false }
-              );
+
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text
+            style={[style_common.text_color_base, styles.label_radio_group]}
+          >
+            Ngày sinh
+          </Text>
+          <MyDatePicker
+            initDate={
+              this.dataUser && this.dataUser.BirdDate
+                ? formatDate(this.dataUser.BirdDate)
+                : ""
             }
-            this.dataUser.BirdDate = !this.dataUser || text.trim();
-            this.callApiUpdateProfile({
-              field: "BirdDate",
-              value: !this.dataUser || text.trim()
-            });
-          }}
-        />
+            onDateChange={date => {
+              if (!this.dataUser || this.dataUser.BirdDate === date.trim())
+                return;
+              this.dataUser.BirdDate = date.trim();
+              this.callApiUpdateProfile({
+                field: "BirdDate",
+                value: date.trim()
+              });
+            }}
+          />
+        </View>
         <View style={styles.change_pass}>
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}
@@ -332,10 +350,10 @@ class MyProfileTab1 extends Component {
           onSubmit={text => {
             if (!this.dataUser || text.trim() === this.dataUser.Email) return;
 
-            this.dataUser.Email = !this.dataUser || text.trim();
+            this.dataUser.Email = text.trim();
             this.callApiUpdateProfile({
               field: "Email",
-              value: !this.dataUser || text.trim()
+              value: text.trim()
             });
           }}
         />
@@ -347,14 +365,6 @@ class MyProfileTab1 extends Component {
           }
           onPress={() => this.props.navigation.navigate("ChangePhone")}
           isEditAble={true}
-          onSubmit={text => {
-            if (!this.dataUser || text.trim() === this.dataUser.Phone) return;
-            this.dataUser.Phone = !this.dataUser || text.trim();
-            this.callApiUpdateProfile({
-              field: "Phone",
-              value: !this.dataUser || text.trim()
-            });
-          }}
         />
       </View>
     );
@@ -412,7 +422,7 @@ class MyProfileTab1 extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.btn_save}
-            onPress={this.updateAddress}
+            onPress={this.updateProfileAddressDes}
           >
             <Text>Lưu</Text>
           </TouchableOpacity>
@@ -461,10 +471,9 @@ class MyProfileTab1 extends Component {
 
   render() {
     console.log("render tab 1");
-    console.log("state", this.state.dataImage);
     //get dataUser
     this.dataUser = this.props.dataUser || undefined;
-    
+
     return (
       <KeyboardAvoidingView
         style={style_common.container}

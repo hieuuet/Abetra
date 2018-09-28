@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { login } from "./loginReducers";
+import { login } from "./AuthReducers";
 import { loadUserProfile } from "./UserProfileReducers";
 import { createMsgGroup } from "./createMsgGroupReducers";
 import { loadMsgGroup } from "./loadMsgGroupReducers";
@@ -16,9 +16,8 @@ import { currentLanguage } from "./LanguageReducers";
 import { loadSavePost, savePost } from "./loadSavePostReducers";
 
 import { allRank, allHashTag } from "./CommonReducers";
-import {getEvent} from './getEventReducers';
-import {addEvent} from './addEventReducers';
-
+import { getEvent } from "./getEventReducers";
+import { addEvent } from "./addEventReducers";
 
 const appReducer = combineReducers({
   login,
@@ -34,12 +33,12 @@ const appReducer = combineReducers({
   searchPost,
   loginGuest,
   currentLanguage,
-    loadSavePost,
+  loadSavePost,
   allRank,
   allHashTag,
-    savePost,
-    getEvent,
-    addEvent
+  savePost,
+  getEvent,
+  addEvent
 });
 
 export const rootReducer = (state, action) => {

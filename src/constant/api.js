@@ -10,6 +10,9 @@ export const API = {
   UPDATE_USER_PROFILE: `${URL_BASE}/api/Users/UpdateProfile`,
   UPDATE_ADDRESS_DESSCRIPTION: `${URL_BASE}/api/Users/UpdateProfileAddresDes`,
 
+  //login fb
+  LOGIN_FB: `${URL_BASE}/api/Users/RegristerLoginFB`,
+
   //post
   CREATE_POST: `${URL_BASE}/api/Post/CreatePost`,
   GET_TOP_POST: `${URL_BASE}/api/Post/GetTopPost`,
@@ -42,5 +45,8 @@ export const API = {
   //event
   ADD_EVENT: `${URL_BASE}/Event/AddOrUpdate`,
   GET_EVENT: `${URL_BASE}/Event/GetAll`,
-  DEL_EVENT: `${URL_BASE}/Event/Delete`
+  DEL_EVENT: `${URL_BASE}/Event/Delete`,
+  // register member
+  REGISTER_PERSONAL_MEMBER: `${URL_BASE}/api/Users/InsertProfileUser`,
+  REGISTER_BUSINESS_MEMBER: `${URL_BASE}/api/Users/InsertProfileEnterprise`
 };
