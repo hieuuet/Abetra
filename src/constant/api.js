@@ -46,6 +46,7 @@ export const API = {
   ADD_EVENT: `${URL_BASE}/Event/AddOrUpdate`,
   GET_EVENT: `${URL_BASE}/Event/GetAll`,
   DEL_EVENT: `${URL_BASE}/Event/Delete`,
+  JOIN_EVENT: `${URL_BASE}/Event/EventJoin`,
   // register member
   REGISTER_PERSONAL_MEMBER: `${URL_BASE}/api/Users/InsertProfileUser`,
   REGISTER_BUSINESS_MEMBER: `${URL_BASE}/api/Users/InsertProfileEnterprise`
