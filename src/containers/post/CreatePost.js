@@ -24,6 +24,7 @@ import {uploadImage} from "../../actions/UploadImageActions";
 import {createPost} from "../../actions/createPostActions";
 import {URL_BASE, URL_SOCKET} from "../../constant/api";
 import SocketIOClient from "socket.io-client";
+import {addEvent} from "../../actions/addEventActions";
 
 var ImagePicker = NativeModules.ImageCropPicker;
 
@@ -76,7 +77,7 @@ class CreatePost extends Component {
         });
         // console.log("linkImage", linkImage);
         // let Imgs = [];
-        Imgs = JSON.parse(linkImage);
+        let Imgs = JSON.parse(linkImage);
         Imgs = Imgs.Value;
         let ImgsLink = Imgs.map(img => {
             return URL_BASE + img;
@@ -156,6 +157,40 @@ class CreatePost extends Component {
         }
         console.log("post", post);
     };
+    //add event
+    _addEvent = async () => {
+        const {Status, Title, TimeStart, TimeFinish, Address, Targets} = this.state
+        const {UserProfile, addEvent} = this.props;
+        if (UserProfile.length <= 0) {
+            return null;
+        }
+        let Event = await addEvent({
+            ID: 0,
+            Name: Title,
+            Summary: "",
+            Description: Status,
+            StartDate: TimeStart,
+            FinishDate: TimeFinish,
+            CreateBy:734 ,
+            Type: 0,
+            ChiTieu: Targets,
+            Code: "",
+            Address: Address
+
+        })
+        console.log('Event', Event)
+        if (Event.ErrorCode == "00") {
+            this.props.navigation.goBack();
+        } else {
+            Alert.alert(
+                "Thông báo",
+                "Tao sự kiện không thành công",
+                [{text: "OK", onPress: () => console.log("OK Pressed")}],
+                {cancelable: false}
+            );
+        }
+
+    }
 
     //socket Post
     _sendPost = (DatePost, Content) => {
@@ -336,13 +371,16 @@ class CreatePost extends Component {
                                 autoCapitalize="none"
                                 returnKeyType="next"
                                 placeholder="Tiêu đề sự kiện"
-                                onChangeText={text => this.setState({text})}
+                                onChangeText={Title => this.setState({Title})}
                                 style={{
+                                    marginTop: 10,
                                     marginLeft: 5,
                                     borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
-                                    padding: 0,
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 10,
                                     marginHorizontal: 10
                                 }}
                             />
@@ -350,15 +388,53 @@ class CreatePost extends Component {
                                 underlineColorAndroid="transparent"
                                 autoCapitalize="none"
                                 returnKeyType="next"
-                                placeholder="Thời gian"
-                                onChangeText={text => this.setState({text})}
+                                placeholder="Thời gian bắt đầu"
+                                onChangeText={TimeStart => this.setState({TimeStart})}
                                 style={{
                                     marginTop: 10,
                                     marginLeft: 5,
                                     borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
-                                    padding: 0,
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 10,
+                                    marginHorizontal: 10
+                                }}
+                            />
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                                returnKeyType="next"
+                                placeholder="Thời gian kết thúc"
+                                onChangeText={TimeFinish => this.setState({TimeFinish})}
+                                style={{
+                                    marginTop: 10,
+                                    marginLeft: 5,
+                                    borderWidth: 1,
+                                    borderColor: COLOR.BORDER_INPUT,
+                                    borderRadius: 5,
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 10,
+                                    marginHorizontal: 10
+                                }}
+                            />
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                                returnKeyType="next"
+                                placeholder="Chỉ tiêu"
+                                onChangeText={Targets => this.setState({Targets})}
+                                style={{
+                                    marginTop: 10,
+                                    marginLeft: 5,
+                                    borderWidth: 1,
+                                    borderColor: COLOR.BORDER_INPUT,
+                                    borderRadius: 5,
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 10,
                                     marginHorizontal: 10
                                 }}
                             />
@@ -367,17 +443,20 @@ class CreatePost extends Component {
                                 autoCapitalize="none"
                                 returnKeyType="next"
                                 placeholder="Địa điểm"
-                                onChangeText={text => this.setState({text})}
+                                onChangeText={Address => this.setState({Address})}
                                 style={{
                                     marginTop: 10,
                                     marginLeft: 5,
                                     borderWidth: 1,
                                     borderColor: COLOR.BORDER_INPUT,
                                     borderRadius: 5,
-                                    padding: 0,
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 10,
                                     marginHorizontal: 10
                                 }}
                             />
+
                         </View>
                     ) : null}
 
@@ -450,7 +529,7 @@ class CreatePost extends Component {
                                 resizeMode="cover"
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this._createPost()}>
+                        <TouchableOpacity onPress={() => this.state.isEvent ? this._addEvent() : this._createPost()}>
                             <View style={styles.view_post}>
                                 <Text>Đăng</Text>
                             </View>
@@ -475,7 +554,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         uploadImage: bindActionCreators(uploadImage, dispatch),
-        createPost: bindActionCreators(createPost, dispatch)
+        createPost: bindActionCreators(createPost, dispatch),
+        addEvent: bindActionCreators(addEvent, dispatch),
     };
 };
 

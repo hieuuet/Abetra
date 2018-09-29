@@ -18,6 +18,7 @@ import { loadSavePost, savePost } from "./loadSavePostReducers";
 import { allRank, allHashTag } from "./CommonReducers";
 import { getEvent } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
+import { joinEvent } from "./joinEventReducers";
 
 const appReducer = combineReducers({
   login,
@@ -38,7 +39,8 @@ const appReducer = combineReducers({
   allHashTag,
   savePost,
   getEvent,
-  addEvent
+  addEvent,
+    joinEvent
 });
 
 export const rootReducer = (state, action) => {

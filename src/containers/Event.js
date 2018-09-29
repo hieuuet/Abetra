@@ -16,6 +16,7 @@ import style_common from "../style-common/index";
 import EventItem from "../components/EventItem";
 import {searchPost} from "../actions";
 import {ViewLoading} from "../components/CommonView";
+import {getEvent} from "../actions/getEventActions";
 
 
 class Event extends Component {
@@ -23,45 +24,42 @@ class Event extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            ArrPost: [],
+            ArrEvent: [],
         };
 
 
     }
 
     async componentDidMount() {
-        this._searchPost()
+        this._getEvent()
 
     }
 
-    _searchPost = async () => {
+    _getEvent = async () => {
         this.setState({
             isLoading: true,
         });
-        const {searchPost} = this.props;
+        const {getEvent} = this.props;
 
-        let listPost = await searchPost({
-            Page_size: 20,
-            Page_index: 1,
+        let Event = await getEvent({
+            PageSize: 100,
+            PageIndex: 1,
             Keyword: "",
-            IsAdvs: 255,
-            From_date: "",
-            To_date: "",
-            User_id: "",
-            Profile_id: "",
-            User_type: 255,
-            Pin: 255,
-            Option: 0,
+            FromDate: "",
+            ToDate: "",
+            Status: 1,
+            EnterpriseID: 0,
+            Type: 0	,
             LangID: 129,
         });
 
-        if (listPost && listPost.ErrorCode === "00") {
+        if (Event && Event.ErrorCode === "00") {
             this.setState(
                 {
                     isLoading: false,
-                    ArrPost: listPost.Value,
+                    ArrEvent: Event.Value,
                 },
-                () => console.log("ArrPost", this.state.ArrPost)
+                () => console.log("ArrEvent", this.state.ArrEvent)
             );
         } else {
             this.setState({
@@ -89,7 +87,7 @@ class Event extends Component {
                             // onRefresh={() => {
                             //     this.GetPost()
                             // }}
-                            data={this.state.ArrPost}
+                            data={this.state.ArrEvent}
                             renderItem={(item) => {
                                 return (
                                     <EventItem
@@ -122,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
 
         searchPost: bindActionCreators(searchPost, dispatch),
+        getEvent: bindActionCreators(getEvent, dispatch),
 
     };
 };

@@ -13,10 +13,14 @@ import moment from "moment";
 import Icon1 from "react-native-vector-icons/EvilIcons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconMore from "react-native-vector-icons/Ionicons";
+import IconAdd from "react-native-vector-icons/Entypo";
 import ReadMore from "react-native-read-more-text";
 import PhotoGrid from "./PhotoGrid";
 import MenuPost from "./menu_post/MenuPost";
 import Share from "react-native-share";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {joinEvent} from "../actions/joinEventActions";
 
 
 class EventItem extends Component {
@@ -66,6 +70,24 @@ class EventItem extends Component {
         };
         return Share.open(shareOptions);
     }
+    _joinEvent = async (EventID) => {
+        const {joinEvent,UserProfile } = this.props
+        if (UserProfile.length <=0 ) {
+            return null
+        }
+        let eventJoin = await joinEvent({
+            EventID: EventID ,
+            ProfileID:  UserProfile.Value[0].ProfileID,
+            Type: 0,
+            UserName: UserProfile.Value[0].FullName,
+            Phone: UserProfile.Value[0].Phone,
+            Email: UserProfile.Value[0].Email ? UserProfile.Value[0].Email : "",
+            LangID: 129
+
+        })
+        console.log('eventJoin', eventJoin)
+
+    }
 
     render() {
         const {item} = this.props.dataItem;
@@ -103,7 +125,7 @@ class EventItem extends Component {
                                 }}
                             >
                                 <Text style={{color: "#2196F3", fontWeight: "bold"}}>
-                                    {item.FullName}
+                                    {item.UserName}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => {
@@ -132,10 +154,18 @@ class EventItem extends Component {
                                         color: "black",
                                     }}
                                 >
-                                    {moment(item.CreatedDate).format("DD/MM/YY HH:mm")}
+                                    {moment(item.CreateDate).format("DD/MM/YY HH:mm")}
                                 </Text>
                             </View>
                         </View>
+                    </View>
+                    <View style = {{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
+                        <Text style = {{color:"#42A5F5"}}>SỰ KIỆN:  </Text>
+                        <Text style = {{color: 'black'}}>{item.Name}</Text>
+                    </View>
+                    <View style = {{marginHorizontal: 10, flexDirection: 'row'}}>
+                        <Text style = {{color:"#FFA726"}}>{moment(item.StartDate).format("DD/MM/YY HH:mm")} - </Text>
+                        <Text style = {{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>
                     </View>
                     <View style={{marginHorizontal: 10, marginTop: 10}}>
                         <View>
@@ -145,13 +175,13 @@ class EventItem extends Component {
                                 renderRevealedFooter={this._renderRevealedFooter}
                                 onReady={this._handleTextReady}
                             >
-                                <Text>{item.PostContent}</Text>
+                                <Text>{item.Description}</Text>
                             </ReadMore>
                         </View>
                     </View>
-                    {ArrImg ? (
-                        <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
-                    ) : null}
+                    {/*{ArrImg ? (*/}
+                        {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
+                    {/*) : null}*/}
 
                     <View
                         style={{
@@ -169,11 +199,11 @@ class EventItem extends Component {
                             }}
                         >
                             <Icon1 name="like" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}> {item.TotalLike}</Text>
+                            <Text style={{color: "#42A5F5"}}> 0</Text>
                         </View>
                         <View style={{flexDirection: "row", alignItems: "center"}}>
                             <Icon1 name="comment" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>{item.TotalComment}</Text>
+                            <Text style={{color: "#42A5F5"}}>0</Text>
                         </View>
                         <View
                             style={{
@@ -183,7 +213,7 @@ class EventItem extends Component {
                             }}
                         >
                             <Icon name="share-outline" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>{item.TotalShare}</Text>
+                            <Text style={{color: "#42A5F5"}}>0</Text>
                         </View>
                     </View>
                     <View style={{height: 1, backgroundColor: "#cccccc"}}/>
@@ -208,9 +238,9 @@ class EventItem extends Component {
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate("BinhLuan", {item})
-                            }
+                            // onPress={() =>
+                            //     this.props.navigation.navigate("BinhLuan", {item})
+                            // }
                         >
                             <View style={{flexDirection: "row", alignItems: "center"}}>
                                 <Icon1 name="comment" size={25} color="#424242"/>
@@ -222,13 +252,25 @@ class EventItem extends Component {
                             <View
                                 style={{
                                     flexDirection: "row",
-                                    marginRight: 20,
                                     alignItems: "center",
                                 }}
                             >
                                 <Icon name="share-outline" size={25} color="#424242"/>
 
                                 <Text style={{color: "#424242"}}>Share</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  onPress={() => this._joinEvent(item.ID)}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginRight: 20,
+                                    alignItems: "center",
+                                }}
+                            >
+                                <IconAdd name="add-user" size={20} color="#424242"/>
+
+                                <Text style={{color: "#424242"}}>Tham gia</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -247,6 +289,26 @@ class EventItem extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        UserProfile: state.loadUserProfile,
+
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+        joinEvent: bindActionCreators(joinEvent, dispatch)
+
+    };
+};
+
+EventItem = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EventItem);
 
 export default EventItem;
 const DEVICE_WIDTH = Dimensions.get("window").width;
