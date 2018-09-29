@@ -7,6 +7,7 @@ import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
+import { getRank } from "../../../constant/UtilsFunction";
 
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -60,6 +61,10 @@ class MemberProfile extends Component {
     );
   };
 
+  _getRank = () => {
+    return getRank(this.state.memberProfile.PackgeID, this.props.allRank);
+  };
+
   _renderLoading = () => {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
@@ -99,6 +104,7 @@ class MemberProfile extends Component {
             <MemberProfileTab1
               dataUser={this.state.memberProfile}
               navigation={this.props.navigation}
+              _getRank={this._getRank}
             />
           </View>
           <View
@@ -107,7 +113,12 @@ class MemberProfile extends Component {
               { zIndex: this.state.tabIndex === 1 ? 1 : 0 }
             ]}
           >
-            <MemberProfileTab2 navigation={this.props.navigation} />
+            <MemberProfileTab2
+              navigation={this.props.navigation}
+              allHashTag = {this.props.allHashTag}
+              dataUser={this.state.memberProfile}
+              _getRank={this._getRank}
+            />
           </View>
         </View>
         {this._renderLoading()}
@@ -115,9 +126,11 @@ class MemberProfile extends Component {
     );
   }
 }
-
 const mapStateToProps = state => {
-  return {};
+  return {
+    allRank: state.allRank,
+    allHashTag: state.allHashTag
+  };
 };
 
 MemberProfile = connect(mapStateToProps)(MemberProfile);

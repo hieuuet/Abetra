@@ -7,43 +7,45 @@ import {
   Image,
   Platform,
   KeyboardAvoidingView,
-  ScrollView,
+  ScrollView
 } from "react-native";
-import {isEqual} from "lodash";
+import { isEqual } from "lodash";
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
+import PropTypes from "prop-types";
 
 class MemberProfileTab2 extends Component {
   constructor(props) {
     super(props);
 
-    this.allTags = [
-      {
-        hashtag: "#FoodMessage",
-        select: true,
-      },
-      {
-        hashtag: "#FoodMessage",
-        select: true,
-      },
-      {
-        hashtag: "#FoodMessage",
-        select: true,
-      },
-      {
-        hashtag: "#FoodMessage",
-        select: true,
-      },
-    ];
+    //get tag has been selected when register and bind with select of all tab
+    this.loadData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.loadData();
+  }
   shouldComponentUpdate(nextProps, nextState) {
-    return !// isEqual(nextProps, this.props) &&
-    isEqual(nextState, this.state);
+    return !(
+      isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextState, this.state)
+    );
   }
 
+  loadData = () => {
+    let tagSelected = this.props.dataUser.HashTag;
+    if (tagSelected) {
+      tagSelected = JSON.parse(tagSelected);
+      if (!Array.isArray(tagSelected)) tagSelected = [];
+    } else {
+      tagSelected = [];
+    }
+    this.allTags = this.props.allHashTag.filter(tag => {
+      tagSelected.includes(tag.CatID);
+    });
+  };
   render() {
     // console.log("render tab2 member");
     return (
@@ -57,7 +59,7 @@ class MemberProfileTab2 extends Component {
           contentContainerStyle={styles.scroll_view}
         >
           <View style={styles.container}>
-            <Text style={styles.text_h1}>HỘI VIÊN VÀNG</Text>
+            <Text style={styles.text_h1}>{this.props._getRank()}</Text>
             <View style={styles.wrap_header}>
               <View style={style_common.container}>
                 <TouchableOpacity
@@ -92,33 +94,38 @@ class MemberProfileTab2 extends Component {
     );
   }
 }
-
+MemberProfileTab2.propTypes = {
+  dataUser: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  allHashTag: PropTypes.array.isRequired,
+  _getRank: PropTypes.func.isRequired
+};
 export default MemberProfileTab2;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    margin: 10
   },
 
   text_link: {
-    color: COLOR.COLOR_SKY,
+    color: COLOR.COLOR_SKY
   },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 50
   },
 
   text_h1: {
     alignSelf: "stretch",
     textAlign: "center",
     color: COLOR.COLOR_ORANGE,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   scroll_view: { flexGrow: 1 },
   wrap_header: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });

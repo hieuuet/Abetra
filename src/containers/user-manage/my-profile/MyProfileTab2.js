@@ -23,8 +23,20 @@ class MyProfileTab2 extends Component {
   constructor(props) {
     super(props);
     this.state = { isModalShow: false };
+
+    this.tagSelected = this.props.tagSelected.filter(
+      tag => tag.select === true
+    );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.tagSelected, nextProps.tagSelected)) {
+      this.tagSelected = nextProps.tagSelected.filter(
+        tag => tag.select === true
+      );
+      //call api update tag here
+    }
+  }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.tagSelected, this.props.tagSelected) &&
@@ -59,9 +71,7 @@ class MyProfileTab2 extends Component {
 
   _renderMember = () => {
     console.log("render tab2");
-    const tagSelected = this.props.tagSelected.filter(
-      tag => tag.select === true
-    );
+
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -118,7 +128,7 @@ class MyProfileTab2 extends Component {
               />
             </View>
             <HashTagEdit
-              data={tagSelected}
+              data={this.tagSelected}
               selectable={false}
               numColumns={2}
               ref="hashTag"

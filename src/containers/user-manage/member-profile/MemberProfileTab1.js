@@ -110,7 +110,7 @@ class MemberProfileTab1 extends Component {
             resizeMode="cover"
             style={styles.avatar}
           />
-          <Text style={styles.text_h1}>HỘI VIÊN VÀNG</Text>
+          <Text style={styles.text_h1}>{this.props._getRank()}</Text>
         </View>
         <View style={styles.right_avatar}>
           <Text style={styles.text_name}>
@@ -213,7 +213,8 @@ export default MemberProfileTab1;
 
 MemberProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  _getRank: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

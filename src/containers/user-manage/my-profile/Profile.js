@@ -31,43 +31,24 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
+    //get tag has been selected when register and bind with select of all tab
+    let tagSelected = this.props.userProfile.Value[0].HashTag;
+    if (tagSelected) {
+      tagSelected = JSON.parse(tagSelected);
+      if (!Array.isArray(tagSelected)) tagSelected = [];
+    }
+    const allTags = this.props.allHashTag.map(tag => {
+      return {
+        ...tag,
+        hashtag: tag.Name,
+        select: tagSelected.includes(tag.CatID)
+      };
+    });
+
     this.state = {
       isLoading: false,
       tabIndex: 0,
-      allTag: [
-        {
-          hashtag: "#FoodMessage1",
-          select: true
-        },
-        {
-          hashtag: "#FoodMessage2",
-          select: true
-        },
-        {
-          hashtag: "#FoodMessage3",
-          select: true
-        },
-        {
-          hashtag: "#FoodMessage4",
-          select: true
-        },
-        {
-          hashtag: "#FoodMessage5",
-          select: false
-        },
-        {
-          hashtag: "#FoodMessage6",
-          select: false
-        },
-        {
-          hashtag: "#FoodMessage7",
-          select: false
-        },
-        {
-          hashtag: "#FoodMessage8",
-          select: false
-        }
-      ]
+      allTag: allTags
     };
 
     //set title for title bar
@@ -180,7 +161,7 @@ class Profile extends Component {
               dataUser={this.userProfile}
               navigation={this.props.navigation}
               onLoading={this.onLoading}
-              reLoadProfile = {this.reLoadProfile}
+              reLoadProfile={this.reLoadProfile}
             />
           </View>
           <View
@@ -223,7 +204,8 @@ class Profile extends Component {
 const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
-    allRank: state.allRank
+    allRank: state.allRank,
+    allHashTag: state.allHashTag
   };
 };
 

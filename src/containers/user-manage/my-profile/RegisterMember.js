@@ -113,7 +113,7 @@ class RegisterMember extends Component {
         { cancelable: false }
       );
     }
-    console.log('realTagSelect',realTagSelect);
+    console.log("realTagSelect", realTagSelect);
     const dataRegister = {
       UserID: this.props.userProfile.UserID,
       Email: this.props.userProfile.Email || "",
@@ -121,7 +121,7 @@ class RegisterMember extends Component {
       Avatar: this.props.userProfile.Avatar,
       Description: this.props.userProfile.Description || "",
       Address: this.props.userProfile.Address || "",
-      HashTag: JSON.parse(realTagSelect),
+      HashTag: JSON.stringify(realTagSelect),
       RankID: this.rank
     };
     this.setState({ isLoading: true });
@@ -136,7 +136,7 @@ class RegisterMember extends Component {
       return Alert.alert(
         "Thông báo",
         result.Message,
-        [{ text: "OK", onPress: () => this.navigation.goBack() }],
+        [{ text: "OK", onPress: () => this.props.navigation.goBack() }],
         { cancelable: false }
       );
     } else {
