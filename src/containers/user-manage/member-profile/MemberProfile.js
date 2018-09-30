@@ -72,7 +72,7 @@ class MemberProfile extends Component {
   };
 
   render() {
-    console.log("render member", this.state.memberProfile);
+    // console.log("render member");
     return (
       <View style={style_common.container}>
         <View style={styles.tab}>
@@ -115,7 +115,7 @@ class MemberProfile extends Component {
           >
             <MemberProfileTab2
               navigation={this.props.navigation}
-              allHashTag = {this.props.allHashTag}
+              allHashTag={this.props.allHashTag}
               dataUser={this.state.memberProfile}
               _getRank={this._getRank}
             />

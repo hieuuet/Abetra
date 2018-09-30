@@ -96,8 +96,6 @@ class MemberProfileTab1 extends Component {
   };
 
   _renderHeader = () => {
-    console.log("-----------------", this.props.dataUser);
-
     return (
       <View style={styles.contain_avatar}>
         <View>

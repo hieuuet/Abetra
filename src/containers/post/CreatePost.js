@@ -25,15 +25,27 @@ import { URL_BASE, URL_SOCKET } from "../../constant/api";
 import SocketIOClient from "socket.io-client";
 import { addEvent } from "../../actions/addEventActions";
 
-var ImagePicker = NativeModules.ImageCropPicker;
+import HashTagEdit from "../../components/hashtag/HashTagEdit";
+import ModalBox from "../../components/ModalBox";
+
+let ImagePicker = NativeModules.ImageCropPicker;
 
 class CreatePost extends Component {
   constructor(props) {
     super(props);
+
+    const allTags = this.props.allHashTag.map(tag => {
+      return {
+        ...tag,
+        hashtag: tag.Name,
+        select: false
+      };
+    });
     this.state = {
       modalVisible: false,
       isVote: false,
       isEvent: false,
+      allTag: allTags,
       ArrImg: [],
       ArrOptions: [
         {
@@ -59,7 +71,31 @@ class CreatePost extends Component {
     this.socket.emit("LOGINPOST", {
       IntUserID: UserProfile.Value[0].IntUserID
     });
+    this.tagSelected = allTags;
+    this.nameTagSelected = [];
   }
+
+  //hastag selecte
+  onDataSelected = hashtagSelected => {
+    if (hashtagSelected !== undefined) this.tagSelected = hashtagSelected;
+  };
+
+  onClickCloseModal = () => {
+    if (this.refs.modal) {
+      this.setState({ allTag: this.tagSelected });
+    }
+    this.nameTagSelected = this.tagSelected
+      .filter(tag => tag.select)
+      .map(tag => tag.Name);
+    alert(`curent tag selected: ${this.nameTagSelected.toString()}`);
+  };
+
+  onClickShowModal = () => {
+    if (this.refs.modal) {
+      //   if (this.refs.modal.state.isOpen) return this.refs.modal.close();
+      this.refs.modal.open();
+    }
+  };
 
   //upload Image
   _uploadImage = async (arrImage = []) => {
@@ -138,7 +174,7 @@ class CreatePost extends Component {
       Pin: 0,
       Type: 0,
       ltPoll: [],
-      Target: "#FOOD",
+      Target: this.nameTagSelected.toString(),
       DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
       IsAdvs: "",
       LangID: 129
@@ -181,7 +217,7 @@ class CreatePost extends Component {
       Type: 0,
       ChiTieu: Targets,
       Code: "",
-      Address: Address
+      Address
     });
     console.log("Event", Event);
     if (Event.ErrorCode == "00") {
@@ -249,7 +285,7 @@ class CreatePost extends Component {
   Push = index => {
     // console.log('push')
     // console.log('ArrOptions', this.state.ArrOptions)
-    var ArrMoi = this.state.ArrOptions;
+    let ArrMoi = this.state.ArrOptions;
     ArrMoi.push({ OptionContent: `Lựa chọn ${index + 2}` });
     this.setState({
       ArrOptions: ArrMoi
@@ -258,109 +294,42 @@ class CreatePost extends Component {
 
   render() {
     return (
-      <View style={styles.view_container}>
-        <View>
-          <View style={{ marginHorizontal: 10, marginTop: 10 }}>
-            <TextInput
-              placeholder="Nhập nội dung?"
-              underlineColorAndroid="transparent"
-              onChangeText={Status => this.setState({ Status })}
-              placeholderTextSize="20"
-              returnKeyType={"search"}
-              // onFocus={() => {
-              //     this.handleTextInput()
-              // }}
-            />
+      <View style={{ flex: 1 }}>
+        <View style={styles.view_container}>
+          <View>
+            <View style={{ marginHorizontal: 10, marginTop: 10 }}>
+              <TextInput
+                placeholder="Nhập nội dung?"
+                underlineColorAndroid="transparent"
+                onChangeText={Status => this.setState({ Status })}
+                placeholderTextSize="20"
+                returnKeyType={"search"}
+                // onFocus={() => {
+                //     this.handleTextInput()
+                // }}
+              />
+            </View>
           </View>
-        </View>
-        {this.state.images ? (
-          <FlatList
-            data={this.state.images}
-            // horizontal={true}
-            // style = {{marginLeft: 0}}
-            numColumns={5}
-            renderItem={({ item }) => {
-              return (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginLeft: 6
-                  }}
-                >
-                  <Image
-                    style={styles.image_circle}
-                    source={item}
-                    resizeMode="cover"
-                  />
-                </View>
-              );
-            }}
-            extraData={this.state}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        ) : null}
-        <View style={styles.view_bottom}>
-          {this.state.isVote ? (
+          {this.state.images ? (
             <FlatList
-              data={this.state.ArrOptions}
-              renderItem={({ item, index }) => {
+              data={this.state.images}
+              // horizontal={true}
+              // style = {{marginLeft: 0}}
+              numColumns={5}
+              renderItem={({ item }) => {
                 return (
                   <View
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      marginTop: 10
+                      marginLeft: 6
                     }}
                   >
-                    <View
-                      style={{
-                        marginLeft: 10,
-                        borderRadius: 15,
-                        flexDirection: "row",
-                        borderColor: "#E0E0E0",
-                        borderWidth: 1,
-                        width: "85%"
-                      }}
-                    >
-                      <TextInput
-                        placeholder={item.OptionContent}
-                        style={{ padding: 0, marginLeft: 10, flex: 1 }}
-                        underlineColorAndroid="transparent"
-                        placeholderTextSize="20"
-                        onChangeText={text => {
-                          const ArrOptions = this.state.ArrOptions.map(toa => {
-                            if (toa == item) {
-                              toa.OptionContent = text;
-                            }
-                            return toa;
-                          });
-                          this.setState({
-                            ArrOptions
-                          });
-                        }}
-                      />
-                    </View>
-                    {index === this.state.ArrOptions.length - 1 ? (
-                      <View
-                        style={{
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "15%"
-                        }}
-                      >
-                        <TouchableOpacity onPress={() => this.Push(index)}>
-                          <Image
-                            source={require("../../images/insert.png")}
-                            style={{
-                              height: 25,
-                              width: 25
-                            }}
-                            resizeMode="cover"
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    ) : null}
+                    <Image
+                      style={styles.image_circle}
+                      source={item}
+                      resizeMode="cover"
+                    />
                   </View>
                 );
               }}
@@ -368,185 +337,269 @@ class CreatePost extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           ) : null}
-          {this.state.isEvent ? (
-            <View>
-              <TextInput
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                returnKeyType="next"
-                placeholder="Tiêu đề sự kiện"
-                onChangeText={Title => this.setState({ Title })}
-                style={{
-                  marginTop: 10,
-                  marginLeft: 5,
-                  borderWidth: 1,
-                  borderColor: COLOR.BORDER_INPUT,
-                  borderRadius: 5,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  paddingLeft: 10,
-                  marginHorizontal: 10
+          <View style={styles.view_bottom}>
+            {this.state.isVote ? (
+              <FlatList
+                data={this.state.ArrOptions}
+                renderItem={({ item, index }) => {
+                  return (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: 10
+                      }}
+                    >
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          borderRadius: 15,
+                          flexDirection: "row",
+                          borderColor: "#E0E0E0",
+                          borderWidth: 1,
+                          width: "85%"
+                        }}
+                      >
+                        <TextInput
+                          placeholder={item.OptionContent}
+                          style={{ padding: 0, marginLeft: 10, flex: 1 }}
+                          underlineColorAndroid="transparent"
+                          placeholderTextSize="20"
+                          onChangeText={text => {
+                            const ArrOptions = this.state.ArrOptions.map(
+                              toa => {
+                                if (toa == item) {
+                                  toa.OptionContent = text;
+                                }
+                                return toa;
+                              }
+                            );
+                            this.setState({
+                              ArrOptions
+                            });
+                          }}
+                        />
+                      </View>
+                      {index === this.state.ArrOptions.length - 1 ? (
+                        <View
+                          style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "15%"
+                          }}
+                        >
+                          <TouchableOpacity onPress={() => this.Push(index)}>
+                            <Image
+                              source={require("../../images/insert.png")}
+                              style={{
+                                height: 25,
+                                width: 25
+                              }}
+                              resizeMode="cover"
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      ) : null}
+                    </View>
+                  );
                 }}
+                extraData={this.state}
+                keyExtractor={(item, index) => index.toString()}
               />
-              <TextInput
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                returnKeyType="next"
-                placeholder="Thời gian bắt đầu"
-                onChangeText={TimeStart => this.setState({ TimeStart })}
-                style={{
-                  marginTop: 10,
-                  marginLeft: 5,
-                  borderWidth: 1,
-                  borderColor: COLOR.BORDER_INPUT,
-                  borderRadius: 5,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  paddingLeft: 10,
-                  marginHorizontal: 10
-                }}
-              />
-              <TextInput
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                returnKeyType="next"
-                placeholder="Thời gian kết thúc"
-                onChangeText={TimeFinish => this.setState({ TimeFinish })}
-                style={{
-                  marginTop: 10,
-                  marginLeft: 5,
-                  borderWidth: 1,
-                  borderColor: COLOR.BORDER_INPUT,
-                  borderRadius: 5,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  paddingLeft: 10,
-                  marginHorizontal: 10
-                }}
-              />
-              <TextInput
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                returnKeyType="next"
-                placeholder="Chỉ tiêu"
-                onChangeText={Targets => this.setState({ Targets })}
-                style={{
-                  marginTop: 10,
-                  marginLeft: 5,
-                  borderWidth: 1,
-                  borderColor: COLOR.BORDER_INPUT,
-                  borderRadius: 5,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  paddingLeft: 10,
-                  marginHorizontal: 10
-                }}
-              />
-              <TextInput
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                returnKeyType="next"
-                placeholder="Địa điểm"
-                onChangeText={Address => this.setState({ Address })}
-                style={{
-                  marginTop: 10,
-                  marginLeft: 5,
-                  borderWidth: 1,
-                  borderColor: COLOR.BORDER_INPUT,
-                  borderRadius: 5,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  paddingLeft: 10,
-                  marginHorizontal: 10
-                }}
-              />
-            </View>
-          ) : null}
-
-          <Text style={{ marginLeft: 10, color: "black", marginTop: 10 }}>
-            Thêm vào bài viết
-          </Text>
-
-          <View style={styles.view_border}>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity onPress={() => this._createVote()}>
-                <View style={styles.view_vote}>
-                  <Text style={{ marginLeft: 5, color: "black" }}>
-                    #Thămdòýkiến
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              {this.state.isVote ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      isVote: false
-                    })
-                  }
-                >
-                  <Icon name="close" size={20} color="#E0E0E0" />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity onPress={() => this._createEvent()}>
-                <View style={styles.view_event}>
-                  <Text style={{ marginLeft: 5, color: "black" }}>#Sựkiện</Text>
-                </View>
-              </TouchableOpacity>
-              {this.state.isEvent ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      isEvent: false
-                    })
-                  }
-                >
-                  <Icon name="close" size={20} color="#E0E0E0" />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-
-            <TouchableOpacity>
-              <Image
-                source={require("../../../assets/emoji.png")}
-                style={styles.button_image}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
-              <Image
-                source={require("../../../assets/image_icon.png")}
-                style={styles.button_image}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this.setModalVisible(true);
-              }}
-            >
-              <Image
-                source={require("../../../assets/hashtag.png")}
-                style={styles.button_image}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                this.state.isEvent ? this._addEvent() : this._createPost()
-              }
-            >
-              <View style={styles.view_post}>
-                <Text>Đăng</Text>
+            ) : null}
+            {this.state.isEvent ? (
+              <View>
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  placeholder="Tiêu đề sự kiện"
+                  onChangeText={Title => this.setState({ Title })}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 5,
+                    borderWidth: 1,
+                    borderColor: COLOR.BORDER_INPUT,
+                    borderRadius: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 10,
+                    marginHorizontal: 10
+                  }}
+                />
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  placeholder="Thời gian bắt đầu"
+                  onChangeText={TimeStart => this.setState({ TimeStart })}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 5,
+                    borderWidth: 1,
+                    borderColor: COLOR.BORDER_INPUT,
+                    borderRadius: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 10,
+                    marginHorizontal: 10
+                  }}
+                />
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  placeholder="Thời gian kết thúc"
+                  onChangeText={TimeFinish => this.setState({ TimeFinish })}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 5,
+                    borderWidth: 1,
+                    borderColor: COLOR.BORDER_INPUT,
+                    borderRadius: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 10,
+                    marginHorizontal: 10
+                  }}
+                />
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  placeholder="Chỉ tiêu"
+                  onChangeText={Targets => this.setState({ Targets })}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 5,
+                    borderWidth: 1,
+                    borderColor: COLOR.BORDER_INPUT,
+                    borderRadius: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 10,
+                    marginHorizontal: 10
+                  }}
+                />
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  placeholder="Địa điểm"
+                  onChangeText={Address => this.setState({ Address })}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 5,
+                    borderWidth: 1,
+                    borderColor: COLOR.BORDER_INPUT,
+                    borderRadius: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 10,
+                    marginHorizontal: 10
+                  }}
+                />
               </View>
-            </TouchableOpacity>
+            ) : null}
+
+            <Text style={{ marginLeft: 10, color: "black", marginTop: 10 }}>
+              Thêm vào bài viết
+            </Text>
+
+            <View style={styles.view_border}>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity onPress={() => this._createVote()}>
+                  <View style={styles.view_vote}>
+                    <Text style={{ marginLeft: 5, color: "black" }}>
+                      #Thămdòýkiến
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {this.state.isVote ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.setState({
+                        isVote: false
+                      })
+                    }
+                  >
+                    <Icon name="close" size={20} color="#E0E0E0" />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity onPress={() => this._createEvent()}>
+                  <View style={styles.view_event}>
+                    <Text style={{ marginLeft: 5, color: "black" }}>
+                      #Sựkiện
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {this.state.isEvent ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.setState({
+                        isEvent: false
+                      })
+                    }
+                  >
+                    <Icon name="close" size={20} color="#E0E0E0" />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+
+              <TouchableOpacity>
+                <Image
+                  source={require("../../../assets/emoji.png")}
+                  style={styles.button_image}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
+                <Image
+                  source={require("../../../assets/image_icon.png")}
+                  style={styles.button_image}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.onClickShowModal}>
+                <Image
+                  source={require("../../../assets/hashtag.png")}
+                  style={styles.button_image}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  this.state.isEvent ? this._addEvent() : this._createPost()
+                }
+              >
+                <View style={styles.view_post}>
+                  <Text>Đăng</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <HashTagModal
+          {/* <HashTagModal
           changeModalVisible={this.state.modalVisible}
           onChangeModalVisible={this.setModalVisible}
-        />
+        /> */}
+        </View>
+        <ModalBox
+          position={"bottom"}
+          ref={"modal"}
+          swipeArea={20}
+          onClosed={this.onClickCloseModal}
+          style={styles.modal}
+        >
+          <HashTagEdit
+            data={this.state.allTag}
+            selectable={true}
+            numColumns={2}
+            onDataSelected={this.onDataSelected}
+            ref="hashTag"
+          />
+        </ModalBox>
       </View>
     );
   }
@@ -554,7 +607,8 @@ class CreatePost extends Component {
 
 const mapStateToProps = state => {
   return {
-    UserProfile: state.loadUserProfile
+    UserProfile: state.loadUserProfile,
+    allHashTag: state.allHashTag
   };
 };
 
@@ -624,5 +678,8 @@ const styles = StyleSheet.create({
     height: DEVICE_WIDTH / 6 + 20,
     width: DEVICE_WIDTH / 6
     // borderRadius: DEVICE_WIDTH / 12,
+  },
+  modal: {
+    height: 200
   }
 });

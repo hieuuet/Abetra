@@ -24,9 +24,7 @@ class MemberProfileTab2 extends Component {
     this.loadData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.loadData();
-  }
+  componentWillReceiveProps(nextProps) {}
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.dataUser, this.props.dataUser) &&
@@ -36,18 +34,21 @@ class MemberProfileTab2 extends Component {
 
   loadData = () => {
     let tagSelected = this.props.dataUser.HashTag;
+
     if (tagSelected) {
       tagSelected = JSON.parse(tagSelected);
+
       if (!Array.isArray(tagSelected)) tagSelected = [];
     } else {
       tagSelected = [];
     }
-    this.allTags = this.props.allHashTag.filter(tag => {
-      tagSelected.includes(tag.CatID);
-    });
+    this.allTags = this.props.allHashTag
+      .map(tag => ({ ...tag, hashtag: tag.Name }))
+      .filter(tag => tagSelected.includes(tag.CatID));
   };
   render() {
     // console.log("render tab2 member");
+    this.loadData();
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -64,7 +65,7 @@ class MemberProfileTab2 extends Component {
               <View style={style_common.container}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate("Benifet");
+                    this.props.navigation.navigate("CertificateMember");
                   }}
                 >
                   <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
