@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   Keyboard,
+  ScrollView
 } from "react-native";
 import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
@@ -17,12 +18,12 @@ import PropTypes from "prop-types";
  * custom for button border
  */
 
-const DismissKeyboardHOC = (Comp) => {
+const DismissKeyboardHOC = Comp => {
   const ButtonBorder = ({
     label = "",
     onPress,
     my_style = {},
-    text_style = {},
+    text_style = {}
   }) => (
     <TouchableOpacity
       onPress={() => {
@@ -41,7 +42,7 @@ const DismissKeyboardHOC = (Comp) => {
     label: PropTypes.string.isRequired,
     onPress: PropTypes.func,
     my_style: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
-    text_style: PropTypes.number,
+    text_style: PropTypes.number
   };
   return ButtonBorder;
 };
@@ -62,7 +63,7 @@ export const ViewLoading = ({ isLoadingIndicator = true }) => {
   );
 };
 ViewLoading.propTypes = {
-  isLoadingIndicator: PropTypes.bool,
+  isLoadingIndicator: PropTypes.bool
 };
 
 /**
@@ -72,14 +73,14 @@ export const TabView = ({
   label = "",
   onPress,
   isActive = false,
-  style = {},
+  style = {}
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
         isActive ? style_common.btn_tab_active : style_common.btn_tab_inActive,
-        style,
+        style
       ]}
     >
       <Text style={styles.text_tab}>{label}</Text>
@@ -90,7 +91,7 @@ TabView.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   isActive: PropTypes.bool.isRequired,
-  style: PropTypes.number,
+  style: PropTypes.number
 };
 
 /**
@@ -113,7 +114,41 @@ export const SearchView = ({ onPress, style = {} }) => {
 };
 SearchView.propTypes = {
   onPress: PropTypes.func,
-  style: PropTypes.number,
+  style: PropTypes.number
+};
+
+/**
+ * Scrollview listen onEndReach
+ */
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const paddingToBottom = 0;
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
+};
+
+export class MyCoolScrollViewComponent extends Component {
+  render() {
+    return (
+      <ScrollView
+        style={style_common.container}
+        contentContainerStyle={styles.scroll_view}
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            this.props.onEndReached();
+          }
+        }}
+        scrollEventThrottle={400}
+      >
+        {this.props.children}
+      </ScrollView>
+    );
+  }
+}
+
+MyCoolScrollViewComponent.propTypes = {
+  onEndReached: PropTypes.func
 };
 const styles = StyleSheet.create({
   btn: {
@@ -128,10 +163,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     marginTop: 10,
-    shadowColor: COLOR.BACKGROUND_BUTTON,
+    shadowColor: COLOR.BACKGROUND_BUTTON
   },
   txt: {
-    color: COLOR.TEXT_BUTTON,
+    color: COLOR.TEXT_BUTTON
   },
   loading: {
     top: -10,
@@ -142,8 +177,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     zIndex: 1000,
-    backgroundColor: "rgba(52, 52, 52, 0.5)",
+    backgroundColor: "rgba(52, 52, 52, 0.5)"
   },
+  scroll_view: { flexGrow: 1 },
   container_search: {
     flexDirection: "row",
     alignSelf: "stretch",
@@ -151,19 +187,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     minHeight: 40,
     margin: 10,
-    backgroundColor: COLOR.COLOR_GRAY,
+    backgroundColor: COLOR.COLOR_GRAY
   },
   text_search: {
-    marginLeft: 10,
+    marginLeft: 10
   },
   search: {
     width: 30,
     height: 30,
-    alignSelf: "center",
+    alignSelf: "center"
   },
   text_tab: {
     color: COLOR.COLOR_BLACK,
     fontWeight: "bold",
-    textAlign: "center",
-  },
+    textAlign: "center"
+  }
 });
