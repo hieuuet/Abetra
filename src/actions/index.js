@@ -15,7 +15,7 @@ export {
 
 export { loginFacebook, postLogin, postRegister } from "./AuthActions";
 export { searchCmt } from "./searchCmtActions";
-export { searchPost } from "./searchPostActions";
+export { searchPost, searchPost2 } from "./searchPostActions";
 export {
   uploadImage,
   uploadImage2,

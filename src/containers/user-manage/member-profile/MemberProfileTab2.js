@@ -32,6 +32,9 @@ class MemberProfileTab2 extends Component {
     );
   }
 
+
+ 
+
   loadData = () => {
     let tagSelected = this.props.dataUser.HashTag;
 

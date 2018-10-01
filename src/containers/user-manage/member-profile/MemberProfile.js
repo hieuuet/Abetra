@@ -5,9 +5,10 @@ import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
 import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
-import { loadProfileMember } from "../../../actions";
+import { loadProfileMember, searchPost2 } from "../../../actions";
 import { connect } from "react-redux";
 import { getRank } from "../../../constant/UtilsFunction";
+import { TYPE_POST, TYPE_POST_PIN } from "../../../constant/KeyConstant";
 
 class MemberProfile extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -25,13 +26,30 @@ class MemberProfile extends Component {
     this.state = {
       isLoading: false,
       tabIndex: 0,
-      memberProfile: {}
+      memberProfile: {},
+      postUser: []
     };
   }
 
   componentDidMount() {
     this._loadMemberProfile();
   }
+
+  _loadPostUser = async (Profile_id, User_id) => {
+    return searchPost2({
+      Page_size: 20,
+      Page_index: 1,
+      Keyword: "",
+      IsAdvs: 255,
+      From_date: "",
+      To_date: "",
+      Profile_id,
+      User_id,
+      User_type: TYPE_POST.ALL,
+      Pin: TYPE_POST_PIN.ALL,
+      Option: 0
+    });
+  };
 
   _loadMemberProfile = async () => {
     const dataMember = this.props.navigation.getParam("item");
@@ -42,8 +60,16 @@ class MemberProfile extends Component {
       option: 100
     });
     if (!dataProfile || dataProfile.Message !== null) {
+      //get post of user:
+      const result = await this._loadPostUser(
+        dataProfile.Value[0].ProfileID,
+        dataProfile.Value[0].UserID
+      );
+      const resultPost =
+        result && result.ErrorCode === "00" ? result.Value : [];
       this.setState({
         memberProfile: dataProfile.Value[0],
+        postUser: resultPost,
         isLoading: false
       });
       return this.props.navigation.setParams({
