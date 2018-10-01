@@ -1,4 +1,4 @@
-import { postRequestApi } from "../constant/callApi";
+import { postRequestApi, getRequestApi } from "../constant/callApi";
 import { API } from "../constant/api";
 
 /**
@@ -10,39 +10,64 @@ export const getAllRank = (
     PageIndex: 1,
     FromDate: 0,
     ToDate: 0,
-    Status: 64,
+    Status: 64
   }
 ) => {
-  return async (dispatch) => {
+  return async dispatch => {
     let result = await postRequestApi(API.GET_RANK, data);
 
     if (result) {
       dispatch({
         type: "GET_RANK",
-        payload: result.Value,
+        payload: result.Value
       });
     }
     return result;
   };
 };
 
+/**
+ * get all hashtag
+ * @param {*} data
+ */
 export const getAllHashTag = (
   data = {
     PageSize: 100,
     PageIndex: 1,
     FromDate: 0,
-    ToDate: 0,
+    ToDate: 0
   }
 ) => {
-  return async (dispatch) => {
+  return async dispatch => {
     let result = await postRequestApi(API.GET_ALL_HASHTAG, data);
 
     if (result) {
       dispatch({
         type: "GET_HASHTAG",
-        payload: result.Value,
+        payload: result.Value
       });
     }
     return result;
   };
+};
+
+/**
+ * get guide register
+ */
+export const getGuide = () => {
+  return getRequestApi(API.GET_GUIDE, true);
+};
+
+/**
+ * get certificate
+ */
+export const getCertificate = () => {
+  return getRequestApi(API.GET_CERTIFICATE, true);
+};
+
+/**
+ * get benifet
+ */
+export const getBenifet = () => {
+  return getRequestApi(API.GET_BENIFET, true);
 };

@@ -85,7 +85,9 @@ class MemberProfileTab2 extends Component {
               numColumns={2}
               ref="hashTag"
             />
-            <View style={style_common.line} />
+            {this.allTags.length > 0 ? (
+              <View style={style_common.line} />
+            ) : null}
             <Text style={style_common.text_h1}>Bài viết đã đăng</Text>
 
             {/* Tạo flatlist bài viết ở đây */}

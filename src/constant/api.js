@@ -34,7 +34,7 @@ export const API = {
   DETAIL_MSG: `${URL_REALTIME}/socket/detailmessagebygroup`,
 
   //Language
-  GET_LANGUAGE: `${URL_REALTIME}/Common/GetAllLanguage`,
+  GET_LANGUAGE: `${URL_BASE}/Common/GetAllLanguage`,
 
   //Rank
   GET_RANK: `${URL_BASE}/Rank/Getall`,
@@ -49,5 +49,10 @@ export const API = {
   JOIN_EVENT: `${URL_BASE}/Event/EventJoin`,
   // register member
   REGISTER_PERSONAL_MEMBER: `${URL_BASE}/api/Users/InsertProfileUser`,
-  REGISTER_BUSINESS_MEMBER: `${URL_BASE}/api/Users/InsertProfileEnterprise`
+  REGISTER_BUSINESS_MEMBER: `${URL_BASE}/api/Users/InsertProfileEnterprise`,
+
+  //common
+  GET_BENIFET: `${URL_BASE}/api/Common/GetQuyenLoi`,
+  GET_CERTIFICATE: `${URL_BASE}/api/Common/GetChungchi`,
+  GET_GUIDE: `${URL_BASE}/api/Common/GetHuongDan`
 };

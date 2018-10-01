@@ -96,14 +96,14 @@ class MyProfileTab2 extends Component {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate("Benifet");
+                    this.props.navigation.navigate("CertificateMember");
                   }}
                 >
                   <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate("CertificateMember");
+                    this.props.navigation.navigate("Benifet");
                   }}
                 >
                   <Text style={styles.text_link}>

@@ -15,10 +15,10 @@ import { COLOR } from "../../../constant/Color";
 import RadioForm from "../../../components/SimpleRadioButton";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading } from "../../../components/CommonView";
+import { getGuide } from "../../../actions";
 
 import {
   registerBusinessMember,
@@ -74,6 +74,17 @@ class RegisterMember extends Component {
     this.name = this.props.userProfile ? this.props.userProfile.FullName : "";
   }
 
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    getGuide()
+      .then(data => {
+        console.log("-----", data);
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
+  }
   shouldComponentUpdate(nextProps, nextState) {
     return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
   }
@@ -114,7 +125,7 @@ class RegisterMember extends Component {
       );
     }
     console.log("realTagSelect", realTagSelect);
-    const dataRegister = {
+    let dataRegister = {
       UserID: this.props.userProfile.UserID,
       Email: this.props.userProfile.Email || "",
       Phone: this.phone,
@@ -129,6 +140,17 @@ class RegisterMember extends Component {
     if (this.typeMember == TYPE_ACCOUNT.PERSONAL) {
       result = await registerPersonalMember(dataRegister);
     } else {
+      dataRegister = {
+        ...dataRegister,
+        Image: "",
+        LinkWeb: "",
+        Author: this.props.userProfile.FullName || "",
+        NameEnterprise: this.props.userProfile.FullName || "",
+        Hotline: this.phone,
+        EmailEnterprise: this.props.userProfile.Email || ""
+        // CategoryID: "sample string 10",
+        // HashTag: JSON.stringify(realTagSelect)
+      };
       result = await registerBusinessMember(dataRegister);
     }
     this.setState({ isLoading: false });
@@ -150,9 +172,7 @@ class RegisterMember extends Component {
   };
 
   _renderLoading = () => {
-    return this.state.isLoading ? (
-      <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
-    ) : null;
+    return this.state.isLoading ? <ViewLoading /> : null;
   };
   render() {
     return (

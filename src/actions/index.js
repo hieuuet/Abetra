@@ -23,7 +23,13 @@ export {
 } from "./UploadImageActions";
 export { resetStore } from "./resetStoreAction";
 export { getAllLanguage, getCurrentLanguage } from "./LanguageActions";
-export { getAllRank, getAllHashTag } from "./CommonActions";
+export {
+  getAllRank,
+  getAllHashTag,
+  getBenifet,
+  getCertificate,
+  getGuide
+} from "./CommonActions";
 export {
   registerBusinessMember,
   registerPersonalMember
