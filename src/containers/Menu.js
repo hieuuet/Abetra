@@ -83,8 +83,8 @@ class Menu extends Component {
         {this.renderHeader()}
         <MenuItem
           title="Bài viết đã lưu"
-          nameIcon="bookmark"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           onPress={() => {
             if (this.props.isGuest)
               return requestRegister(this.props.navigation);
@@ -93,14 +93,14 @@ class Menu extends Component {
         />
         <MenuItem
           title="Đăng xuất"
-          nameIcon="sign-out-alt"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           onPress={this.logout}
         />
         <MenuItem
           title="Sự kiện"
-          nameIcon="calendar-alt"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           onPress={() => {
             this.props.navigation.navigate("Event");
           }}
@@ -108,8 +108,8 @@ class Menu extends Component {
 
         <MenuItem
           title="Dịch vụ quanh đây"
-          nameIcon="map-marked-alt"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           // onPress={() => {
           //     // this.props.navigation.navigate('BaoSuCoKDT')
           //     this.state.Profile ? this.props.navigation.navigate('BaoSuCoKDT') : this.refs.modal.open()
@@ -117,14 +117,14 @@ class Menu extends Component {
         />
         <MenuItem
           title="Chương trình khuyến mãi"
-          nameIcon="glide"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           // onPress={() => this.props.navigation.navigate('ChoFaceHome')}
         />
         <MenuItem
           title="Giới thiệu"
-          nameIcon="glide"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
+
           // onPress={() => {
           //     // this.props.navigation.navigate('BepAnGiaDinh')
           //     this.state.Profile ? this.props.navigation.navigate('BepAnGiaDinh') : this.refs.modal.open()
@@ -133,19 +133,22 @@ class Menu extends Component {
 
         <MenuItem
           title="Hướng dẫn"
-          nameIcon="glide"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
           // onPress={() => this.props.navigation.navigate('HuongDan')}
         />
         <MenuItem
           title="Điều khoản dịch vụ"
-          nameIcon="glide"
-          style={styles.style_menu}
+          source={require('../../assets/event.png')}
           // onPress={() => this.props.navigation.navigate('GioiThieuCuDan')}
         />
 
-        <MenuItem title="Ngôn ngữ" nameIcon="glide" style={styles.style_menu} />
-        <MenuItem title="Hỗ trợ" nameIcon="glide" style={styles.style_menu} />
+        <MenuItem title="Ngôn ngữ"
+                  source={require('../../assets/event.png')}
+                  style={styles.style_menu} />
+        <MenuItem title="Hỗ trợ"
+                  source={require('../../assets/event.png')}
+                  style={styles.style_menu} />
+          {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
       </ScrollView>
     );
   }
@@ -201,8 +204,8 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   avatar: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     borderRadius: 50
   },
   canhbao: {

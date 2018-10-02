@@ -199,9 +199,9 @@ const RootStack = createStackNavigator({
 
     Chat: {
         screen: Chat,
-        navigationOptions: {
-            header: null,
-        },
+        // navigationOptions: {
+        //     header: null,
+        // },
     },
     BinhLuan: {
         screen: BinhLuan,
@@ -211,9 +211,9 @@ const RootStack = createStackNavigator({
     },
     CreatePost: {
         screen: CreatePost,
-        navigationOptions: {
-            header: null,
-        },
+        // navigationOptions: {
+        //     header: null,
+        // },
     },
     ImageDetail: {
         screen: ImageDetail,
@@ -223,15 +223,15 @@ const RootStack = createStackNavigator({
     },
     SavePost: {
         screen: SavePost,
-        navigationOptions: {
-            header: null,
-        },
+        // navigationOptions: {
+        //     header: null,
+        // },
     },
     Event: {
         screen: Event,
-        navigationOptions: {
-            header: null,
-        },
+        // navigationOptions: {
+        //     header: null,
+        // },
     }
 });
 

@@ -13,9 +13,21 @@ import SocketIOClient from "socket.io-client";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {loadDetailMsg} from "../actions/detailMsgActions";
+import {COLOR} from "../constant/Color";
 
 
 class Chat extends Component {
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state
+
+        return {
+            title: `${navigation.state.params.title}`,
+            headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
+            headerTitleStyle: {color: COLOR.TITLE_HEADER},
+            headerTintColor: 'white',
+
+        }
+    }
     constructor(props) {
         super(props)
         this.state = {

@@ -14,8 +14,20 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import {loadSavePost} from "../../actions/loadSavePostActions";
+import {COLOR} from "../../constant/Color";
 
 class SavePost extends Component {
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state
+
+        return {
+            title: "Bài viết đã lưu",
+            headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
+            headerTitleStyle: {color: COLOR.TITLE_HEADER},
+            headerTintColor: 'white',
+
+        }
+    }
   constructor(props) {
     super(props);
     this.state = {
