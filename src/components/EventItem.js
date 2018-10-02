@@ -29,6 +29,7 @@ class EventItem extends Component {
 
         this.state = {
             modalVisible: false,
+            isJoin: false
         };
     }
 
@@ -86,6 +87,32 @@ class EventItem extends Component {
 
         })
         console.log('eventJoin', eventJoin)
+
+
+        if(eventJoin.ErrorCode =="00"){
+            this.setState({
+                isJoin: true
+
+            })
+        }
+        else if (eventJoin.ErrorCode =="04"){
+            Alert.alert(
+                "Thông báo",
+                "Bạn đã tham gia trước đó",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+
+        }
+        else {
+            Alert.alert(
+                "Thông báo",
+                "Tham gia sự kiện không thành công",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+        }
+
 
     }
 
@@ -269,8 +296,9 @@ class EventItem extends Component {
                                 }}
                             >
                                 <IconAdd name="add-user" size={20} color="#424242"/>
-
-                                <Text style={{color: "#424242"}}>Tham gia</Text>
+                                {
+                                    this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> : <Text style={{color: "#424242"}}>Tham gia</Text>
+                                }
                             </View>
                         </TouchableOpacity>
                     </View>
