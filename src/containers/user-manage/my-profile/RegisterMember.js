@@ -7,7 +7,8 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
@@ -19,7 +20,7 @@ import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading } from "../../../components/CommonView";
 import { getGuide } from "../../../actions";
-
+import ListImage from "../../../components/ListImage";
 import {
   registerBusinessMember,
   registerPersonalMember
@@ -39,7 +40,8 @@ class RegisterMember extends Component {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      imageArr: []
     };
 
     this.allTags = this.props.allHashTag.map(tag => {
@@ -78,12 +80,9 @@ class RegisterMember extends Component {
     this.setState({ isLoading: true });
     getGuide()
       .then(data => {
-        console.log("-----", data);
+        this.setState({ isLoading: false, imageArr: data.Value || [] });
       })
-      .catch(err => console.log(err))
-      .finally(() => {
-        this.setState({ isLoading: false });
-      });
+      .catch(err => this.setState({ isLoading: false }));
   }
   shouldComponentUpdate(nextProps, nextState) {
     return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
@@ -175,6 +174,8 @@ class RegisterMember extends Component {
     return this.state.isLoading ? <ViewLoading /> : null;
   };
   render() {
+    console.log("aaaaa", this.state.imageArr);
+
     return (
       <KeyboardAvoidingView
         style={style_common.container_white}
@@ -260,6 +261,21 @@ class RegisterMember extends Component {
             <Text style={style_common.text_h1}>
               Mô tả hướng dẫn quá trình đăng ký
             </Text>
+            <ListImage
+              imageArr={this.state.imageArr}
+              navigation={this.props.navigation}
+            />
+            <ScrollView>
+              <Image
+                // key={index}
+                source={{
+                  uri:
+                    "http://123.16.53.210:9000/Store/PanelGuid/Untitled%20-%20Copy.png"
+                }}
+                resizeMode="cover"
+                style={{ width: "100%", height: 200 }}
+              />
+            </ScrollView>
             <View style={{ height: 100 }} />
             <Text style={style_common.text_h1}>Thông tin liên hệ khi cần</Text>
             <Text style={style_common.text_color_base}>

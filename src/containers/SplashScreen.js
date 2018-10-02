@@ -3,7 +3,7 @@ import { View, AsyncStorage, Image } from "react-native";
 import { IMAGE } from "../constant/assets";
 import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { getAllLanguage, getCurrentLanguage } from "../actions";
+import { getAllLanguage, getCurrentLanguage, getImagePanel } from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -19,10 +19,12 @@ class SplashScreen extends Component {
   checkLoginNavigate = async () => {
     const isFirstInstall = await AsyncStorage.getItem(FIRST_INSTALL);
     let routerName = "Login";
-    let allLanguage = {};
+    let allLanguage = [];
+    let arrSlide = [];
     if (isFirstInstall === null) {
       routerName = "Intro";
-      allLanguage = await getAllLanguage();
+      allLanguage = await getAllLanguage().then(data => data.Value || []);
+      arrSlide = await getImagePanel().then(data => data.Value || []);
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);
       if (userID) routerName = "TabHome";
@@ -33,9 +35,9 @@ class SplashScreen extends Component {
       actions: [
         NavigationActions.navigate({
           routeName: routerName,
-          params: allLanguage,
-        }),
-      ],
+          params: { allLanguage, arrSlide }
+        })
+      ]
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -46,7 +48,7 @@ class SplashScreen extends Component {
           flex: 1,
           backgroundColor: "white",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Image
@@ -59,13 +61,13 @@ class SplashScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch),
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
   };
 };
 

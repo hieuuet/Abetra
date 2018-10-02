@@ -4,6 +4,8 @@ import { View, Text } from "react-native";
 import { COLOR } from "../constant/Color";
 import { getCertificate } from "../actions";
 import { ViewLoading } from "../components/CommonView";
+import ListImage from "../components/ListImage";
+
 class CertificateMember extends Component {
   static navigationOptions = ({ navigation }) => {
     // console.log("state change redender");
@@ -22,19 +24,17 @@ class CertificateMember extends Component {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      imageArr: []
     };
   }
   componentDidMount() {
     this.setState({ isLoading: true });
     getCertificate()
       .then(data => {
-        console.log("-----", data);
+        this.setState({ isLoading: false, imageArr: data.Value || [] });
       })
-      .catch(err => console.log(err))
-      .finally(() => {
-        this.setState({ isLoading: false });
-      });
+      .catch(err => this.setState({ isLoading: false }));
   }
 
   _renderLoading = () => {
@@ -43,7 +43,10 @@ class CertificateMember extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Text>Chứng nhận hội viên</Text>
+        <ListImage
+          imageArr={this.state.imageArr}
+          navigation={this.props.navigation}
+        />
         {this._renderLoading()}
       </View>
     );

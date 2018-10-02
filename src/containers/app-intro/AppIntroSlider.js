@@ -19,6 +19,10 @@ import ModalDropdown from "../../components/ModalDropdown";
 const { width, height } = Dimensions.get("window");
 import { FIRST_INSTALL } from "../../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
+import { getCurrentLanguage } from "../../actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { LANGUAGE, DEFAULT_LANGUGE } from "../../constant/KeyConstant";
 
 const heightHeader = 100;
 const isIphoneX =
@@ -34,16 +38,14 @@ class AppIntroSlider extends Component {
       height,
       activeIndex: 0
     };
-    this.language = ["Vi", "En"];
-    this.heightDropdown =
-      this.language.length > 5 ? 5 * 35 : this.language.length * 35;
 
+    const arrSlide = this.props.navigation.getParam("arrSlide");
     this.slides = [
       {
         id: "somethun",
         title: "Title 1",
         text: "Description.\nSay something cool",
-        image: require("../../../assets/1.jpg"),
+        image: arrSlide[0] || "",
         imageStyle: styles.image,
         backgroundColor: "#59b2ab"
       },
@@ -51,7 +53,7 @@ class AppIntroSlider extends Component {
         id: "somethun-dos",
         title: "Title 2",
         text: "Other cool stuff",
-        image: require("../../../assets/2.jpg"),
+        image: arrSlide[1] || "",
         imageStyle: styles.image,
         backgroundColor: "#febe29"
       },
@@ -59,13 +61,28 @@ class AppIntroSlider extends Component {
         id: "somethun1",
         title: "Rocket guy",
         text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
-        image: require("../../../assets/3.jpg"),
+        image: arrSlide[2] || "",
         imageStyle: styles.image,
         backgroundColor: "#22bcb5"
       }
     ];
+
+    this.allLanguage = this.props.navigation.getParam("allLanguage");
+    this.language = this.allLanguage.map(item => item.Code);
+    this.heightDropdown =
+      this.language.length > 5 ? 5 * 35 : this.language.length * 35;
+    this.defaultLanguage = this.language.findIndex(item => item === "vi-VN");
+    this.defaultLanguage =
+      this.defaultLanguage !== -1 ? this.defaultLanguage : 0;
   }
 
+  selectLanguage = async (rowID, rowData) => {
+    const lanSelected = this.allLanguage.find(item => item.Code === rowData);
+    if (lanSelected) {
+      await AsyncStorage.setItem(LANGUAGE, JSON.stringify(lanSelected));
+      this.props.getCurrentLanguage();
+    }
+  };
   goToSlide = pageNum => {
     this.setState({ activeIndex: pageNum });
     this.flatList.scrollToOffset({ offset: pageNum * this.state.width });
@@ -140,10 +157,11 @@ class AppIntroSlider extends Component {
           <View style={styles.language}>
             <ModalDropdown
               options={this.language}
-              defaultIndex={0}
-              defaultValue={this.language[0]}
+              defaultIndex={this.defaultLanguage}
+              defaultValue={this.language[this.defaultLanguage]}
               textStyle={styles.text_dropdown}
               style={styles.dropdown}
+              onSelect={this.selectLanguage}
               leftIcon={require("../../../assets/1.jpg")}
               dropdownStyle={{ height: this.heightDropdown }}
             />
@@ -274,4 +292,15 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
+  };
+};
+
+AppIntroSlider = connect(
+  null,
+  mapDispatchToProps
+)(AppIntroSlider);
 export default AppIntroSlider;

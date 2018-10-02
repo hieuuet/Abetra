@@ -150,6 +150,7 @@ export class MyCoolScrollViewComponent extends Component {
 MyCoolScrollViewComponent.propTypes = {
   onEndReached: PropTypes.func
 };
+
 const styles = StyleSheet.create({
   btn: {
     borderWidth: 1,

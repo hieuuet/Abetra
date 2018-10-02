@@ -71,3 +71,10 @@ export const getCertificate = () => {
 export const getBenifet = () => {
   return getRequestApi(API.GET_BENIFET, true);
 };
+
+/**
+ * get image introduce app
+ */
+export const getImagePanel = () => {
+  return getRequestApi(API.GET_IMAGE_PANEL, true);
+};

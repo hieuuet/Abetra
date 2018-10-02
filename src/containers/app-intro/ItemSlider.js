@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import { StyleSheet, View, Image } from "react-native";
+import PropTypes from "prop-types";
 
 export default class ItemSlider extends React.PureComponent {
   static propTypes = {
@@ -13,28 +13,34 @@ export default class ItemSlider extends React.PureComponent {
     titleStyle: PropTypes.object,
     imageStyle: PropTypes.number,
     title: PropTypes.string,
-    image: PropTypes.number,
-    text: PropTypes.string,
+    image: PropTypes.string,
+    text: PropTypes.string
   };
 
   render() {
     const style = {
-      backgroundColor: this.props.backgroundColor,
-      paddingTop: this.props.topSpacer,
-      paddingBottom: this.props.bottomSpacer,
+      //   backgroundColor: this.props.backgroundColor,
+      //   // paddingTop: this.props.topSpacer,
+      //   // paddingBottom: this.props.bottomSpacer,
       width: this.props.width,
-      height: this.props.height,
+      height: this.props.height
     };
 
     return (
       <View style={[styles.mainContent, style]}>
-        <Text style={[styles.title, this.props.titleStyle]}>
+        {/* <Text style={[styles.title, this.props.titleStyle]}>
           {this.props.title}
-        </Text>
-        <Image source={this.props.image} style={this.props.imageStyle} />
-        <Text style={[styles.text, this.props.textStyle]}>
+        </Text> */}
+        <Image
+          source={
+            this.props.image.length === 0 ? "" : { uri: this.props.image }
+          }
+          resizeMode="contain"
+          style={{ flex: 1 }}
+        />
+        {/* <Text style={[styles.text, this.props.textStyle]}>
           {this.props.text}
-        </Text>
+        </Text> */}
       </View>
     );
   }
@@ -42,21 +48,21 @@ export default class ItemSlider extends React.PureComponent {
 
 const styles = StyleSheet.create({
   mainContent: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'column',
+    justifyContent: "center"
+    // alignItems: "center"
+    // backgroundColor: "red"
   },
   text: {
-    color: 'rgba(255, 255, 255, .7)',
+    color: "rgba(255, 255, 255, .7)",
     fontSize: 16,
-    textAlign: 'center',
-    fontWeight: '300',
-    paddingHorizontal: 16,
+    textAlign: "center",
+    fontWeight: "300",
+    paddingHorizontal: 16
   },
   title: {
     fontSize: 26,
-    color: 'rgba(255, 255, 255, .7)',
-    fontWeight: '300',
-    paddingHorizontal: 16,
-  },
+    color: "rgba(255, 255, 255, .7)",
+    fontWeight: "300",
+    paddingHorizontal: 16
+  }
 });

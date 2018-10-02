@@ -54,5 +54,6 @@ export const API = {
   //common
   GET_BENIFET: `${URL_BASE}/api/Common/GetQuyenLoi`,
   GET_CERTIFICATE: `${URL_BASE}/api/Common/GetChungchi`,
-  GET_GUIDE: `${URL_BASE}/api/Common/GetHuongDan`
+  GET_GUIDE: `${URL_BASE}/api/Common/GetHuongDan`,
+  GET_IMAGE_PANEL: `${URL_BASE}/api/Common/GetAllImagePanel`
 };

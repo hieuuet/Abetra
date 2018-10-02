@@ -28,7 +28,8 @@ export {
   getAllHashTag,
   getBenifet,
   getCertificate,
-  getGuide
+  getGuide,
+  getImagePanel
 } from "./CommonActions";
 export {
   registerBusinessMember,
