@@ -17,9 +17,21 @@ import EventItem from "../components/EventItem";
 import {searchPost} from "../actions";
 import {ViewLoading} from "../components/CommonView";
 import {getEvent} from "../actions/getEventActions";
+import {COLOR} from "../constant/Color";
 
 
 class Event extends Component {
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state
+
+        return {
+            title: "Sự kiện",
+            headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
+            headerTitleStyle: {color: COLOR.TITLE_HEADER},
+            headerTintColor: 'white',
+
+        }
+    }
     constructor(props) {
         super(props);
         this.state = {

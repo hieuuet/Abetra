@@ -230,6 +230,42 @@ const RootStack = createStackNavigator({
     screen: Event,
     navigationOptions: {
       header: null
+    },
+    Chat: {
+      screen: Chat
+      // navigationOptions: {
+      //     header: null,
+      // },
+    },
+    BinhLuan: {
+      screen: BinhLuan,
+      navigationOptions: {
+        header: null
+      }
+    },
+    CreatePost: {
+      screen: CreatePost
+      // navigationOptions: {
+      //     header: null,
+      // },
+    },
+    ImageDetail: {
+      screen: ImageDetail,
+      navigationOptions: {
+        header: null
+      }
+    },
+    SavePost: {
+      screen: SavePost
+      // navigationOptions: {
+      //     header: null,
+      // },
+    },
+    Event: {
+      screen: Event
+      // navigationOptions: {
+      //     header: null,
+      // },
     }
   }
 });

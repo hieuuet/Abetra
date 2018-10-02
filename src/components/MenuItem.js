@@ -1,58 +1,35 @@
-import React, { Component } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import PropTypes from 'prop-types';
-export default class MenuItem extends Component {
-  render() {
-    return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        style={[{ flexDirection: 'row' }, this.props.style]}
-      >
-        <Icon
-          name={this.props.nameIcon}
-          size={25}
-          style={[
-            { minWidth: 30, alignSelf: 'flex-start' },
-            this.props.style_icon,
-          ]}
-          color={this.props.icon_color}
-        />
+import React, {Component} from 'react';
+import {Text, TouchableOpacity, StyleSheet, Image, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-        <Text
-          style={[
-            {
-              flex: 1,
-              fontSize: 17,
-              color: this.props.title_color,
-              marginLeft: 5,
-            },
-            this.props.style_title,
-          ]}
-        >
-          {this.props.title}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
+export default class MenuItem extends Component {
+    render() {
+        return (
+            <TouchableOpacity
+                onPress={this.props.onPress}
+            >
+
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, alignItems:'center'}}>
+                    <View style={{flexDirection: 'row'}}>
+                        <Image style={styles.img}
+                               source={this.props.source}
+
+                        />
+                        <Text style={{marginLeft: 20, fontSize: 13, color: 'black'}}>{this.props.title}</Text>
+                    </View>
+                    <Icon name="navigate-next" size={25} style={{marginRight: 10}} color="#E0E0E0"/>
+                </View>
+                <View style={{height: 1, backgroundColor: '#E0E0E0', marginLeft: 55, marginTop: 5}}/>
+
+            </TouchableOpacity>
+        );
+    }
 }
 
-MenuItem.propTypes = {
-  style: PropTypes.number,
-  nameIcon: PropTypes.string.isRequired,
-  icon_color: PropTypes.string,
-  title_color: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  style_icon: PropTypes.number,
-  style_title: PropTypes.number,
-};
-MenuItem.defaultProps = {
-  style: {
-    marginLeft: 5,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon_color: '#616161',
-  title_color: '#616161',
-};
+const styles = StyleSheet.create({
+    img: {
+        height: 25,
+        width: 25,
+        marginLeft: 10
+    }
+})

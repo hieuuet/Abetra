@@ -16,6 +16,7 @@ export default class TinNhanItem extends Component {
 
   render() {
     const { item } = this.props.dataItem;
+    // console.log('itemchat', item)
     let ProfileMember = item.ChatTo ? item.ChatTo : null
       ProfileMember = JSON.parse(ProfileMember)
       // console.log("ProfileMember", ProfileMember)
@@ -25,7 +26,8 @@ export default class TinNhanItem extends Component {
         onPress={() =>
           this.props.navigation.navigate('Chat', {
             MsgGroupID: item.MsgGroupID,
-              ProfileMember: ProfileMember
+              ProfileMember: ProfileMember,
+              title: item.FullNameOrGroupName
           })
         }
       >
