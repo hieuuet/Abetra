@@ -446,7 +446,7 @@ class MyProfileTab1 extends Component {
           nameIcon="bookmark"
           icon_color={COLOR.COLOR_SKY}
           title_color={COLOR.COLOR_SKY}
-          onPress={() => {}}
+          onPress={() => {this.props.navigation.navigate('SavePost')}}
           style={styles.menu_bottom}
         />
         <MenuItem
@@ -462,7 +462,7 @@ class MyProfileTab1 extends Component {
           nameIcon="calendar-check"
           icon_color={COLOR.COLOR_SKY}
           title_color={COLOR.COLOR_SKY}
-          onPress={() => {}}
+          onPress={() => {this.props.navigation.navigate('EventJoin')}}
           style={styles.menu_bottom}
         />
       </View>

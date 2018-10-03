@@ -171,9 +171,6 @@ class Home extends Component {
       option: 100
     });
   };
-  _renderLoading = () => {
-    return this.state.isLoading ? <ViewLoading /> : null;
-  };
   _renderEmpty = () => {
     return (
       <View style={style_common.content_center}>
@@ -277,7 +274,6 @@ class Home extends Component {
             />
           )}
         </ScrollView>
-        {this._renderLoading()}
       </KeyboardAvoidingView>
     );
   }

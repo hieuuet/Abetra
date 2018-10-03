@@ -6,7 +6,7 @@ import {
 import Home from "../containers/post/Home";
 import Message from "../containers/Message";
 import DoanhNghiep from "../containers/DoanhNghiep";
-import Event from "../containers/Event";
+import Event from "../containers/event/Event";
 import Menu from "../containers/Menu";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
@@ -35,6 +35,7 @@ import {
 } from "../containers/user-manage";
 import SavePost from "../containers/post/SavePost";
 import Location from "../containers/Location";
+import EventJoin from "../containers/event/EventJoin";
 
 const TabHome = createMaterialTopTabNavigator(
   {
@@ -188,10 +189,10 @@ const RootStack = createStackNavigator({
   },
 
   Chat: {
-    screen: Chat,
-    navigationOptions: {
-      header: null
-    }
+    screen: Chat
+    // navigationOptions: {
+    //     header: null,
+    // },
   },
   BinhLuan: {
     screen: BinhLuan,
@@ -200,10 +201,10 @@ const RootStack = createStackNavigator({
     }
   },
   CreatePost: {
-    screen: CreatePost,
-    navigationOptions: {
-      header: null
-    }
+    screen: CreatePost
+    // navigationOptions: {
+    //     header: null,
+    // },
   },
   ImageDetail: {
     screen: ImageDetail,
@@ -212,52 +213,19 @@ const RootStack = createStackNavigator({
     }
   },
   SavePost: {
-    screen: SavePost,
-    navigationOptions: {
-      header: null
-    }
+    screen: SavePost
+    // navigationOptions: {
+    //     header: null,
+    // },
   },
   Event: {
-    screen: Event,
-    navigationOptions: {
-      header: null
-    },
-    Chat: {
-      screen: Chat
-      // navigationOptions: {
-      //     header: null,
-      // },
-    },
-    BinhLuan: {
-      screen: BinhLuan,
-      navigationOptions: {
-        header: null
-      }
-    },
-    CreatePost: {
-      screen: CreatePost
-      // navigationOptions: {
-      //     header: null,
-      // },
-    },
-    ImageDetail: {
-      screen: ImageDetail,
-      navigationOptions: {
-        header: null
-      }
-    },
-    SavePost: {
-      screen: SavePost
-      // navigationOptions: {
-      //     header: null,
-      // },
-    },
-    Event: {
-      screen: Event
-      // navigationOptions: {
-      //     header: null,
-      // },
-    }
+    screen: Event
+    // navigationOptions: {
+    //     header: null,
+    // },
+  },
+  EventJoin: {
+    screen: EventJoin
   }
 });
 

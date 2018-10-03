@@ -78,7 +78,7 @@ class EventItem extends Component {
         }
         let eventJoin = await joinEvent({
             EventID: EventID ,
-            ProfileID:  UserProfile.Value[0].ProfileID,
+            ProfileID:  UserProfile.Value[0].IntUserID,//api yeu cau interuserid
             Type: 0,
             UserName: UserProfile.Value[0].FullName,
             Phone: UserProfile.Value[0].Phone,

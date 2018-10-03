@@ -12,12 +12,12 @@ import {
 
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import style_common from "../style-common/index";
-import EventItem from "../components/EventItem";
-import {searchPost} from "../actions";
-import {ViewLoading} from "../components/CommonView";
-import {getEvent} from "../actions/getEventActions";
-import {COLOR} from "../constant/Color";
+import style_common from "../../style-common/index";
+import EventItem from "../../components/EventItem";
+import {searchPost} from "../../actions/index";
+import {ViewLoading} from "../../components/CommonView";
+import {getEvent} from "../../actions/getEventActions";
+import {COLOR} from "../../constant/Color";
 
 
 class Event extends Component {
@@ -83,7 +83,13 @@ class Event extends Component {
     _renderLoading = () => {
         return this.state.isLoading ? <ViewLoading/> : null;
     };
-
+    _renderEmpty = () => {
+        return (
+            <View style={style_common.content_center}>
+                <Text>Không có dữ liệu</Text>
+            </View>
+        );
+    };
     render() {
         const {navigation} = this.props;
 
@@ -94,7 +100,11 @@ class Event extends Component {
                 keyboardVerticalOffset={64}
             >
                 <ScrollView style={{flex: 1}}>
-                    <FlatList
+                    {this.state.ArrEvent.length === 0 && !this.state.isLoading ? (
+                        this._renderEmpty()
+                    ) : (
+
+                        <FlatList
                             // refreshing={this.state.refresh}
                             // onRefresh={() => {
                             //     this.GetPost()
@@ -112,7 +122,8 @@ class Event extends Component {
                             }}
                             extraData={this.state}
                             keyExtractor={(item, index) => index.toString()}
-                        />
+                        />)
+                    }
                 </ScrollView>
                 {this._renderLoading()}
             </KeyboardAvoidingView>
