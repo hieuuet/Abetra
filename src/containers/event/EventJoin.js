@@ -52,6 +52,7 @@ class EventJoin extends Component {
             isLoading: true,
         });
         const {getEventJoin, UserProfile} = this.props;
+        // console.log('UserProfile.Value[0].IntUserID', UserProfile.Value[0].IntUserID)
 
         let Event = await getEventJoin({
 
@@ -60,7 +61,7 @@ class EventJoin extends Component {
             Keyword: "",
             FromDate: "",
             ToDate: "",
-            Status: 1,
+            Status: 255,
             EnterpriseID: UserProfile.Value[0].IntUserID,
             EventID: 0,
             LangID: 129
