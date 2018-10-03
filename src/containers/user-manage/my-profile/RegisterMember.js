@@ -40,10 +40,9 @@ class RegisterMember extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
-      imageArr: []
+      isLoading: false
     };
-
+    this.imageArr = [];
     this.allTags = this.props.allHashTag.map(tag => {
       return {
         ...tag,
@@ -80,7 +79,8 @@ class RegisterMember extends Component {
     this.setState({ isLoading: true });
     getGuide()
       .then(data => {
-        this.setState({ isLoading: false, imageArr: data.Value || [] });
+        this.imageArr = data.Value || [];
+        this.setState({ isLoading: false });
       })
       .catch(err => this.setState({ isLoading: false }));
   }
@@ -262,21 +262,9 @@ class RegisterMember extends Component {
               Mô tả hướng dẫn quá trình đăng ký
             </Text>
             <ListImage
-              imageArr={this.state.imageArr}
+              imageArr={this.imageArr}
               navigation={this.props.navigation}
             />
-            <ScrollView>
-              <Image
-                // key={index}
-                source={{
-                  uri:
-                    "http://123.16.53.210:9000/Store/PanelGuid/Untitled%20-%20Copy.png"
-                }}
-                resizeMode="cover"
-                style={{ width: "100%", height: 200 }}
-              />
-            </ScrollView>
-            <View style={{ height: 100 }} />
             <Text style={style_common.text_h1}>Thông tin liên hệ khi cần</Text>
             <Text style={style_common.text_color_base}>
               Để được hỗ trợ vui lòng liên hệ qua Hotline 19006776 hoặc fanpage.

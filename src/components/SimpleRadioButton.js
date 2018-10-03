@@ -24,10 +24,10 @@ export default class RadioForm extends React.Component {
     this.state = {
       is_active_index: props.initial
     };
-    if (Platform.OS === "android") {
-      UIManager.setLayoutAnimationEnabledExperimental &&
-        UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
+    // if (Platform.OS === "android") {
+    //   UIManager.setLayoutAnimationEnabledExperimental &&
+    //     UIManager.setLayoutAnimationEnabledExperimental(true);
+    // }
     this._renderButton = this._renderButton.bind(this);
   }
   static defaultProps = {
