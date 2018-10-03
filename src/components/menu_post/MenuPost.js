@@ -26,6 +26,23 @@ class MenuPost extends Component {
             PostID: PostID
 
         })
+        if(save.Error == null){
+            Alert.alert(
+                "Thông báo",
+                "Lưu bài viết thành công",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+        }
+        else {
+            Alert.alert(
+                "Thông báo",
+                "Lưu bài viết không thành công",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+
+        }
         console.log('save', save)
     }
 

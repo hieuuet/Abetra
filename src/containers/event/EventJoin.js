@@ -12,20 +12,20 @@ import {
 
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import style_common from "../style-common/index";
-import EventItem from "../components/EventItem";
-import {searchPost} from "../actions";
-import {ViewLoading} from "../components/CommonView";
-import {getEvent} from "../actions/getEventActions";
-import {COLOR} from "../constant/Color";
+import style_common from "../../style-common/index";
+import EventItem from "../../components/EventItem";
+import {ViewLoading} from "../../components/CommonView";
+
+import {COLOR} from "../../constant/Color";
+import {getEventJoin} from "../../actions/getEventActions";
 
 
-class Event extends Component {
+class EventJoin extends Component {
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state
 
         return {
-            title: "Sự kiện",
+            title: "Sự kiện đã tham gia",
             headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
             headerTitleStyle: {color: COLOR.TITLE_HEADER},
             headerTintColor: 'white',
@@ -51,19 +51,21 @@ class Event extends Component {
         this.setState({
             isLoading: true,
         });
-        const {getEvent} = this.props;
+        const {getEventJoin, UserProfile} = this.props;
 
-        let Event = await getEvent({
-            PageSize: 100,
+        let Event = await getEventJoin({
+
+            PageSize: 20,
             PageIndex: 1,
             Keyword: "",
             FromDate: "",
             ToDate: "",
             Status: 1,
-            EnterpriseID: 0,
-            Type: 0	,
-            LangID: 129,
+            EnterpriseID: UserProfile.Value[0].IntUserID,
+            EventID: 0,
+            LangID: 129
         });
+        console.log('event', Event)
 
         if (Event && Event.ErrorCode === "00") {
             this.setState(
@@ -83,6 +85,13 @@ class Event extends Component {
     _renderLoading = () => {
         return this.state.isLoading ? <ViewLoading/> : null;
     };
+    _renderEmpty = () => {
+        return (
+            <View style={style_common.content_center}>
+                <Text>Không có dữ liệu</Text>
+            </View>
+        );
+    };
 
     render() {
         const {navigation} = this.props;
@@ -94,7 +103,10 @@ class Event extends Component {
                 keyboardVerticalOffset={64}
             >
                 <ScrollView style={{flex: 1}}>
-                    <FlatList
+                    {this.state.ArrEvent.length === 0 && !this.state.isLoading ? (
+                        this._renderEmpty()
+                    ) : (
+                        <FlatList
                             // refreshing={this.state.refresh}
                             // onRefresh={() => {
                             //     this.GetPost()
@@ -112,7 +124,8 @@ class Event extends Component {
                             }}
                             extraData={this.state}
                             keyExtractor={(item, index) => index.toString()}
-                        />
+                        />)
+                    }
                 </ScrollView>
                 {this._renderLoading()}
             </KeyboardAvoidingView>
@@ -131,14 +144,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        searchPost: bindActionCreators(searchPost, dispatch),
-        getEvent: bindActionCreators(getEvent, dispatch),
+        getEventJoin: bindActionCreators(getEventJoin, dispatch),
 
     };
 };
 
-Event = connect(
+EventJoin = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Event);
-export default Event;
+)(EventJoin);
+export default EventJoin;

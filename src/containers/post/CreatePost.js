@@ -230,7 +230,8 @@ class CreatePost extends Component {
             Type: 0,
             ChiTieu: Targets,
             Code: "",
-            Address
+            Address: Address,
+            Image: this.state.ArrImg.length ? this.state.ArrImg : "",
         });
         console.log("Event", Event);
         if (Event.ErrorCode == "00") {

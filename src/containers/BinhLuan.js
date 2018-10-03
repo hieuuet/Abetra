@@ -214,15 +214,15 @@ class BinhLuan extends Component {
                 >
                     <View style={{flexDirection: "row", marginLeft: 10, alignItems: 'center'}}>
                         <Icon1 name="like" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}> 99</Text>
+                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalLike} </Text>
                     </View>
                     <View style={{flexDirection: "row", alignItems: 'center'}}>
                         <Icon1 name="comment" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}>99</Text>
+                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalComment}</Text>
                     </View>
                     <View style={{flexDirection: "row", marginRight: 10, alignItems: 'center'}}>
                         <Icon name="share-outline" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}>99</Text>
+                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalShare}</Text>
                     </View>
                 </View>
                 <View

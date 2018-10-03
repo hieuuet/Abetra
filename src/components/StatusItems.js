@@ -25,7 +25,12 @@ class StatusItems extends Component {
 
         this.state = {
             modalVisible: false,
+            Type: ""
         };
+    }
+    componentDidMount (){
+
+
     }
 
     _renderTruncatedFooter = (handlePress) => {
@@ -73,6 +78,7 @@ class StatusItems extends Component {
         let ArrImg = item.Images ? item.Images : null;
         ArrImg = JSON.parse(ArrImg);
 
+
         return (
             <View>
                 <View>
@@ -102,9 +108,11 @@ class StatusItems extends Component {
                                     flexDirection: "row",
                                 }}
                             >
+                                <TouchableOpacity onPress={this._onClickAvatar}>
                                 <Text style={{color: "#2196F3", fontWeight: "bold"}}>
                                     {item.FullName}
                                 </Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
                                         this.setModalVisible(true);
@@ -125,14 +133,15 @@ class StatusItems extends Component {
                                     flexDirection: "row",
                                 }}
                             >
-                                <Text style={{color: "black"}}>Quản trị viên</Text>
+                                <Text style={{color: "black"}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
                                 <Text
                                     style={{
                                         marginRight: 10,
                                         color: "black",
                                     }}
                                 >
-                                    {moment(item.CreatedDate).format("DD/MM/YY HH:mm")}
+                                    {/*{moment().format("DD/MM/YY HH:mm")}*/}
+                                    {moment(item.CreatedDate).startOf('hour').fromNow()}
                                 </Text>
                             </View>
                         </View>

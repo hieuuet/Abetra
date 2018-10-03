@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-  AsyncStorage,
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    ScrollView,
+    AsyncStorage, Platform,KeyboardAvoidingView
 } from "react-native";
 
 
@@ -15,6 +15,8 @@ import { connect } from "react-redux";
 
 import {loadSavePost} from "../../actions/loadSavePostActions";
 import {COLOR} from "../../constant/Color";
+import style_common from "../../style-common";
+import {ViewLoading} from "../../components/CommonView";
 
 class SavePost extends Component {
     static navigationOptions = ({navigation}) => {
@@ -32,6 +34,7 @@ class SavePost extends Component {
     super(props);
     this.state = {
       ArrPost: [],
+        isLoading: false
     };
   }
 
@@ -40,6 +43,9 @@ class SavePost extends Component {
   }
 
   _loadSavePost = async () => {
+        this.setState({
+            isLoading : true
+        })
     const {loadSavePost,UserProfile } = this.props
       let savePost = await loadSavePost ({
           IntUserID: UserProfile.Value[0].IntUserID
@@ -47,34 +53,58 @@ class SavePost extends Component {
       console.log('savePost', savePost)
       if(savePost.Error == null){
       this.setState({
+          isLoading: false,
           ArrPost: savePost.ObjectResult
       })
       }
 
   }
+    _renderLoading = () => {
+        return this.state.isLoading ? <ViewLoading/> : null;
+    };
+    _renderEmpty = () => {
+        return (
+            <View style={style_common.content_center}>
+                <Text>Không có dữ liệu</Text>
+            </View>
+        );
+    };
 
-  render() {
+    render() {
     console.log("render home");
     const { navigation } = this.props;
     return (
+        <KeyboardAvoidingView
+            style={style_common.container}
+            behavior={Platform.OS === "ios" ? "padding" : null}
+            keyboardVerticalOffset={64}
+        >
       <ScrollView style={{ flex: 1 }}>
-        <FlatList
-          // refreshing={this.state.refresh}
-          // onRefresh={() => {
-          //     this.GetPost()
-          // }}
-          data={this.state.ArrPost}
-          renderItem={(item) => {
-            return (
-              <StatusItems
-                dataItem={item}
-                navigation={navigation}
+          {this.state.ArrPost.length === 0 && !this.state.isLoading ? (
+              this._renderEmpty()
+          ) : (
+              <FlatList
+                  // refreshing={this.state.refresh}
+                  // onRefresh={() => {
+                  //     this.GetPost()
+                  // }}
+                  data={this.state.ArrPost}
+                  renderItem={(item) => {
+                      return (
+                          <StatusItems
+                              dataItem={item}
+                              navigation={navigation}
+                          />
+                      );
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
               />
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-        />
+          )
+          }
+
       </ScrollView>
+            {this._renderLoading()}
+        </KeyboardAvoidingView>
     );
   }
 }
