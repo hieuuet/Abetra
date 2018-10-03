@@ -3,7 +3,12 @@ import { View, AsyncStorage, Image } from "react-native";
 import { IMAGE } from "../constant/assets";
 import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { getAllLanguage, getCurrentLanguage, getImagePanel } from "../actions";
+import {
+  getAllLanguage,
+  getCurrentLanguage,
+  getImagePanel,
+  
+} from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -14,6 +19,7 @@ class SplashScreen extends Component {
 
   componentDidMount() {
     this.props.getCurrentLanguage();
+    
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
@@ -67,7 +73,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch),
   };
 };
 

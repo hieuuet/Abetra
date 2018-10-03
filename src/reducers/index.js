@@ -15,7 +15,7 @@ import { currentLanguage } from "./LanguageReducers";
 
 import { loadSavePost, savePost } from "./loadSavePostReducers";
 
-import { allRank, allHashTag } from "./CommonReducers";
+import { allRank, allHashTag, commonSetting } from "./CommonReducers";
 import { getEvent, getEventJoin } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
 import { joinEvent } from "./joinEventReducers";
@@ -40,8 +40,9 @@ const appReducer = combineReducers({
   savePost,
   getEvent,
   addEvent,
-    joinEvent,
-    getEventJoin
+  joinEvent,
+  getEventJoin,
+  commonSetting
 });
 
 export const rootReducer = (state, action) => {

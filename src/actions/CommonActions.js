@@ -82,6 +82,17 @@ export const getImagePanel = () => {
 /**
  * get common setting
  */
-export const getcommonSetting = (data = {}) => {
-  return postRequestApi(API.GET_COMMON_SETTING, data, true);
+export const getcommonSetting = (data = {}, isSaveRedux = false) => {
+  if (!isSaveRedux) return postRequestApi(API.GET_COMMON_SETTING, data, true);
+  return async dispatch => {
+    let result = await postRequestApi(API.GET_COMMON_SETTING, data);
+
+    if (result) {
+      dispatch({
+        type: "GET_COMMON_SETTING",
+        payload: result.Value && result.Value[0]
+      });
+    }
+    return result;
+  };
 };

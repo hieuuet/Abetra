@@ -24,7 +24,8 @@ import {
   searchPost,
   updateUserProfile,
   getAllRank,
-  getAllHashTag
+  getAllHashTag,
+  getcommonSetting
 } from "../../actions";
 import { SearchView, ViewLoading } from "../../components/CommonView";
 import style_common from "../../style-common/index";
@@ -81,6 +82,7 @@ class Home extends Component {
       this._loadUserProfile();
       this.props.getAllRank();
       this.props.getAllHashTag();
+      this.props.getcommonSetting({ Option: 7 }, true);
     }
 
     //firebase
@@ -292,7 +294,8 @@ const mapDispatchToProps = dispatch => {
     loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
     searchPost: bindActionCreators(searchPost, dispatch),
     getAllRank: bindActionCreators(getAllRank, dispatch),
-    getAllHashTag: bindActionCreators(getAllHashTag, dispatch)
+    getAllHashTag: bindActionCreators(getAllHashTag, dispatch),
+    getcommonSetting: bindActionCreators(getcommonSetting, dispatch)
   };
 };
 

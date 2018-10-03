@@ -15,3 +15,12 @@ export const allHashTag = (state = [], action = {}) => {
       return state;
   }
 };
+
+export const commonSetting = (state = {}, action = {}) => {
+  switch (action.type) {
+    case "GET_COMMON_SETTING":
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+};

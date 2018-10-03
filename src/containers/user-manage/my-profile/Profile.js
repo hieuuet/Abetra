@@ -62,6 +62,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+  
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       if (this.refs.modal && this.refs.modal.state.isOpen) {

@@ -65,6 +65,7 @@ class RegisterMember extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
+
     getGuide()
       .then(data => {
         this.imageArr = data.Value || [];
@@ -298,7 +299,8 @@ class RegisterMember extends Component {
             />
             <Text style={style_common.text_h1}>Thông tin liên hệ khi cần</Text>
             <Text style={style_common.text_color_base}>
-              Để được hỗ trợ vui lòng liên hệ qua Hotline 19006776 hoặc fanpage.
+              Để được hỗ trợ vui lòng liên hệ qua Hotline{" "}
+              {this.props.commonSetting.HotLine || ""} hoặc fanpage.
             </Text>
             <ButtonBorder
               my_style={[
@@ -322,7 +324,8 @@ const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile.Value[0],
     allRank: state.allRank,
-    allHashTag: state.allHashTag
+    allHashTag: state.allHashTag,
+    commonSetting: state.commonSetting
   };
 };
 
