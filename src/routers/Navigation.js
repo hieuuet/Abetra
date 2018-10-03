@@ -145,17 +145,11 @@ const RootStack = createStackNavigator({
   },
 
   VerifyAccount: {
-    screen: VerifyAccount,
-    navigationOptions: {
-      header: null
-    }
+    screen: VerifyAccount
   },
 
   Login: {
-    screen: Login,
-    navigationOptions: {
-      header: null
-    }
+    screen: Login
   },
   MemberProfile: {
     screen: MemberProfile
@@ -184,10 +178,7 @@ const RootStack = createStackNavigator({
   },
 
   Register: {
-    screen: Register,
-    navigationOptions: {
-      header: null
-    }
+    screen: Register
   },
   Benifet: {
     screen: Benifet

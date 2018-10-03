@@ -10,7 +10,8 @@ import {
   ScrollView,
   Platform,
   TextInput,
-  AsyncStorage
+  AsyncStorage,
+  BackHandler
 } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -23,8 +24,32 @@ import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
 import { USER_ID } from "../../constant/KeyConstant";
 import { web } from "../../components/Communications";
+import Icon from "react-native-vector-icons/dist/Ionicons";
 
 class Login extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("params", params);
+    return {
+      title: "Đăng Nhập",
+      headerLeft: (
+        <TouchableOpacity
+          onPress={() => {
+            params.loginAsGuest();
+          }}
+        >
+          <Icon
+            style={styles.back}
+            name={
+              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
+            }
+            color="#000000"
+            size={30}
+          />
+        </TouchableOpacity>
+      )
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -35,6 +60,21 @@ class Login extends Component {
       userName: "01234567893",
       password: "123456"
     };
+
+    this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
+  }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      async () => {
+        return await this.loginAsGuest();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   goToHomeTab = () => {
@@ -262,6 +302,11 @@ const styles = StyleSheet.create({
   img_logo: {
     width: 100,
     height: 100
+  },
+  back: {
+    alignSelf: "center",
+    marginLeft: 10,
+    marginRight: 10
   },
   text_input: {
     marginHorizontal: 60,

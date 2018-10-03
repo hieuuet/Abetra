@@ -67,26 +67,33 @@ class Profile extends Component {
       if (this.refs.modal && this.refs.modal.state.isOpen) {
         this.refs.modal.close();
         return true;
+      } else {
+        //check if navigate from verify screen,navigate to home
+        const fromVerify = this.props.navigation.getParam("fromVerify");
+        if (fromVerify) {
+          const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "TabHome" })]
+          });
+          this.props.navigation.dispatch(resetAction);
+          return true;
+        }
+        return false;
       }
     });
   }
   componentWillReceiveProps(nextProps) {}
   shouldComponentUpdate(nextProps, nextState) {
-    return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
+    return !(
+      isEqual(nextProps.userProfile, this.props.userProfile) &&
+      isEqual(nextProps.allHashTag, this.props.allHashTag) &&
+      isEqual(nextProps.allRank, this.props.allRank) &&
+      isEqual(nextState, this.state)
+    );
   }
   componentWillUnmount() {
     this.reLoadProfile();
     this.backHandler.remove();
-
-    //check if navigate from verify screen,navigate to home
-    const fromVerify = this.props.navigation.getParam("fromVerify");
-    if (fromVerify) {
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: "TabHome" })]
-      });
-      this.props.navigation.dispatch(resetAction);
-    }
   }
 
   onLoading = isLoading => {

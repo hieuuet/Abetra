@@ -45,7 +45,7 @@ class Benifet extends Component {
           automaticallyAdjustContentInsets={false}
           source={{ html: this.state.dataHtml, baseUrl: "" }}
           style={{ flex: 1, width: "100%" }}
-          // javaScriptEnabledAndroid={true}
+          javaScriptEnabledAndroid={true}
           mixedContentMode="always"
           scalesPageToFit={Platform.OS === "ios" ? false : true}
         />

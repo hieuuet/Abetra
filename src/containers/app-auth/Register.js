@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert
+  Alert,
+  BackHandler
 } from "react-native";
 import style_common from "../../style-common/index";
 import { IMAGE } from "../../constant/assets";
@@ -21,8 +22,31 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { postRegister, loginGuest } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/dist/Ionicons";
 
 class Register extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      title: "Đăng ký",
+      headerLeft: (
+        <TouchableOpacity
+          onPress={() => {
+            params.loginAsGuest();
+          }}
+        >
+          <Icon
+            style={styles.back}
+            name={
+              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
+            }
+            color="#000000"
+            size={30}
+          />
+        </TouchableOpacity>
+      )
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -38,15 +62,31 @@ class Register extends Component {
       rePassword: "",
       email: ""
     };
+
+    this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
   }
-  // loginAsGuest = () => {
-  //   this.props.loginGuest(true);
-  //   this.setState({ isLoading: true });
-  //   setTimeout(() => {
-  //     this.setState({ isLoading: false });
-  //     this.goToHomeTab();
-  //   }, 500);
-  // };
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      async () => {
+        return await this.loginAsGuest();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  loginAsGuest = () => {
+    this.props.loginGuest(true);
+    this.setState({ isLoading: true });
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+      this.goToHomeTab();
+    }, 500);
+  };
   goToHomeTab = () => {
     const resetAction = StackActions.reset({
       index: 0,
@@ -68,7 +108,7 @@ class Register extends Component {
     });
   };
   _register = async () => {
-    const { userName, fullName, password, rePassword, email } = this.dataUser;
+    const { userName, fullName, password, rePassword } = this.dataUser;
     console.log("data register", this.dataUser);
 
     if (password.length === 0 || rePassword.length === 0) {
@@ -94,8 +134,8 @@ class Register extends Component {
     let register = await postRegister({
       Username: userName,
       FullName: fullName,
-      Email: userName + "@gmail.com",
-      Password: password
+      Password: password,
+      Email: `${userName  }@aibrtra.vn`
     });
     this.setState({ isLoading: false });
     console.log("register result", register);
@@ -329,6 +369,11 @@ const styles = StyleSheet.create({
   img_logo: {
     width: 100,
     height: 100
+  },
+  back: {
+    alignSelf: "center",
+    marginLeft: 10,
+    marginRight: 10
   },
   text_input: {
     marginHorizontal: 60,

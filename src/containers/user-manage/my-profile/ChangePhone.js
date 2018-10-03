@@ -9,8 +9,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
-  AsyncStorage,
+  Alert
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -29,13 +28,13 @@ class ChangePhone extends Component {
       title: "Đổi số điện thoại",
 
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK,
+      headerTintColor: COLOR.COLOR_BLACK
     };
   };
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: false
     };
     this.userProfile =
       this.props.userProfile &&
@@ -67,7 +66,7 @@ class ChangePhone extends Component {
       profile_id: this.userProfile.ProfileID,
       user_id: this.userProfile.UserID,
       field: "Phone",
-      value: this.newPhone,
+      value: this.newPhone
     });
     this.setState({ isLoading: false });
     //success
@@ -79,13 +78,13 @@ class ChangePhone extends Component {
           {
             text: "OK",
             onPress: () => {
-               this.props.loadUserProfile({
+              this.props.loadUserProfile({
                 user_id: this.userProfile.UserID,
-                option: 100,
+                option: 100
               });
               this.props.navigation.goBack();
-            },
-          },
+            }
+          }
         ],
         { cancelable: false }
       );
@@ -107,9 +106,9 @@ class ChangePhone extends Component {
           returnKeyType="next"
           keyboardType="numeric"
           placeholder={"Nhập số điện thoại mới"}
-          onChangeText={(text) => (this.newPhone = text)}
+          onChangeText={text => (this.newPhone = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.code.focus();
           }}
         />
@@ -119,7 +118,7 @@ class ChangePhone extends Component {
           returnKeyType="done"
           ref="code"
           placeholder={"Nhập mã xác nhận"}
-          onChangeText={(text) => (this.code = text)}
+          onChangeText={text => (this.code = text)}
           style={[style_common.input_border, styles.text_input]}
         />
 
@@ -196,14 +195,14 @@ class ChangePhone extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    userProfile: state.loadUserProfile,
+    userProfile: state.loadUserProfile
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch)
   };
 };
 
@@ -216,18 +215,18 @@ export default ChangePhone;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100,
+    height: 100
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5,
+    padding: 5
   },
   wraper_btn: { marginHorizontal: 60, flexDirection: "row" },
 
   img_fb: {
     width: 50,
-    height: 50,
+    height: 50
   },
   view_login: {
     justifyContent: "flex-start",
@@ -236,28 +235,28 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
   view_fanpage: {
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   content_footer: {
     justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
-    flex: 1,
+    flex: 1
   },
   text_login: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10
   },
   text_info: {
     margin: 10,
     color: COLOR.COLOR_BLACK,
-    textAlign: "center",
+    textAlign: "center"
   },
   btn_left: { flex: 1, marginRight: 10 },
-  btn_right: { flex: 1, marginRight: 10 },
+  btn_right: { flex: 1, marginRight: 10 }
 });

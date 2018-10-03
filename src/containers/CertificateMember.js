@@ -1,6 +1,6 @@
 /* Điều khoản dịch vụ */
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { COLOR } from "../constant/Color";
 import { getCertificate } from "../actions";
 import { ViewLoading } from "../components/CommonView";

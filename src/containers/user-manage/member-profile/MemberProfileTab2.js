@@ -53,7 +53,6 @@ class MemberProfileTab2 extends Component {
   }
 
   loadUserPost = async dataUser => {
-    console.log();
     if (!dataUser || !dataUser.ProfileID) return;
     this.props.onLoading(true);
     const result = await searchPost2({

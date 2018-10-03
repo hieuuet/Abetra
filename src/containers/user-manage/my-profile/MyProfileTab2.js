@@ -7,7 +7,7 @@ import {
   Image,
   Platform,
   KeyboardAvoidingView,
-  ScrollView
+  FlatList
 } from "react-native";
 import { isEqual } from "lodash";
 import { IMAGE } from "../../../constant/assets";
@@ -18,15 +18,23 @@ import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { getRank } from "../../../constant/UtilsFunction";
+import { MyCoolScrollViewComponent } from "../../../components/CommonView";
+import { searchPost2 } from "../../../actions";
+import { TYPE_POST, TYPE_POST_PIN } from "../../../constant/KeyConstant";
+import StatusItems from "../../../components/StatusItems";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalShow: false };
+    this.state = { isModalShow: false, userPost: [] };
 
     this.tagSelected = this.props.tagSelected.filter(
       tag => tag.select === true
     );
+    this.Page_size = 10;
+    this.Page_index = 1;
+
+    this.loadUserPost(this.props.dataUser);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,11 +46,53 @@ class MyProfileTab2 extends Component {
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
+    if (!isEqual(nextProps.dataUser, this.props.dataUser)) {
+      this.Page_index = 1;
+      if (this.state.userPost.length > 0) {
+        this.setState({ userPost: [] });
+      }
+      this.loadUserPost(nextProps.dataUser);
+    }
     return !(
       isEqual(nextProps.tagSelected, this.props.tagSelected) &&
       isEqual(nextState, this.state)
     );
   }
+
+  loadUserPost = async dataUser => {
+    console.log("dataUser", dataUser);
+    if (!dataUser || !dataUser.ProfileID) return;
+    this.props.onLoading(true);
+    console.log("searchPost2", dataUser);
+    const result = await searchPost2({
+      Page_size: this.Page_size,
+      Page_index: this.Page_index,
+      Keyword: "",
+      IsAdvs: 255,
+      From_date: "",
+      To_date: "",
+      Profile_id: dataUser.ProfileID,
+      User_id: dataUser.UserID,
+      User_type: TYPE_POST.ALL,
+      Pin: TYPE_POST_PIN.ALL,
+      Option: 0
+    });
+
+    const resultPost = result && result.ErrorCode === "00" ? result.Value : [];
+    if (result && result.Value.length === 0) {
+      this.Page_index--;
+    }
+
+    this.setState({ userPost: [...this.state.userPost, ...resultPost] });
+    this.props.onLoading(false);
+  };
+  onEndReached = () => {
+    // call loadmore api
+    // console.log("scroll to end");
+
+    this.Page_index++;
+    this.loadUserPost(this.props.dataUser);
+  };
 
   _renderRegisterMember = () => {
     return (
@@ -71,17 +121,13 @@ class MyProfileTab2 extends Component {
 
   _renderMember = () => {
     console.log("render tab2");
-
     return (
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
         keyboardVerticalOffset={64}
       >
-        <ScrollView
-          style={style_common.container}
-          contentContainerStyle={styles.scroll_view}
-        >
+        <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
           <View style={styles.container}>
             <Text style={styles.text_h1}>
               {getRank(this.props.dataUser.PackgeID, this.props.allRank)}
@@ -89,10 +135,11 @@ class MyProfileTab2 extends Component {
             <View style={styles.wrap_header}>
               <View style={style_common.container}>
                 <Text style={style_common.text_color_base}>
-                  Ngày đăng ký: 01-01-2018
+                  Ngày đăng ký:
+                  {this.props.dataUser.StartPackage || ""}
                 </Text>
                 <Text style={style_common.text_color_base}>
-                  Ngày hết hạn: 01-01-2019
+                  Ngày hết hạn: {this.props.dataUser.EndPackage || ""}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
@@ -146,8 +193,28 @@ class MyProfileTab2 extends Component {
             <Text style={style_common.text_color_base}>Bài viết đã tạo</Text>
 
             {/* Tạo flatlist bài viết ở đây */}
+            <FlatList
+              // refreshing={this.state.refresh}
+              // onRefresh={() => {
+              //     this.GetPost()
+              // }}
+              data={this.state.userPost}
+              renderItem={item => {
+                return (
+                  <StatusItems
+                    dataItem={item}
+                    userID={this.userID}
+                    navigation={this.props.navigation}
+                  />
+                );
+              }}
+              extraData={this.state}
+              // onEndReached={this.onEndReached}
+              // onEndReachedThreshold={0.5}
+              keyExtractor={(item, index) => index.toString()}
+            />
           </View>
-        </ScrollView>
+        </MyCoolScrollViewComponent>
       </KeyboardAvoidingView>
     );
   };

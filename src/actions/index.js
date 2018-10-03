@@ -29,7 +29,8 @@ export {
   getBenifet,
   getCertificate,
   getGuide,
-  getImagePanel
+  getImagePanel,
+  getcommonSetting
 } from "./CommonActions";
 export {
   registerBusinessMember,

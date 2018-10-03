@@ -7,8 +7,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  Alert,
-  Image
+  Alert
 } from "react-native";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
@@ -19,8 +18,15 @@ import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading } from "../../../components/CommonView";
-import { getGuide } from "../../../actions";
+import {
+  getGuide,
+  loadUserProfile,
+  getAllRank,
+  getAllHashTag
+} from "../../../actions";
 import ListImage from "../../../components/ListImage";
+import { bindActionCreators } from "redux";
+
 import {
   registerBusinessMember,
   registerPersonalMember
@@ -43,21 +49,6 @@ class RegisterMember extends Component {
       isLoading: false
     };
     this.imageArr = [];
-    this.allTags = this.props.allHashTag.map(tag => {
-      return {
-        ...tag,
-        hashtag: tag.Name
-      };
-    });
-
-    this.radioRankData = this.props.allRank.map(rank => {
-      return {
-        ...rank,
-        label: rank.RankName,
-        value: rank.ID
-      };
-    });
-
     this.radioTypeData = [
       {
         label: "Cá nhân",
@@ -69,10 +60,7 @@ class RegisterMember extends Component {
       }
     ];
     this.typeMember = TYPE_ACCOUNT.PERSONAL;
-    this.rank = this.radioRankData[0].value;
     this.tagSelected = [];
-    this.phone = this.props.userProfile ? this.props.userProfile.Phone : "";
-    this.name = this.props.userProfile ? this.props.userProfile.FullName : "";
   }
 
   componentDidMount() {
@@ -83,9 +71,41 @@ class RegisterMember extends Component {
         this.setState({ isLoading: false });
       })
       .catch(err => this.setState({ isLoading: false }));
+    if (this.props.allRank.length === 0 || this.props.allHashTag.length === 0) {
+      this.props.getAllRank();
+      this.props.getAllHashTag();
+    }
   }
   shouldComponentUpdate(nextProps, nextState) {
     return !(isEqual(nextProps, this.props) && isEqual(nextState, this.state));
+  }
+
+  initData() {
+    this.allTags = this.props.allHashTag.map(tag => {
+      return {
+        ...tag,
+        hashtag: tag.Name
+      };
+    });
+    // console.log("allTags", this.allTags);
+
+    this.radioRankData = this.props.allRank.map(rank => {
+      return {
+        ...rank,
+        label: rank.RankName,
+        value: rank.ID
+      };
+    });
+    // console.log("this.radioRankData", this.radioRankData);
+
+    this.rank =
+      (this.radioRankData &&
+        this.radioRankData[0] &&
+        this.radioRankData[0].value) ||
+      undefined;
+
+    this.phone = this.props.userProfile ? this.props.userProfile.Phone : "";
+    this.name = this.props.userProfile ? this.props.userProfile.FullName : "";
   }
 
   onDataSelected = hashtagSelected => {
@@ -157,7 +177,18 @@ class RegisterMember extends Component {
       return Alert.alert(
         "Thông báo",
         result.Message,
-        [{ text: "OK", onPress: () => this.props.navigation.goBack() }],
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              this.props.loadUserProfile({
+                user_id: this.props.userProfile.UserID,
+                option: 100
+              });
+              this.props.navigation.goBack();
+            }
+          }
+        ],
         { cancelable: false }
       );
     } else {
@@ -175,7 +206,7 @@ class RegisterMember extends Component {
   };
   render() {
     console.log("aaaaa", this.state.imageArr);
-
+    this.initData();
     return (
       <KeyboardAvoidingView
         style={style_common.container_white}
@@ -297,7 +328,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+    getAllRank: bindActionCreators(getAllRank, dispatch),
+    getAllHashTag: bindActionCreators(getAllHashTag, dispatch)
   };
 };
 RegisterMember = connect(

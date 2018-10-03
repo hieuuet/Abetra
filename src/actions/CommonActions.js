@@ -78,3 +78,10 @@ export const getBenifet = () => {
 export const getImagePanel = () => {
   return getRequestApi(API.GET_IMAGE_PANEL, true);
 };
+
+/**
+ * get common setting
+ */
+export const getcommonSetting = (data = {}) => {
+  return postRequestApi(API.GET_COMMON_SETTING, data, true);
+};

@@ -10,7 +10,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
@@ -26,10 +26,17 @@ import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 
 class VerifyAccount extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Xác thực số điện thoại",
+      headerTitleStyle: { color: COLOR.COLOR_BLACK },
+      headerTintColor: COLOR.COLOR_BLACK
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: false
     };
     this.verifyCode = "";
   }
@@ -45,11 +52,11 @@ class VerifyAccount extends Component {
       { cancelable: false }
     );
   };
-  loadUserProfile = async (userID) => {
+  loadUserProfile = async userID => {
     const { loadUserProfile } = this.props;
     const userProfile = await loadUserProfile({
       user_id: userID,
-      option: 100,
+      option: 100
     });
     this.setState({ isLoading: false });
     if (!userProfile) {
@@ -74,8 +81,9 @@ class VerifyAccount extends Component {
     this.setState({ isLoading: true });
     let login = await postLogin({
       so_dien_thoai: userName,
-      mat_khau: password,
+      mat_khau: password
     });
+
     if (login.ErrorCode === "00") {
       if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
         await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
@@ -111,7 +119,7 @@ class VerifyAccount extends Component {
           placeholder={strings("verify.placeholder.input_code")}
           keyboardType="numeric"
           defaultValue="1234"
-          onChangeText={(text) => (this.verifyCode = text)}
+          onChangeText={text => (this.verifyCode = text)}
           style={[style_common.input_border, styles.text_input]}
         />
         <Text style={styles.text_info}>{strings("verify.info")}</Text>
@@ -187,11 +195,11 @@ class VerifyAccount extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     postLogin: bindActionCreators(postLogin, dispatch),
     loginGuest: bindActionCreators(loginGuest, dispatch),
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
+    loadUserProfile: bindActionCreators(loadUserProfile, dispatch)
   };
 };
 
@@ -204,17 +212,17 @@ export default VerifyAccount;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100,
+    height: 100
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5,
+    padding: 5
   },
 
   img_fb: {
     width: 50,
-    height: 50,
+    height: 50
   },
   view_login: {
     justifyContent: "flex-start",
@@ -223,25 +231,25 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
   view_fanpage: {
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   content_footer: {
     justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
-    flex: 1,
+    flex: 1
   },
   text_login: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10
   },
   text_info: {
     margin: 10,
-    color: COLOR.COLOR_BLACK,
-  },
+    color: COLOR.COLOR_BLACK
+  }
 });
