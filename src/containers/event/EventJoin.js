@@ -120,6 +120,7 @@ class EventJoin extends Component {
                                         userID={this.userID}
                                         // onReloadBack ={this.onReloadBack}
                                         navigation={navigation}
+                                        fromEventJoin = {false}
                                     />
                                 );
                             }}

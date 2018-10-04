@@ -23,6 +23,8 @@ export const API = {
   //cmt
   CREATE_CMT: `${URL_BASE}/api/Comment/CreateComment`,
   SEARCH_CMT: `${URL_BASE}/api/Comment/SearchComment`,
+    //like
+    LIKE_POST: `${URL_REALTIME}/socket/updatelikepost`,
 
   //Image
   UPLOAD_LIST_IMAGE: `${URL_BASE}/api/FaceHomeIO/UploadListImage`,

@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Alert,
     Dimensions, Button,
+    FlatList
 } from "react-native";
 
 import moment from "moment";
@@ -17,6 +18,9 @@ import ReadMore from "react-native-read-more-text";
 import PhotoGrid from "./PhotoGrid";
 import MenuPost from "./menu_post/MenuPost";
 import Share from "react-native-share";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import PollVote from "./PollVote";
 
 
 class StatusItems extends Component {
@@ -25,11 +29,14 @@ class StatusItems extends Component {
 
         this.state = {
             modalVisible: false,
-            Type: ""
+            Type: "",
+            ArrPoll: [
+                {OptionID: 9, PostID: 43, OptionContent: "Di choi", TotalVote: 0, UserVoteFilePath: "/Store/2018/pst/10/43/"},
+                {OptionID: 10, PostID: 43, OptionContent: "Uong ruou", TotalVote: 0, UserVoteFilePath: "/Store/2018/pst/10/43/"}
+            ]
         };
     }
     componentDidMount (){
-
 
     }
 
@@ -74,6 +81,9 @@ class StatusItems extends Component {
 
     render() {
         const {item} = this.props.dataItem;
+        // let PollVote = item.Poll ? item.Poll : null
+        // PollVote =  JSON.parse(PollVote)
+        // console.log('PollVote', PollVote)
         const {setModalVisible} = this.props
         let ArrImg = item.Images ? item.Images : null;
         ArrImg = JSON.parse(ArrImg);
@@ -158,6 +168,22 @@ class StatusItems extends Component {
                             </ReadMore>
                         </View>
                     </View>
+                    {/*<FlatList*/}
+                        {/*style={{marginTop: 5}}*/}
+                        {/*data= {this.state.ArrPoll}*/}
+                        {/*renderItem={(item) => {*/}
+                            {/*return (*/}
+                                {/*<PollVote*/}
+                                    {/*dataItem={item}*/}
+                                {/*/>*/}
+
+                            {/*)*/}
+                        {/*}}*/}
+
+                        {/*extraData={this.state}*/}
+                        {/*keyExtractor={(item, index) => index.toString()}*/}
+
+                    {/*/>*/}
                     {ArrImg ? (
                         <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
                     ) : null}
@@ -256,6 +282,24 @@ class StatusItems extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        UserProfile: state.loadUserProfile,
+
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
+StatusItems = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StatusItems);
+
 
 export default StatusItems;
 const DEVICE_WIDTH = Dimensions.get("window").width;

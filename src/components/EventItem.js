@@ -71,14 +71,15 @@ class EventItem extends Component {
         };
         return Share.open(shareOptions);
     }
+
     _joinEvent = async (EventID) => {
-        const {joinEvent,UserProfile } = this.props
-        if (UserProfile.length <=0 ) {
+        const {joinEvent, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
             return null
         }
         let eventJoin = await joinEvent({
-            EventID: EventID ,
-            ProfileID:  UserProfile.Value[0].IntUserID,//api yeu cau interuserid
+            EventID: EventID,
+            ProfileID: UserProfile.Value[0].IntUserID,//api yeu cau interuserid
             Type: 0,
             UserName: UserProfile.Value[0].FullName,
             Phone: UserProfile.Value[0].Phone,
@@ -89,18 +90,21 @@ class EventItem extends Component {
         console.log('eventJoin', eventJoin)
 
 
-        if(eventJoin.ErrorCode =="00"){
+        if (eventJoin.ErrorCode == "00") {
             this.setState({
                 isJoin: true
 
             })
         }
-        else if (eventJoin.ErrorCode =="04"){
+        else if (eventJoin.ErrorCode == "04") {
             Alert.alert(
                 "Thông báo",
                 "Bạn đã tham gia trước đó",
-                [{ text: "OK", onPress: () => {} }],
-                { cancelable: false }
+                [{
+                    text: "OK", onPress: () => {
+                    }
+                }],
+                {cancelable: false}
             );
 
         }
@@ -108,8 +112,11 @@ class EventItem extends Component {
             Alert.alert(
                 "Thông báo",
                 "Tham gia sự kiện không thành công",
-                [{ text: "OK", onPress: () => {} }],
-                { cancelable: false }
+                [{
+                    text: "OK", onPress: () => {
+                    }
+                }],
+                {cancelable: false}
             );
         }
 
@@ -118,6 +125,7 @@ class EventItem extends Component {
 
     render() {
         const {item} = this.props.dataItem;
+        const {fromEvent, fromEventJoin} = this.props
         const {setModalVisible} = this.props
         let ArrImg = item.Images ? item.Images : null;
         ArrImg = JSON.parse(ArrImg);
@@ -186,13 +194,13 @@ class EventItem extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style = {{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
-                        <Text style = {{color:"#42A5F5"}}>SỰ KIỆN:  </Text>
-                        <Text style = {{color: 'black'}}>{item.Name}</Text>
+                    <View style={{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
+                        <Text style={{color: "#42A5F5"}}>SỰ KIỆN: </Text>
+                        <Text style={{color: 'black'}}>{item.Name}</Text>
                     </View>
-                    <View style = {{marginHorizontal: 10, flexDirection: 'row'}}>
-                        <Text style = {{color:"#FFA726"}}>{moment(item.StartDate).format("DD/MM/YY HH:mm")} - </Text>
-                        <Text style = {{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>
+                    <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
+                        <Text style={{color: "#FFA726"}}>{moment(item.StartDate).format("DD/MM/YY HH:mm")} - </Text>
+                        <Text style={{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>
                     </View>
                     <View style={{marginHorizontal: 10, marginTop: 10}}>
                         <View>
@@ -207,7 +215,7 @@ class EventItem extends Component {
                         </View>
                     </View>
                     {/*{ArrImg ? (*/}
-                        {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
+                    {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
                     {/*) : null}*/}
 
                     <View
@@ -275,32 +283,41 @@ class EventItem extends Component {
                                 <Text style={{color: "#424242"}}>Bình luận</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={() => this.onShare()}>
+                        <TouchableOpacity onPress={() => this.onShare()}>
                             <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
+                                style={
+                                    fromEvent ? {
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                    } : {
+                                        flexDirection: "row",
+                                        marginRight: 20,
+                                        alignItems: "center",
+                                    }}
                             >
                                 <Icon name="share-outline" size={25} color="#424242"/>
 
                                 <Text style={{color: "#424242"}}>Share</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={() => this._joinEvent(item.ID)}>
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginRight: 20,
-                                    alignItems: "center",
-                                }}
-                            >
-                                <IconAdd name="add-user" size={20} color="#424242"/>
-                                {
-                                    this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> : <Text style={{color: "#424242"}}>Tham gia</Text>
-                                }
-                            </View>
-                        </TouchableOpacity>
+                        {
+                            fromEvent ? <TouchableOpacity onPress={() => this._joinEvent(item.ID)}>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginRight: 20,
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <IconAdd name="add-user" size={20} color="#424242"/>
+                                    {
+                                        this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :
+                                            <Text style={{color: "#424242"}}>Tham gia</Text>
+                                    }
+                                </View>
+                            </TouchableOpacity> : null
+                        }
+
                     </View>
 
                 </View>

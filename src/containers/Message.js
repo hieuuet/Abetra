@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet, KeyboardAvoidingView, Platform} from "react-native";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {loadMsgGroup} from "../actions/loadMsgGroupActions";
@@ -12,25 +12,22 @@ class Message extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ArrTinNhan: [],
-            ArrChannel: [
-                {
-                    MsgGroupID: "C925550C-FF2A-4C4D-BBA0-785AF34BDF05",
-                    FullNameOrGroupName: "Nguyen Viet Thinh",
-                    Time: "",
-                    Content: "hi",
-                },
-            ],
+            ArrUser: [],
+            ArrSysTem: [],
             isLoading: false,
             tabIndex: 0,
         };
-        this._loadMsgGroup();
+
     }
 
     componentDidMount() {
+        this._loadMsgGroup();
     }
 
     _loadMsgGroup = async () => {
+        this.setState({
+            isLoading: true
+        })
         console.log("load msg gr");
         const {loadMsgGroup, UserProfile} = this.props;
         if (UserProfile.length <= 0) {
@@ -40,22 +37,35 @@ class Message extends Component {
             IntUserID: UserProfile.Value[0].IntUserID,
         });
         console.log('ArrMsg', ArrMsg)
+        let ArrSysTem = ArrMsg.ObjectResult.filter(ArrSys => {
+            return (
+                ArrSys.IsSystem === 1
+            )
+        })
+        let ArrUser =  ArrMsg.ObjectResult.filter(ArrSys => {
+            return (
+                ArrSys.IsSystem === 0
+            )
+        })
+        // console.log('ArrSysTem', ArrSysTem)
+        // console.log('ArrUser', ArrUser)
         if (ArrMsg.Error === null) {
             this.setState({
-                ArrTinNhan: ArrMsg.ObjectResult,
+                ArrSysTem: ArrSysTem,
+                ArrUser: ArrUser,
+                isLoading: false
             });
         }
     };
 
     _renderLoading = () => {
-        return this.state.isLoading ? (
-            <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator}/>
-        ) : null;
+        return this.state.isLoading ? <ViewLoading/> : null;
     };
 
     render() {
-        console.log("render message");
+        // console.log("render message");
         return (
+
             <View style={style_common.container_white}>
                 <SearchView
                     onPress={() => {
@@ -88,7 +98,7 @@ class Message extends Component {
                         ]}
                     >
                         <FlatListCommon
-                            data={this.state.ArrTinNhan}
+                            data={this.state.ArrUser}
                             type={TYPE.MESSAGE}
                             navigation={this.props.navigation}
                         />
@@ -100,7 +110,7 @@ class Message extends Component {
                         ]}
                     >
                         <FlatListCommon
-                            data={this.state.ArrChannel}
+                            data={this.state.ArrSysTem}
                             type={TYPE.CHANNEL}
                             navigation={this.props.navigation}
                         />
@@ -108,6 +118,7 @@ class Message extends Component {
                 </View>
                 {this._renderLoading()}
             </View>
+
         );
     }
 }

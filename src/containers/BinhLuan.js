@@ -186,7 +186,7 @@ class BinhLuan extends Component {
                             <Text style={{
                                 marginRight: 10,
                                 color: 'black'
-                            }}>{moment(itemStatus.CreatedDate).format("DD/MM/YY HH:mm")}</Text>
+                            }}>{moment(itemStatus.CreatedDate).startOf('hour').fromNow()}</Text>
 
                         </View>
                     </View>

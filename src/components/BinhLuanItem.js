@@ -31,7 +31,9 @@ class BinhLuanItem extends Component {
           <View style = {styles.viewCmt}>
               <Text style = {styles.textCmt}>{item.Content}</Text>
               <View style = {{flexDirection:'row'}}>
-                  <Text>{moment(item.DatePost).format("DD-MM-YYYY HH:mm")}</Text>
+                  <Text>
+                      {moment(item.DatePost).startOf('hour').fromNow()}
+                      </Text>
               </View>
 
           </View>

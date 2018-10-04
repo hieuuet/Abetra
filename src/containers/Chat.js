@@ -84,6 +84,7 @@ class Chat extends Component {
             transports: ['websocket']
         });
 
+
         this.socket.emit("LOGOUTMSG", {
             IntUserID: UserProfile.Value[0].IntUserID,
             MsgGroupID: MsgGroupID
@@ -116,7 +117,7 @@ class Chat extends Component {
         const {navigation, UserProfile} = this.props;
         const MsgGroupID = navigation.getParam('MsgGroupID');
         const ProfileMember = navigation.getParam('ProfileMember')
-        // console.log("ProfileMember", ProfileMember)
+        console.log("ProfileMember", ProfileMember)
         if (UserProfile.length <= 0) {
             return null;
         }
@@ -131,9 +132,9 @@ class Chat extends Component {
             IntUserID: UserProfile.Value[0].IntUserID,
             FullName: UserProfile.Value[0].FullName,
             Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
-            RefIntUserID: ProfileMember.IntUserID,
-            RefName: ProfileMember.FullName,
-            RefAvatar: ProfileMember.Avatar ? ProfileMember.Avatar : "",
+            RefIntUserID: ProfileMember && ProfileMember.IntUserID ?  ProfileMember.IntUserID : 0,
+            RefName: ProfileMember && ProfileMember.FullName ? ProfileMember.FullName : "",
+            RefAvatar: ProfileMember && ProfileMember.Avatar ? ProfileMember.Avatar : "",
             Content: text,
             IsEnterprise: 0
         }

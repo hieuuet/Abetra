@@ -186,7 +186,7 @@ class CreatePost extends Component {
             Post_content: Status,
             Pin: 0,
             Type: 0,
-            ltPoll: [],
+            ltPoll: this.state.isVote ? this.state.ArrOptions : [],
             Target: this.nameTagSelected.toString(),
             DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
             IsAdvs: "",
@@ -390,7 +390,7 @@ class CreatePost extends Component {
                                                         );
                                                         this.setState({
                                                             ArrOptions
-                                                        });
+                                                        }, () => console.log('this.state.ArrOptions', this.state.ArrOptions ));
                                                     }}
                                                 />
                                             </View>

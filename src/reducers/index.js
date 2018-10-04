@@ -19,6 +19,7 @@ import { allRank, allHashTag, commonSetting } from "./CommonReducers";
 import { getEvent, getEventJoin } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
 import { joinEvent } from "./joinEventReducers";
+import { likePost } from "./likePostReducers";
 
 const appReducer = combineReducers({
   login,
@@ -42,7 +43,9 @@ const appReducer = combineReducers({
   addEvent,
   joinEvent,
   getEventJoin,
-  commonSetting
+  commonSetting,
+    likePost
+
 });
 
 export const rootReducer = (state, action) => {

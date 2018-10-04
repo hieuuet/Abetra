@@ -117,6 +117,7 @@ class Event extends Component {
                                         userID={this.userID}
                                         // onReloadBack ={this.onReloadBack}
                                         navigation={navigation}
+                                        fromEvent = {false}
                                     />
                                 );
                             }}
