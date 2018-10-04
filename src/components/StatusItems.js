@@ -21,22 +21,47 @@ import Share from "react-native-share";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import PollVote from "./PollVote";
+import {likePost} from "../actions/likePostActions";
 
 
 class StatusItems extends Component {
     constructor(props) {
         super(props);
-
+        this.countliked = this.props.dataItem.item.TotalLike;
         this.state = {
             modalVisible: false,
             Type: "",
             ArrPoll: [
-                {OptionID: 9, PostID: 43, OptionContent: "Di choi", TotalVote: 0, UserVoteFilePath: "/Store/2018/pst/10/43/"},
-                {OptionID: 10, PostID: 43, OptionContent: "Uong ruou", TotalVote: 0, UserVoteFilePath: "/Store/2018/pst/10/43/"}
-            ]
+            ],
+            countLike: this.countliked,
+            liked: false,
         };
     }
     componentDidMount (){
+        const {item} = this.props.dataItem;
+        // //ArrUser Liked
+        // let dataLike = (item.LikePost) ? item.LikePost : null
+        // let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
+        // //Get Arr IntUserID
+        // var ArrIntUserID = ArrUserLiked.map(function (o) {
+        //     return o.IntUserID;
+        // });
+        // // console.log('value', values)
+        //
+        // if (ArrIntUserID.indexOf(this.props.UserProfile.Value[0].IntUserID) > -1) {
+        //     this.setState({liked: true})
+        // }
+        // console.log('userLiked', ArrUserLiked)
+
+
+        let dataPoll = (item.Poll) ? item.Poll : null
+        let Poll = dataPoll ? JSON.parse(dataPoll) : [];
+        this.setState({
+            ArrPoll: Poll,
+            // countCheck:  Poll.TotalVote
+
+        })
+
 
     }
 
@@ -78,6 +103,54 @@ class StatusItems extends Component {
         };
         return Share.open(shareOptions);
     }
+
+    likePost = async (postId) => {
+        const {likePost, UserProfile}  = this.props
+        if (UserProfile.length <=0){
+            return null
+
+        }
+        let like = await likePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: postId,
+            FullName: UserProfile.Value[0].FullName,
+            Islike: 1,
+            TableLog: 0
+        })
+        console.log('like', like)
+        if(like.Error === null){
+            let currentLike = this.state.countLike;
+            currentLike++;
+            this.setState({liked: true, countLike: currentLike});
+        }
+
+
+
+    }
+    unlikePost = async (postId) => {
+        const {likePost, UserProfile}  = this.props
+        if (UserProfile.length <=0){
+            return null
+
+        }
+        let like = await likePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: postId,
+            FullName: UserProfile.Value[0].FullName,
+            Islike: 0,
+            TableLog: 0
+        })
+        console.log('like', like)
+        if(like.Error === null){
+            let currentLike = this.state.countLike;
+            currentLike--;
+            this.setState({liked: false, countLike: currentLike});
+        }
+
+
+
+    }
+
 
     render() {
         const {item} = this.props.dataItem;
@@ -168,22 +241,22 @@ class StatusItems extends Component {
                             </ReadMore>
                         </View>
                     </View>
-                    {/*<FlatList*/}
-                        {/*style={{marginTop: 5}}*/}
-                        {/*data= {this.state.ArrPoll}*/}
-                        {/*renderItem={(item) => {*/}
-                            {/*return (*/}
-                                {/*<PollVote*/}
-                                    {/*dataItem={item}*/}
-                                {/*/>*/}
+                    <FlatList
+                        style={{marginTop: 5}}
+                        data= {this.state.ArrPoll}
+                        renderItem={(item) => {
+                            return (
+                                <PollVote
+                                    dataItem={item}
+                                />
 
-                            {/*)*/}
-                        {/*}}*/}
+                            )
+                        }}
 
-                        {/*extraData={this.state}*/}
-                        {/*keyExtractor={(item, index) => index.toString()}*/}
+                        extraData={this.state}
+                        keyExtractor={(item, index) => index.toString()}
 
-                    {/*/>*/}
+                    />
                     {ArrImg ? (
                         <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
                     ) : null}
@@ -204,7 +277,7 @@ class StatusItems extends Component {
                             }}
                         >
                             <Icon1 name="like" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}> {item.TotalLike}</Text>
+                            <Text style={{color: "#42A5F5"}}> {this.state.countLike}</Text>
                         </View>
                         <View style={{flexDirection: "row", alignItems: "center"}}>
                             <Icon1 name="comment" size={25} color="#42A5F5"/>
@@ -237,9 +310,9 @@ class StatusItems extends Component {
                                 alignItems: "center",
                             }}
                         >
-                            <Icon1 name="like" size={25} color="#424242"/>
-                            <TouchableOpacity>
-                                <Text>Thích</Text>
+                            <Icon1 name="like" size={25}  color={this.state.liked ? "blue" : "#424242"}/>
+                            <TouchableOpacity onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>
+                                <Text style={{color: this.state.liked ? 'blue' : null}}>Thích</Text>
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity
@@ -291,6 +364,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        likePost: bindActionCreators(likePost, dispatch)
 
     };
 };
