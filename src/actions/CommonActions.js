@@ -96,3 +96,53 @@ export const getcommonSetting = (data = {}, isSaveRedux = false) => {
     return result;
   };
 };
+
+/**
+ * get all category
+ * Type	:
+Loại danh mục: =1: sản phầm, =2: dịch vụ,3 Lĩnh vực hoạt động
+ */
+export const getAllCategory = (data = { Type: 3 }) => {
+  data = {
+    PageSize: 1,
+    PageIndex: 2,
+    FromDate: 0,
+    ToDate: 0,
+    Status: 64,
+    ...data
+  };
+  return async dispatch => {
+    let result = await postRequestApi(API.GET_ALL_CATEGORY, data);
+
+    if (result) {
+      dispatch({
+        type: "GET_CATEGORY_TYPE3",
+        payload: result.Value && result.Value[0]
+      });
+    }
+    return result;
+  };
+};
+
+/**
+ * delete image on user profile
+ */
+export const deleteImage = (data = {}) => {
+  return postRequestApi(API.DELETE_IMAGE, data, true);
+};
+
+/**
+ * get all emoji
+ */
+export const getAllEmoji = () => {
+  return async dispatch => {
+    let result = await getRequestApi(API.GET_ALL_EMOJI, true);
+    if (result) {
+      dispatch({
+        type: "GET_ALL_EMOJI",
+        payload: result.Value && result.Value[0]
+      });
+    }
+    return result;
+  };
+};

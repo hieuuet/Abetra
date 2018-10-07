@@ -23,8 +23,8 @@ export const API = {
   //cmt
   CREATE_CMT: `${URL_BASE}/api/Comment/CreateComment`,
   SEARCH_CMT: `${URL_BASE}/api/Comment/SearchComment`,
-    //like
-    LIKE_POST: `${URL_REALTIME}/socket/updatelikepost`,
+  //like
+  LIKE_POST: `${URL_REALTIME}/socket/updatelikepost`,
 
   //Image
   UPLOAD_LIST_IMAGE: `${URL_BASE}/api/FaceHomeIO/UploadListImage`,
@@ -59,5 +59,12 @@ export const API = {
   GET_CERTIFICATE: `${URL_BASE}/api/Common/GetChungchi`,
   GET_GUIDE: `${URL_BASE}/api/Common/GetHuongDan`,
   GET_IMAGE_PANEL: `${URL_BASE}/api/Common/GetAllImagePanel`,
-  GET_COMMON_SETTING: `${URL_BASE}/Common/GetSetting`
+  GET_COMMON_SETTING: `${URL_BASE}/Common/GetSetting`,
+  GET_ALL_CATEGORY: `${URL_BASE}/Enterprise/GetAllCategory`,
+  DELETE_IMAGE: `${URL_BASE}/Common/DeleteImageByUser`,
+  GET_ALL_EMOJI: `${URL_BASE}/api/Common/GetAllEmoij`,
+  //search
+  SEARCH_ALL: `${URL_BASE}/api/Users/SearchAll`,
+  //enterprise
+  ALL_ENTERPRISE: `${URL_BASE}/Enterprise/Getall`
 };

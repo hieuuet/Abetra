@@ -13,7 +13,7 @@ import {
   ImageBackground,
   Alert
 } from "react-native";
-import {each,take} from "lodash";
+import { each, take } from "lodash";
 import ImageLoad from "react-native-image-placeholder";
 
 const { width } = Dimensions.get("window");
@@ -98,7 +98,9 @@ class PhotoGrid extends Component {
               onPress={() =>
                 this.props.navigation.navigate("ImageDetail", {
                   data: this.props.source,
-                  currentIndex: this.findIndexFromImage(image)
+                  currentIndex: this.findIndexFromImage(image),
+                  showDelete: this.props.showDelete,
+                  dataUser: this.props.dataUser
                 })
               }
             >
@@ -130,7 +132,9 @@ class PhotoGrid extends Component {
                 onPress={() =>
                   this.props.navigation.navigate("ImageDetail", {
                     data: this.props.source,
-                    currentIndex: this.findIndexFromImage(image)
+                    currentIndex: this.findIndexFromImage(image),
+                    showDelete: this.props.showDelete,
+                    dataUser: this.props.dataUser
                   })
                 }
               >
@@ -178,7 +182,9 @@ PhotoGrid.prototypes = {
   imageStyle: PropTypes.object,
   onPressImage: PropTypes.func,
   ratio: PropTypes.float,
-  imageProps: PropTypes.object
+  imageProps: PropTypes.object,
+  showDelete: PropTypes.bool,
+  dataUser: PropTypes.object
 };
 
 PhotoGrid.defaultProps = {
@@ -187,7 +193,8 @@ PhotoGrid.defaultProps = {
   imageProps: {},
   width: width,
   height: 400,
-  ratio: 1 / 3
+  ratio: 1 / 3,
+  showDelete: false
 };
 
 const styles = {

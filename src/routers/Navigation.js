@@ -19,7 +19,7 @@ import Register from "../containers/app-auth/Register";
 import BinhLuan from "../containers/BinhLuan";
 import VerifyAccount from "../containers/app-auth/VerifyAccount";
 import CreatePost from "../containers/post/CreatePost";
-import Search from "../containers/Search";
+import Search from "../containers/search/Search";
 import Benifet from "../containers/Benifet";
 import TermServices from "../containers/TermServices";
 import ImageDetail from "../containers/ImageDetail";

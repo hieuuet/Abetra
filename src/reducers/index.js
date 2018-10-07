@@ -15,11 +15,18 @@ import { currentLanguage } from "./LanguageReducers";
 
 import { loadSavePost, savePost } from "./loadSavePostReducers";
 
-import { allRank, allHashTag, commonSetting } from "./CommonReducers";
+import {
+  allRank,
+  allHashTag,
+  commonSetting,
+  categoryType3,
+  allEmoji
+} from "./CommonReducers";
 import { getEvent, getEventJoin } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
 import { joinEvent } from "./joinEventReducers";
 import { likePost } from "./likePostReducers";
+import { allEnterprise } from "./EnterpriseReducers";
 
 const appReducer = combineReducers({
   login,
@@ -44,8 +51,10 @@ const appReducer = combineReducers({
   joinEvent,
   getEventJoin,
   commonSetting,
-    likePost
-
+  likePost,
+  categoryType3,
+  allEmoji,
+  allEnterprise
 });
 
 export const rootReducer = (state, action) => {

@@ -25,7 +25,9 @@ import {
   updateUserProfile,
   getAllRank,
   getAllHashTag,
-  getcommonSetting
+  getcommonSetting,
+  getAllCategory,
+  getAllEmoji
 } from "../../actions";
 import { SearchView, ViewLoading } from "../../components/CommonView";
 import style_common from "../../style-common/index";
@@ -83,6 +85,8 @@ class Home extends Component {
       this.props.getAllRank();
       this.props.getAllHashTag();
       this.props.getcommonSetting({ Option: 7 }, true);
+      this.props.getAllCategory({ Type: 3 });
+      this.props.getAllEmoji();
     }
 
     //firebase
@@ -211,46 +215,40 @@ class Home extends Component {
               }}
               style={style_common.container}
             />
-            <TouchableOpacity
-              style={{
-                width: 30,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 10
-              }}
-              onPress={() => {
-                if (this.props.isGuest) return requestRegister(navigation);
-                if (
-                  this.props.UserProfile &&
-                  this.props.UserProfile.Value &&
-                  this.props.UserProfile.Value[0] &&
-                  this.props.UserProfile.Value[0].Type === TYPE_ACCOUNT.TEMP
-                ) {
-                  return Alert.alert(
-                    "Thông báo",
-                    "Tài khoản bạn chưa đăng ký hội viên",
-                    [{ text: "Ok", onPress: () => {} }],
-                    { cancelable: false }
-                  );
-                }
-                this.props.navigation.navigate("CreatePost");
-              }}
-            >
-              <View
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderWidth: 1,
-                  backgroundColor: "#0277BD",
-                  height: 30,
-                  width: 30,
-                  borderRadius: 30 / 2,
-                  borderColor: "#BDBDBD"
-                }}
-              >
-                <Icon1 name="plus" size={30} color="white" />
-              </View>
-            </TouchableOpacity>
+            {this.props.UserProfile &&
+            this.props.UserProfile.Value &&
+            this.props.UserProfile.Value[0] &&
+            this.props.UserProfile.Value[0].Type ===
+              TYPE_ACCOUNT.TEMP ? null : (
+                <TouchableOpacity
+                  style={{
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 10
+                  }}
+                  onPress={() => {
+                    if (this.props.isGuest) return requestRegister(navigation);
+
+                    this.props.navigation.navigate("CreatePost");
+                  }}
+                >
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderWidth: 1,
+                      backgroundColor: "#0277BD",
+                      height: 30,
+                      width: 30,
+                      borderRadius: 30 / 2,
+                      borderColor: "#BDBDBD"
+                    }}
+                  >
+                    <Icon1 name="plus" size={30} color="white" />
+                  </View>
+                </TouchableOpacity>
+              )}
           </View>
           {this.state.ArrPost.length === 0 && !this.state.isLoading ? (
             this._renderEmpty()
@@ -295,7 +293,9 @@ const mapDispatchToProps = dispatch => {
     searchPost: bindActionCreators(searchPost, dispatch),
     getAllRank: bindActionCreators(getAllRank, dispatch),
     getAllHashTag: bindActionCreators(getAllHashTag, dispatch),
-    getcommonSetting: bindActionCreators(getcommonSetting, dispatch)
+    getAllCategory: bindActionCreators(getAllCategory, dispatch),
+    getcommonSetting: bindActionCreators(getcommonSetting, dispatch),
+    getAllEmoji: bindActionCreators(getAllEmoji, dispatch)
   };
 };
 

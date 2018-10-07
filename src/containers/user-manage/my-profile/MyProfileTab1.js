@@ -153,6 +153,13 @@ class MyProfileTab1 extends Component {
       this.setState({ dataImage: allImage });
       this.props.reLoadProfile();
       return this.props.onLoading(false);
+    } else {
+      Alert.alert(
+        "Thông báo",
+        resultUpdate.Message,
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
     }
     return this.props.onLoading(false);
   };
@@ -432,6 +439,8 @@ class MyProfileTab1 extends Component {
           width={width - 20}
           height={width / 1.5}
           ratio={0.5}
+          showDelete={true}
+          dataUser={this.dataUser}
           navigation={this.props.navigation}
         />
       </View>
@@ -446,7 +455,9 @@ class MyProfileTab1 extends Component {
           nameIcon="bookmark"
           icon_color={COLOR.COLOR_SKY}
           title_color={COLOR.COLOR_SKY}
-          onPress={() => {this.props.navigation.navigate('SavePost')}}
+          onPress={() => {
+            this.props.navigation.navigate("SavePost");
+          }}
           style={styles.menu_bottom}
         />
         <MenuItem
@@ -462,7 +473,9 @@ class MyProfileTab1 extends Component {
           nameIcon="calendar-check"
           icon_color={COLOR.COLOR_SKY}
           title_color={COLOR.COLOR_SKY}
-          onPress={() => {this.props.navigation.navigate('EventJoin')}}
+          onPress={() => {
+            this.props.navigation.navigate("EventJoin");
+          }}
           style={styles.menu_bottom}
         />
       </View>

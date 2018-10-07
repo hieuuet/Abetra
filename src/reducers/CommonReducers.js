@@ -24,3 +24,20 @@ export const commonSetting = (state = {}, action = {}) => {
       return state;
   }
 };
+
+export const categoryType3 = (state = {}, action = {}) => {
+  switch (action.type) {
+    case "GET_CATEGORY_TYPE3":
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+};
+export const allEmoji = (state = {}, action = {}) => {
+  switch (action.type) {
+    case "GET_ALL_EMOJI":
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+};

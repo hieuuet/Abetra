@@ -6,7 +6,7 @@ import { COLOR } from "../../../constant/Color";
 import MyProfileTab1 from "./MyProfileTab1";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../../actions";
+import { loadUserProfile, updateUserProfile } from "../../../actions";
 import MyProfileTab2 from "./MyProfileTab2";
 import { isEqual } from "lodash";
 
@@ -59,10 +59,11 @@ class Profile extends Component {
           this.props.userProfile.Value[0].FullName) ||
         "Profile"
     });
+
+    this.idTagSelected = [];
   }
 
   componentDidMount() {
-  
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       if (this.refs.modal && this.refs.modal.state.isOpen) {
@@ -120,9 +121,23 @@ class Profile extends Component {
   onClickShowModal = () => {
     if (this.refs.modal) this.refs.modal.open();
   };
-  getHashTagSelected = () => {
+  onClickCloseModal = () => {
     if (this.refs.modal) {
       this.setState({ allTag: this.tagSelected });
+      //get ID of all tab selected
+      const idTagSelected = this.tagSelected
+        .filter(tag => tag.select)
+        .map(tag => tag.CatID);
+      //Call api update hastag
+      if (this.idTagSelected && !isEqual(idTagSelected, this.idTagSelected)) {
+        this.idTagSelected = idTagSelected;
+        updateUserProfile({
+          profile_id: this.userProfile.ProfileID,
+          user_id: this.userProfile.UserID,
+          field: "HashTag",
+          value: JSON.stringify(this.idTagSelected)
+        });
+      }
     }
   };
   onDataSelected = hashtagSelected => {
@@ -193,7 +208,7 @@ class Profile extends Component {
           position={"bottom"}
           ref={"modal"}
           swipeArea={20}
-          onClosed={this.getHashTagSelected}
+          onClosed={this.onClickCloseModal}
           style={styles.modal}
         >
           <HashTagEdit
