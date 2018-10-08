@@ -41,4 +41,4 @@ export {
 } from "./MemberActions";
 
 export { searchAll } from "./SearchActions";
-export { getAllEnterprise } from "./EnterpriseActions";
+export { getAllEnterprise, getAllEnterprise2 } from "./EnterpriseActions";

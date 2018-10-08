@@ -78,6 +78,7 @@ class MemberProfileTab2 extends Component {
     this.props.onLoading(false);
   };
 
+  //load data first time
   loadData = dataUser => {
     let tagSelected = dataUser.HashTag;
 

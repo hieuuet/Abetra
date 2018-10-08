@@ -25,10 +25,10 @@ export const commonSetting = (state = {}, action = {}) => {
   }
 };
 
-export const categoryType3 = (state = {}, action = {}) => {
+export const categoryType3 = (state = [], action = {}) => {
   switch (action.type) {
     case "GET_CATEGORY_TYPE3":
-      return { ...state, ...action.payload };
+      return [...state, ...action.payload];
     default:
       return state;
   }

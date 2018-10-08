@@ -97,7 +97,7 @@ class ImageDetail extends React.PureComponent {
             onPress={() => this.onDeleteImage(imgUrl)}
           >
             <Icon name="trash-o" size={30} color={COLOR.COLOR_WHITE} />
-          </TouchableOpacity> 
+          </TouchableOpacity>
         ) : null}
       </View>
     );
@@ -119,7 +119,7 @@ class ImageDetail extends React.PureComponent {
     //remove image on local
     this.data = this.data.filter(img => img !== imgUrl);
     //reload profile
-    if (resultDelete && resultDelete.ErrorCode === "00") {
+    if (resultDelete && resultDelete.IsError === false) {
       await this.props.loadUserProfile({
         user_id: this.dataUser.UserID,
         option: 100

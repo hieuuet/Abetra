@@ -22,7 +22,8 @@ import {
   getGuide,
   loadUserProfile,
   getAllRank,
-  getAllHashTag
+  getAllHashTag,
+  getAllCategory
 } from "../../../actions";
 import ListImage from "../../../components/ListImage";
 import { bindActionCreators } from "redux";
@@ -74,7 +75,7 @@ class RegisterMember extends Component {
       .catch(err => this.setState({ isLoading: false }));
     if (this.props.allRank.length === 0 || this.props.allHashTag.length === 0) {
       this.props.getAllRank();
-      this.props.getAllHashTag();
+      this.props.getCategoryType3({ Type: 3 });
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -324,7 +325,7 @@ const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile.Value[0],
     allRank: state.allRank,
-    allHashTag: state.allHashTag,
+    allHashTag: state.categoryType3,
     commonSetting: state.commonSetting
   };
 };
@@ -333,7 +334,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadUserProfile: bindActionCreators(loadUserProfile, dispatch),
     getAllRank: bindActionCreators(getAllRank, dispatch),
-    getAllHashTag: bindActionCreators(getAllHashTag, dispatch)
+    getAllHashTag: bindActionCreators(getAllHashTag, dispatch),
+    getCategoryType3: bindActionCreators(getAllCategory, dispatch)
   };
 };
 RegisterMember = connect(

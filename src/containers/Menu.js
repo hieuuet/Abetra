@@ -83,8 +83,7 @@ class Menu extends Component {
         {this.renderHeader()}
         <MenuItem
           title="Bài viết đã lưu"
-          source={require('../../assets/event.png')}
-
+          source={require("../../assets/event.png")}
           onPress={() => {
             if (this.props.isGuest)
               return requestRegister(this.props.navigation);
@@ -93,14 +92,12 @@ class Menu extends Component {
         />
         <MenuItem
           title="Đăng xuất"
-          source={require('../../assets/event.png')}
-
+          source={require("../../assets/event.png")}
           onPress={this.logout}
         />
         <MenuItem
           title="Sự kiện"
-          source={require('../../assets/event.png')}
-
+          source={require("../../assets/event.png")}
           onPress={() => {
             this.props.navigation.navigate("Event");
           }}
@@ -108,7 +105,7 @@ class Menu extends Component {
 
         <MenuItem
           title="Dịch vụ quanh đây"
-          source={require('../../assets/event.png')}
+          source={require("../../assets/event.png")}
 
           // onPress={() => {
           //     // this.props.navigation.navigate('BaoSuCoKDT')
@@ -117,13 +114,13 @@ class Menu extends Component {
         />
         <MenuItem
           title="Chương trình khuyến mãi"
-          source={require('../../assets/event.png')}
+          source={require("../../assets/event.png")}
 
           // onPress={() => this.props.navigation.navigate('ChoFaceHome')}
         />
         <MenuItem
           title="Giới thiệu"
-          source={require('../../assets/event.png')}
+          source={require("../../assets/event.png")}
 
           // onPress={() => {
           //     // this.props.navigation.navigate('BepAnGiaDinh')
@@ -133,22 +130,26 @@ class Menu extends Component {
 
         <MenuItem
           title="Hướng dẫn"
-          source={require('../../assets/event.png')}
+          source={require("../../assets/event.png")}
           // onPress={() => this.props.navigation.navigate('HuongDan')}
         />
         <MenuItem
           title="Điều khoản dịch vụ"
-          source={require('../../assets/event.png')}
+          source={require("../../assets/event.png")}
           // onPress={() => this.props.navigation.navigate('GioiThieuCuDan')}
         />
 
-        <MenuItem title="Ngôn ngữ"
-                  source={require('../../assets/event.png')}
-                  style={styles.style_menu} />
-        <MenuItem title="Hỗ trợ"
-                  source={require('../../assets/event.png')}
-                  style={styles.style_menu} />
-          {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
+        <MenuItem
+          title="Ngôn ngữ"
+          source={require("../../assets/event.png")}
+          style={styles.style_menu}
+        />
+        <MenuItem
+          title="Hỗ trợ"
+          source={require("../../assets/event.png")}
+          style={styles.style_menu}
+        />
+        {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
       </ScrollView>
     );
   }

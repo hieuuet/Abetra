@@ -135,7 +135,7 @@ class MemberProfile extends Component {
 const mapStateToProps = state => {
   return {
     allRank: state.allRank,
-    allHashTag: state.allHashTag
+    allHashTag: state.categoryType3
   };
 };
 

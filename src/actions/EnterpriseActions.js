@@ -12,9 +12,16 @@ export const getAllEnterprise = (data = {}) => {
     if (result) {
       dispatch({
         type: "GET_ALL_ENTERPRISE",
-        payload: result
+        payload: result.Value
       });
     }
     return result;
   };
+};
+/**
+ * get all Enterprise not save redux
+ * @param {*} data
+ */
+export const getAllEnterprise2 = (data = {}) => {
+  return postRequestApi(API.ALL_ENTERPRISE, data, true);
 };

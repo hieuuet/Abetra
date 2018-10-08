@@ -21,7 +21,7 @@ class Chat extends Component {
         const {params = {}} = navigation.state
 
         return {
-            title: `${navigation.state.params.title}`,
+            title: `${navigation.getParam('title')}`,
             headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
             headerTitleStyle: {color: COLOR.TITLE_HEADER},
             headerTintColor: 'white',

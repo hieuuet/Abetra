@@ -5,7 +5,7 @@ import {
 } from "react-navigation";
 import Home from "../containers/post/Home";
 import Message from "../containers/Message";
-import DoanhNghiep from "../containers/DoanhNghiep";
+import DoanhNghiep from "../containers/Enterprise";
 import Event from "../containers/event/Event";
 import Menu from "../containers/Menu";
 import Icon from "react-native-vector-icons/FontAwesome";

@@ -228,7 +228,7 @@ const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
     allRank: state.allRank,
-    allHashTag: state.allHashTag
+    allHashTag: state.categoryType3
   };
 };
 

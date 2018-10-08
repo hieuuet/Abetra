@@ -104,11 +104,12 @@ Loại danh mục: =1: sản phầm, =2: dịch vụ,3 Lĩnh vực hoạt độn
  */
 export const getAllCategory = (data = { Type: 3 }) => {
   data = {
-    PageSize: 1,
-    PageIndex: 2,
+    PageSize: 100,
+    PageIndex: 1,
+    Keyword: "",
     FromDate: 0,
     ToDate: 0,
-    Status: 64,
+    Status: 255,
     ...data
   };
   return async dispatch => {
@@ -117,7 +118,7 @@ export const getAllCategory = (data = { Type: 3 }) => {
     if (result) {
       dispatch({
         type: "GET_CATEGORY_TYPE3",
-        payload: result.Value && result.Value[0]
+        payload: result.Value && result.Value
       });
     }
     return result;
