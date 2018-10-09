@@ -8,6 +8,7 @@ import {
   AsyncStorage,
   Dimensions,
 } from 'react-native';
+import {URL_BASE} from "../constant/api";
 
 export default class TinNhanItem extends Component {
   constructor(props) {
@@ -41,9 +42,9 @@ export default class TinNhanItem extends Component {
         >
           <Image
             style={styles.image_avt}
-            source={{
-              uri:
-                'https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg',
+            source={
+                item.Avatar == ""? require("../../assets/avtdefault.png") : {
+                uri: URL_BASE + item.Avatar
             }}
             resizeMode="cover"
           />

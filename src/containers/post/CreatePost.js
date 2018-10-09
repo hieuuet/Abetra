@@ -211,9 +211,9 @@ class CreatePost extends Component {
             Status,
             Title,
             TimeStart,
-            TimeFinish,
+            // TimeFinish,
             Address,
-            Targets
+            // Targets
         } = this.state;
         const {UserProfile, addEvent} = this.props;
         if (UserProfile.length <= 0) {
@@ -225,10 +225,10 @@ class CreatePost extends Component {
             Summary: "",
             Description: Status,
             StartDate: TimeStart,
-            FinishDate: TimeFinish,
-            CreateBy: 734,
+            // FinishDate: TimeFinish,
+            CreateBy: UserProfile.Value[0].IntUserID,
             Type: 0,
-            ChiTieu: Targets,
+            // ChiTieu: Targets,
             Code: "",
             Address: Address,
             Image: this.state.ArrImg.length ? this.state.ArrImg : "",
@@ -236,7 +236,15 @@ class CreatePost extends Component {
         console.log("Event", Event);
         if (Event.ErrorCode == "00") {
             this.props.navigation.goBack();
-        } else {
+        } else if (Event.ErrorCode == "05") {
+            Alert.alert(
+                "Thông báo",
+                "Thời gian bắt đầu không hợp lệ",
+                [{text: "OK", onPress: () => console.log("OK Pressed")}],
+                {cancelable: false}
+            );
+        }
+        else {
             Alert.alert(
                 "Thông báo",
                 "Tao sự kiện không thành công",
@@ -484,49 +492,49 @@ class CreatePost extends Component {
                                     />
 
                                 </View>
-                                <View style = {{flexDirection: 'column', marginHorizontal: 10, marginTop: 5}}>
-                                    <Text>Thời gian kết thúc</Text>
-                                    <DatePicker
-                                        style={{width: "100%"}}
-                                        date={this.state.TimeFinish}
-                                        mode="datetime"
-                                        format="YYYY-MM-DD HH:mm"
-                                        confirmBtnText="Confirm"
-                                        cancelBtnText="Cancel"
-                                        customStyles={{
-                                            dateIcon: {
-                                                position: 'absolute',
-                                                left: 0,
-                                                top: 4,
-                                                marginLeft: 0
-                                            },
-                                            dateInput: {
-                                                marginLeft: 36
-                                            }
-                                        }}
-                                        minuteInterval={10}
-                                        onDateChange={(datetime) => {this.setState({TimeFinish: datetime}, () => console.log('datetime1', this.state.TimeFinish));}}
-                                    />
+                                {/*<View style = {{flexDirection: 'column', marginHorizontal: 10, marginTop: 5}}>*/}
+                                    {/*<Text>Thời gian kết thúc</Text>*/}
+                                    {/*<DatePicker*/}
+                                        {/*style={{width: "100%"}}*/}
+                                        {/*date={this.state.TimeFinish}*/}
+                                        {/*mode="datetime"*/}
+                                        {/*format="YYYY-MM-DD HH:mm"*/}
+                                        {/*confirmBtnText="Confirm"*/}
+                                        {/*cancelBtnText="Cancel"*/}
+                                        {/*customStyles={{*/}
+                                            {/*dateIcon: {*/}
+                                                {/*position: 'absolute',*/}
+                                                {/*left: 0,*/}
+                                                {/*top: 4,*/}
+                                                {/*marginLeft: 0*/}
+                                            {/*},*/}
+                                            {/*dateInput: {*/}
+                                                {/*marginLeft: 36*/}
+                                            {/*}*/}
+                                        {/*}}*/}
+                                        {/*minuteInterval={10}*/}
+                                        {/*onDateChange={(datetime) => {this.setState({TimeFinish: datetime}, () => console.log('datetime1', this.state.TimeFinish));}}*/}
+                                    {/*/>*/}
 
-                                </View>
-                                <TextInput
-                                    underlineColorAndroid="transparent"
-                                    autoCapitalize="none"
-                                    returnKeyType="next"
-                                    placeholder="Chỉ tiêu"
-                                    onChangeText={Targets => this.setState({Targets})}
-                                    style={{
-                                        marginTop: 10,
-                                        marginLeft: 5,
-                                        borderWidth: 1,
-                                        borderColor: COLOR.BORDER_INPUT,
-                                        borderRadius: 5,
-                                        paddingTop: 0,
-                                        paddingBottom: 0,
-                                        paddingLeft: 10,
-                                        marginHorizontal: 10
-                                    }}
-                                />
+                                {/*</View>*/}
+                                {/*<TextInput*/}
+                                    {/*underlineColorAndroid="transparent"*/}
+                                    {/*autoCapitalize="none"*/}
+                                    {/*returnKeyType="next"*/}
+                                    {/*placeholder="Chỉ tiêu"*/}
+                                    {/*onChangeText={Targets => this.setState({Targets})}*/}
+                                    {/*style={{*/}
+                                        {/*marginTop: 10,*/}
+                                        {/*marginLeft: 5,*/}
+                                        {/*borderWidth: 1,*/}
+                                        {/*borderColor: COLOR.BORDER_INPUT,*/}
+                                        {/*borderRadius: 5,*/}
+                                        {/*paddingTop: 0,*/}
+                                        {/*paddingBottom: 0,*/}
+                                        {/*paddingLeft: 10,*/}
+                                        {/*marginHorizontal: 10*/}
+                                    {/*}}*/}
+                                {/*/>*/}
                                 <TextInput
                                     underlineColorAndroid="transparent"
                                     autoCapitalize="none"
@@ -569,7 +577,7 @@ class CreatePost extends Component {
                                             })
                                         }
                                     >
-                                        <Icon name="close" size={20} color="#E0E0E0"/>
+                                        <Icon name="close" size={25} color="#424242"/>
                                     </TouchableOpacity>
                                 ) : null}
                             </View>
@@ -589,7 +597,7 @@ class CreatePost extends Component {
                                             })
                                         }
                                     >
-                                        <Icon name="close" size={20} color="#E0E0E0"/>
+                                        <Icon name="close" size={25} color="#424242"/>
                                     </TouchableOpacity>
                                 ) : null}
                             </View>

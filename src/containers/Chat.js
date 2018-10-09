@@ -173,6 +173,17 @@ class Chat extends Component {
                             />
                         )
                     }}
+                    onEndReachedThreshold={100}
+                    showsVerticalScrollIndicator={false}
+                    ref={ref => this.flatList = ref}
+                    onContentSizeChange={() => {
+                        console.log("on size change");
+                        this.flatList.scrollToEnd({ animated: true })
+                    }}
+                    onLayout={() => {
+                        console.log("got to onlayout");
+                        this.flatList.scrollToEnd({ animated: true })
+                    }}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state}
                 />

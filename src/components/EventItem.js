@@ -36,7 +36,7 @@ class EventItem extends Component {
     _renderTruncatedFooter = (handlePress) => {
         return (
             <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
-                Read more
+                Xem thêm
             </Text>
         );
     };
@@ -44,7 +44,7 @@ class EventItem extends Component {
     _renderRevealedFooter = (handlePress) => {
         return (
             <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
-                Show less
+                Thu gọn
             </Text>
         );
     };
@@ -199,8 +199,8 @@ class EventItem extends Component {
                         <Text style={{color: 'black'}}>{item.Name}</Text>
                     </View>
                     <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
-                        <Text style={{color: "#FFA726"}}>{moment(item.StartDate).format("DD/MM/YY HH:mm")} - </Text>
-                        <Text style={{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>
+                        <Text style={{color: "#FFA726"}}>{moment(item.StartDate).format("HH:mm DD/MM/YYYY")} - </Text>
+                        {/*<Text style={{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                     </View>
                     <View style={{marginHorizontal: 10, marginTop: 10}}>
                         <View>

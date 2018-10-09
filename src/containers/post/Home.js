@@ -271,6 +271,7 @@ class Home extends Component {
               }}
               extraData={this.state}
               keyExtractor={(item, index) => index.toString()}
+
             />
           )}
         </ScrollView>
