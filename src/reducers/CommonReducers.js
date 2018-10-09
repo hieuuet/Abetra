@@ -10,7 +10,7 @@ export const currentNetWork = (state = { isConnected: true }, action = {}) => {
 export const allRank = (state = [], action = {}) => {
   switch (action.type) {
     case "GET_RANK":
-      return [...state, ...action.payload];
+      return action.payload;
     default:
       return state;
   }
@@ -37,7 +37,7 @@ export const commonSetting = (state = {}, action = {}) => {
 export const categoryType3 = (state = [], action = {}) => {
   switch (action.type) {
     case "GET_CATEGORY_TYPE3":
-      return [...state, ...action.payload];
+      return action.payload;
     default:
       return state;
   }
