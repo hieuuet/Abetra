@@ -35,23 +35,25 @@ class StatusItems extends Component {
             ],
             countLike: this.countliked,
             liked: false,
+            PostContent: ""
         };
     }
     componentDidMount (){
         const {item} = this.props.dataItem;
-        // //ArrUser Liked
-        // let dataLike = (item.LikePost) ? item.LikePost : null
-        // let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
-        // //Get Arr IntUserID
-        // var ArrIntUserID = ArrUserLiked.map(function (o) {
-        //     return o.IntUserID;
-        // });
-        // // console.log('value', values)
-        //
-        // if (ArrIntUserID.indexOf(this.props.UserProfile.Value[0].IntUserID) > -1) {
-        //     this.setState({liked: true})
-        // }
-        // console.log('userLiked', ArrUserLiked)
+        //ArrUser Liked
+        let dataLike = (item.LikePost) ? item.LikePost : null
+        let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
+        //Get Arr IntUserID
+        var ArrIntUserID = ArrUserLiked.map(function (o) {
+            return o.IntUserID;
+        });
+        // console.log('ArrIntUserID', ArrIntUserID)
+        // console.log('ArrIntUserID', ArrIntUserID)
+
+        if (ArrIntUserID.indexOf(this.props.UserProfile.Value[0].IntUserID) > -1) {
+            this.setState({liked: true})
+        }
+        console.log('userLiked', ArrUserLiked)
 
 
         let dataPoll = (item.Poll) ? item.Poll : null
@@ -61,6 +63,15 @@ class StatusItems extends Component {
             // countCheck:  Poll.TotalVote
 
         })
+        let PostContent = item.PostContent
+        if (item.Type == 2){
+            PostContent = JSON.parse(PostContent)
+            this.setState({
+                PostContent: PostContent,
+            },
+                // () => console.log('PostContent', this.state.PostContent)
+            )
+        }
 
 
     }
@@ -68,7 +79,7 @@ class StatusItems extends Component {
     _renderTruncatedFooter = (handlePress) => {
         return (
             <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
-                Read more
+                Xem thêm
             </Text>
         );
     };
@@ -76,7 +87,7 @@ class StatusItems extends Component {
     _renderRevealedFooter = (handlePress) => {
         return (
             <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
-                Show less
+                Thu gọn
             </Text>
         );
     };
@@ -158,8 +169,8 @@ class StatusItems extends Component {
         // PollVote =  JSON.parse(PollVote)
         // console.log('PollVote', PollVote)
         const {setModalVisible} = this.props
-        let ArrImg = item.Images ? item.Images : null;
-        ArrImg = JSON.parse(ArrImg);
+        // let ArrImg = item.Images ? item.Images : null;
+        // ArrImg = JSON.parse(ArrImg);
 
 
         return (
@@ -229,6 +240,21 @@ class StatusItems extends Component {
                             </View>
                         </View>
                     </View>
+                    {
+                        item.Type ==2 ?
+                            <View style={{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{color: "#42A5F5"}}>SỰ KIỆN: </Text>
+                                <Text style={{color: 'black'}}>{this.state.PostContent.Name}</Text>
+                            </View> : null
+                    }
+                    {
+                        item.Type ==2 ?
+                            <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
+                        <Text style={{color: "#FFA726"}}>{moment(this.state.PostContent.StartDate).format("HH:mm DD/MM/YYYY")} </Text>
+                        {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
+                        </View>
+                     : null
+                    }
                     <View style={{marginHorizontal: 10, marginTop: 10}}>
                         <View>
                             <ReadMore
@@ -237,7 +263,7 @@ class StatusItems extends Component {
                                 renderRevealedFooter={this._renderRevealedFooter}
                                 onReady={this._handleTextReady}
                             >
-                                <Text>{item.PostContent}</Text>
+                                <Text>{item.Type != 2 ? item.PostContent : this.state.PostContent.Description}</Text>
                             </ReadMore>
                         </View>
                     </View>
@@ -257,9 +283,9 @@ class StatusItems extends Component {
                         keyExtractor={(item, index) => index.toString()}
 
                     />
-                    {ArrImg ? (
-                        <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
-                    ) : null}
+                    {/*{ArrImg ? (*/}
+                        {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
+                    {/*) : null}*/}
 
                     <View
                         style={{
