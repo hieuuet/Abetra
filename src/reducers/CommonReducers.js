@@ -1,3 +1,12 @@
+export const currentNetWork = (state = { isConnected: true }, action = {}) => {
+  switch (action.type) {
+    case "NETWORK_CHANGE":
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+};
+
 export const allRank = (state = [], action = {}) => {
   switch (action.type) {
     case "GET_RANK":

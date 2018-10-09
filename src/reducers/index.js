@@ -20,7 +20,8 @@ import {
   allHashTag,
   commonSetting,
   categoryType3,
-  allEmoji
+  allEmoji,
+  currentNetWork
 } from "./CommonReducers";
 import { getEvent, getEventJoin } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
@@ -54,7 +55,8 @@ const appReducer = combineReducers({
   likePost,
   categoryType3,
   allEmoji,
-  allEnterprise
+  allEnterprise,
+  currentNetWork
 });
 
 export const rootReducer = (state, action) => {

@@ -250,29 +250,29 @@ class Home extends Component {
                 </TouchableOpacity>
               )}
           </View>
-          {this.state.ArrPost.length === 0 && !this.state.isLoading ? (
-            this._renderEmpty()
-          ) : (
-            <FlatList
-              // refreshing={this.state.refresh}
-              // onRefresh={() => {
-              //     this.GetPost()
-              // }}
-              data={this.state.ArrPost}
-              renderItem={item => {
-                return (
-                  <StatusItems
-                    dataItem={item}
-                    userID={this.userID}
-                    // onReloadBack ={this.onReloadBack}
-                    navigation={navigation}
-                  />
-                );
-              }}
-              extraData={this.state}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          )}
+          {this.state.ArrPost.length === 0 && !this.state.isLoading
+            ? this._renderEmpty()
+            : null
+            // <FlatList
+            //   // refreshing={this.state.refresh}
+            //   // onRefresh={() => {
+            //   //     this.GetPost()
+            //   // }}
+            //   data={this.state.ArrPost}
+            //   renderItem={item => {
+            //     return (
+            //       <StatusItems
+            //         dataItem={item}
+            //         userID={this.userID}
+            //         // onReloadBack ={this.onReloadBack}
+            //         navigation={navigation}
+            //       />
+            //     );
+            //   }}
+            //   extraData={this.state}
+            //   keyExtractor={(item, index) => index.toString()}
+            // />
+          }
         </ScrollView>
       </KeyboardAvoidingView>
     );

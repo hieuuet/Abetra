@@ -57,8 +57,8 @@ class Login extends Component {
       isLoadingIndicator: true
     };
     this.dataUser = {
-      userName: "01234567893",
-      password: "123456"
+      userName: "",
+      password: ""
     };
 
     this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
@@ -175,7 +175,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          defaultValue="0123456789"
+          defaultValue=""
           placeholder={strings("login.placeholder.input_phone")}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
@@ -188,7 +188,7 @@ class Login extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          defaultValue="123456"
+          defaultValue=""
           secureTextEntry={true}
           placeholder={strings("login.placeholder.input_pass")}
           ref="pass"

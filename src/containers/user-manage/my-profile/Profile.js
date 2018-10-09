@@ -32,7 +32,11 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     //get tag has been selected when register and bind with select of all tab
-    let tagSelected = this.props.userProfile.Value[0].HashTag;
+    let tagSelected =
+      (this.props.userProfile &&
+        this.props.userProfile.Value &&
+        this.props.userProfile.Value[0].HashTag) ||
+      "[]";
     if (tagSelected) {
       tagSelected = JSON.parse(tagSelected);
       if (!Array.isArray(tagSelected)) tagSelected = [];
@@ -55,6 +59,7 @@ class Profile extends Component {
     this.props.navigation.setParams({
       title:
         (this.props.userProfile &&
+          this.props.userProfile.Value &&
           this.props.userProfile.Value[0] &&
           this.props.userProfile.Value[0].FullName) ||
         "Profile"

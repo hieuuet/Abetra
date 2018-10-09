@@ -130,21 +130,26 @@ class Enterprise extends Component {
       Type: 255
     });
 
-    if (result && result.ErrorCode === "00") {
+    if (!result)
+      return this.setState({
+        isLoading: false
+      });
+    if (result.ErrorCode === "00") {
       return this.setState({
         isLoading: false,
         dataEnterprise: [...this.state.dataEnterprise, ...result.Value]
       });
+    } else {
+      this.setState({
+        isLoading: false
+      });
+      return Alert.alert(
+        "Thông báo",
+        result.Message || "Lỗi không xác định",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
     }
-    this.setState({
-      isLoading: false
-    });
-    return Alert.alert(
-      "Thông báo",
-      result.Message || "Lỗi không xác định",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
   };
 
   loadMore = async () => {

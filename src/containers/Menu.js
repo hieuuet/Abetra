@@ -91,7 +91,7 @@ class Menu extends Component {
           }}
         />
         <MenuItem
-          title="Đăng xuất"
+          title={this.props.isGuest ? "Đăng nhập" : "Đăng xuất"}
           source={require("../../assets/event.png")}
           onPress={this.logout}
         />

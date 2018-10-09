@@ -1,9 +1,29 @@
 import axios from "axios";
 import { DEFAULT_LANGUGE } from "../constant/KeyConstant";
 import store from "../store";
+import { Alert } from "react-native";
 
+let isOpen = false;
 export const getRequestApi = async (url, isShowLog = false) => {
-  // let token = await AsyncStorage.getItem('token');
+  const isConnected = store.getState().currentNetWork.isConnected;
+  // console.log("get request isConnected: ", isConnected);
+  if (!isConnected) {
+    if (isOpen) return undefined;
+    isOpen = true;
+    return Alert.alert(
+      "Thông báo",
+      "Mất kết nối mạng",
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            isOpen = false;
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
   let config = {
     headers: {
       "Content-Type": "application/json"
@@ -35,6 +55,25 @@ export const getRequestApi = async (url, isShowLog = false) => {
 };
 
 export const postRequestApi = async (url, data, isShowLog = false) => {
+  const isConnected = store.getState().currentNetWork.isConnected;
+  // console.log("post request isConnected: ", isConnected);
+  if (!isConnected) {
+    if (isOpen) return undefined;
+    isOpen = true;
+    return Alert.alert(
+      "Thông báo",
+      "Mất kết nối mạng",
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            isOpen = false;
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
   //Config get set for all api
   let language = store.getState().currentLanguage;
   if (language === null || language === undefined || !language.LangID)
