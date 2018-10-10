@@ -134,6 +134,7 @@ class Home extends Component {
   }
 
   _searchPost = async () => {
+      const IntUserID = await AsyncStorage.getItem("IntUserID");
     this.setState({
       refreshing: true,
       isLoading: true
@@ -151,6 +152,7 @@ class Home extends Component {
       Profile_id: "",
       User_type: 255,
       Pin: 255,
+        IntUserID: IntUserID,
       Option: 0,
       LangID: 129
     });

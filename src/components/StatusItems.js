@@ -24,6 +24,7 @@ import PollVote from "./PollVote";
 import {likePost} from "../actions/likePostActions";
 import {URL_BASE} from "../constant/api";
 import IconAdd from "react-native-vector-icons/Entypo";
+import {joinEvent} from "../actions/joinEventActions";
 
 
 class StatusItems extends Component {
@@ -81,6 +82,57 @@ class StatusItems extends Component {
 
 
     }
+    _joinEvent = async (EventID) => {
+        const {joinEvent, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+        }
+        let eventJoin = await joinEvent({
+            EventID: EventID,
+            ProfileID: UserProfile.Value[0].IntUserID,//api yeu cau interuserid
+            Type: 0,
+            UserName: UserProfile.Value[0].FullName,
+            Phone: UserProfile.Value[0].Phone,
+            Email: UserProfile.Value[0].Email ? UserProfile.Value[0].Email : "",
+            LangID: 129
+
+        })
+        console.log('eventJoin', eventJoin)
+
+
+        if (eventJoin.ErrorCode == "00") {
+            this.setState({
+                isJoin: true
+
+            })
+        }
+        else if (eventJoin.ErrorCode == "04") {
+            Alert.alert(
+                "Thông báo",
+                "Bạn đã tham gia trước đó",
+                [{
+                    text: "OK", onPress: () => {
+                    }
+                }],
+                {cancelable: false}
+            );
+
+        }
+        else {
+            Alert.alert(
+                "Thông báo",
+                "Tham gia sự kiện không thành công",
+                [{
+                    text: "OK", onPress: () => {
+                    }
+                }],
+                {cancelable: false}
+            );
+        }
+
+
+    }
+
 
     _renderTruncatedFooter = (handlePress) => {
         return (
@@ -376,7 +428,7 @@ class StatusItems extends Component {
                             </View>
                         </TouchableOpacity>
                         {
-                            item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.ID)}>
+                            item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.PostID)}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -418,7 +470,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        likePost: bindActionCreators(likePost, dispatch)
+        likePost: bindActionCreators(likePost, dispatch),
+        joinEvent: bindActionCreators(joinEvent, dispatch)
 
     };
 };
