@@ -22,6 +22,8 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import PollVote from "./PollVote";
 import {likePost} from "../actions/likePostActions";
+import {URL_BASE} from "../constant/api";
+import IconAdd from "react-native-vector-icons/Entypo";
 
 
 class StatusItems extends Component {
@@ -40,6 +42,10 @@ class StatusItems extends Component {
     }
     componentDidMount (){
         const {item} = this.props.dataItem;
+        const { UserProfile}  = this.props
+        if (UserProfile.length<= 0){
+            return null
+        }
         //ArrUser Liked
         let dataLike = (item.LikePost) ? item.LikePost : null
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
@@ -50,10 +56,10 @@ class StatusItems extends Component {
         // console.log('ArrIntUserID', ArrIntUserID)
         // console.log('ArrIntUserID', ArrIntUserID)
 
-        if (ArrIntUserID.indexOf(this.props.UserProfile.Value[0].IntUserID) > -1) {
+        if (ArrIntUserID.indexOf(UserProfile.Value[0].IntUserID) > -1) {
             this.setState({liked: true})
         }
-        console.log('userLiked', ArrUserLiked)
+        // console.log('userLiked', ArrUserLiked)
 
 
         let dataPoll = (item.Poll) ? item.Poll : null
@@ -169,8 +175,8 @@ class StatusItems extends Component {
         // PollVote =  JSON.parse(PollVote)
         // console.log('PollVote', PollVote)
         const {setModalVisible} = this.props
-        // let ArrImg = item.Images ? item.Images : null;
-        // ArrImg = JSON.parse(ArrImg);
+        let ArrImg = item.Images ? item.Images : null;
+        ArrImg = JSON.parse(ArrImg);
 
 
         return (
@@ -187,8 +193,7 @@ class StatusItems extends Component {
                             <Image
                                 style={styles.image_circle}
                                 source={{
-                                    uri:
-                                        "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
+                                    uri: URL_BASE + item.Avatar
                                 }}
                                 resizeMode="cover"
                             />
@@ -283,9 +288,9 @@ class StatusItems extends Component {
                         keyExtractor={(item, index) => index.toString()}
 
                     />
-                    {/*{ArrImg ? (*/}
-                        {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
-                    {/*) : null}*/}
+                    {ArrImg ? (
+                        <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
+                    ) : null}
 
                     <View
                         style={{
@@ -354,18 +359,41 @@ class StatusItems extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity  onPress={() => this.onShare()}>
                             <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginRight: 20,
-                                    alignItems: "center",
-                                }}
+                                style={
+                                    item.Type == 2 ?
+                                        {
+                                            flexDirection: "row",
+                                            marginRight: 20,
+                                            alignItems: "center",
+                                        }:{
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                        }  }
                             >
                                 <Icon name="share-outline" size={25} color="#424242"/>
 
                                 <Text style={{color: "#424242"}}>Share</Text>
                             </View>
                         </TouchableOpacity>
+                        {
+                            item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.ID)}>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginRight: 20,
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <IconAdd name="add-user" size={20} color="#424242"/>
+                                    {
+                                        this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :
+                                            <Text style={{color: "#424242"}}>Tham gia</Text>
+                                    }
+                                </View>
+                            </TouchableOpacity> : null
+                        }
                     </View>
+
 
                 </View>
 

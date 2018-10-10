@@ -75,7 +75,7 @@ export default class TinNhanItem extends Component {
               <Text>{item.Time}</Text>
             </View>
             <Text style={{}} numberOfLines={1} ellipsizeMode={'tail'}>
-              {item.Content}
+              {item.IsSystem === 1 ? item.Description : item.Content}
             </Text>
           </View>
         </View>

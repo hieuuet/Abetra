@@ -35,11 +35,11 @@ class Message extends Component {
     let ArrMsg = await loadMsgGroup({
       IntUserID: UserProfile.Value[0].IntUserID
     });
-    if (!ArrSysTem) return this.setState({ isLoading: false });
-    console.log("ArrMsg", ArrMsg);
+    // console.log("ArrMsg", ArrMsg);
     let ArrSysTem = ArrMsg.ObjectResult.filter(ArrSys => {
       return ArrSys.IsSystem === 1;
     });
+
 
     let ArrUser = ArrMsg.ObjectResult.filter(ArrSys => {
       return ArrSys.IsSystem === 0;
