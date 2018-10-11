@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Dimensions,
   NativeModules,
-  Alert
+  Alert,
+  BackHandler
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -35,7 +36,7 @@ const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
 import { GENDER_STATE } from "../../../constant/KeyConstant";
 import { formatDate } from "../../../constant/UtilsFunction";
-
+import EmojiSelector from "react-native-emoji-selector";
 const ImagePicker = NativeModules.ImageCropPicker;
 
 import Ionicon from "react-native-vector-icons/dist/Ionicons";
@@ -52,7 +53,8 @@ class MyProfileTab1 extends Component {
 
     this.state = {
       localAvatar: undefined,
-      dataImage: this.oldImage
+      dataImage: this.oldImage,
+      showEmoticons: false
     };
 
     this.radioData = [
@@ -71,7 +73,14 @@ class MyProfileTab1 extends Component {
     this.textDescription =
       (this.props.dataUser && this.props.dataUser.Description) || "";
   }
-
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.state.showEmoticons) {
+        this.setState({ showEmoticons: false });
+        return true;
+      }
+    });
+  }
   componentWillReceiveProps(props) {}
   shouldComponentUpdate(nextProps, nextState) {
     return !(
@@ -414,7 +423,10 @@ class MyProfileTab1 extends Component {
         />
 
         <View style={styles.action}>
-          <TouchableOpacity style={styles.btn_action}>
+          <TouchableOpacity
+            style={styles.btn_action}
+            onPress={() => this.setState({ showEmoticons: true })}
+          >
             <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -481,7 +493,9 @@ class MyProfileTab1 extends Component {
       </View>
     );
   };
-
+  onEmojiSelected = emoji => {
+    this.textDescription += emoji;
+  };
   render() {
     console.log("render tab 1");
     //get dataUser
@@ -503,6 +517,15 @@ class MyProfileTab1 extends Component {
             {this._renderFooter()}
           </View>
         </ScrollView>
+
+        {this.state.showEmoticons ? (
+          <EmojiSelector
+            onEmojiSelected={this.onEmojiSelected}
+            showSearchBar={false}
+            showHistory={true}
+            columns={10}
+          />
+        ) : null}
       </KeyboardAvoidingView>
     );
   }
@@ -567,7 +590,13 @@ const styles = StyleSheet.create({
     width: 40,
     height: 30
   },
-  text_area: { flex: 1, textAlignVertical: "top", height: 100, marginTop: 0 },
+  text_area: {
+    flex: 1,
+    textAlignVertical: "top",
+    height: 100,
+    marginTop: 0,
+    color: "#000000"
+  },
   text_address: { marginTop: 0 },
   action: {
     flexDirection: "row",

@@ -104,13 +104,13 @@ class MemberProfileTab1 extends Component {
             {getGender(this.props.dataUser.Gender)}
           </Text>
           <Text style={style_common.text_color_base}>
-            Sinh nhật:
+            Sinh nhật: 
             {this.props.dataUser && this.props.dataUser.BirdDate
               ? formatDate(this.props.dataUser.BirdDate)
               : ""}
           </Text>
           <Text style={style_common.text_color_base}>
-            Mobile:
+            Mobile: 
             {this.props.dataUser && this.props.dataUser.UserName
               ? this.props.dataUser.UserName
               : ""}

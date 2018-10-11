@@ -75,7 +75,8 @@ class MyProfileTab2 extends Component {
       User_id: dataUser.UserID,
       User_type: TYPE_POST.ALL,
       Pin: TYPE_POST_PIN.ALL,
-      Option: 0
+      Option: 0,
+      IntUserID: dataUser.IntUserID
     });
 
     const resultPost = result && result.ErrorCode === "00" ? result.Value : [];

@@ -15,8 +15,8 @@ export const DEFAULT_LANGUGE = {
 
 //state of gender
 export const GENDER_STATE = {
-  WOMEN: 0,
-  MAN: 1,
+  WOMEN: 1,
+  MAN: 0,
   OTHER: 2
 };
 

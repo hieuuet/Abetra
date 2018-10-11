@@ -153,8 +153,7 @@ class Home extends Component {
       User_type: 255,
       Pin: 255,
         IntUserID: IntUserID,
-      Option: 0,
-      LangID: 129
+      Option: 0
     });
 
     if (listPost && listPost.ErrorCode === "00") {
