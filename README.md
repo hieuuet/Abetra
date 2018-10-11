@@ -9,5 +9,6 @@ node_modules\react-native-emoji-selector\index.js
 `<Text style={{ fontSize: (colSize) - 12 }}>
             {charFromEmojiObject(emoji)}
  </Text>`
+ 
 3.Replace by:
-`<Text style={{ color:'#ffffff, fontSize: (colSize) - 12 }}> {charFromEmojiObject(emoji)} </Text>`
+`<Text style={{ color:'#ffffff', fontSize: (colSize) - 12 }}> {charFromEmojiObject(emoji)} </Text>`
