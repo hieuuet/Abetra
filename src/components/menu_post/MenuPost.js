@@ -85,7 +85,7 @@ class MenuPost extends Component {
 
 
     render() {
-        console.log('this.item', this.props.item)
+        // console.log('this.item', this.props.item)
         const {changeModalVisible, onChangeModalVisible} = this.props;
         return (
             <Modal
