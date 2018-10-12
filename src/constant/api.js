@@ -19,6 +19,7 @@ export const API = {
   SEARCH_POST: `${URL_BASE}/api/Post/SearchPost`,
   LOAD_SAVE_POST: `${URL_REALTIME}/socket/loadsavepost`,
   SAVE_POST: `${URL_REALTIME}/socket/savepost`,
+  UNSAVE_POST: `${URL_REALTIME}/socket/unloadsavepost`,
 
   //cmt
   CREATE_CMT: `${URL_BASE}/api/Comment/CreateComment`,

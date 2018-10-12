@@ -30,4 +30,18 @@ export const savePost = (data = {}) => {
         return result;
     }
 }
+export const unsavePost = (data = {}) => {
+    return async dispatch => {
+
+        let result = await postRequestApi( API.UNSAVE_POST, data,  dispatch);
+
+        if (result) {
+            dispatch({
+                type: 'UNSAVE_POST',
+                payload: result
+            });
+        }
+        return result;
+    }
+}
 

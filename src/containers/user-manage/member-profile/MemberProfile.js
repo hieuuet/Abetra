@@ -41,6 +41,7 @@ class MemberProfile extends Component {
       user_id: dataMember.UserID,
       option: 100
     });
+    console.log('dataProfile', dataProfile)
     if (!dataProfile || dataProfile.Message !== null) {
       this.setState({
         memberProfile: dataProfile.Value[0],

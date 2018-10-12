@@ -67,7 +67,8 @@ class MemberProfileTab1 extends Component {
     if (MsgGroupID.Error == null) {
       this.props.navigation.navigate("Chat", {
         MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID,
-        ProfileMember: this.props.dataUser
+        ProfileMember: this.props.dataUser,
+          title: this.props.dataUser.FullName
       });
     } else {
       Alert.alert(

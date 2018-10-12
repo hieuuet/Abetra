@@ -456,6 +456,7 @@ class StatusItems extends Component {
                     item={item}
                     changeModalVisible={this.state.modalVisible}
                     onChangeModalVisible={this.setModalVisible}
+
                 />
             </View>
         );

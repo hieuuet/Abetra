@@ -12,13 +12,17 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon1 from "react-native-vector-icons/Feather";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {savePost} from "../../actions/loadSavePostActions";
+import {savePost, unsavePost} from "../../actions/loadSavePostActions";
 
 class MenuPost extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.isSave = this.props.item.LikeSave
+        this.state = {
+            isSave: this.isSave
+        }
     }
+
     _savePost = async (PostID) => {
         const { UserProfile, savePost } = this.props
         let save = await savePost({
@@ -27,6 +31,9 @@ class MenuPost extends Component {
 
         })
         if(save.Error == null){
+            this.setState({
+                isSave : !this.state.isSave
+            })
             Alert.alert(
                 "Thông báo",
                 "Lưu bài viết thành công",
@@ -46,9 +53,39 @@ class MenuPost extends Component {
         console.log('save', save)
     }
 
+    _unsavePost = async (PostID) => {
+        const { UserProfile, unsavePost } = this.props
+        let save = await unsavePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: PostID
+
+        })
+        if(save.Error == null){
+            this.setState({
+                isSave : !this.state.isSave
+            })
+            Alert.alert(
+                "Thông báo",
+                "Bỏ lưu bài viết thành công",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+        }
+        else {
+            Alert.alert(
+                "Thông báo",
+                "Bỏ lưu bài viết không thành công",
+                [{ text: "OK", onPress: () => {} }],
+                { cancelable: false }
+            );
+
+        }
+        console.log('save', save)
+    }
+
 
     render() {
-        // console.log('this.item', this.props.item)
+        console.log('this.item', this.props.item)
         const {changeModalVisible, onChangeModalVisible} = this.props;
         return (
             <Modal
@@ -74,16 +111,28 @@ class MenuPost extends Component {
                     <View
                         style={{backgroundColor: "white", flex: 1, justifyContent: "center"}}
                     >
-                        <TouchableOpacity onPress={() => {
-                            this._savePost(this.props.item.PostID)
-                            onChangeModalVisible(false)
-                        }}>
-                            <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 10}}>
-                                <Icon1 name="bookmark" size={25} color="#E0E0E0"/>
 
-                                <Text style={{marginLeft: 10}}>Lưu bài viết</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {
+                            this.state.isSave ? <TouchableOpacity onPress={() => {
+                                this._unsavePost(this.props.item.PostID)
+                                onChangeModalVisible(false)
+                            }}>
+                                <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 10}}>
+                                    <Icon1 name="bookmark" size={25} color="#E0E0E0"/>
+
+                                    <Text style={{marginLeft: 10}}>Bỏ lưu bài viết</Text>
+                                </View>
+                            </TouchableOpacity> : <TouchableOpacity onPress={() => {
+                                this._savePost(this.props.item.PostID)
+                                onChangeModalVisible(false)
+                            }}>
+                                <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 10}}>
+                                    <Icon1 name="bookmark" size={25} color="#E0E0E0"/>
+
+                                    <Text style={{marginLeft: 10}}>Lưu bài viết</Text>
+                                </View>
+                            </TouchableOpacity>
+                        }
                         <TouchableOpacity onPress={() => onChangeModalVisible(false)}>
                             <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 10, marginTop: 10}}>
                                 <Icon name="report-problem" size={25} color="#E0E0E0"/>
@@ -106,6 +155,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         savePost: bindActionCreators(savePost, dispatch),
+        unsavePost: bindActionCreators(unsavePost, dispatch),
     };
 };
 

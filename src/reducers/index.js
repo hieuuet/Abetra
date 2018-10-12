@@ -13,7 +13,7 @@ import { searchPost } from "./searchPostReducers";
 import { loginGuest } from "./guestReducers";
 import { currentLanguage } from "./LanguageReducers";
 
-import { loadSavePost, savePost } from "./loadSavePostReducers";
+import { loadSavePost, savePost, unsavePost } from "./loadSavePostReducers";
 
 import {
   allRank,
@@ -47,6 +47,7 @@ const appReducer = combineReducers({
   allRank,
   allHashTag,
   savePost,
+    unsavePost,
   getEvent,
   addEvent,
   joinEvent,
