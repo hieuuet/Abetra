@@ -36,7 +36,7 @@ const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
 import { GENDER_STATE } from "../../../constant/KeyConstant";
 import { formatDate } from "../../../constant/UtilsFunction";
-import EmojiSelector from "react-native-emoji-selector";
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
 const ImagePicker = NativeModules.ImageCropPicker;
 
 import Ionicon from "react-native-vector-icons/dist/Ionicons";
@@ -51,10 +51,16 @@ class MyProfileTab1 extends Component {
         ? JSON.parse(this.props.dataUser.ImageDescription)
         : [];
 
+    this.textAddress =
+      (this.props.dataUser && this.props.dataUser.Address) || "";
+    this.textDescription =
+      (this.props.dataUser && this.props.dataUser.Description) || "";
+
     this.state = {
       localAvatar: undefined,
       dataImage: this.oldImage,
-      showEmoticons: false
+      showEmoticons: false,
+      textDescription: this.textDescription
     };
 
     this.radioData = [
@@ -68,10 +74,6 @@ class MyProfileTab1 extends Component {
 
     this.arrBase64 = [];
     this.arrPath = [];
-    this.textAddress =
-      (this.props.dataUser && this.props.dataUser.Address) || "";
-    this.textDescription =
-      (this.props.dataUser && this.props.dataUser.Description) || "";
   }
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -409,7 +411,7 @@ class MyProfileTab1 extends Component {
           returnKeyType="done"
           numberOfLines={5}
           multiline={true}
-          defaultValue={this.textDescription}
+          defaultValue={this.state.textDescription}
           placeholder={`Giới thiệu về ${
             this.dataUser && this.dataUser.FullName
               ? this.dataUser.FullName
@@ -419,7 +421,11 @@ class MyProfileTab1 extends Component {
             this.textDescription = text.trim();
           }}
           style={[style_common.input_border, styles.text_area]}
-          onSubmitEditing={event => {}}
+          onSubmitEditing={event => {
+            if (this.textDescription) {
+              this.setState({ textDescription: this.textDescription });
+            }
+          }}
         />
 
         <View style={styles.action}>
@@ -494,7 +500,9 @@ class MyProfileTab1 extends Component {
     );
   };
   onEmojiSelected = emoji => {
+    if (!this.textDescription) this.textDescription = "";
     this.textDescription += emoji;
+    this.setState({ textDescription: this.textDescription });
   };
   render() {
     console.log("render tab 1");
@@ -519,12 +527,35 @@ class MyProfileTab1 extends Component {
         </ScrollView>
 
         {this.state.showEmoticons ? (
-          <EmojiSelector
-            onEmojiSelected={this.onEmojiSelected}
-            showSearchBar={false}
-            showHistory={true}
-            columns={10}
-          />
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0
+            }}
+          >
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                alert(1);
+                this.setState({ showEmoticons: false });
+              }}
+            />
+            <EmojiSelector
+              onEmojiSelected={this.onEmojiSelected}
+              category={Categories.people}
+              showSearchBar={false}
+              showTabs={false}
+              showHistory={true}
+              columns={10}
+              style={{
+                backgroundColor: "gray",
+                height: 200
+              }}
+            />
+          </View>
         ) : null}
       </KeyboardAvoidingView>
     );
