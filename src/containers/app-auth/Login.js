@@ -20,18 +20,18 @@ import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { postLogin, loginGuest, loginFacebook } from "../../actions";
 import { facebookLogin } from "./Loginfb";
-import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
 import { USER_ID } from "../../constant/KeyConstant";
 import { web } from "../../components/Communications";
 import Icon from "react-native-vector-icons/dist/Ionicons";
+import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
 
 class Login extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     console.log("params", params);
     return {
-      title: "Đăng Nhập",
+      title: TEXT_COMMON.Login,
       headerLeft: (
         <TouchableOpacity
           onPress={() => {
@@ -176,7 +176,7 @@ class Login extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           defaultValue=""
-          placeholder={strings("login.placeholder.input_phone")}
+          placeholder={TEXT_LOGIN.InputPhone}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
           style={[style_common.input_border, styles.text_input]}
@@ -190,17 +190,14 @@ class Login extends Component {
           returnKeyType="done"
           defaultValue=""
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_pass")}
+          placeholder={TEXT_LOGIN.InputPass}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={[style_common.input_border, styles.text_input]}
         />
-        <ButtonBorder
-          label={strings("login.btn_login")}
-          onPress={this._login}
-        />
+        <ButtonBorder label={TEXT_COMMON.Login} onPress={this._login} />
         <View style={styles.view_login}>
-          <Text>{strings("login.login_fb")}</Text>
+          <Text>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -211,16 +208,16 @@ class Login extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.not_account")}</Text>
+          <Text style={styles.text_login}>{TEXT_LOGIN.NotAccount}</Text>
           <ButtonBorder
-            label={strings("register.btn_register")}
+            label={TEXT_LOGIN.Register}
             onPress={() => {
               this.props.navigation.navigate("Register");
             }}
           />
         </View>
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
+          <Text style={styles.text_login}>{TEXT_COMMON.Guest}</Text>
           <ButtonBorder label="Guest" onPress={this.loginAsGuest} />
         </View>
       </View>
@@ -230,7 +227,7 @@ class Login extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>{strings("verify.txt_fanpage")}</Text>
+          <Text>{TEXT_COMMON.FanPage}</Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
               style={styles.img_fb}

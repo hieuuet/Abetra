@@ -16,7 +16,7 @@ import {
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { strings } from "../../i18n";
+import { TEXT_COMMON, TEXT_VERIFY } from "../../language";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -28,7 +28,7 @@ import { web } from "../../components/Communications";
 class VerifyAccount extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Xác thực số điện thoại",
+      title: TEXT_VERIFY.VerifyPhone,
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
       headerTintColor: COLOR.COLOR_BLACK
     };
@@ -116,26 +116,23 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={strings("verify.placeholder.input_code")}
+          placeholder={TEXT_VERIFY.InputCode}
           keyboardType="numeric"
           defaultValue="1234"
           onChangeText={text => (this.verifyCode = text)}
           style={[style_common.input_border, styles.text_input]}
         />
-        <Text style={styles.text_info}>{strings("verify.info")}</Text>
+        <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text>
         <ButtonBorder
-          label={strings("verify.btn_confirm")}
+          label={TEXT_COMMON.Confirm}
           onPress={this.verify}
           // my_style={{ marginBottom: 10 }}
         />
         <View style={styles.view_login}>
           <Text style={[styles.text_login, style_common.text_color_base]}>
-            {strings("verify.txt_notReceive")}
+            {TEXT_VERIFY.NotRecevie}
           </Text>
-          <ButtonBorder
-            label={strings("verify.btn_reSend")}
-            onPress={this.reSendCode}
-          />
+          <ButtonBorder label={TEXT_VERIFY.Resend} onPress={this.reSendCode} />
         </View>
       </View>
     );
@@ -152,7 +149,7 @@ class VerifyAccount extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <Text style={style_common.text_color_base}>
-            {strings("verify.txt_fanpage")}
+            {TEXT_COMMON.FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image

@@ -1,4 +1,4 @@
-import { strings } from "../i18n";
+import { strings } from "../language/i18n";
 import { GENDER_STATE } from "./KeyConstant";
 import moment from "moment";
 

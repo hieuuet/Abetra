@@ -19,7 +19,7 @@ import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import EditView from "./EditView";
 import { COLOR } from "../../../constant/Color";
-import { strings } from "../../../i18n";
+import { strings } from "../../../language/i18n";
 import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";

@@ -1,35 +1,47 @@
 {
   "login": {
-    "placeholder": {
-      "input_phone": "Nhập số điện thoại",
-      "input_fullname": "Nhập họ tên",
-      "input_pass": "Nhập mật khẩu",
-      "input_rePass": "Nhập lại mật khẩu",
-      "input_fullname": "Nhập họ tên"
-    },
-    "login_fb": "Đăng nhập bằng Facebook",
+    "input_phone": "Nhập số điện thoại",
+    "input_pass": "Nhập mật khẩu",
     "login_guest": "Dùng tài khoản khách",
-    "not_account": "Chưa có tài khoản",
-    "btn_login": "Đăng nhập",
-    "btn_guest": "Guest"
+    "not_account": "Chưa có tài khoản"
   },
+  "common": {
+    "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
+    "btn_guest": "Guest",
+    "btn_login": "Đăng nhập",
+    "login_fb": "Đăng nhập bằng Facebook",
+    "confirm": "Xác nhận",
+    "cancel": "Hủy"
+  },
+
   "register": {
     "btn_register": "Đăng ký",
     "has_account": "Đã có tài khoản",
+    "input_rePass": "Nhập lại mật khẩu",
+    "input_fullname": "Nhập họ tên",
     "agree_term": "Tôi đã đọc và đồng ý các điều khoản dịch vụ"
   },
+  "changePass": {
+    "btn_changePass": "Đổi mật khẩu",
+    "oldPass": "Nhập mật khẩu cũ",
+    "newPass": "Nhập mật khẩu mới",
+    "reNewPass": "Nhập lại mật khẩu mới"
+  },
+  "changePhone": {
+    "btn_changePhone":"Đổi số điện thoại",
+    "newPhone":"Nhập số điện thoại mới"
+  },
+
   "verify": {
-    "placeholder": {
-      "input_code": "Nhập mã xác nhận"
-    },
+    "verify_phone": "Xác thực số điện thoại",
+    "input_code": "Nhập mã xác nhận",
     "info": "Mã xác nhận đã được gửi tin nhắn tới số của bạn",
     "txt_notReceive": "Không nhận được mã",
     "txt_phoneIncorrect": "Nhập sai số điện thoại",
-    "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
-    "btn_confirm": "Xác nhận",
     "btn_reSend": "Gửi lại mã",
     "btn_reInput": "Nhập lại"
   },
+
   "profile": {
     "name_login": "Tên đăng nhập",
     "name_display": "Tên hiển thị",

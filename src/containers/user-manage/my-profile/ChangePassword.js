@@ -9,32 +9,30 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
-  AsyncStorage,
+  Alert
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
-import { strings } from "../../../i18n";
 
 import { changePassword } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
-
+import { TEXT_COMMON, TEXT_CHANGE_PASSWORD } from "../../../language";
 class ChangePassword extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Đổi mật khẩu",
+      title: TEXT_CHANGE_PASSWORD.ChangePass,
 
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK,
+      headerTintColor: COLOR.COLOR_BLACK
     };
   };
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: false
     };
     this.oldPass = "";
     this.newPass = "";
@@ -73,7 +71,7 @@ class ChangePassword extends Component {
     const result = await changePassword({
       ten_dang_nhap: this.userName,
       mat_khau_cu: this.oldPass,
-      mat_khau_moi: this.newPass,
+      mat_khau_moi: this.newPass
     });
     this.setState({ isLoading: false });
     if (result) {
@@ -108,10 +106,10 @@ class ChangePassword extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder={"Nhập mật khẩu cũ"}
-          onChangeText={(text) => (this.oldPass = text)}
+          placeholder={TEXT_CHANGE_PASSWORD.InputOldPass}
+          onChangeText={text => (this.oldPass = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.newPass.focus();
           }}
         />
@@ -121,10 +119,10 @@ class ChangePassword extends Component {
           returnKeyType="next"
           ref="newPass"
           secureTextEntry={true}
-          placeholder={"Nhập mật khẩu mới"}
-          onChangeText={(text) => (this.newPass = text)}
+          placeholder={TEXT_CHANGE_PASSWORD.InputNewPass}
+          onChangeText={text => (this.newPass = text)}
           style={[style_common.input_border, styles.text_input]}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={event => {
             this.refs.reNewPass.focus();
           }}
         />
@@ -134,18 +132,18 @@ class ChangePassword extends Component {
           returnKeyType="done"
           ref="reNewPass"
           secureTextEntry={true}
-          placeholder={"Nhập lại mật khẩu mới"}
-          onChangeText={(text) => (this.reNewPass = text)}
+          placeholder={TEXT_CHANGE_PASSWORD.InputReNewPass}
+          onChangeText={text => (this.reNewPass = text)}
           style={[style_common.input_border, styles.text_input]}
         />
         <View style={styles.wraper_btn}>
           <ButtonBorder
-            label={"Xác nhận"}
+            label={TEXT_COMMON.Confirm}
             onPress={this.onChangePass}
             my_style={styles.btn_left}
           />
           <ButtonBorder
-            label={"Hủy"}
+            label={TEXT_COMMON.Cancel}
             my_style={styles.btn_right}
             onPress={() => this.props.navigation.goBack()}
           />
@@ -165,7 +163,7 @@ class ChangePassword extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <Text style={style_common.text_color_base}>
-            {strings("verify.txt_fanpage")}
+            {TEXT_COMMON.FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
@@ -213,17 +211,17 @@ export default ChangePassword;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100,
+    height: 100
   },
   text_input: {
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5,
+    padding: 5
   },
 
   img_fb: {
     width: 50,
-    height: 50,
+    height: 50
   },
   view_login: {
     justifyContent: "flex-start",
@@ -232,28 +230,28 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
   view_fanpage: {
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   content_footer: {
     justifyContent: "flex-end",
     marginTop: 10,
     marginBottom: 10,
-    flex: 1,
+    flex: 1
   },
   text_login: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10
   },
   text_info: {
     margin: 10,
-    color: COLOR.COLOR_BLACK,
+    color: COLOR.COLOR_BLACK
   },
   btn_left: { flex: 1, marginRight: 10 },
   btn_right: { flex: 1, marginRight: 10 },
-  wraper_btn: { marginHorizontal: 60, flexDirection: "row" },
+  wraper_btn: { marginHorizontal: 60, flexDirection: "row" }
 });

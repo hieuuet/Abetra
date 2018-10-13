@@ -15,7 +15,7 @@ import {
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
-import { strings } from "../../../i18n";
+import { TEXT_CHANGE_PHONE } from "../../../language";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateUserProfile, loadUserProfile } from "../../../actions";
@@ -25,7 +25,7 @@ import { web } from "../../../components/Communications";
 class ChangePhone extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Đổi số điện thoại",
+      title: TEXT_CHANGE_PHONE.ChangePhone,
 
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
       headerTintColor: COLOR.COLOR_BLACK
@@ -105,7 +105,7 @@ class ChangePhone extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="numeric"
-          placeholder={"Nhập số điện thoại mới"}
+          placeholder={TEXT_CHANGE_PHONE.NewPhone}
           onChangeText={text => (this.newPhone = text)}
           style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={event => {
@@ -117,7 +117,7 @@ class ChangePhone extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           ref="code"
-          placeholder={"Nhập mã xác nhận"}
+          placeholder={TEXT_CHANGE_PHONE.InputCode}
           onChangeText={text => (this.code = text)}
           style={[style_common.input_border, styles.text_input]}
         />
@@ -127,12 +127,12 @@ class ChangePhone extends Component {
         </Text>
         <View style={styles.wraper_btn}>
           <ButtonBorder
-            label={"Xác nhận"}
+            label={TEXT_CHANGE_PHONE.Confirm}
             onPress={this.onChangePhone}
             my_style={styles.btn_left}
           />
           <ButtonBorder
-            label={"Hủy"}
+            label={TEXT_CHANGE_PHONE.Cancel}
             my_style={styles.btn_right}
             onPress={() => this.props.navigation.goBack()}
           />
@@ -152,7 +152,7 @@ class ChangePhone extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <Text style={style_common.text_color_base}>
-            {strings("verify.txt_fanpage")}
+            {TEXT_CHANGE_PHONE.FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image

@@ -17,18 +17,17 @@ import { IMAGE } from "../../constant/assets";
 import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
-import { strings } from "../../i18n";
 import { NavigationActions, StackActions } from "react-navigation";
 import { postRegister, loginGuest } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-
+import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 class Register extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
-      title: "Đăng ký",
+      title: TEXT_REGISTER.Register,
       headerLeft: (
         <TouchableOpacity
           onPress={() => {
@@ -135,7 +134,7 @@ class Register extends Component {
       Username: userName,
       FullName: fullName,
       Password: password,
-      Email: `${userName  }@aibrtra.vn`
+      Email: `${userName}@aibrtra.vn`
     });
     this.setState({ isLoading: false });
     console.log("register result", register);
@@ -207,7 +206,7 @@ class Register extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder={strings("login.placeholder.input_phone")}
+          placeholder={TEXT_LOGIN.InputPhone}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
           style={[style_common.input_border, styles.text_input]}
@@ -220,7 +219,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           ref="full_name"
-          placeholder={strings("login.placeholder.input_fullname")}
+          placeholder={TEXT_REGISTER.InputName}
           onChangeText={text => (this.dataUser.fullName = text)}
           style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={event => {
@@ -232,7 +231,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_pass")}
+          placeholder={TEXT_LOGIN.InputPass}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={[style_common.input_border, styles.text_input]}
@@ -245,20 +244,17 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
-          placeholder={strings("login.placeholder.input_rePass")}
+          placeholder={TEXT_REGISTER.InputRePass}
           ref="rePass"
           onChangeText={text => (this.dataUser.rePassword = text)}
           style={[style_common.input_border, styles.text_input]}
         />
-        <ButtonBorder
-          label={strings("register.btn_register")}
-          onPress={this._register}
-        />
+        <ButtonBorder label={TEXT_REGISTER.Register} onPress={this._register} />
         {/* <DismissKeyboardView>
           <Text >afv</Text>
         </DismissKeyboardView> */}
         <View style={styles.view_login}>
-          <Text>{strings("login.login_fb")}</Text>
+          <Text>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Image
               style={styles.img_fb}
@@ -269,23 +265,14 @@ class Register extends Component {
         </View>
 
         <View style={styles.view_login}>
-          <Text style={styles.text_login}>
-            {strings("register.has_account")}
-          </Text>
+          <Text style={styles.text_login}>{TEXT_REGISTER.HasAccount}</Text>
           <ButtonBorder
-            label={strings("login.btn_login")}
+            label={TEXT_COMMON.Login}
             onPress={() => {
               this.props.navigation.navigate("Login");
             }}
           />
         </View>
-        {/* <View style={styles.view_login}>
-          <Text style={styles.text_login}>{strings("login.login_guest")}</Text>
-          <ButtonBorder
-            label={strings("login.btn_guest")}
-            onPress={this.loginAsGuest}
-          />
-        </View> */}
       </View>
     );
   };
@@ -304,9 +291,7 @@ class Register extends Component {
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TermServices")}
           >
-            <Text style={styles.txt_underline}>
-              {strings("register.agree_term")}
-            </Text>
+            <Text style={styles.txt_underline}>{TEXT_REGISTER.AgreeTerm}</Text>
           </TouchableOpacity>
         </View>
       </View>
