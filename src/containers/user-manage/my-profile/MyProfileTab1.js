@@ -539,7 +539,6 @@ class MyProfileTab1 extends Component {
             <TouchableOpacity
               style={{ flex: 1 }}
               onPress={() => {
-                alert(1);
                 this.setState({ showEmoticons: false });
               }}
             />
