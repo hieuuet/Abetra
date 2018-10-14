@@ -23,33 +23,36 @@ import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
 import { USER_ID } from "../../constant/KeyConstant";
 import { web } from "../../components/Communications";
-import Icon from "react-native-vector-icons/dist/Ionicons";
+// import Icon from "react-native-vector-icons/dist/Ionicons";
 import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
+import BackgroundImage from "../../components/BackgroundImage";
+import { COLOR } from "../../constant/Color";
 
+// import { Button } from "react-native-vector-icons/dist/FontAwesome5";
 class Login extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    console.log("params", params);
-    return {
-      title: TEXT_COMMON.Login,
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => {
-            params.loginAsGuest();
-          }}
-        >
-          <Icon
-            style={styles.back}
-            name={
-              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
-            }
-            color="#000000"
-            size={30}
-          />
-        </TouchableOpacity>
-      )
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params = {} } = navigation.state;
+  //   console.log("params", params);
+  //   return {
+  //     title: TEXT_COMMON.Login,
+  //     headerLeft: (
+  //       <TouchableOpacity
+  //         onPress={() => {
+  //           params.loginAsGuest();
+  //         }}
+  //       >
+  //         <Icon
+  //           style={styles.back}
+  //           name={
+  //             Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
+  //           }
+  //           color="#000000"
+  //           size={30}
+  //         />
+  //       </TouchableOpacity>
+  //     )
+  //   };
+  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +64,7 @@ class Login extends Component {
       password: ""
     };
 
-    this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
+    // this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
   }
 
   componentDidMount() {
@@ -177,9 +180,10 @@ class Login extends Component {
           returnKeyType="next"
           defaultValue=""
           placeholder={TEXT_LOGIN.InputPhone}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
           onSubmitEditing={event => {
             this.refs.pass.focus();
           }}
@@ -191,22 +195,23 @@ class Login extends Component {
           defaultValue=""
           secureTextEntry={true}
           placeholder={TEXT_LOGIN.InputPass}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
         />
         <ButtonBorder label={TEXT_COMMON.Login} onPress={this._login} />
         <View style={styles.view_login}>
-          <Text>{TEXT_COMMON.LoginFB}</Text>
+          <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
-            <Image
+            {/* <Image
               style={styles.img_fb}
               resizeMode="cover"
               source={IMAGE.logo_fb}
-            />
+            /> */}
+            <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.view_login}>
           <Text style={styles.text_login}>{TEXT_LOGIN.NotAccount}</Text>
           <ButtonBorder
@@ -227,13 +232,14 @@ class Login extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text>{TEXT_COMMON.FanPage}</Text>
+          {/* <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text> */}
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Image
+            <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text>
+            {/* <Image
               style={styles.img_fb}
               resizeMode="cover"
               source={IMAGE.logo_fb}
-            />
+            /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -258,17 +264,27 @@ class Login extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={style_common.content_center}>
+          <BackgroundImage style={style_common.content_center}>
+            <TouchableOpacity
+              style={styles.btn_back}
+              onPress={() => this.loginAsGuest()}
+            >
+              <Image
+                style={styles.img_back}
+                resizeMode="cover"
+                source={IMAGE.icon_back}
+              />
+            </TouchableOpacity>
             <Image
               style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo}
+              source={IMAGE.logo_white}
             />
 
             {this._renderContent()}
 
             {this._renderFooter()}
-          </View>
+          </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>
@@ -296,9 +312,18 @@ Login = connect(
 )(Login);
 export default Login;
 const styles = StyleSheet.create({
+  
   img_logo: {
     width: 100,
-    height: 100
+    height: 100 * (354 / 379)
+  },
+  img_back: {
+    width: 35,
+    height: 35 * (53 / 82)
+  },
+  btn_back: {
+    alignSelf: "flex-start",
+    padding: 10
   },
   back: {
     alignSelf: "center",
@@ -306,23 +331,27 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   text_input: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.COLOR_WHITE,
+    padding: 5,
+    alignSelf: "stretch",
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    color: COLOR.COLOR_WHITE,
+    textAlign: "center"
   },
 
   img_fb: {
     width: 50,
     height: 50
   },
+  text_fb1: { color: COLOR.COLOR_WHITE },
+  text_fb2: { color: COLOR.COLOR_WHITE, fontWeight: "900" },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
     flexDirection: "row",
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 10,
-    alignSelf: "stretch"
+    marginTop: 10
   },
   view_fanpage: {
     justifyContent: "center",
@@ -337,7 +366,9 @@ const styles = StyleSheet.create({
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
+    color: COLOR.COLOR_WHITE,
+    alignSelf: "center"
   },
   txt_underline: {
     textDecorationLine: "underline",

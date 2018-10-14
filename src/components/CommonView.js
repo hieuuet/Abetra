@@ -153,21 +153,21 @@ MyCoolScrollViewComponent.propTypes = {
 
 const styles = StyleSheet.create({
   btn: {
-    borderWidth: 1,
-    borderColor: COLOR.BACKGROUND_BUTTON,
-    backgroundColor: COLOR.BACKGROUND_BUTTON,
-    borderRadius: 5,
+    borderRadius: 20,
+    padding: 5,
+    minWidth: 140,
+    minHeight: 40,
     justifyContent: "center",
     alignItems: "center",
-    padding: 8,
-    minWidth: 100,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    marginTop: 10,
-    shadowColor: COLOR.BACKGROUND_BUTTON
+    backgroundColor: COLOR.COLOR_YELLOW,
+
+    marginTop: 10
   },
   txt: {
     color: COLOR.TEXT_BUTTON
+    // textAlign: "center",
+    // alignSelf: "center",
+    // alignContent: "center"
   },
   loading: {
     top: -10,

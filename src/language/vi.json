@@ -1,7 +1,7 @@
 {
   "login": {
-    "input_phone": "Nhập số điện thoại",
-    "input_pass": "Nhập mật khẩu",
+    "input_phone": "Số điện thoại",
+    "input_pass": "Mật khẩu",
     "login_guest": "Dùng tài khoản khách",
     "not_account": "Chưa có tài khoản"
   },
@@ -9,7 +9,7 @@
     "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
     "btn_guest": "Guest",
     "btn_login": "Đăng nhập",
-    "login_fb": "Đăng nhập bằng Facebook",
+    "login_fb": "Đăng nhập với ",
     "confirm": "Xác nhận",
     "cancel": "Hủy"
   },
@@ -28,8 +28,8 @@
     "reNewPass": "Nhập lại mật khẩu mới"
   },
   "changePhone": {
-    "btn_changePhone":"Đổi số điện thoại",
-    "newPhone":"Nhập số điện thoại mới"
+    "btn_changePhone": "Đổi số điện thoại",
+    "newPhone": "Nhập số điện thoại mới"
   },
 
   "verify": {
@@ -40,6 +40,10 @@
     "txt_phoneIncorrect": "Nhập sai số điện thoại",
     "btn_reSend": "Gửi lại mã",
     "btn_reInput": "Nhập lại"
+  },
+  "intro": {
+    "intro_title": "AIBETRA là gì?",
+    "continue": "Tiếp tục"
   },
 
   "profile": {

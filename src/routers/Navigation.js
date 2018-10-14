@@ -150,7 +150,10 @@ const RootStack = createStackNavigator({
   },
 
   Login: {
-    screen: Login
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
   },
   MemberProfile: {
     screen: MemberProfile
@@ -179,7 +182,10 @@ const RootStack = createStackNavigator({
   },
 
   Register: {
-    screen: Register
+    screen: Register,
+    navigationOptions: {
+      header: null
+    }
   },
   Benifet: {
     screen: Benifet

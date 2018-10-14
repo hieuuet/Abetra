@@ -23,7 +23,9 @@ import { getCurrentLanguage } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { LANGUAGE, DEFAULT_LANGUGE } from "../../constant/KeyConstant";
-
+import BackgroundImage from "../../components/BackgroundImage";
+import { COLOR } from "../../constant/Color";
+import { TEXT_INTRO } from "../../language";
 const heightHeader = 100;
 const isIphoneX =
   Platform.OS === "ios" &&
@@ -144,7 +146,7 @@ class AppIntroSlider extends Component {
 
   render() {
     return (
-      <View style={style_common.container}>
+      <BackgroundImage isIntro = {true}>
         <View style={styles.header}>
           <Image
             source={IMAGE.logo}
@@ -152,7 +154,7 @@ class AppIntroSlider extends Component {
             style={style_common.img_logo}
           />
           <View style={style_common.container}>
-            <Text style={styles.text_title}>AIBETRA là gì?</Text>
+            <Text style={styles.text_title}>{TEXT_INTRO.IntroTitle}</Text>
           </View>
           <View style={styles.language}>
             <ModalDropdown
@@ -180,7 +182,7 @@ class AppIntroSlider extends Component {
           onLayout={this._onLayout}
         />
         {this._renderPagination()}
-      </View>
+      </BackgroundImage>
     );
   }
 
@@ -193,8 +195,10 @@ class AppIntroSlider extends Component {
     );
   };
 
-  _renderNextButton = () => this._renderButton("Tiếp", this.onNextPress);
-  _renderDoneButton = () => this._renderButton("Tiếp", this.onDone);
+  _renderNextButton = () =>
+    this._renderButton(TEXT_INTRO.Continue, this.onNextPress);
+  _renderDoneButton = () =>
+    this._renderButton(TEXT_INTRO.Continue, this.onDone);
   _renderPagination = () => {
     const isLastSlide = this.state.activeIndex === this.slides.length - 1;
     const isFirstSlide = this.state.activeIndex === 0;
@@ -225,7 +229,7 @@ class AppIntroSlider extends Component {
 }
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "green",
+    backgroundColor: "transparent",
     height: heightHeader,
     flexDirection: "row"
   },
@@ -241,55 +245,60 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     position: "absolute",
-    bottom: 0
-    // backgroundColor:'red'
+    bottom: 0,
+    color: COLOR.COLOR_WHITE
   },
   footer: {
-    backgroundColor: "green",
-    height: heightHeader
+    backgroundColor: "transparent",
+    height: heightHeader,
+    justifyContent: "flex-end"
   },
   image: {
-    width: 150,
-    height: 150
+    width: 200,
+    height: 200
   },
   btn_bottom: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "gray",
+    borderRadius: 20,
     padding: 5,
     minWidth: 100,
+    minHeight: 40,
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: COLOR.COLOR_ORANGE,
     position: "absolute",
     right: 20,
-    top: 40
+    bottom: 10
   },
   text_btn: {
-    textAlign: "center"
+    textAlign: "center",
+    color: COLOR.COLOR_WHITE
   },
   paginationDots: {
     height: 16,
-    margin: 16,
+    margin: 20,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
   },
   dot: {
-    width: 10,
+    width: 20,
     height: 10,
     borderRadius: 5,
     marginHorizontal: 4
   },
   activeDotStyle: {
-    backgroundColor: "rgba(255, 255, 255, .9)"
+    backgroundColor: "green"
   },
   dotStyle: {
-    backgroundColor: "rgba(0, 0, 0, .2)"
+    backgroundColor: COLOR.COLOR_WHITE
   },
   dropdown: {
     width: 50,
     borderColor: "gray"
   },
   text_dropdown: {
-    textAlign: "center"
+    textAlign: "center",
+    color: COLOR.COLOR_WHITE
   }
 });
 

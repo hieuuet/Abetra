@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  AsyncStorage,
   BackHandler
 } from "react-native";
 import style_common from "../../style-common/index";
@@ -18,34 +19,38 @@ import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
-import { postRegister, loginGuest } from "../../actions";
+import { postRegister, loginGuest, loginFacebook } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
+import BackgroundImage from "../../components/BackgroundImage";
+import { COLOR } from "../../constant/Color";
+import { USER_ID } from "../../constant/KeyConstant";
+
 class Register extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      title: TEXT_REGISTER.Register,
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => {
-            params.loginAsGuest();
-          }}
-        >
-          <Icon
-            style={styles.back}
-            name={
-              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
-            }
-            color="#000000"
-            size={30}
-          />
-        </TouchableOpacity>
-      )
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params = {} } = navigation.state;
+  //   return {
+  //     title: TEXT_REGISTER.Register,
+  //     headerLeft: (
+  //       <TouchableOpacity
+  //         onPress={() => {
+  //           params.loginAsGuest();
+  //         }}
+  //       >
+  //         <Icon
+  //           style={styles.back}
+  //           name={
+  //             Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
+  //           }
+  //           color="#000000"
+  //           size={30}
+  //         />
+  //       </TouchableOpacity>
+  //     )
+  //   };
+  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +67,7 @@ class Register extends Component {
       email: ""
     };
 
-    this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
+    // this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
   }
 
   componentDidMount() {
@@ -173,32 +178,56 @@ class Register extends Component {
       const { userName, fullName, password, email } = this.dataUser;
 
       this.setState({ isLoading: true });
-      let register = await postRegister({
-        Username: userName,
-        FullName: fullName,
-        Email: email,
-        Password: password
+      const resultLogin = await this.props.loginFacebook({
+        Username: dataFB.id,
+        FullName: dataFB.fullName,
+        Email: dataFB.email || "",
+        Password: "123456"
       });
+      console.log("resultLogin", resultLogin);
       this.setState({ isLoading: false });
-      console.log("register result", register);
-      // if (register.ErrorCode === "00") {
-      //   Alert.alert(
-      //     "Thông báo",
-      //     register.Message,
-      //     [{ text: "OK", onPress: this.gotToVerify }],
-      //     { cancelable: false }
-      //   );
-      // } else {
-      //   Alert.alert(
-      //     "Thông báo",
-      //     register.Message,
-      //     [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-      //     { cancelable: false }
-      //   );
-      // }
+      this._handleLoginResult(resultLogin);
+    } else {
+      Alert.alert(
+        "Thông báo",
+        "Không lấy được dữ liệu từ Facebook",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
     }
   };
-
+  //Handle result after login
+  _handleLoginResult = async loginResult => {
+    if (loginResult.ErrorCode === "00") {
+      const IntUserID = loginResult.Value[0].IntUserID.toString();
+      const ProfileID = loginResult.Value[0].ProfileID.toString();
+      if (
+        loginResult.Value &&
+        loginResult.Value.length > 0 &&
+        loginResult.Value[0].UserID
+      ) {
+        await AsyncStorage.setItem(USER_ID, loginResult.Value[0].UserID);
+        await AsyncStorage.setItem("IntUserID", IntUserID);
+        await AsyncStorage.setItem("ProfileID", ProfileID);
+        this.props.loginGuest(false);
+        this.goToHomeTab();
+      } else {
+        Alert.alert(
+          "Thông báo",
+          "Không tìm thấy UserID",
+          [{ text: "OK", onPress: () => {} }],
+          { cancelable: false }
+        );
+      }
+    } else {
+      Alert.alert(
+        "Thông báo",
+        loginResult.Message,
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    }
+  };
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
@@ -206,35 +235,40 @@ class Register extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          placeholder={TEXT_LOGIN.InputPhone}
-          keyboardType="numeric"
-          onChangeText={text => (this.dataUser.userName = text)}
-          style={[style_common.input_border, styles.text_input]}
+          placeholderTextColor={COLOR.COLOR_WHITE}
+          placeholder={TEXT_REGISTER.InputName}
+          onChangeText={text => (this.dataUser.fullName = text)}
+          style={styles.text_input}
           onSubmitEditing={event => {
-            this.refs.full_name.focus();
+            this.refs.phone.focus();
           }}
         />
+
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
-          ref="full_name"
-          placeholder={TEXT_REGISTER.InputName}
-          onChangeText={text => (this.dataUser.fullName = text)}
-          style={[style_common.input_border, styles.text_input]}
+          ref="phone"
+          placeholder={TEXT_LOGIN.InputPhone}
+          keyboardType="numeric"
+          placeholderTextColor={COLOR.COLOR_WHITE}
+          onChangeText={text => (this.dataUser.userName = text)}
+          style={styles.text_input}
           onSubmitEditing={event => {
             this.refs.pass.focus();
           }}
         />
+
         <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           placeholder={TEXT_LOGIN.InputPass}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
           onSubmitEditing={event => {
             this.refs.rePass.focus();
           }}
@@ -244,23 +278,23 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           secureTextEntry={true}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           placeholder={TEXT_REGISTER.InputRePass}
           ref="rePass"
           onChangeText={text => (this.dataUser.rePassword = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
         />
         <ButtonBorder label={TEXT_REGISTER.Register} onPress={this._register} />
-        {/* <DismissKeyboardView>
-          <Text >afv</Text>
-        </DismissKeyboardView> */}
+
         <View style={styles.view_login}>
-          <Text>{TEXT_COMMON.LoginFB}</Text>
+          <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
-            <Image
+            {/* <Image
               style={styles.img_fb}
               resizeMode="cover"
               source={IMAGE.logo_fb}
-            />
+            /> */}
+            <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
 
@@ -317,15 +351,25 @@ class Register extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={style_common.content_center}>
+          <BackgroundImage style={style_common.content_center}>
+            <TouchableOpacity
+              style={styles.btn_back}
+              onPress={() => this.loginAsGuest()}
+            >
+              <Image
+                style={styles.img_back}
+                resizeMode="cover"
+                source={IMAGE.icon_back}
+              />
+            </TouchableOpacity>
             <Image
               style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo}
+              source={IMAGE.logo_white}
             />
             {this._renderContent()}
             {this._renderFooter()}
-          </View>
+          </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>
@@ -340,7 +384,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginGuest: bindActionCreators(loginGuest, dispatch)
+    loginGuest: bindActionCreators(loginGuest, dispatch),
+    loginFacebook: bindActionCreators(loginFacebook, dispatch)
   };
 };
 
@@ -353,7 +398,15 @@ export default Register;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100 * (354 / 379)
+  },
+  img_back: {
+    width: 35,
+    height: 35 * (53 / 82)
+  },
+  btn_back: {
+    alignSelf: "flex-start",
+    padding: 10
   },
   back: {
     alignSelf: "center",
@@ -361,9 +414,14 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   text_input: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.COLOR_WHITE,
+    padding: 5,
+    alignSelf: "stretch",
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    color: COLOR.COLOR_WHITE,
+    textAlign: "center"
   },
 
   img_fb: {
@@ -371,13 +429,10 @@ const styles = StyleSheet.create({
     height: 50
   },
   view_login: {
-    justifyContent: "flex-start",
-    alignItems: "center",
     flexDirection: "row",
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 10,
-    alignSelf: "stretch"
+    marginTop: 10
   },
   parent_checkbox: {
     justifyContent: "flex-start",
@@ -386,11 +441,14 @@ const styles = StyleSheet.create({
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
+    color: COLOR.COLOR_WHITE,
+    alignSelf: "center"
   },
   txt_underline: {
-    textDecorationLine: "underline",
-    paddingLeft: 5
+    // textDecorationLine: "underline",
+    paddingLeft: 5,
+    color: COLOR.COLOR_WHITE
   },
   content_footer: {
     justifyContent: "flex-end",
@@ -399,5 +457,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 10,
     flex: 1
-  }
+  },
+  text_fb1: { color: COLOR.COLOR_WHITE },
+  text_fb2: { color: COLOR.COLOR_WHITE, fontWeight: "900" }
 });

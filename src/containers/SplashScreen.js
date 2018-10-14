@@ -1,17 +1,11 @@
 import React, { Component } from "react";
-import { View, AsyncStorage, Image } from "react-native";
-import { IMAGE } from "../constant/assets";
+import { AsyncStorage, StatusBar } from "react-native";
 import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import {
-  getAllLanguage,
-  getCurrentLanguage,
-  getImagePanel,
-  
-} from "../actions";
+import { getAllLanguage, getCurrentLanguage, getImagePanel } from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import BackgroundImage from "../components/BackgroundImage";
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +13,7 @@ class SplashScreen extends Component {
 
   componentDidMount() {
     this.props.getCurrentLanguage();
-    
+
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
@@ -49,20 +43,9 @@ class SplashScreen extends Component {
   };
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "white",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Image
-          source={IMAGE.logo}
-          style={{ width: 200, height: 200 }}
-          resizeMode="contain"
-        />
-      </View>
+      <BackgroundImage isIntro={true}>
+        <StatusBar hidden={true} />
+      </BackgroundImage>
     );
   }
 }
@@ -73,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch),
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
   };
 };
 

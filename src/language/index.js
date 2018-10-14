@@ -48,3 +48,8 @@ export const TEXT_CHANGE_PHONE = {
   Cancel: TEXT_COMMON.Cancel,
   FanPage: TEXT_COMMON.FanPage
 };
+
+export const TEXT_INTRO = {
+  IntroTitle: strings("intro.intro_title"),
+  Continue: strings("intro.continue")
+};
