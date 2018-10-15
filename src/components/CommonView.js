@@ -151,6 +151,39 @@ MyCoolScrollViewComponent.propTypes = {
   onEndReached: PropTypes.func
 };
 
+/**
+ * Customize header
+ */
+
+export class CustomizeHeader extends Component {
+  render() {
+    return (
+      <View style={styles.header_wrapper}>
+        <Image
+          style={styles.backgound_header}
+          source={IMAGE.header}
+          resizeMode="cover"
+        />
+        <TouchableOpacity
+          style={styles.btn_back}
+          onPress={this.props.onBackPress}
+        >
+          <Image
+            style={styles.img_back}
+            resizeMode="cover"
+            source={IMAGE.icon_back}
+          />
+        </TouchableOpacity>
+        <Text style={styles.txt_header}>{this.props.label || ""}</Text>
+      </View>
+    );
+  }
+}
+
+CustomizeHeader.propTypes = {
+  onBackPress: PropTypes.func,
+  label: PropTypes.string
+};
 const styles = StyleSheet.create({
   btn: {
     borderRadius: 20,
@@ -160,7 +193,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: COLOR.COLOR_YELLOW,
-
     marginTop: 10
   },
   txt: {
@@ -202,5 +234,36 @@ const styles = StyleSheet.create({
     color: COLOR.COLOR_BLACK,
     fontWeight: "bold",
     textAlign: "center"
+  },
+  btn_back: {
+    alignSelf: "flex-start",
+    padding: 10
+  },
+  back: {
+    alignSelf: "center",
+    marginLeft: 10,
+    marginRight: 10
+  },
+  img_back: {
+    width: 35,
+    height: 35 * (53 / 82)
+  },
+  header_wrapper: {
+    height: 50,
+    // backgroundColor: COLOR.COLOR_HEADER,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  txt_header: {
+    flex: 1,
+    marginRight: 35 + 10,
+    textAlign: "center"
+  },
+  backgound_header: {
+    right: 0,
+    left: 0,
+    height: 50,
+    position: "absolute"
   }
 });

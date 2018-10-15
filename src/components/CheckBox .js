@@ -71,11 +71,11 @@ export default class CheckBox extends Component {
   }
 
   _renderImage() {
-    if (this.props.isIndeterminate) {
-      return this.props.indeterminateImage
-        ? this.props.indeterminateImage
-        : this.genCheckedImage();
-    }
+    // if (this.props.isIndeterminate) {
+    //   return this.props.indeterminateImage
+    //     ? this.props.indeterminateImage
+    //     : this.genCheckedImage();
+    // }
     if (this.props.isChecked) {
       return this.props.checkedImage
         ? this.props.checkedImage
@@ -87,36 +87,40 @@ export default class CheckBox extends Component {
     }
   }
 
-  _getCheckedCheckBoxColor() {
-    return this.props.checkedCheckBoxColor
-      ? this.props.checkedCheckBoxColor
-      : this.props.checkBoxColor;
-  }
+  // _getCheckedCheckBoxColor() {
+  //   return this.props.checkedCheckBoxColor
+  //     ? this.props.checkedCheckBoxColor
+  //     : this.props.checkBoxColor;
+  // }
 
-  _getUncheckedCheckBoxColor() {
-    return this.props.uncheckedCheckBoxColor
-      ? this.props.uncheckedCheckBoxColor
-      : this.props.checkBoxColor;
-  }
+  // _getUncheckedCheckBoxColor() {
+  //   return this.props.uncheckedCheckBoxColor
+  //     ? this.props.uncheckedCheckBoxColor
+  //     : this.props.checkBoxColor;
+  // }
 
-  _getTintColor() {
-    return this.props.isChecked
-      ? this._getCheckedCheckBoxColor()
-      : this._getUncheckedCheckBoxColor();
-  }
+  // _getTintColor() {
+  //   return this.props.isChecked
+  //     ? this._getCheckedCheckBoxColor()
+  //     : this._getUncheckedCheckBoxColor();
+  // }
 
   genCheckedImage() {
     let source;
-    if (this.props.isIndeterminate) {
-      source = require("../../assets/ic_indeterminate_check_box.png");
-    } else {
-      source = this.props.isChecked
-        ? require("../../assets/ic_check_box.png")
-        : require("../../assets/ic_check_box_outline_blank.png");
-    }
+    // if (this.props.isIndeterminate) {
+    //   source = require("../../assets/ic_indeterminate_check_box.png");
+    // } else {
+    source = this.props.isChecked
+      ? require("../../assets/ic_check_box.png")
+      : require("../../assets/ic_check_box_outline_blank.png");
+    // }
 
     return (
-      <Image source={source} style={{ tintColor: this._getTintColor() }} />
+      <Image
+        source={source}
+        style={{ width: 30, height: 30 }}
+        resizeMode="contain"
+      />
     );
   }
 
@@ -140,7 +144,8 @@ export default class CheckBox extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
   leftText: {
     flex: 1

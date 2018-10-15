@@ -36,7 +36,7 @@
     "verify_phone": "Xác thực số điện thoại",
     "input_code": "Nhập mã xác nhận",
     "info": "Mã xác nhận đã được gửi tin nhắn tới số của bạn",
-    "txt_notReceive": "Không nhận được mã",
+    "txt_notReceive": "Không nhận được mã xác nhận",
     "txt_phoneIncorrect": "Nhập sai số điện thoại",
     "btn_reSend": "Gửi lại mã",
     "btn_reInput": "Nhập lại"

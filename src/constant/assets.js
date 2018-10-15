@@ -8,5 +8,8 @@ export const IMAGE = {
   error: require("../../assets/error.png"),
   background: require("../../assets/background.png"),
   background2: require("../../assets/background2.png"),
-  icon_back: require("../../assets/icon_back.png")
+  icon_back: require("../../assets/icon_back.png"),
+  checked: require("../../assets/ic_check_box.png"),
+  unchecked: require("../../assets/ic_check_box_outline_blank.png"),
+  header: require("../../assets/header.png")
 };

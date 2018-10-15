@@ -23,36 +23,11 @@ import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
 import { USER_ID } from "../../constant/KeyConstant";
 import { web } from "../../components/Communications";
-// import Icon from "react-native-vector-icons/dist/Ionicons";
 import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 
-// import { Button } from "react-native-vector-icons/dist/FontAwesome5";
 class Login extends Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   const { params = {} } = navigation.state;
-  //   console.log("params", params);
-  //   return {
-  //     title: TEXT_COMMON.Login,
-  //     headerLeft: (
-  //       <TouchableOpacity
-  //         onPress={() => {
-  //           params.loginAsGuest();
-  //         }}
-  //       >
-  //         <Icon
-  //           style={styles.back}
-  //           name={
-  //             Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
-  //           }
-  //           color="#000000"
-  //           size={30}
-  //         />
-  //       </TouchableOpacity>
-  //     )
-  //   };
-  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -63,8 +38,6 @@ class Login extends Component {
       userName: "",
       password: ""
     };
-
-    // this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
   }
 
   componentDidMount() {
@@ -204,27 +177,20 @@ class Login extends Component {
         <View style={styles.view_login}>
           <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
-            {/* <Image
-              style={styles.img_fb}
-              resizeMode="cover"
-              source={IMAGE.logo_fb}
-            /> */}
             <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>{TEXT_LOGIN.NotAccount}</Text>
-          <ButtonBorder
-            label={TEXT_LOGIN.Register}
-            onPress={() => {
-              this.props.navigation.navigate("Register");
-            }}
-          />
-        </View>
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>{TEXT_COMMON.Guest}</Text>
-          <ButtonBorder label="Guest" onPress={this.loginAsGuest} />
-        </View>
+
+        <Text style={styles.text_notacc}>{TEXT_LOGIN.NotAccount}</Text>
+        <ButtonBorder
+          label={TEXT_LOGIN.Register}
+          onPress={() => {
+            this.props.navigation.navigate("Register");
+          }}
+          my_style={style_common.btn_blue_radius}
+        />
+
+        <View />
       </View>
     );
   };
@@ -232,14 +198,8 @@ class Login extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          {/* <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text> */}
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text>
-            {/* <Image
-              style={styles.img_fb}
-              resizeMode="cover"
-              source={IMAGE.logo_fb}
-            /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -264,17 +224,10 @@ class Login extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <BackgroundImage style={style_common.content_center}>
-            <TouchableOpacity
-              style={styles.btn_back}
-              onPress={() => this.loginAsGuest()}
-            >
-              <Image
-                style={styles.img_back}
-                resizeMode="cover"
-                source={IMAGE.icon_back}
-              />
-            </TouchableOpacity>
+          <BackgroundImage
+            style={style_common.content_center}
+            onBackPress={() => this.loginAsGuest()}
+          >
             <Image
               style={styles.img_logo}
               resizeMode="cover"
@@ -312,23 +265,9 @@ Login = connect(
 )(Login);
 export default Login;
 const styles = StyleSheet.create({
-  
   img_logo: {
     width: 100,
     height: 100 * (354 / 379)
-  },
-  img_back: {
-    width: 35,
-    height: 35 * (53 / 82)
-  },
-  btn_back: {
-    alignSelf: "flex-start",
-    padding: 10
-  },
-  back: {
-    alignSelf: "center",
-    marginLeft: 10,
-    marginRight: 10
   },
   text_input: {
     borderBottomWidth: 1,
@@ -366,7 +305,12 @@ const styles = StyleSheet.create({
   },
   text_login: {
     flex: 1,
-    marginRight: 10,
+    marginTop: 10,
+    color: COLOR.COLOR_WHITE,
+    alignSelf: "center"
+  },
+  text_notacc: {
+    marginTop: 10,
     color: COLOR.COLOR_WHITE,
     alignSelf: "center"
   },

@@ -146,7 +146,7 @@ class AppIntroSlider extends Component {
 
   render() {
     return (
-      <BackgroundImage isIntro = {true}>
+      <BackgroundImage isIntro = {true} showBackIcon={false}>
         <View style={styles.header}>
           <Image
             source={IMAGE.logo}

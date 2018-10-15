@@ -43,7 +43,7 @@ class SplashScreen extends Component {
   };
   render() {
     return (
-      <BackgroundImage isIntro={true}>
+      <BackgroundImage isIntro={true} showBackIcon={false}>
         <StatusBar hidden={true} />
       </BackgroundImage>
     );

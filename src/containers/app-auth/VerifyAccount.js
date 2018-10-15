@@ -24,15 +24,16 @@ import { postLogin, loginGuest, loadUserProfile } from "../../actions";
 import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
+import BackgroundImage from "../../components/BackgroundImage";
 
 class VerifyAccount extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: TEXT_VERIFY.VerifyPhone,
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     title: TEXT_VERIFY.VerifyPhone,
+  //     headerTitleStyle: { color: COLOR.COLOR_BLACK },
+  //     headerTintColor: COLOR.COLOR_BLACK
+  //   };
+  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -117,23 +118,21 @@ class VerifyAccount extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           placeholder={TEXT_VERIFY.InputCode}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
           defaultValue="1234"
           onChangeText={text => (this.verifyCode = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
         />
-        <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text>
+        {/* <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text> */}
+        <ButtonBorder label={TEXT_COMMON.Confirm} onPress={this.verify} />
+
+        <Text style={styles.text_info}>{TEXT_VERIFY.NotRecevie}</Text>
         <ButtonBorder
-          label={TEXT_COMMON.Confirm}
-          onPress={this.verify}
-          // my_style={{ marginBottom: 10 }}
+          label={TEXT_VERIFY.Resend}
+          onPress={this.reSendCode}
+          my_style={style_common.btn_blue_radius}
         />
-        <View style={styles.view_login}>
-          <Text style={[styles.text_login, style_common.text_color_base]}>
-            {TEXT_VERIFY.NotRecevie}
-          </Text>
-          <ButtonBorder label={TEXT_VERIFY.Resend} onPress={this.reSendCode} />
-        </View>
       </View>
     );
   };
@@ -148,15 +147,8 @@ class VerifyAccount extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text style={style_common.text_color_base}>
-            {TEXT_COMMON.FanPage}
-          </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Image
-              style={styles.img_fb}
-              resizeMode="cover"
-              source={IMAGE.logo_fb}
-            />
+            <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -175,16 +167,19 @@ class VerifyAccount extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={style_common.content_center}>
+          <BackgroundImage
+            style={style_common.content_center}
+            onBackPress={() => this.props.navigation.goBack()}
+          >
             <Image
               style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo}
+              source={IMAGE.logo_white}
             />
 
             {this._renderContent()}
             {this._renderFooter()}
-          </View>
+          </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>
@@ -209,12 +204,17 @@ export default VerifyAccount;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100 * (354 / 379)
   },
   text_input: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.COLOR_WHITE,
+    padding: 5,
+    alignSelf: "stretch",
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    color: COLOR.COLOR_WHITE,
+    textAlign: "center"
   },
 
   img_fb: {
@@ -243,10 +243,11 @@ const styles = StyleSheet.create({
   },
   text_login: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
+    color: COLOR.COLOR_WHITE
   },
   text_info: {
     margin: 10,
-    color: COLOR.COLOR_BLACK
+    color: COLOR.COLOR_WHITE
   }
 });

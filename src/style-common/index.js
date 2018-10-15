@@ -28,7 +28,7 @@ export default (style = StyleSheet.create({
   },
   img_logo: {
     width: 50,
-    height: 50,
+    height: 50 * (354 / 379),
     margin: 10
   },
   content_center: {
@@ -85,5 +85,17 @@ export default (style = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontWeight: "bold"
+  },
+  btn_blue_radius: {
+    borderRadius: 20,
+    padding: 5,
+    minWidth: 140,
+    minHeight: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLOR.COLOR_BTN_BLUE,
+    borderWidth: 1,
+    borderColor: COLOR.COLOR_WHITE,
+    marginTop: 10
   }
 }));

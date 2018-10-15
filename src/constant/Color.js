@@ -11,5 +11,7 @@ export const COLOR = {
   COLOR_GRAY: "#eeeeee",
   COLOR_GREEN1: "#00c853",
   COLOR_ORANGE: "#ff9100",
-  COLOR_TAG: "#b2dfdb"
+  COLOR_TAG: "#b2dfdb",
+  COLOR_BTN_BLUE: "#0277bd",
+  COLOR_HEADER: "#67B197"
 };

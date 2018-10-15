@@ -22,35 +22,12 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { postRegister, loginGuest, loginFacebook } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import Icon from "react-native-vector-icons/dist/Ionicons";
 import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
 
 class Register extends Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   const { params = {} } = navigation.state;
-  //   return {
-  //     title: TEXT_REGISTER.Register,
-  //     headerLeft: (
-  //       <TouchableOpacity
-  //         onPress={() => {
-  //           params.loginAsGuest();
-  //         }}
-  //       >
-  //         <Icon
-  //           style={styles.back}
-  //           name={
-  //             Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
-  //           }
-  //           color="#000000"
-  //           size={30}
-  //         />
-  //       </TouchableOpacity>
-  //     )
-  //   };
-  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -66,8 +43,6 @@ class Register extends Component {
       rePassword: "",
       email: ""
     };
-
-    // this.props.navigation.setParams({ loginAsGuest: this.loginAsGuest });
   }
 
   componentDidMount() {
@@ -289,28 +264,35 @@ class Register extends Component {
         <View style={styles.view_login}>
           <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
-            {/* <Image
-              style={styles.img_fb}
-              resizeMode="cover"
-              source={IMAGE.logo_fb}
-            /> */}
             <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.view_login}>
-          <Text style={styles.text_login}>{TEXT_REGISTER.HasAccount}</Text>
-          <ButtonBorder
-            label={TEXT_COMMON.Login}
-            onPress={() => {
-              this.props.navigation.navigate("Login");
-            }}
-          />
-        </View>
+        <Text style={styles.text_hasacc}>{TEXT_REGISTER.HasAccount}</Text>
+        <ButtonBorder
+          label={TEXT_COMMON.Login}
+          onPress={() => {
+            this.props.navigation.navigate("Login");
+          }}
+          my_style={style_common.btn_blue_radius}
+        />
       </View>
     );
   };
   _renderFooter = () => {
+    const iconCheck = (
+      <Image
+        source={IMAGE.checked}
+        style={{ width: 25, height: 25 }}
+        resizeMode="contain"
+      />
+    );
+    const iconUnCheck = (
+      <Image
+        source={IMAGE.unchecked}
+        style={{ width: 25, height: 25 }}
+        resizeMode="contain"
+      />
+    );
     return (
       <View style={styles.content_footer}>
         <View style={styles.parent_checkbox}>
@@ -321,6 +303,8 @@ class Register extends Component {
               });
             }}
             isChecked={this.state.isChecked}
+            checkedImage={iconCheck}
+            unCheckedImage={iconUnCheck}
           />
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TermServices")}
@@ -351,17 +335,10 @@ class Register extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <BackgroundImage style={style_common.content_center}>
-            <TouchableOpacity
-              style={styles.btn_back}
-              onPress={() => this.loginAsGuest()}
-            >
-              <Image
-                style={styles.img_back}
-                resizeMode="cover"
-                source={IMAGE.icon_back}
-              />
-            </TouchableOpacity>
+          <BackgroundImage
+            style={style_common.content_center}
+            onBackPress={() => this.loginAsGuest()}
+          >
             <Image
               style={styles.img_logo}
               resizeMode="cover"
@@ -400,19 +377,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100 * (354 / 379)
   },
-  img_back: {
-    width: 35,
-    height: 35 * (53 / 82)
-  },
-  btn_back: {
-    alignSelf: "flex-start",
-    padding: 10
-  },
-  back: {
-    alignSelf: "center",
-    marginLeft: 10,
-    marginRight: 10
-  },
   text_input: {
     borderBottomWidth: 1,
     borderBottomColor: COLOR.COLOR_WHITE,
@@ -436,6 +400,7 @@ const styles = StyleSheet.create({
   },
   parent_checkbox: {
     justifyContent: "flex-start",
+    alignItems: "center",
     alignSelf: "stretch",
     flexDirection: "row"
   },
@@ -457,6 +422,12 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 10,
     flex: 1
+  },
+  text_hasacc: {
+    marginTop: 10,
+    color: COLOR.COLOR_WHITE,
+    alignSelf: "center",
+    fontWeight: "bold"
   },
   text_fb1: { color: COLOR.COLOR_WHITE },
   text_fb2: { color: COLOR.COLOR_WHITE, fontWeight: "900" }

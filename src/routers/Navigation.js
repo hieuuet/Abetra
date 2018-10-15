@@ -27,6 +27,7 @@ import SplashScreen from "../containers/SplashScreen";
 import ChangePassword from "../containers/user-manage/my-profile/ChangePassword";
 import ChangePhone from "../containers/user-manage/my-profile/ChangePhone";
 import CertificateMember from "../containers/CertificateMember";
+import Language from "../containers/menu/Language";
 
 import {
   MemberProfile,
@@ -129,6 +130,18 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+  VerifyAccount: {
+    screen: VerifyAccount,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Language: {
+    screen: Language,
+    navigationOptions: {
+      header: null
+    }
+  },
   CertificateMember: {
     screen: CertificateMember
   },
@@ -143,10 +156,6 @@ const RootStack = createStackNavigator({
   },
   ChangePhone: {
     screen: ChangePhone
-  },
-
-  VerifyAccount: {
-    screen: VerifyAccount
   },
 
   Login: {

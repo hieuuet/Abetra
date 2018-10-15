@@ -143,6 +143,7 @@ class Menu extends Component {
           title="Ngôn ngữ"
           source={require("../../assets/event.png")}
           style={styles.style_menu}
+          onPress={() => this.props.navigation.navigate("Language")}
         />
         <MenuItem
           title="Hỗ trợ"
