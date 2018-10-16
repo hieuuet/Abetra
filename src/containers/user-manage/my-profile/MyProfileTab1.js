@@ -244,7 +244,8 @@ class MyProfileTab1 extends Component {
     ) {
       return 2;
     }
-    return this.dataUser.Gender;
+    if (this.dataUser.Gender === GENDER_STATE.MAN) return 0;
+    else return 1;
   };
 
   _renderHeader = () => {

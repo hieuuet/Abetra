@@ -142,6 +142,7 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+
   CertificateMember: {
     screen: CertificateMember
   },

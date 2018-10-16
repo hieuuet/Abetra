@@ -16,7 +16,7 @@ import { COLOR } from "../../../constant/Color";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
-import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
+import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
 import { getRank } from "../../../constant/UtilsFunction";
 import { MyCoolScrollViewComponent } from "../../../components/CommonView";
 import { searchPost2 } from "../../../actions";
@@ -220,9 +220,24 @@ class MyProfileTab2 extends Component {
     );
   };
 
+  _waitingActive = () => {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text_center}>
+          Đã đăng ký hội viên, đang trong quá trình phê duyệt.
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     if (this.props.dataUser.Type === TYPE_ACCOUNT.TEMP)
       return this._renderRegisterMember();
+    if (
+      this.props.dataUser.Status &
+      (this.props.dataUser.Status === STATUS_ACCOUNT.INACTIVE)
+    )
+      return this._waitingActive();
     return this._renderMember();
   }
 }
@@ -304,6 +319,10 @@ const styles = StyleSheet.create({
   text_title: {
     flex: 1,
     marginRight: 5,
+    color: COLOR.COLOR_BLACK
+  },
+  text_center: {
+    alignSelf: "center",
     color: COLOR.COLOR_BLACK
   }
 });

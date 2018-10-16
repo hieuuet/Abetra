@@ -7,7 +7,7 @@ export const FIRST_INSTALL = "first_install";
 export const DEFAULT_LANGUGE = {
   RowNum: 2,
   LangID: 129,
-  Code: "vi_VN",
+  Code: "vi-VN",
   Name: "Vietnamese - Vietnam ",
   Status: 1,
   TotalRow: 4
@@ -15,8 +15,8 @@ export const DEFAULT_LANGUGE = {
 
 //state of gender
 export const GENDER_STATE = {
-  WOMEN: 1,
-  MAN: 0,
+  WOMEN: 0,
+  MAN: 1,
   OTHER: 2
 };
 
@@ -25,6 +25,11 @@ export const TYPE_ACCOUNT = {
   PERSONAL: 2, //cá nhân
   BUSINESS: 3, //doanh nghiệp
   TEMP: 4 //vãng lai
+};
+
+export const STATUS_ACCOUNT = {
+  ACTIVE: 1,
+  INACTIVE: 0
 };
 
 //search type of post

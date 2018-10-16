@@ -70,7 +70,8 @@ class AppIntroSlider extends Component {
     ];
 
     this.allLanguage = this.props.navigation.getParam("allLanguage");
-    this.language = this.allLanguage.map(item => item.Code);
+    this.language = this.allLanguage.map(item => item.ShortName);
+    this.listIcon = this.allLanguage.map(item => item.Icon);
     this.heightDropdown =
       this.language.length > 5 ? 5 * 35 : this.language.length * 35;
     this.defaultLanguage = this.language.findIndex(item => item === "vi-VN");
@@ -79,7 +80,9 @@ class AppIntroSlider extends Component {
   }
 
   selectLanguage = async (rowID, rowData) => {
-    const lanSelected = this.allLanguage.find(item => item.Code === rowData);
+    const lanSelected = this.allLanguage.find(
+      item => item.ShortName === rowData
+    );
     if (lanSelected) {
       await AsyncStorage.setItem(LANGUAGE, JSON.stringify(lanSelected));
       this.props.getCurrentLanguage();
@@ -146,7 +149,7 @@ class AppIntroSlider extends Component {
 
   render() {
     return (
-      <BackgroundImage isIntro = {true} showBackIcon={false}>
+      <BackgroundImage isIntro={true} showBackIcon={false}>
         <View style={styles.header}>
           <Image
             source={IMAGE.logo}
@@ -164,7 +167,7 @@ class AppIntroSlider extends Component {
               textStyle={styles.text_dropdown}
               style={styles.dropdown}
               onSelect={this.selectLanguage}
-              leftIcon={require("../../../assets/1.jpg")}
+              listIcon={this.listIcon}
               dropdownStyle={{ height: this.heightDropdown }}
             />
           </View>
@@ -234,7 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   language: {
-    width: 50,
+    width: 80,
     margin: 10
     // backgroundColor:'red'
   },
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE
   },
   dropdown: {
-    width: 50,
+    width: 80,
     borderColor: "gray"
   },
   text_dropdown: {

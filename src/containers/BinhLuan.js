@@ -86,7 +86,6 @@ class BinhLuan extends Component {
             ProfileID: "",
             User_type: 255,
             Option: 0,
-            lang_name: "vi_VN"
         })
         console.log('ArrCmt', ArrCmt)
         this.setState({
@@ -109,8 +108,6 @@ class BinhLuan extends Component {
             Images: "",
             Videos: "",
             Content: cmt_content,
-            LangID: 129,
-            lang_name: "vi_VN"
         })
         console.log('cmt',Cmt)
         if (Cmt.ErrorCode =="00"){

@@ -48,7 +48,7 @@ class StatusItems extends Component {
             return null
         }
         //ArrUser Liked
-        let dataLike = (item.LikePost) ? item.LikePost : null
+        let dataLike = (item.LikePost) ? item.LikePost : '[]'
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
         //Get Arr IntUserID
         var ArrIntUserID = ArrUserLiked.map(function (o) {
@@ -63,7 +63,7 @@ class StatusItems extends Component {
         // console.log('userLiked', ArrUserLiked)
 
 
-        let dataPoll = (item.Poll) ? item.Poll : null
+        let dataPoll = (item.Poll) ? item.Poll : '[]'
         let Poll = dataPoll ? JSON.parse(dataPoll) : [];
         this.setState({
             ArrPoll: Poll,
@@ -227,8 +227,12 @@ class StatusItems extends Component {
         // PollVote =  JSON.parse(PollVote)
         // console.log('PollVote', PollVote)
         const {setModalVisible} = this.props
-        let ArrImg = item.Images ? item.Images : null;
+        let ArrImg = item.Images ? item.Images : '[]';
+        try{
         ArrImg = JSON.parse(ArrImg);
+        }catch(e){
+            console.log('e');
+        }
 
 
         return (

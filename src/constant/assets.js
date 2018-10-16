@@ -11,5 +11,8 @@ export const IMAGE = {
   icon_back: require("../../assets/icon_back.png"),
   checked: require("../../assets/ic_check_box.png"),
   unchecked: require("../../assets/ic_check_box_outline_blank.png"),
-  header: require("../../assets/header.png")
+  header: require("../../assets/header.png"),
+  btn_active: require("../../assets/btn_active.png"),
+  btn_normal: require("../../assets/btn_normal.png")
+
 };
