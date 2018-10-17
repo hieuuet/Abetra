@@ -211,7 +211,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_REGISTER.InputName}
+          placeholder={TEXT_REGISTER().InputName}
           onChangeText={text => (this.dataUser.fullName = text)}
           style={styles.text_input}
           onSubmitEditing={event => {
@@ -224,7 +224,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           ref="phone"
-          placeholder={TEXT_LOGIN.InputPhone}
+          placeholder={TEXT_LOGIN().InputPhone}
           keyboardType="numeric"
           placeholderTextColor={COLOR.COLOR_WHITE}
           onChangeText={text => (this.dataUser.userName = text)}
@@ -240,7 +240,7 @@ class Register extends Component {
           returnKeyType="next"
           secureTextEntry={true}
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_LOGIN.InputPass}
+          placeholder={TEXT_LOGIN().InputPass}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={styles.text_input}
@@ -254,22 +254,22 @@ class Register extends Component {
           returnKeyType="done"
           secureTextEntry={true}
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_REGISTER.InputRePass}
+          placeholder={TEXT_REGISTER().InputRePass}
           ref="rePass"
           onChangeText={text => (this.dataUser.rePassword = text)}
           style={styles.text_input}
         />
-        <ButtonBorder label={TEXT_REGISTER.Register} onPress={this._register} />
+        <ButtonBorder label={TEXT_REGISTER().Register} onPress={this._register} />
 
         <View style={styles.view_login}>
-          <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
+          <Text style={styles.text_fb1}>{TEXT_COMMON().LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.text_hasacc}>{TEXT_REGISTER.HasAccount}</Text>
+        <Text style={styles.text_hasacc}>{TEXT_REGISTER().HasAccount}</Text>
         <ButtonBorder
-          label={TEXT_COMMON.Login}
+          label={TEXT_COMMON().Login}
           onPress={() => {
             this.props.navigation.navigate("Login");
           }}
@@ -309,7 +309,7 @@ class Register extends Component {
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TermServices")}
           >
-            <Text style={styles.txt_underline}>{TEXT_REGISTER.AgreeTerm}</Text>
+            <Text style={styles.txt_underline}>{TEXT_REGISTER().AgreeTerm}</Text>
           </TouchableOpacity>
         </View>
       </View>

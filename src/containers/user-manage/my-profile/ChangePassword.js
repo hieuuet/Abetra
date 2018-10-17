@@ -23,7 +23,7 @@ import { TEXT_COMMON, TEXT_CHANGE_PASSWORD } from "../../../language";
 class ChangePassword extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: TEXT_CHANGE_PASSWORD.ChangePass,
+      title: TEXT_CHANGE_PASSWORD().ChangePass,
 
       headerTitleStyle: { color: COLOR.COLOR_BLACK },
       headerTintColor: COLOR.COLOR_BLACK
@@ -106,7 +106,7 @@ class ChangePassword extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD.InputOldPass}
+          placeholder={TEXT_CHANGE_PASSWORD().InputOldPass}
           onChangeText={text => (this.oldPass = text)}
           style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={event => {
@@ -119,7 +119,7 @@ class ChangePassword extends Component {
           returnKeyType="next"
           ref="newPass"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD.InputNewPass}
+          placeholder={TEXT_CHANGE_PASSWORD().InputNewPass}
           onChangeText={text => (this.newPass = text)}
           style={[style_common.input_border, styles.text_input]}
           onSubmitEditing={event => {
@@ -132,18 +132,18 @@ class ChangePassword extends Component {
           returnKeyType="done"
           ref="reNewPass"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD.InputReNewPass}
+          placeholder={TEXT_CHANGE_PASSWORD().InputReNewPass}
           onChangeText={text => (this.reNewPass = text)}
           style={[style_common.input_border, styles.text_input]}
         />
         <View style={styles.wraper_btn}>
           <ButtonBorder
-            label={TEXT_COMMON.Confirm}
+            label={TEXT_COMMON().Confirm}
             onPress={this.onChangePass}
             my_style={styles.btn_left}
           />
           <ButtonBorder
-            label={TEXT_COMMON.Cancel}
+            label={TEXT_COMMON().Cancel}
             my_style={styles.btn_right}
             onPress={() => this.props.navigation.goBack()}
           />
@@ -163,7 +163,7 @@ class ChangePassword extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <Text style={style_common.text_color_base}>
-            {TEXT_COMMON.FanPage}
+            {TEXT_COMMON().FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image

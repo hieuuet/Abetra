@@ -12,11 +12,12 @@ class SplashScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.getCurrentLanguage();
+    
 
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {
+    await this.props.getCurrentLanguage();
     const isFirstInstall = await AsyncStorage.getItem(FIRST_INSTALL);
     let routerName = "Login";
     let allLanguage = [];

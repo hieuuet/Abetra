@@ -152,7 +152,7 @@ class Login extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           defaultValue=""
-          placeholder={TEXT_LOGIN.InputPhone}
+          placeholder={TEXT_LOGIN().InputPhone}
           placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
           onChangeText={text => (this.dataUser.userName = text)}
@@ -167,23 +167,23 @@ class Login extends Component {
           returnKeyType="done"
           defaultValue=""
           secureTextEntry={true}
-          placeholder={TEXT_LOGIN.InputPass}
+          placeholder={TEXT_LOGIN().InputPass}
           placeholderTextColor={COLOR.COLOR_WHITE}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={styles.text_input}
         />
-        <ButtonBorder label={TEXT_COMMON.Login} onPress={this._login} />
+        <ButtonBorder label={TEXT_COMMON().Login} onPress={this._login} />
         <View style={styles.view_login}>
-          <Text style={styles.text_fb1}>{TEXT_COMMON.LoginFB}</Text>
+          <Text style={styles.text_fb1}>{TEXT_COMMON().LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.text_notacc}>{TEXT_LOGIN.NotAccount}</Text>
+        <Text style={styles.text_notacc}>{TEXT_LOGIN().NotAccount}</Text>
         <ButtonBorder
-          label={TEXT_LOGIN.Register}
+          label={TEXT_LOGIN().Register}
           onPress={() => {
             this.props.navigation.navigate("Register");
           }}
@@ -199,7 +199,7 @@ class Login extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text>
+            <Text style={styles.text_login}>{TEXT_COMMON().FanPage}</Text>
           </TouchableOpacity>
         </View>
       </View>

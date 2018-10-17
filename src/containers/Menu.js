@@ -20,6 +20,7 @@ import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";
 import { getRank } from "../constant/UtilsFunction";
+import { TEXT_MENU} from "../language";
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -77,12 +78,12 @@ class Menu extends Component {
       this.props.userProfile.Value.length > 0
         ? this.props.userProfile.Value[0]
         : {};
-    console.log("render menu");
+    
     return (
       <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
         {this.renderHeader()}
         <MenuItem
-          title="Bài viết đã lưu"
+          title={TEXT_MENU().MarkedPost}
           source={require("../../assets/event.png")}
           onPress={() => {
             if (this.props.isGuest)
@@ -91,12 +92,12 @@ class Menu extends Component {
           }}
         />
         <MenuItem
-          title={this.props.isGuest ? "Đăng nhập" : "Đăng xuất"}
+          title={this.props.isGuest ? TEXT_MENU().Login : TEXT_MENU().Logout}
           source={require("../../assets/event.png")}
           onPress={this.logout}
         />
         <MenuItem
-          title="Sự kiện"
+          title={TEXT_MENU().Event}
           source={require("../../assets/event.png")}
           onPress={() => {
             this.props.navigation.navigate("Event");
@@ -104,7 +105,7 @@ class Menu extends Component {
         />
 
         <MenuItem
-          title="Dịch vụ quanh đây"
+          title={TEXT_MENU().Nearly}
           source={require("../../assets/event.png")}
 
           // onPress={() => {
@@ -113,13 +114,13 @@ class Menu extends Component {
           // }}
         />
         <MenuItem
-          title="Chương trình khuyến mãi"
+          title={TEXT_MENU().Promotion}
           source={require("../../assets/event.png")}
 
           // onPress={() => this.props.navigation.navigate('ChoFaceHome')}
         />
         <MenuItem
-          title="Giới thiệu"
+          title={TEXT_MENU().Intro}
           source={require("../../assets/event.png")}
 
           // onPress={() => {
@@ -129,24 +130,25 @@ class Menu extends Component {
         />
 
         <MenuItem
-          title="Hướng dẫn"
+          title={TEXT_MENU().Guide}
           source={require("../../assets/event.png")}
           // onPress={() => this.props.navigation.navigate('HuongDan')}
         />
         <MenuItem
-          title="Điều khoản dịch vụ"
+          title={TEXT_MENU().Term}
           source={require("../../assets/event.png")}
           // onPress={() => this.props.navigation.navigate('GioiThieuCuDan')}
         />
 
         <MenuItem
-          title="Ngôn ngữ"
+          title={TEXT_MENU().Language}
           source={require("../../assets/event.png")}
           style={styles.style_menu}
           onPress={() => this.props.navigation.navigate("Language")}
         />
         <MenuItem
-          title="Hỗ trợ"
+          title={TEXT_MENU().Support}
+          // title={strings("menu.support")}
           source={require("../../assets/event.png")}
           style={styles.style_menu}
         />
@@ -160,7 +162,8 @@ const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
     isGuest: state.loginGuest.isGuest,
-    allRank: state.allRank
+    allRank: state.allRank,
+    currentLanguage: state.currentLanguage
   };
 };
 

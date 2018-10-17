@@ -47,7 +47,7 @@ const appReducer = combineReducers({
   allRank,
   allHashTag,
   savePost,
-    unsavePost,
+  unsavePost,
   getEvent,
   addEvent,
   joinEvent,

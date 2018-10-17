@@ -117,7 +117,7 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={TEXT_VERIFY.InputCode}
+          placeholder={TEXT_VERIFY().InputCode}
           placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
           defaultValue="1234"
@@ -125,9 +125,9 @@ class VerifyAccount extends Component {
           style={styles.text_input}
         />
         {/* <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text> */}
-        <ButtonBorder label={TEXT_COMMON.Confirm} onPress={this.verify} />
+        <ButtonBorder label={TEXT_COMMON().Confirm} onPress={this.verify} />
 
-        <Text style={styles.text_info}>{TEXT_VERIFY.NotRecevie}</Text>
+        <Text style={styles.text_info}>{TEXT_VERIFY().NotRecevie}</Text>
         <ButtonBorder
           label={TEXT_VERIFY.Resend}
           onPress={this.reSendCode}
@@ -148,7 +148,7 @@ class VerifyAccount extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Text style={styles.text_login}>{TEXT_COMMON.FanPage}</Text>
+            <Text style={styles.text_login}>{TEXT_COMMON().FanPage}</Text>
           </TouchableOpacity>
         </View>
       </View>

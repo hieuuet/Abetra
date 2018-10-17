@@ -45,6 +45,23 @@
     "intro_title": "AIBETRA là gì?",
     "continue": "Tiếp tục"
   },
+  "language": {
+    "language_title": "Ngôn ngữ"
+  },
+  "event": {
+    "event_title": "Sự kiện"
+  },
+
+  "menu": {
+    "marked": "Bài viết đã lưu",
+    "logout":"Đăng xuất",
+    "nearly": "Dịch vụ quanh đây",
+    "promotion": "Chương trình khuyến mại",
+    "intro": "Giới thiệu",
+    "guide": "Hướng dẫn",
+    "term": "Điều khoản dịch vụ",
+    "support": "Hỗ trợ"
+  },
 
   "profile": {
     "name_login": "Tên đăng nhập",

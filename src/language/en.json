@@ -1,45 +1,66 @@
 {
   "login": {
-    "input_phone": "Nhập số điện thoại",
-    "input_pass": "Nhập mật khẩu",
-    "login_guest": "Dùng tài khoản khách",
-    "not_account": "Chưa có tài khoản"
+    "input_phone": "Input Number Phone",
+    "input_pass": "Input Password",
+    "login_guest": "Use Guest",
+    "not_account": "No Account"
   },
   "common": {
-    "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
+    "txt_fanpage": "Contact fanpage for support",
     "btn_guest": "Guest",
-    "btn_login": "Đăng nhập",
-    "login_fb": "Đăng nhập bằng Facebook",
-    "confirm": "Xác nhận",
-    "cancel": "Hủy"
+    "btn_login": "Login",
+    "login_fb": "Login with ",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
 
   "register": {
-    "btn_register": "Đăng ký",
-    "has_account": "Đã có tài khoản",
-    "input_rePass": "Nhập lại mật khẩu",
-    "input_fullname": "Nhập họ tên",
-    "agree_term": "Tôi đã đọc và đồng ý các điều khoản dịch vụ"
+    "btn_register": "Register",
+    "has_account": "Have account",
+    "input_rePass": "Input password again",
+    "input_fullname": "Input name",
+    "agree_term": "I have read an agree with your term"
   },
   "changePass": {
-    "btn_changePass": "Đổi mật khẩu",
-    "oldPass": "Nhập mật khẩu cũ",
-    "newPass": "Nhập mật khẩu mới",
-    "reNewPass": "Nhập lại mật khẩu mới"
+    "btn_changePass": "Change Password",
+    "oldPass": "Input old password",
+    "newPass": "Input new password",
+    "reNewPass": "Input new password again"
   },
   "changePhone": {
-    "btn_changePhone": "Đổi số điện thoại",
-    "newPhone": "Nhập số điện thoại mới"
+    "btn_changePhone": "Change phone",
+    "newPhone": "Input new number phone"
   },
 
   "verify": {
-    "verify_phone": "Xác thực số điện thoại",
-    "input_code": "Nhập mã xác nhận",
-    "info": "Mã xác nhận đã được gửi tin nhắn tới số của bạn",
-    "txt_notReceive": "Không nhận được mã",
-    "txt_phoneIncorrect": "Nhập sai số điện thoại",
-    "btn_reSend": "Gửi lại mã",
-    "btn_reInput": "Nhập lại"
+    "verify_phone": "Confirm with number phone",
+    "input_code": "Input verify code",
+    "info": "Verify code has been send to your number phone",
+    "txt_notReceive": "Not receive verify code",
+    "txt_phoneIncorrect": "Input wrong number phone",
+    "btn_reSend": "Resend code",
+    "btn_reInput": "ReInput"
+  },
+  "intro": {
+    "intro_title": "What is AIBETRA?",
+    "continue": "Countinue"
+  },
+  "language": {
+    "language_title": "Language"
+  },
+  "event": {
+    "event_title": "Event"
+  },
+
+  "menu": {
+    "marked": "Post marked",
+    "logout": "logout",
+    "nearly": "Nearly",
+    "promotion": "Promotion",
+    "intro": "Introdution",
+    "guide": "Guide",
+    "term": "Term",
+    "support": "Support"
   },
 
   "profile": {

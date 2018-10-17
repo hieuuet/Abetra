@@ -157,7 +157,7 @@ class AppIntroSlider extends Component {
             style={style_common.img_logo}
           />
           <View style={style_common.container}>
-            <Text style={styles.text_title}>{TEXT_INTRO.IntroTitle}</Text>
+            <Text style={styles.text_title}>{TEXT_INTRO().IntroTitle}</Text>
           </View>
           <View style={styles.language}>
             <ModalDropdown
@@ -199,9 +199,9 @@ class AppIntroSlider extends Component {
   };
 
   _renderNextButton = () =>
-    this._renderButton(TEXT_INTRO.Continue, this.onNextPress);
+    this._renderButton(TEXT_INTRO().Continue, this.onNextPress);
   _renderDoneButton = () =>
-    this._renderButton(TEXT_INTRO.Continue, this.onDone);
+    this._renderButton(TEXT_INTRO().Continue, this.onDone);
   _renderPagination = () => {
     const isLastSlide = this.state.activeIndex === this.slides.length - 1;
     const isFirstSlide = this.state.activeIndex === 0;

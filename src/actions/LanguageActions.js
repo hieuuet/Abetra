@@ -8,13 +8,13 @@ export const getAllLanguage = () => {
 };
 
 export const getCurrentLanguage = () => {
-  return async (dispatch) => {
+  return async dispatch => {
     let language = await AsyncStorage.getItem(LANGUAGE);
     if (language === null) language = DEFAULT_LANGUGE;
     else language = JSON.parse(language);
     dispatch({
       type: "GET_CURRENT_LANGUAGE",
-      payload: language,
+      payload: language
     });
   };
 };
