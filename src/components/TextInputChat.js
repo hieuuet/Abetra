@@ -8,8 +8,9 @@ import {
     TextInput,
     findNodeHandle,
     Platform,
-    Dimention
+    NativeModules
 } from 'react-native';
+var ImagePicker = NativeModules.ImageCropPicker;
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import TextInputReset from 'react-native-text-input-reset';
@@ -22,10 +23,32 @@ export default class TextInputChat extends Component {
         this.state = {
             textSubmit:'',
         }
-
+        this.arrBase64 = [];
+        this.arrPath = [];
 
     }
-
+    pickSingle(cropit, circular=false) {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 300,
+            cropping: cropit,
+            cropperCircleOverlay: circular,
+            compressImageMaxWidth: 640,
+            compressImageMaxHeight: 480,
+            compressImageQuality: 0.5,
+            compressVideoPreset: 'MediumQuality',
+            includeExif: true,
+        }).then(image => {
+            console.log('received image', image);
+            this.setState({
+                image: {uri: image.path, width: image.width, height: image.height, mime: image.mime},
+                images: null
+            });
+        }).catch(e => {
+            console.log(e);
+            Alert.alert(e.message ? e.message : e);
+        });
+    }
 
 
 
@@ -39,6 +62,7 @@ export default class TextInputChat extends Component {
         this.setState({textSubmit:""});
 
     }
+
 
     render() {
 
@@ -57,6 +81,17 @@ export default class TextInputChat extends Component {
 
                 // backgroundColor:'gray'
             }}>
+                <TouchableOpacity onPress={() => this.pickSingle(false)}>
+                    <Image
+                        source={require("../../assets/image_icon.png")}
+                        style={{
+
+                                height: 20,
+                                width: 40
+                        }}
+                        resizeMode="cover"
+                    />
+                </TouchableOpacity>
 
                 <TextInput
                     style={{

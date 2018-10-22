@@ -166,6 +166,8 @@ class Chat extends Component {
                     data={this.state.ArrMess}
                     renderItem={(item) => {
                         return (
+
+                            
                             <ChatItem
                                 dataItem={item}
                                 myIntUserID={UserProfile.Value[0].IntUserID}

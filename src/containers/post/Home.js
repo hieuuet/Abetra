@@ -12,6 +12,7 @@ import {
   Alert
 } from "react-native";
 import SocketIOClient from "socket.io-client";
+import { registerKilledListener, registerAppListener } from "../../components/Listeners";
 
 import StatusItems from "../../components/StatusItems";
 import Icon1 from "react-native-vector-icons/dist/Entypo";
@@ -34,6 +35,7 @@ import style_common from "../../style-common/index";
 import { USER_ID, TYPE_ACCOUNT } from "../../constant/KeyConstant";
 import { default as FCM, FCMEvent } from "react-native-fcm";
 
+registerKilledListener();
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -89,48 +91,89 @@ class Home extends Component {
       this.props.getAllEmoji();
     }
 
-    //firebase
-    // iOS: show permission prompt for the first call. later just check permission in user settings
-    // Android: check permission in user settings
-    FCM.requestPermissions()
-      .then(() => console.log("granted"))
-      .catch(() => console.log("notification permission rejected"));
 
-    FCM.getFCMToken().then(token => {
-      console.log("token", token);
-      // AsyncStorage.setItem('token', token);
-      this.pushDeviceToken(ProfileID, this.userID, token);
-      // store fcm token in your server
-    });
+      // iOS: show permission prompt for the first call. later just check permission in user settings
+      // Android: check permission in user settings
+      FCM.createNotificationChannel({
+          id: 'default',
+          name: 'Default',
+          description: 'used for example',
+          priority: 'high',
+      })
+      registerAppListener(this.props.navigation);
+      // FCM.getInitialNotification().then(notif => {
+      //     console.log('notif', notif)
+      //     this.setState({
+      //         initNotif: notif
+      //     });
+      //     // if (notif && notif.targetScreen === "detail") {
+      //     //     setTimeout(() => {
+      //     //         this.props.navigation.navigate("Detail");
+      //     //     }, 500);
+      //     // }
+      // });
+      this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
 
-    this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
-      // console.log("receive noti listent", notif);
-      // optional, do some component related stuff
-      if (notif && notif.opened_from_tray && notif.opened_from_tray == 1) {
-        return;
+          console.log("receive noti listent", notif);
+          // optional, do some component related stuff
+          if (notif && notif.opened_from_tray && notif.opened_from_tray === 1) {
+
+              return ;
+          }
+          if(Platform.OS === 'ios' && notif._notificationType === "remote_notification"){
+              let data = notif.aps.alert;
+              console.log('ios-noti',data);
+              FCM.presentLocalNotification({
+                  vibrate: 500,
+                  title: data.title,
+                  body: data.body,
+                  priority: "high",
+                  sound: "default",
+                  icon: "logo.png",
+                  wake_screen: true,
+                  show_in_foreground: true,
+                  // click_action: notif.fcm.action,
+
+              });
+          }else if(Platform.OS === 'android'){
+              FCM.presentLocalNotification({
+                  vibrate: 500,
+                  title: notif.fcm.title,
+                  body: notif.fcm.body,
+                  priority: "high",
+                  // sound: "phiasaumotcogai.mp3",
+                  icon: "ic_launcher",
+                  wake_screen: true,
+                  show_in_foreground: true,
+                  // click_action: notif.fcm.action,
+
+              });
+          }
+
+
+
+      });
+
+      try {
+          let result = await FCM.requestPermissions({
+              badge: false,
+              sound: true,
+              alert: true
+          });
+      } catch (e) {
+          console.error(e);
       }
-      if (notif.fcm) {
-        console.log(("abcd", notif.fcm));
-        FCM.presentLocalNotification({
-          vibrate: 500,
-          title: notif.fcm.title,
-          body: notif.fcm.body,
-          priority: "high",
-          sound: "default",
-          icon: "ic_launcher",
-          wake_screen: true,
-          show_in_foreground: true
-          // click_action: notif.fcm.action,
-        });
-      }
-    });
 
-    // initial notification contains the notification that launchs the app. If user launchs app by clicking banner, the banner notification info will be here rather than through FCM.on event
-    // sometimes Android kills activity when app goes to background, and when resume it broadcasts notification before JS is run. You can use FCM.getInitialNotification() to capture those missed events.
-    // initial notification will be triggered all the time even when open app by icon so send some action identifier when you send notification
-    FCM.getInitialNotification().then(notif => {
-      // console.log("click noti:", notif)
-    });
+      FCM.getFCMToken().then(token => {
+          console.log("TOKEN (getFCMToken)", token);
+          this.pushDeviceToken(ProfileID, this.userID, token);
+      });
+
+      if (Platform.OS === "ios") {
+          FCM.getAPNSToken().then(token => {
+              console.log("APNS TOKEN (getFCMToken)", token);
+          });
+      }
   }
 
   _searchPost = async () => {

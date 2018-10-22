@@ -54,24 +54,18 @@ export function registerAppListener(navigation){
             notif.finish(WillPresentNotificationResult.All)
             return;
         }
-        //
-        // if(notif.opened_from_tray){
-        //     if(notif.key1 === "value"){
-        //         setTimeout(()=>{
-        //             navigation.navigate('ThemCaBenh')
-        //         }, 500)
-        //     }
-        //     else if(notif.key1 === "value1")
-        //     {
-        //         setTimeout(() => {
-        //             navigation.navigate('ChiTietCaBenh')
-        //         }, 500)
-        //     }
-        //
-        //     // setTimeout(()=>{
-        //     //     alert(`User tapped notification\n${JSON.stringify(notif)}`)
-        //     // }, 500)
-        // }
+
+        if(notif.opened_from_tray){
+            if(notif.collapse_key === "com.pateco.aibetra"){
+                setTimeout(()=>{
+                    navigation.navigate('Message')
+                }, 500)
+            }
+
+            // setTimeout(()=>{
+            //     alert(`User tapped notification\n${JSON.stringify(notif)}`)
+            // }, 500)
+        }
 
         if(Platform.OS ==='ios'){
             //optional
