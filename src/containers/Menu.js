@@ -20,13 +20,21 @@ import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";
 import { getRank } from "../constant/UtilsFunction";
-import { TEXT_MENU} from "../language";
+import { TEXT_MENU } from "../language";
+import { isEqual } from "lodash";
+
 class Menu extends Component {
   constructor(props) {
     super(props);
     this.userProfile = {};
+    this.TEXT_MENU = TEXT_MENU();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_MENU = TEXT_MENU();
+    }
+  }
   logout = () => {
     AsyncStorage.removeItem(USER_ID);
     AsyncStorage.removeItem("IntUserID");
@@ -78,12 +86,12 @@ class Menu extends Component {
       this.props.userProfile.Value.length > 0
         ? this.props.userProfile.Value[0]
         : {};
-    
+
     return (
       <ScrollView style={{ flexDirection: "column", backgroundColor: "white" }}>
         {this.renderHeader()}
         <MenuItem
-          title={TEXT_MENU().MarkedPost}
+          title={this.TEXT_MENU.MarkedPost}
           source={require("../../assets/event.png")}
           onPress={() => {
             if (this.props.isGuest)
@@ -92,12 +100,14 @@ class Menu extends Component {
           }}
         />
         <MenuItem
-          title={this.props.isGuest ? TEXT_MENU().Login : TEXT_MENU().Logout}
+          title={
+            this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
+          }
           source={require("../../assets/event.png")}
           onPress={this.logout}
         />
         <MenuItem
-          title={TEXT_MENU().Event}
+          title={this.TEXT_MENU.Event}
           source={require("../../assets/event.png")}
           onPress={() => {
             this.props.navigation.navigate("Event");
@@ -105,7 +115,7 @@ class Menu extends Component {
         />
 
         <MenuItem
-          title={TEXT_MENU().Nearly}
+          title={this.TEXT_MENU.Nearly}
           source={require("../../assets/event.png")}
 
           // onPress={() => {
@@ -114,40 +124,36 @@ class Menu extends Component {
           // }}
         />
         <MenuItem
-          title={TEXT_MENU().Promotion}
+          title={this.TEXT_MENU.Promotion}
           source={require("../../assets/event.png")}
 
           // onPress={() => this.props.navigation.navigate('ChoFaceHome')}
         />
         <MenuItem
-          title={TEXT_MENU().Intro}
+          title={this.TEXT_MENU.Intro}
           source={require("../../assets/event.png")}
-
-          // onPress={() => {
-          //     // this.props.navigation.navigate('BepAnGiaDinh')
-          //     this.state.Profile ? this.props.navigation.navigate('BepAnGiaDinh') : this.refs.modal.open()
-          // }}
+          onPress={() => this.props.navigation.navigate("About")}
         />
 
         <MenuItem
-          title={TEXT_MENU().Guide}
+          title={this.TEXT_MENU.Guide}
           source={require("../../assets/event.png")}
-          // onPress={() => this.props.navigation.navigate('HuongDan')}
+          onPress={() => this.props.navigation.navigate("Guide")}
         />
         <MenuItem
-          title={TEXT_MENU().Term}
+          title={this.TEXT_MENU.Term}
           source={require("../../assets/event.png")}
-          // onPress={() => this.props.navigation.navigate('GioiThieuCuDan')}
+          onPress={() => this.props.navigation.navigate("TermServices")}
         />
 
         <MenuItem
-          title={TEXT_MENU().Language}
+          title={this.TEXT_MENU.Language}
           source={require("../../assets/event.png")}
           style={styles.style_menu}
           onPress={() => this.props.navigation.navigate("Language")}
         />
         <MenuItem
-          title={TEXT_MENU().Support}
+          title={this.TEXT_MENU.Support}
           // title={strings("menu.support")}
           source={require("../../assets/event.png")}
           style={styles.style_menu}

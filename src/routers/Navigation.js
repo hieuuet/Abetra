@@ -28,7 +28,8 @@ import ChangePassword from "../containers/user-manage/my-profile/ChangePassword"
 import ChangePhone from "../containers/user-manage/my-profile/ChangePhone";
 import CertificateMember from "../containers/CertificateMember";
 import Language from "../containers/menu/Language";
-
+import Guide from "../containers/menu/Guide";
+import About from "../containers/menu/About";
 import {
   MemberProfile,
   Profile,
@@ -130,8 +131,14 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-  VerifyAccount: {
-    screen: VerifyAccount,
+  Guide: {
+    screen: Guide,
+    navigationOptions: {
+      header: null
+    }
+  },
+  About: {
+    screen: About,
     navigationOptions: {
       header: null
     }
@@ -142,6 +149,13 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+  VerifyAccount: {
+    screen: VerifyAccount,
+    navigationOptions: {
+      header: null
+    }
+  },
+
   CertificateMember: {
     screen: CertificateMember
   },
@@ -200,7 +214,10 @@ const RootStack = createStackNavigator({
     screen: Benifet
   },
   TermServices: {
-    screen: TermServices
+    screen: TermServices,
+    navigationOptions: {
+      header: null
+    }
   },
 
   Chat: {

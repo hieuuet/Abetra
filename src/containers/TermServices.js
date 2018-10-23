@@ -3,20 +3,11 @@ import React, { Component } from "react";
 import { View, WebView, Platform, BackHandler } from "react-native";
 import { COLOR } from "../constant/Color";
 import { getcommonSetting } from "../actions";
-import { ViewLoading } from "../components/CommonView";
+import { ViewLoading, CustomizeHeader } from "../components/CommonView";
+import { TEXT_MENU } from "../language";
+import { isEqual } from "lodash";
+
 class TermServices extends Component {
-  static navigationOptions = ({ navigation }) => {
-    // console.log("state change redender");
-    return {
-      title: "Điều khoản dịch vụ",
-      // headerStyle: {
-      //   // backgroundColor: "#23b34c",
-      //   alignSelf: "center",
-      // },
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
   constructor(props) {
     super(props);
 
@@ -24,6 +15,8 @@ class TermServices extends Component {
       isLoading: false,
       dataHtml: ""
     };
+
+    this.TEXT_TITLE = TEXT_MENU().Term;
   }
 
   componentDidMount() {
@@ -42,17 +35,26 @@ class TermServices extends Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_TITLE = TEXT_MENU().Term;
+    }
+  }
   componentWillUnmount() {
     this.backHandler.remove();
   }
 
   _renderLoading = () => {
-    return this.state.isLoading ? <ViewLoading /> : null;
+    return this.state.isLoading ? <ViewLoading MarginTop={75} /> : null;
   };
   render() {
     console.log("arr", this.state.dataHtml);
     return (
       <View style={{ flex: 1 }}>
+        <CustomizeHeader
+          label={this.TEXT_TITLE}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
         <WebView
           automaticallyAdjustContentInsets={false}
           source={{ html: this.state.dataHtml, baseUrl: "" }}

@@ -16,9 +16,23 @@ import { COLOR } from "../../constant/Color";
 import { IMAGE } from "../../constant/assets";
 import { LANGUAGE } from "../../constant/KeyConstant";
 import { isEqual } from "lodash";
-import { TEXT_LANGUAGE } from "../../language";
+import { TEXT_MENU } from "../../language";
 
 class Language extends Component {
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerStyle: {
+  //       position: "absolute",
+  //       top: 0,
+  //       left: 0
+  //     },
+  //     headerBackTitleStyle: {
+  //       opacity: 0
+  //     },
+  //     headerTintColor: "#fff"
+  //   };
+  // };
+
   constructor(props) {
     super(props);
 
@@ -27,14 +41,18 @@ class Language extends Component {
       allLanguage: [],
       languageActive: -1
     };
+
+    this.TEXT_TITLE = TEXT_MENU().Language;
   }
   componentDidMount() {
     this.getLanguage();
   }
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_TITLE = TEXT_MENU().Language;
+    }
+  }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return isEqual(nextProps, this.props);
-  // }
   getLanguage = async () => {
     this.setState({ isLoading: true });
     const allLanguage = await getAllLanguage().then(data => data.Value || []);
@@ -57,7 +75,7 @@ class Language extends Component {
   };
 
   _renderLoading = () => {
-    return this.state.isLoading ? <ViewLoading /> : null;
+    return this.state.isLoading ? <ViewLoading MarginTop={75} /> : null;
   };
   _renderItem = item => {
     const index = item.index;
@@ -98,11 +116,10 @@ class Language extends Component {
   };
 
   render() {
-    console.log("render state", this.state);
     return (
       <View style={{ flex: 1 }}>
         <CustomizeHeader
-          label={TEXT_LANGUAGE().LanguageTitle}
+          label={this.TEXT_TITLE}
           onBackPress={() => this.props.navigation.goBack()}
         />
         <FlatList

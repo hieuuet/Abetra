@@ -7,7 +7,8 @@ import {
   Image,
   ActivityIndicator,
   Keyboard,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from "react-native";
 import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
@@ -53,9 +54,9 @@ export const ButtonBorder = DismissKeyboardHOC(View);
  *Viewloading for app
  * @param {using default loading for facebook} isLoadingIndicator
  */
-export const ViewLoading = ({ isLoadingIndicator = true }) => {
+export const ViewLoading = ({ isLoadingIndicator = true, MarginTop = -10 }) => {
   return (
-    <View style={styles.loading}>
+    <View style={[styles.loading, { marginTop: MarginTop }]}>
       {isLoadingIndicator ? (
         <ActivityIndicator size="large" color={COLOR.BACKGROUND_BUTTON} />
       ) : null}
@@ -63,7 +64,8 @@ export const ViewLoading = ({ isLoadingIndicator = true }) => {
   );
 };
 ViewLoading.propTypes = {
-  isLoadingIndicator: PropTypes.bool
+  isLoadingIndicator: PropTypes.bool,
+  MarginTop: PropTypes.number
 };
 
 /**
@@ -159,22 +161,36 @@ export class CustomizeHeader extends Component {
   render() {
     return (
       <View style={styles.header_wrapper}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent={true}
+        />
         <Image
           style={styles.backgound_header}
           source={IMAGE.header}
           resizeMode="cover"
         />
-        <TouchableOpacity
-          style={styles.btn_back}
-          onPress={this.props.onBackPress}
+        <View
+          style={{
+            marginTop: 15,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
         >
-          <Image
-            style={styles.img_back}
-            resizeMode="cover"
-            source={IMAGE.icon_back}
-          />
-        </TouchableOpacity>
-        <Text style={styles.txt_header}>{this.props.label || ""}</Text>
+          <TouchableOpacity
+            style={styles.btn_back}
+            onPress={this.props.onBackPress}
+          >
+            <Image
+              style={styles.img_back}
+              resizeMode="cover"
+              source={IMAGE.icon_back}
+            />
+          </TouchableOpacity>
+          <Text style={styles.txt_header}>{this.props.label || ""}</Text>
+        </View>
       </View>
     );
   }
@@ -249,7 +265,7 @@ const styles = StyleSheet.create({
     height: 35 * (53 / 82)
   },
   header_wrapper: {
-    height: 50,
+    height: 65,
     // backgroundColor: COLOR.COLOR_HEADER,
     flexDirection: "row",
     alignItems: "center",
@@ -261,9 +277,8 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   backgound_header: {
-    right: 0,
-    left: 0,
-    height: 50,
+    flex: 1,
+    height: 65,
     position: "absolute"
   }
 });
