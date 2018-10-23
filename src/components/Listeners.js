@@ -18,6 +18,9 @@ AsyncStorage.getItem('lastMessage').then(data=>{
     }
 })
 
+this.state = {
+    ProfileMember: []
+}
 export function registerKilledListener(){
     // these callback will be triggered even when app is killed
     FCM.on(FCMEvent.Notification, notif => {
@@ -47,7 +50,10 @@ export function registerKilledListener(){
 export function registerAppListener(navigation){
     FCM.on(FCMEvent.Notification, notif => {
         console.log("Notification", notif);
-
+        const ChatTo = notif.ChatTo ? notif.ChatTo : null
+        const ProfileMember = JSON.parse(ChatTo)
+        const MsgGroupID = notif.MsgGroupID
+        console.log('profileMember', ProfileMember)
         if(Platform.OS ==='ios' && notif._notificationType === NotificationType.WillPresent && !notif.local_notification){
             // this notification is only to decide if you want to show the notification when user if in foreground.
             // usually you can ignore it. just decide to show or not.
@@ -56,9 +62,13 @@ export function registerAppListener(navigation){
         }
 
         if(notif.opened_from_tray){
-            if(notif.collapse_key === "com.pateco.aibetra"){
+            if(MsgGroupID){
                 setTimeout(()=>{
-                    navigation.navigate('Message')
+                    navigation.navigate('Chat', {
+                        MsgGroupID: MsgGroupID,
+                        ProfileMember: ProfileMember,
+                        title: ProfileMember.FullName
+                    })
                 }, 500)
             }
 

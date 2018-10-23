@@ -54,7 +54,7 @@ class Chat extends Component {
             MsgGroupID: MsgGroupID
         })
         this.socket.on('RECEIVERMSG', (dataRes) => {
-            console.log('receiveMSG', dataRes)
+            console.log('receiveMSG', dataRes.ChatTo)
             // dataMess = dataReceive.Content;
             //set newMsg = messga receive
             let newMsg = this.state.ArrMess;
@@ -136,7 +136,8 @@ class Chat extends Component {
             RefName: ProfileMember && ProfileMember.FullName ? ProfileMember.FullName : "",
             RefAvatar: ProfileMember && ProfileMember.Avatar ? ProfileMember.Avatar : "",
             Content: text,
-            IsEnterprise: 0
+            IsEnterprise: 0,
+            ChatTo: JSON.stringify(ProfileMember)
         }
         // console.log('dataSend', dataSend)
         this.socket.emit("SENDMSG", dataSend);
