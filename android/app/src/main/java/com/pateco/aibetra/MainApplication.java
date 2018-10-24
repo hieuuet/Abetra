@@ -1,5 +1,6 @@
 package com.pateco.aibetra;
 
+import cl.json.BuildConfig;
 import cl.json.ShareApplication;
 import android.app.Application;
 import cl.json.RNSharePackage;
