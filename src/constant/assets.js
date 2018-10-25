@@ -13,6 +13,12 @@ export const IMAGE = {
   unchecked: require("../../assets/ic_check_box_outline_blank.png"),
   header: require("../../assets/header.png"),
   btn_active: require("../../assets/btn_active.png"),
-  btn_normal: require("../../assets/btn_normal.png")
+  btn_normal: require("../../assets/btn_normal.png"),
+
+  //profile
+  bg_head_profile: require('../../assets/profile/bg_head.png'),
+  bg_change_pass: require('../../assets/profile/btn_doimk.png'),
+  btn_edit1:require('../../assets/profile/btn_edit1.png'),
+
 
 };

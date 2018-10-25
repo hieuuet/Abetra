@@ -27,7 +27,6 @@ import MenuItem from "../../../components/MenuItem";
 import MyDatePicker from "../../../components/DatePicker";
 import {
   updateUserProfile,
-  uploadImage2,
   uploadMultipleImage,
   updateAddressDesscription
 } from "../../../actions";
@@ -175,42 +174,6 @@ class MyProfileTab1 extends Component {
     return this.props.onLoading(false);
   };
 
-  /**
-   * Pick avatar to upload
-   */
-  pickOneImageToUpload = () => {
-    ImagePicker.openPicker({
-      waitAnimationEnd: false,
-      includeBase64: true,
-      includeExif: true,
-      forceJpg: true
-    })
-      .then(async image => {
-        if (image && image.data) {
-          this.setState({ localAvatar: image.path });
-          this.props.onLoading(true);
-          const responUpload = await uploadImage2({
-            base64Data: image.data,
-            user_id: this.dataUser.UserID,
-            extension: "jpeg"
-          });
-
-          if (responUpload) {
-            const linkImgUploaded = JSON.parse(responUpload);
-            if (linkImgUploaded) {
-              await this.callApiUpdateProfile({
-                field: "Avatar",
-                value: linkImgUploaded.Value
-              });
-            }
-          }
-
-          return this.props.onLoading(false);
-        }
-      })
-      .catch(e => console.log(e));
-  };
-
   pickMultipleImageToUpload = () => {
     ImagePicker.openPicker({
       multiple: true,
@@ -251,67 +214,6 @@ class MyProfileTab1 extends Component {
   _renderHeader = () => {
     return (
       <View>
-        <View style={styles.contain_avatar}>
-          <TouchableOpacity onPress={this.pickOneImageToUpload}>
-            <Image
-              source={
-                this.state.localAvatar
-                  ? { uri: this.state.localAvatar }
-                  : this.dataUser && this.dataUser.Avatar
-                    ? { uri: URL_BASE + this.dataUser.Avatar }
-                    : IMAGE.logo
-              }
-              resizeMode="cover"
-              style={styles.avatar}
-            />
-          </TouchableOpacity>
-          <View style={styles.right_avatar}>
-            <EditView
-              label={strings("profile.name_login")}
-              text_edit={
-                this.dataUser && this.dataUser.UserName
-                  ? this.dataUser.UserName
-                  : ""
-              }
-              style_edit={styles.text_name}
-            />
-            <EditView
-              label={strings("profile.name_display")}
-              text_edit={
-                this.dataUser && this.dataUser.FullName
-                  ? this.dataUser.FullName
-                  : ""
-              }
-              isEditAble={true}
-              style_edit={styles.text_name}
-              onSubmit={text => {
-                if (!this.dataUser || text.trim() === this.dataUser.FullName)
-                  return;
-                this.dataUser.FullName = text.trim();
-                this.callApiUpdateProfile({
-                  field: "FullName",
-                  value: text.trim()
-                });
-              }}
-            />
-            <View style={styles.change_pass}>
-              <Text style={style_common.text_color_base}>
-                {strings("profile.change_pass")}
-              </Text>
-              <TouchableOpacity
-                style={styles.icon_pass}
-                onPress={() =>
-                  this.props.navigation.navigate("ChangePassword", {
-                    user_name: this.dataUser.UserName
-                  })
-                }
-              >
-                <Ionicon name="ios-lock" size={30} color={COLOR.COLOR_SKY} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}

@@ -64,8 +64,8 @@
   },
 
   "profile": {
-    "name_login": "Tên đăng nhập",
-    "name_display": "Tên hiển thị",
+    "account": "Tài khoản",
+    "member": "Hội viên",
     "change_pass": "Đổi mật khẩu",
     "birth_day": "Ngày sinh",
     "email": "Email",
@@ -73,6 +73,11 @@
     "gender": "Giới tính",
     "man": "Nam",
     "women": "Nữ",
-    "undefined": "Không xác định"
+    "undefined": "Không xác định",
+    "address":"Địa chỉ",
+    "intro": "Giới thiệu",
+    "marked": "Bài viết đã lưu",
+    "follow":"Hội viên đang theo dõi",
+    "event_join":"Sự kiện đã tham gia"
   }
 }

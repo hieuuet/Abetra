@@ -75,3 +75,26 @@ export const TEXT_MENU = () => {
     Support: strings("menu.support")
   };
 };
+
+export const TEXT_PROFILE = ()=>({
+  Account:strings("profile.account"),
+  Member:strings("profile.member"),
+  ChangePass:strings("profile.change_pass"),
+  Birth_day:strings("profile.birth_day"),
+  Email:strings("profile.email"),
+  Mobile:strings("profile.mobile"),
+  Gender:strings("profile.gender"),
+  Man:strings("profile.man"),
+  Women:strings("profile.women"),
+  Undefined:strings("profile.undefined"),
+  Address:strings("profile.address"),
+  Intro:strings("profile.intro"),
+  Marked:strings("profile.marked"),
+  Follow:strings("profile.follow"),
+  EventJoin:strings("profile.event_join"),
+
+
+
+
+
+})

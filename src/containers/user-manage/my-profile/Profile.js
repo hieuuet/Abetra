@@ -1,33 +1,39 @@
 import React, { Component } from "react";
-import { View, StyleSheet, BackHandler } from "react-native";
+import {
+  View,
+  StyleSheet,
+  BackHandler,
+  StatusBar,
+  Image,
+  NativeModules,
+  TouchableOpacity,
+  Text
+} from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
 import MyProfileTab1 from "./MyProfileTab1";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loadUserProfile, updateUserProfile } from "../../../actions";
+import {
+  loadUserProfile,
+  updateUserProfile,
+  uploadImage2
+} from "../../../actions";
 import MyProfileTab2 from "./MyProfileTab2";
 import { isEqual } from "lodash";
+import { IMAGE } from "../../../constant/assets";
+import EditView from "./EditView";
 
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
 import { NavigationActions, StackActions } from "react-navigation";
+import { URL_BASE } from "../../../constant/api";
+
+import { TEXT_PROFILE } from "../../../language";
+const ImagePicker = NativeModules.ImageCropPicker;
 
 class Profile extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    // console.log("state change redender");
-    return {
-      title: params.title,
-      // headerStyle: {
-      //   // backgroundColor: "#23b34c",
-      //   alignSelf: "center",
-      // },
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
 
   constructor(props) {
     super(props);
@@ -52,20 +58,14 @@ class Profile extends Component {
     this.state = {
       isLoading: false,
       tabIndex: 0,
-      allTag: allTags
+      allTag: allTags,
+      localAvatar:undefined
     };
 
-    //set title for title bar
-    this.props.navigation.setParams({
-      title:
-        (this.props.userProfile &&
-          this.props.userProfile.Value &&
-          this.props.userProfile.Value[0] &&
-          this.props.userProfile.Value[0].FullName) ||
-        "Profile"
-    });
 
     this.idTagSelected = [];
+
+    this.TEXT_PROFILE = TEXT_PROFILE();
   }
 
   componentDidMount() {
@@ -89,7 +89,11 @@ class Profile extends Component {
       }
     });
   }
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_PROFILE = TEXT_PROFILE();
+    }
+  }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.userProfile, this.props.userProfile) &&
@@ -149,6 +153,172 @@ class Profile extends Component {
     if (hashtagSelected !== undefined) this.tagSelected = hashtagSelected;
   };
 
+  callApiUpdateProfile = async ({ field, value }) => {
+    return updateUserProfile({
+      profile_id: this.userProfile.ProfileID,
+      user_id: this.userProfile.UserID,
+      field,
+      value
+    });
+  };
+
+  /**
+   * Pick avatar to upload
+   */
+  pickOneImageToUpload = () => {
+    ImagePicker.openPicker({
+      waitAnimationEnd: false,
+      includeBase64: true,
+      includeExif: true,
+      forceJpg: true
+    })
+      .then(async image => {
+        if (image && image.data) {
+          this.setState({ isLoading: true, localAvatar: image.path });
+          const responUpload = await uploadImage2({
+            base64Data: image.data,
+            user_id: this.userProfile.UserID,
+            extension: "jpeg"
+          });
+
+          if (responUpload) {
+            const linkImgUploaded = JSON.parse(responUpload);
+            if (linkImgUploaded) {
+              await this.callApiUpdateProfile({
+                field: "Avatar",
+                value: linkImgUploaded.Value
+              });
+            }
+          }
+
+          return this.setState({ isLoading: false });
+        }
+      })
+      .catch(e => console.log(e));
+  };
+  _renderHeader() {
+    const source = this.state.localAvatar
+      ? { uri: this.state.localAvatar }
+      : this.userProfile && this.userProfile.Avatar
+        ? { uri: URL_BASE + this.userProfile.Avatar }
+        : IMAGE.logo;
+    console.log("source", source);
+
+    return (
+      <View style={{ height: 190 }}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent={true}
+        />
+        <Image
+          style={styles.backgound_header}
+          source={IMAGE.bg_head_profile}
+          resizeMode="stretch"
+        />
+        <TouchableOpacity
+          style={styles.btn_back}
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Image
+            style={styles.img_back}
+            resizeMode="cover"
+            source={IMAGE.icon_back}
+          />
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center"
+          }}
+        >
+          <View
+            style={{
+              flex: 2,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <TouchableOpacity onPress={this.pickOneImageToUpload}>
+              <Image
+                source={
+                  source
+                }
+                resizeMode="cover"
+                style={styles.avatar}
+                queryCache={[source]}
+              />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flex: 3,
+              justifyContent: "flex-start",
+              alignContent: "flex-start",
+              marginRight: 10,
+              marginLeft: 10
+            }}
+          >
+            <EditView
+              text_edit={
+                (this.userProfile && this.userProfile.FullName) || "Not Found"
+              }
+              type={1}
+              isEditAble={true}
+              style_edit={styles.edit_name}
+              onSubmit={text => {
+                if (
+                  !this.userProfile ||
+                  text.trim() === this.userProfile.FullName
+                )
+                  return;
+                this.userProfile.FullName = text.trim();
+                this.callApiUpdateProfile({
+                  field: "FullName",
+                  value: text.trim()
+                });
+              }}
+            />
+            <EditView
+              text_edit={
+                (this.userProfile && this.userProfile.UserName) || "Not Found"
+              }
+              style_edit={styles.edit_userName}
+            />
+            <TouchableOpacity
+              style={{
+                borderRadius: 25,
+                width: 140,
+                minHeight: 50,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Image
+                resizeMode="contain"
+                source={IMAGE.bg_change_pass}
+                style={{
+                  flex: 1,
+                  height: 50
+                }}
+              />
+              <Text
+                style={{
+                  alignSelf: "center",
+                  position: "absolute",
+                  color: COLOR.COLOR_WHITE
+                }}
+              >
+                {this.TEXT_PROFILE.ChangePass}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
   render() {
     //get userProfile from Redux
     this.userProfile =
@@ -159,10 +329,11 @@ class Profile extends Component {
         : {};
     console.log("render profile");
     return (
-      <View style={style_common.container}>
+      <View style={style_common.container_white}>
+        {this._renderHeader()}
         <View style={styles.tab}>
           <TabView
-            label="Tài khoản"
+            label={this.TEXT_PROFILE.Account}
             onPress={() => {
               this.setState({ tabIndex: 0 });
             }}
@@ -170,7 +341,7 @@ class Profile extends Component {
             style={styles.btn_margin_right}
           />
           <TabView
-            label="Hội viên"
+            label={this.TEXT_PROFILE.Member}
             onPress={() => {
               this.setState({ tabIndex: 1 });
             }}
@@ -233,7 +404,8 @@ const mapStateToProps = state => {
   return {
     userProfile: state.loadUserProfile,
     allRank: state.allRank,
-    allHashTag: state.categoryType3
+    allHashTag: state.categoryType3,
+    currentLanguage: state.currentLanguage
   };
 };
 
@@ -249,9 +421,39 @@ Profile = connect(
 export default Profile;
 
 const styles = StyleSheet.create({
+  edit_name: {
+    fontSize: 25,
+    color: COLOR.COLOR_WHITE
+  },
+  edit_userName: {
+    color: COLOR.COLOR_WHITE
+  },
+  backgound_header: {
+    height: 220,
+    flex: 1,
+    top: -10,
+    position: "absolute"
+  },
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    borderWidth: 2,
+    borderColor: COLOR.COLOR_WHITE
+  },
+  btn_back: {
+    alignSelf: "flex-start",
+    padding: 10,
+    marginTop: 15
+  },
+  img_back: {
+    width: 35,
+    height: 35 * (53 / 82)
+  },
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE
+    marginTop: -20,
+    backgroundColor: "transparent"
   },
 
   content: {

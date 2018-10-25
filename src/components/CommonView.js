@@ -81,11 +81,17 @@ export const TabView = ({
     <TouchableOpacity
       onPress={onPress}
       style={[
-        isActive ? style_common.btn_tab_active : style_common.btn_tab_inActive,
+        isActive
+          ? [style_common.card_view, style_common.btn_tab_active]
+          : style_common.btn_tab_inActive,
         style
       ]}
     >
-      <Text style={styles.text_tab}>{label}</Text>
+      <Text
+        style={isActive ? styles.text_tab_active : styles.text_tab_inactive}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -246,8 +252,13 @@ const styles = StyleSheet.create({
     height: 30,
     alignSelf: "center"
   },
-  text_tab: {
-    color: COLOR.COLOR_BLACK,
+  text_tab_active: {
+    color: COLOR.COLOR_TEXT_BLUE,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  text_tab_inactive: {
+    color: COLOR.COLOR_WHITE,
     fontWeight: "bold",
     textAlign: "center"
   },

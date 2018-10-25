@@ -24,7 +24,8 @@ export default (style = StyleSheet.create({
     borderRadius: 2,
     borderWidth: 1,
     borderColor: "#ddd",
-    shadowColor: "#000"
+    shadowColor: "#000",
+    elevation: 1
   },
   img_logo: {
     width: 50,
@@ -56,23 +57,22 @@ export default (style = StyleSheet.create({
     flex: 1,
     margin: 10,
     minHeight: 40,
-    borderWidth: 1,
-    borderRadius: 2,
+    borderWidth: 0,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLOR.COLOR_SKY,
-    borderColor: COLOR.COLOR_SKY
+    backgroundColor: "white",
+    borderColor: "white"
   },
   btn_tab_inActive: {
     flex: 1,
     margin: 10,
     minHeight: 40,
-    borderRadius: 2,
-    borderWidth: 1,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: COLOR.COLOR_GRAY,
-    backgroundColor: COLOR.COLOR_GRAY
+    borderColor: "transparent",
+    backgroundColor: "transparent"
   },
   line: {
     height: 1,

@@ -64,15 +64,20 @@
   },
 
   "profile": {
-    "name_login": "Tên đăng nhập",
-    "name_display": "Tên hiển thị",
-    "change_pass": "Đổi mật khẩu",
-    "birth_day": "Ngày sinh",
+    "account": "Account",
+    "member": "Member",
+    "change_pass": "Change Password",
+    "birth_day": "Birth Day",
     "email": "Email",
     "mobile": "Mobile",
-    "gender": "Giới tính",
-    "man": "Nam",
-    "women": "Nữ",
-    "undefined": "Không xác định"
+    "gender": "Gender",
+    "man": "Man",
+    "women": "Women",
+    "undefined": "Undefined",
+    "address": "Address",
+    "intro": "Introduce",
+    "marked": "Post marked",
+    "follow": "Member follow",
+    "event_join": "Event joined"
   }
 }
