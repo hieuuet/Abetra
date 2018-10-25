@@ -223,6 +223,7 @@ class StatusItems extends Component {
 
     render() {
         const {item} = this.props.dataItem;
+        console.log('item.cmt', item.Comments)
         // let PollVote = item.Poll ? item.Poll : null
         // PollVote =  JSON.parse(PollVote)
         // console.log('PollVote', PollVote)
@@ -270,7 +271,7 @@ class StatusItems extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <Text
-                                    style={{fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
+                                    style={{}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
 
                             </View>
                             <View
@@ -282,9 +283,7 @@ class StatusItems extends Component {
                             >
 
                                 <Text
-                                    style={{
-                                        fontSize: 11
-                                    }}
+                                    style={{}}
                                 >
                                     {moment(item.CreatedDate).format("DD-MM-YY LT")}
                                     {/*{moment().startOf('hour').fromNow()}*/}
@@ -308,7 +307,6 @@ class StatusItems extends Component {
                             <View style={{marginHorizontal: 15, flexDirection: 'row', marginTop: 10}}>
                                 <Text style={{
                                     color: '#666666',
-                                    fontSize: 12,
                                     fontWeight: 'bold'
                                 }}>{this.state.PostContent.Name}</Text>
                             </View> : null
@@ -334,7 +332,7 @@ class StatusItems extends Component {
                                 onReady={this._handleTextReady}
                             >
                                 <Text
-                                    style={{fontSize: 12}}>{item.Type != 2 ? item.PostContent : this.state.PostContent.Description}</Text>
+                                    style={{}}>{item.Type != 2 ? item.PostContent : this.state.PostContent.Description}</Text>
                             </ReadMore>
                         </View>
                     </View>
@@ -368,28 +366,42 @@ class StatusItems extends Component {
                             alignItems: "center",
                         }}
                     >
-                        <View style = {{flexDirection: "row",}}>
+                        <View style={{flexDirection: "row",}}>
                             <View
                                 style={{
                                     flexDirection: "row",
                                     marginLeft: 10,
                                     alignItems: "center",
                                     backgroundColor: "#C7C7C7",
-                                    height: 25,
+                                    height: 30,
                                     width: 65,
-                                    borderRadius: 25 / 2,
+                                    borderRadius: 15,
                                     borderWidth: 1,
                                     borderColor: '#C7C7C7',
                                     justifyContent: "space-between",
                                 }}
                             >
-                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                    {
+                                        this.state.liked ?
+                                            <TouchableOpacity  style = {{ flex: 1}} onPress={() =>  this.unlikePost(item.PostID) }>
 
-                                    <Image
-                                        style={{width: null, height: null, flex: 1}}
-                                        source={require('../../assets/icon_heart.png')}
-                                        resizeMode="contain"
-                                    />
+                                                <Image
+                                                    style={{width: null, height: null, flex:1}}
+                                                    source={require('../../assets/icon_heart_active.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity> : <TouchableOpacity  style = {{ flex: 1}}  onPress={() =>  this.likePost(item.PostID) }>
+
+
+                                                    <Image
+                                                        style={{width: null, height: null, flex: 1}}
+                                                    source={require('../../assets/icon_heart.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity>
+                                    }
+
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
@@ -399,15 +411,15 @@ class StatusItems extends Component {
                                     marginLeft: 10,
                                     alignItems: "center",
                                     backgroundColor: "#C7C7C7",
-                                    height: 25,
+                                    height: 30,
                                     width: 65,
-                                    borderRadius: 25 / 2,
+                                    borderRadius: 15,
                                     borderWidth: 1,
                                     borderColor: '#C7C7C7',
                                     justifyContent: "space-between",
                                 }}
                             >
-                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
 
                                     <Image
                                         style={{width: null, height: null, flex: 1}}
@@ -424,15 +436,15 @@ class StatusItems extends Component {
                                     marginLeft: 10,
                                     alignItems: "center",
                                     backgroundColor: "#C7C7C7",
-                                    height: 25,
+                                    height: 30,
                                     width: 65,
-                                    borderRadius: 25 / 2,
+                                    borderRadius: 15,
                                     borderWidth: 1,
                                     borderColor: '#C7C7C7',
                                     justifyContent: "space-between",
                                 }}
                             >
-                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
 
                                     <Image
                                         style={{width: null, height: null, flex: 1}}
@@ -444,104 +456,151 @@ class StatusItems extends Component {
                             </View>
                         </View>
 
-                        { item.Type == 2 ?  <View
+                        {item.Type == 2 ? <View
                             style={{
 
                                 flexDirection: "row",
                                 marginRight: 10,
                                 alignItems: "center",
                                 backgroundColor: "#C7C7C7",
-                                height: 25,
+                                height: 30,
                                 width: 100,
-                                borderRadius: 25 / 2,
+                                borderRadius: 15,
                                 borderWidth: 1,
                                 borderColor: '#C7C7C7',
                                 justifyContent: "space-between",
                             }}
                         >
-                            <View style={{width: 13, height: 13, marginLeft: 10}}>
+                            <View style={{width: 15, height: 15, marginLeft: 10}}>
 
+                                <TouchableOpacity  style = {{ flex: 1}} onPress={() => this._joinEvent(item.PostID)}>
                                 <Image
                                     style={{width: null, height: null, flex: 1}}
-                                    source={require('../../assets/icon_forcus.png')}
+                                    source={this.state.isJoin ? require('../../assets/icon_forcus_active.png') : require('../../assets/icon_forcus.png')}
                                     resizeMode="contain"
                                 />
+                                </TouchableOpacity>
                             </View>
                             <Text style={{marginRight: 10, color: "#777777"}}>Tham gia</Text>
                         </View> : null}
 
 
                     </View>
-                    <View style={{height: 1, backgroundColor: "#cccccc"}}/>
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            marginTop: 10,
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
+                    {
+                        item.Comments.length > 0?  <View style={{height: 1, marginTop: 5, backgroundColor: "#cccccc"}}/>: null
+                    }
+
+                    {/*<View*/}
+                    {/*style={{*/}
+                    {/*flexDirection: "row",*/}
+                    {/*marginTop: 10,*/}
+                    {/*justifyContent: "space-between",*/}
+                    {/*alignItems: "center",*/}
+                    {/*}}*/}
+                    {/*>*/}
+                    {/*<View*/}
+                    {/*style={{*/}
+                    {/*flexDirection: "row",*/}
+                    {/*marginLeft: 20,*/}
+                    {/*alignItems: "center",*/}
+                    {/*}}*/}
+                    {/*>*/}
+                    {/*<Icon1 name="like" size={25} color={this.state.liked ? "blue" : "#424242"}/>*/}
+                    {/*<TouchableOpacity*/}
+                    {/*onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>*/}
+                    {/*<Text style={{color: this.state.liked ? 'blue' : null}}>Thích</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*</View>*/}
+                    {/*<TouchableOpacity*/}
+                    {/*onPress={() =>*/}
+                    {/*this.props.navigation.navigate("BinhLuan", {item})*/}
+                    {/*}*/}
+                    {/*>*/}
+                    {/*<View style={{flexDirection: "row", alignItems: "center"}}>*/}
+                    {/*<Icon1 name="comment" size={25} color="#424242"/>*/}
+
+                    {/*<Text style={{color: "#424242"}}>Bình luận</Text>*/}
+                    {/*</View>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<TouchableOpacity onPress={() => this.onShare()}>*/}
+                    {/*<View*/}
+                    {/*style={*/}
+                    {/*item.Type == 2 ?*/}
+                    {/*{*/}
+                    {/*flexDirection: "row",*/}
+                    {/*marginRight: 20,*/}
+                    {/*alignItems: "center",*/}
+                    {/*} : {*/}
+                    {/*flexDirection: "row",*/}
+                    {/*alignItems: "center",*/}
+                    {/*}}*/}
+                    {/*>*/}
+                    {/*<Icon name="share-outline" size={25} color="#424242"/>*/}
+
+                    {/*<Text style={{color: "#424242"}}>Share</Text>*/}
+                    {/*</View>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*{*/}
+                    {/*item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.PostID)}>*/}
+                    {/*<View*/}
+                    {/*style={{*/}
+                    {/*flexDirection: "row",*/}
+                    {/*marginRight: 20,*/}
+                    {/*alignItems: "center",*/}
+                    {/*}}*/}
+                    {/*>*/}
+                    {/*<IconAdd name="add-user" size={20} color="#424242"/>*/}
+                    {/*{*/}
+                    {/*this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :*/}
+                    {/*<Text style={{color: "#424242"}}>Tham gia</Text>*/}
+                    {/*}*/}
+                    {/*</View>*/}
+                    {/*</TouchableOpacity> : null*/}
+                    {/*}*/}
+                    {/*</View>*/}
+                    {
+                        item.Comments.length > 0? <View>
                         <View
                             style={{
                                 flexDirection: "row",
-                                marginLeft: 20,
+                                marginTop: 10,
                                 alignItems: "center",
                             }}
                         >
-                            <Icon1 name="like" size={25} color={this.state.liked ? "blue" : "#424242"}/>
-                            <TouchableOpacity
-                                onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>
-                                <Text style={{color: this.state.liked ? 'blue' : null}}>Thích</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate("BinhLuan", {item})
-                            }
-                        >
-                            <View style={{flexDirection: "row", alignItems: "center"}}>
-                                <Icon1 name="comment" size={25} color="#424242"/>
-
-                                <Text style={{color: "#424242"}}>Bình luận</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.onShare()}>
-                            <View
-                                style={
-                                    item.Type == 2 ?
-                                        {
-                                            flexDirection: "row",
-                                            marginRight: 20,
-                                            alignItems: "center",
-                                        } : {
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                        }}
-                            >
-                                <Icon name="share-outline" size={25} color="#424242"/>
-
-                                <Text style={{color: "#424242"}}>Share</Text>
-                            </View>
-                        </TouchableOpacity>
-                        {
-                            item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.PostID)}>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        marginRight: 20,
-                                        alignItems: "center",
+                            <TouchableOpacity onPress={this._onClickAvatar}>
+                                <Image
+                                    style={styles.image_circle}
+                                    source={{
+                                        uri: URL_BASE + item.Comments[0].Avartar
                                     }}
-                                >
-                                    <IconAdd name="add-user" size={20} color="#424242"/>
-                                    {
-                                        this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :
-                                            <Text style={{color: "#424242"}}>Tham gia</Text>
-                                    }
-                                </View>
-                            </TouchableOpacity> : null
-                        }
-                    </View>
+                                    resizeMode="cover"
+                                />
+                            </TouchableOpacity>
+                            <View
+                                style={{
+                                    marginRight: 15,
+                                    justifyContent: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 30,
+                                    borderRadius: 15,
+                                    marginLeft: 5,
+                                    borderWidth: 1,
+                                    flex: 1,
+                                    paddingRight: 10,
+                                    paddingLeft: 10,
+                                    borderColor: '#C7C7C7',
+                                }}
+                            >
 
+
+                                    <Text >{item.Comments[0].Content}</Text>
+                            </View>
+
+                        </View>
+                        <Text style={{textAlign: "right", marginRight: 15, color: "#42A5F5"}}>Trả lời</Text>
+
+
+                    </View> : null}
 
                 </View>
 
@@ -584,9 +643,9 @@ export default StatusItems;
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
     image_circle: {
-        height: DEVICE_WIDTH / 11,
-        width: DEVICE_WIDTH / 11,
-        borderRadius: DEVICE_WIDTH / 22,
+        height: DEVICE_WIDTH / 10,
+        width: DEVICE_WIDTH / 10,
+        borderRadius: DEVICE_WIDTH / 20,
         marginLeft: 20,
         // marginTop: 10
     },
