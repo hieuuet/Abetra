@@ -25,6 +25,7 @@ import {likePost} from "../actions/likePostActions";
 import {URL_BASE} from "../constant/api";
 import IconAdd from "react-native-vector-icons/Entypo";
 import {joinEvent} from "../actions/joinEventActions";
+import {COLOR} from "../constant/Color";
 
 
 class StatusItems extends Component {
@@ -34,17 +35,17 @@ class StatusItems extends Component {
         this.state = {
             modalVisible: false,
             Type: "",
-            ArrPoll: [
-            ],
+            ArrPoll: [],
             countLike: this.countliked,
             liked: false,
             PostContent: ""
         };
     }
-    componentDidMount (){
+
+    componentDidMount() {
         const {item} = this.props.dataItem;
-        const { UserProfile}  = this.props
-        if (UserProfile.length<= 0){
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
             return null
         }
         //ArrUser Liked
@@ -71,17 +72,18 @@ class StatusItems extends Component {
 
         })
         let PostContent = item.PostContent
-        if (item.Type == 2){
+        if (item.Type == 2) {
             PostContent = JSON.parse(PostContent)
             this.setState({
-                PostContent: PostContent,
-            },
+                    PostContent: PostContent,
+                },
                 // () => console.log('PostContent', this.state.PostContent)
             )
         }
 
 
     }
+
     _joinEvent = async (EventID) => {
         const {joinEvent, UserProfile} = this.props
         if (UserProfile.length <= 0) {
@@ -136,7 +138,7 @@ class StatusItems extends Component {
 
     _renderTruncatedFooter = (handlePress) => {
         return (
-            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+            <Text style={{color: "#C3E3D7", fontSize: 12}} onPress={handlePress}>
                 Xem thêm
             </Text>
         );
@@ -144,7 +146,7 @@ class StatusItems extends Component {
 
     _renderRevealedFooter = (handlePress) => {
         return (
-            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+            <Text style={{color: "#C3E3D7", fontSize: 12}} onPress={handlePress}>
                 Thu gọn
             </Text>
         );
@@ -174,8 +176,8 @@ class StatusItems extends Component {
     }
 
     likePost = async (postId) => {
-        const {likePost, UserProfile}  = this.props
-        if (UserProfile.length <=0){
+        const {likePost, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
             return null
 
         }
@@ -187,18 +189,17 @@ class StatusItems extends Component {
             TableLog: 0
         })
         console.log('like', like)
-        if(like.Error === null){
+        if (like.Error === null) {
             let currentLike = this.state.countLike;
             currentLike++;
             this.setState({liked: true, countLike: currentLike});
         }
 
 
-
     }
     unlikePost = async (postId) => {
-        const {likePost, UserProfile}  = this.props
-        if (UserProfile.length <=0){
+        const {likePost, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
             return null
 
         }
@@ -210,12 +211,11 @@ class StatusItems extends Component {
             TableLog: 0
         })
         console.log('like', like)
-        if(like.Error === null){
+        if (like.Error === null) {
             let currentLike = this.state.countLike;
             currentLike--;
             this.setState({liked: false, countLike: currentLike});
         }
-
 
 
     }
@@ -228,15 +228,15 @@ class StatusItems extends Component {
         // console.log('PollVote', PollVote)
         const {setModalVisible} = this.props
         let ArrImg = item.Images ? item.Images : '[]';
-        try{
-        ArrImg = JSON.parse(ArrImg);
-        }catch(e){
+        try {
+            ArrImg = JSON.parse(ArrImg);
+        } catch (e) {
             console.log('e');
         }
 
 
         return (
-            <View>
+            <View style={{backgroundColor: COLOR.COLOR_BACKGROUND}}>
                 <View>
                     <View
                         style={{
@@ -254,8 +254,25 @@ class StatusItems extends Component {
                                 resizeMode="cover"
                             />
                         </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
+                            <View
+                                style={{
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                    marginLeft: 5,
+                                    paddingTop: 3,
+                                    paddingBottom: 3
+                                }}
+                            >
+                                <TouchableOpacity onPress={this._onClickAvatar}>
+                                    <Text style={{color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold"}}>
+                                        {item.FullName}
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text
+                                    style={{fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
 
-                        <View style={{marginLeft: 10, flex: 1}}>
+                            </View>
                             <View
                                 style={{
                                     justifyContent: "space-between",
@@ -263,60 +280,52 @@ class StatusItems extends Component {
                                     flexDirection: "row",
                                 }}
                             >
-                                <TouchableOpacity onPress={this._onClickAvatar}>
-                                <Text style={{color: "#2196F3", fontWeight: "bold"}}>
-                                    {item.FullName}
+
+                                <Text
+                                    style={{
+                                        fontSize: 11
+                                    }}
+                                >
+                                    {moment(item.CreatedDate).format("DD-MM-YY LT")}
+                                    {/*{moment().startOf('hour').fromNow()}*/}
                                 </Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
                                         this.setModalVisible(true);
                                     }}
                                 >
-                                    <IconMore
-                                        name="ios-more"
-                                        size={25}
-                                        color="black"
-                                        style={{marginRight: 10}}
+                                    <Image
+                                        style={{marginLeft: 3, width: 15, height: 15, marginRight: 20}}
+                                        source={require('../../assets/icon_more.png')}
+                                        resizeMode="cover"
                                     />
                                 </TouchableOpacity>
-                            </View>
-                            <View
-                                style={{
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    flexDirection: "row",
-                                }}
-                            >
-                                <Text style={{color: "black"}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
-                                <Text
-                                    style={{
-                                        marginRight: 10,
-                                        color: "black",
-                                    }}
-                                >
-                                    {/*{moment().format("DD/MM/YY HH:mm")}*/}
-                                    {moment(item.CreatedDate).startOf('hour').fromNow()}
-                                </Text>
                             </View>
                         </View>
                     </View>
                     {
-                        item.Type ==2 ?
-                            <View style={{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
-                                <Text style={{color: "#42A5F5"}}>SỰ KIỆN: </Text>
-                                <Text style={{color: 'black'}}>{this.state.PostContent.Name}</Text>
+                        item.Type == 2 ?
+                            <View style={{marginHorizontal: 15, flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{
+                                    color: '#666666',
+                                    fontSize: 12,
+                                    fontWeight: 'bold'
+                                }}>{this.state.PostContent.Name}</Text>
                             </View> : null
                     }
                     {
-                        item.Type ==2 ?
-                            <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
-                        <Text style={{color: "#FFA726"}}>{moment(this.state.PostContent.StartDate).format("HH:mm DD/MM/YYYY")} </Text>
-                        {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
-                        </View>
-                     : null
+                        item.Type == 2 ?
+                            <View style={{marginHorizontal: 15, flexDirection: 'row'}}>
+                                <Text
+                                    style={{color: "#F0A75B", fontSize: 12,}}>
+                                    {/*{moment(this.state.PostContent.StartDate).format("DD-MM-YY LT")} */}
+                                    {this.state.PostContent.StartDate} - {this.state.PostContent.Address}
+                                </Text>
+                                {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
+                            </View>
+                            : null
                     }
-                    <View style={{marginHorizontal: 10, marginTop: 10}}>
+                    <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
                             <ReadMore
                                 numberOfLines={3}
@@ -324,13 +333,14 @@ class StatusItems extends Component {
                                 renderRevealedFooter={this._renderRevealedFooter}
                                 onReady={this._handleTextReady}
                             >
-                                <Text>{item.Type != 2 ? item.PostContent : this.state.PostContent.Description}</Text>
+                                <Text
+                                    style={{fontSize: 12}}>{item.Type != 2 ? item.PostContent : this.state.PostContent.Description}</Text>
                             </ReadMore>
                         </View>
                     </View>
                     <FlatList
                         style={{marginTop: 5}}
-                        data= {this.state.ArrPoll}
+                        data={this.state.ArrPoll}
                         renderItem={(item) => {
                             return (
                                 <PollVote
@@ -344,9 +354,11 @@ class StatusItems extends Component {
                         keyExtractor={(item, index) => index.toString()}
 
                     />
-                    {ArrImg ? (
-                        <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
-                    ) : null}
+                    <View style={{marginHorizontal: 15}}>
+                        {ArrImg ? (
+                            <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
+                        ) : null}
+                    </View>
 
                     <View
                         style={{
@@ -356,30 +368,109 @@ class StatusItems extends Component {
                             alignItems: "center",
                         }}
                     >
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginLeft: 10,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Icon1 name="like" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}> {this.state.countLike}</Text>
+                        <View style = {{flexDirection: "row",}}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginLeft: 10,
+                                    alignItems: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 25,
+                                    width: 65,
+                                    borderRadius: 25 / 2,
+                                    borderWidth: 1,
+                                    borderColor: '#C7C7C7',
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={require('../../assets/icon_heart.png')}
+                                        resizeMode="contain"
+                                    />
+                                </View>
+                                <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginLeft: 10,
+                                    alignItems: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 25,
+                                    width: 65,
+                                    borderRadius: 25 / 2,
+                                    borderWidth: 1,
+                                    borderColor: '#C7C7C7',
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={require('../../assets/icon_comment.png')}
+                                        resizeMode="contain"
+                                    />
+                                </View>
+                                <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalComment}</Text>
+                            </View>
+                            <View
+                                style={{
+
+                                    flexDirection: "row",
+                                    marginLeft: 10,
+                                    alignItems: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 25,
+                                    width: 65,
+                                    borderRadius: 25 / 2,
+                                    borderWidth: 1,
+                                    borderColor: '#C7C7C7',
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <View style={{width: 13, height: 13, marginLeft: 10}}>
+
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={require('../../assets/icon_share.png')}
+                                        resizeMode="contain"
+                                    />
+                                </View>
+                                <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalShare}</Text>
+                            </View>
                         </View>
-                        <View style={{flexDirection: "row", alignItems: "center"}}>
-                            <Icon1 name="comment" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>{item.TotalComment}</Text>
-                        </View>
-                        <View
+
+                        { item.Type == 2 ?  <View
                             style={{
+
                                 flexDirection: "row",
                                 marginRight: 10,
                                 alignItems: "center",
+                                backgroundColor: "#C7C7C7",
+                                height: 25,
+                                width: 100,
+                                borderRadius: 25 / 2,
+                                borderWidth: 1,
+                                borderColor: '#C7C7C7',
+                                justifyContent: "space-between",
                             }}
                         >
-                            <Icon name="share-outline" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>{item.TotalShare}</Text>
-                        </View>
+                            <View style={{width: 13, height: 13, marginLeft: 10}}>
+
+                                <Image
+                                    style={{width: null, height: null, flex: 1}}
+                                    source={require('../../assets/icon_forcus.png')}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <Text style={{marginRight: 10, color: "#777777"}}>Tham gia</Text>
+                        </View> : null}
+
+
                     </View>
                     <View style={{height: 1, backgroundColor: "#cccccc"}}/>
                     <View
@@ -397,8 +488,9 @@ class StatusItems extends Component {
                                 alignItems: "center",
                             }}
                         >
-                            <Icon1 name="like" size={25}  color={this.state.liked ? "blue" : "#424242"}/>
-                            <TouchableOpacity onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>
+                            <Icon1 name="like" size={25} color={this.state.liked ? "blue" : "#424242"}/>
+                            <TouchableOpacity
+                                onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>
                                 <Text style={{color: this.state.liked ? 'blue' : null}}>Thích</Text>
                             </TouchableOpacity>
                         </View>
@@ -413,7 +505,7 @@ class StatusItems extends Component {
                                 <Text style={{color: "#424242"}}>Bình luận</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={() => this.onShare()}>
+                        <TouchableOpacity onPress={() => this.onShare()}>
                             <View
                                 style={
                                     item.Type == 2 ?
@@ -421,10 +513,10 @@ class StatusItems extends Component {
                                             flexDirection: "row",
                                             marginRight: 20,
                                             alignItems: "center",
-                                        }:{
+                                        } : {
                                             flexDirection: "row",
                                             alignItems: "center",
-                                        }  }
+                                        }}
                             >
                                 <Icon name="share-outline" size={25} color="#424242"/>
 
@@ -466,6 +558,7 @@ class StatusItems extends Component {
         );
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         UserProfile: state.loadUserProfile,
@@ -494,7 +587,7 @@ const styles = StyleSheet.create({
         height: DEVICE_WIDTH / 11,
         width: DEVICE_WIDTH / 11,
         borderRadius: DEVICE_WIDTH / 22,
-        marginLeft: 10,
+        marginLeft: 20,
         // marginTop: 10
     },
     imagePost: {

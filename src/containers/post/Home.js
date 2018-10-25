@@ -34,6 +34,7 @@ import { SearchView, ViewLoading } from "../../components/CommonView";
 import style_common from "../../style-common/index";
 import { USER_ID, TYPE_ACCOUNT } from "../../constant/KeyConstant";
 import { default as FCM, FCMEvent } from "react-native-fcm";
+import {COLOR} from "../../constant/Color";
 
 registerKilledListener();
 class Home extends Component {
@@ -239,7 +240,7 @@ class Home extends Component {
         keyboardVerticalOffset={64}
       >
         <ScrollView
-          style={{ flex: 1 }}
+          style={{ flex: 1, backgroundColor: COLOR.COLOR_BACKGROUND }}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
