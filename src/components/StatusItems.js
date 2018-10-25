@@ -578,24 +578,22 @@ class StatusItems extends Component {
                             </TouchableOpacity>
                             <View
                                 style={{
-                                    flexDirection: "row",
                                     marginRight: 15,
-                                    alignItems: "center",
+                                    justifyContent: "center",
                                     backgroundColor: "#C7C7C7",
                                     height: 30,
-                                    width: 100,
                                     borderRadius: 15,
                                     marginLeft: 5,
                                     borderWidth: 1,
                                     flex: 1,
+                                    paddingRight: 10,
+                                    paddingLeft: 10,
                                     borderColor: '#C7C7C7',
-                                    justifyContent: "space-between",
                                 }}
                             >
-                                <View style={{width: 15, height: 15, marginLeft: 10}}>
 
-                                    <Text>{item.Comments[0].Content}</Text>
-                                </View>
+
+                                    <Text >{item.Comments[0].Content}</Text>
                             </View>
 
                         </View>
