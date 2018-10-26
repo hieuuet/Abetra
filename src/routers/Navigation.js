@@ -235,10 +235,10 @@ const RootStack = createStackNavigator({
     }
   },
   CreatePost: {
-    screen: CreatePost
-    // navigationOptions: {
-    //     header: null,
-    // },
+    screen: CreatePost,
+    navigationOptions: {
+        header: null,
+    },
   },
   ImageDetail: {
     screen: ImageDetail,
@@ -247,19 +247,22 @@ const RootStack = createStackNavigator({
     }
   },
   SavePost: {
-    screen: SavePost
-    // navigationOptions: {
-    //     header: null,
-    // },
+    screen: SavePost,
+    navigationOptions: {
+        header: null,
+    },
   },
   Event: {
-    screen: Event
-    // navigationOptions: {
-    //     header: null,
-    // },
+    screen: Event,
+    navigationOptions: {
+        header: null,
+    },
   },
   EventJoin: {
-    screen: EventJoin
+    screen: EventJoin,
+      navigationOptions: {
+          header: null,
+      },
   }
 });
 

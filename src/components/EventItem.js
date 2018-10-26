@@ -21,6 +21,8 @@ import Share from "react-native-share";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {joinEvent} from "../actions/joinEventActions";
+import {URL_BASE} from "../constant/api";
+import {COLOR} from "../constant/Color";
 
 
 class EventItem extends Component {
@@ -133,6 +135,67 @@ class EventItem extends Component {
         return (
             <View>
                 <View>
+                    {/*<View*/}
+                        {/*style={{*/}
+                            {/*flexDirection: "row",*/}
+                            {/*marginTop: 10,*/}
+                            {/*alignItems: "center",*/}
+                        {/*}}*/}
+                    {/*>*/}
+                        {/*<TouchableOpacity onPress={this._onClickAvatar}>*/}
+                            {/*<Image*/}
+                                {/*style={styles.image_circle}*/}
+                                {/*source={{*/}
+                                    {/*uri:*/}
+                                        {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
+                                {/*}}*/}
+                                {/*resizeMode="cover"*/}
+                            {/*/>*/}
+                        {/*</TouchableOpacity>*/}
+
+                        {/*<View style={{marginLeft: 10, flex: 1}}>*/}
+                            {/*<View*/}
+                                {/*style={{*/}
+                                    {/*justifyContent: "space-between",*/}
+                                    {/*alignItems: "center",*/}
+                                    {/*flexDirection: "row",*/}
+                                {/*}}*/}
+                            {/*>*/}
+                                {/*<Text style={{color: "#2196F3", fontWeight: "bold"}}>*/}
+                                    {/*{item.UserName}*/}
+                                {/*</Text>*/}
+                                {/*<TouchableOpacity*/}
+                                    {/*onPress={() => {*/}
+                                        {/*this.setModalVisible(true);*/}
+                                    {/*}}*/}
+                                {/*>*/}
+                                    {/*<IconMore*/}
+                                        {/*name="ios-more"*/}
+                                        {/*size={25}*/}
+                                        {/*color="black"*/}
+                                        {/*style={{marginRight: 10}}*/}
+                                    {/*/>*/}
+                                {/*</TouchableOpacity>*/}
+                            {/*</View>*/}
+                            {/*<View*/}
+                                {/*style={{*/}
+                                    {/*justifyContent: "space-between",*/}
+                                    {/*alignItems: "center",*/}
+                                    {/*flexDirection: "row",*/}
+                                {/*}}*/}
+                            {/*>*/}
+                                {/*<Text style={{color: "black"}}>Quản trị viên</Text>*/}
+                                {/*<Text*/}
+                                    {/*style={{*/}
+                                        {/*marginRight: 10,*/}
+                                        {/*color: "black",*/}
+                                    {/*}}*/}
+                                {/*>*/}
+                                    {/*{moment(item.CreateDate).format("DD/MM/YY HH:mm")}*/}
+                                {/*</Text>*/}
+                            {/*</View>*/}
+                        {/*</View>*/}
+                    {/*</View>*/}
                     <View
                         style={{
                             flexDirection: "row",
@@ -144,36 +207,30 @@ class EventItem extends Component {
                             <Image
                                 style={styles.image_circle}
                                 source={{
-                                    uri:
-                                        "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
+                                    // uri: URL_BASE + item.Avatar
+                                    uri: "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg"
                                 }}
                                 resizeMode="cover"
                             />
                         </TouchableOpacity>
-
-                        <View style={{marginLeft: 10, flex: 1}}>
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
                             <View
                                 style={{
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                    marginLeft: 5,
+                                    paddingTop: 3,
+                                    paddingBottom: 3
                                 }}
                             >
-                                <Text style={{color: "#2196F3", fontWeight: "bold"}}>
-                                    {item.UserName}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        this.setModalVisible(true);
-                                    }}
-                                >
-                                    <IconMore
-                                        name="ios-more"
-                                        size={25}
-                                        color="black"
-                                        style={{marginRight: 10}}
-                                    />
+                                <TouchableOpacity onPress={this._onClickAvatar}>
+                                    <Text style={{color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold"}}>
+                                        {item.UserName}
+                                    </Text>
                                 </TouchableOpacity>
+                                <Text
+                                    style={{ fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
+
                             </View>
                             <View
                                 style={{
@@ -182,15 +239,24 @@ class EventItem extends Component {
                                     flexDirection: "row",
                                 }}
                             >
-                                <Text style={{color: "black"}}>Quản trị viên</Text>
+
                                 <Text
-                                    style={{
-                                        marginRight: 10,
-                                        color: "black",
+                                    style={{fontSize: 12}}
+                                >
+                                    {moment(item.CreatedDate).format("DD-MM-YY LT")}
+                                    {/*{moment().startOf('hour').fromNow()}*/}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setModalVisible(true);
                                     }}
                                 >
-                                    {moment(item.CreateDate).format("DD/MM/YY HH:mm")}
-                                </Text>
+                                    <Image
+                                        style={{marginLeft: 3, width: 15, height: 15, marginRight: 20}}
+                                        source={require('../../assets/icon_more.png')}
+                                        resizeMode="cover"
+                                    />
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>

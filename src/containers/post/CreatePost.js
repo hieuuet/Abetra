@@ -12,7 +12,7 @@ import {
     Keyboard,
     FlatList,
     Dimensions,
-    NativeModules
+    NativeModules, ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HashTagModal from "../../components/hashtag/HashTagModal";
@@ -28,22 +28,11 @@ import {addEvent} from "../../actions/addEventActions";
 import HashTagEdit from "../../components/hashtag/HashTagEdit";
 import ModalBox from "../../components/ModalBox";
 import DatePicker from "react-native-datepicker";
+import {CustomizeHeader} from "../../components/CommonView";
 
 let ImagePicker = NativeModules.ImageCropPicker;
 
 class CreatePost extends Component {
-    static navigationOptions = ({navigation}) => {
-        const {params = {}} = navigation.state
-
-        return {
-            title: "Tạo bài viết",
-            headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
-            headerTitleStyle: {color: COLOR.TITLE_HEADER},
-            headerTintColor: 'white',
-
-        }
-    }
-
     constructor(props) {
         super(props);
 
@@ -315,13 +304,56 @@ class CreatePost extends Component {
     };
 
     render() {
+        const {UserProfile} = this.props;
+        if (UserProfile.length <=0)
+            return null
         return (
             <View style={{flex: 1}}>
+
+                <CustomizeHeader
+                    label={"Tạo bài viết"}
+                    onBackPress={() => this.props.navigation.goBack()}
+                />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        marginTop: 10,
+                        alignItems: "center",
+                    }}
+                >
+
+                        <Image
+                            style={styles.image_circle_avt}
+                            source={{
+                                uri: URL_BASE +  UserProfile.Value[0].Avatar
+                            }}
+                            resizeMode="cover"
+                        />
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
+                        <View
+                            style={{
+                                justifyContent: "center",
+                                flexDirection: "column",
+                                marginLeft: 5,
+                                paddingTop: 3,
+                                paddingBottom: 3
+                            }}
+                        >
+
+                                <Text style={{color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold"}}>
+                                    { UserProfile.Value[0].FullName}
+                                </Text>
+                            <Text
+                                style={{ fontSize: 12}}>{ UserProfile.Value[0].Type == 2 ? "Hội viên cá nhân" :  UserProfile.Value[0].Type  == 3 ? "Hội viên doanh nghiệp" :  UserProfile.Value[0].Type  ? "Hội viên vãng lai" : null}</Text>
+
+                        </View>
+                    </View>
+                </View>
                 <View style={styles.view_container}>
                     <View>
-                        <View style={{marginHorizontal: 10, marginTop: 10}}>
+                        <View style={{marginHorizontal: 10, marginTop: 5}}>
                             <TextInput
-                                placeholder="Nhập nội dung?"
+                                placeholder="Nội dung bài viết"
                                 underlineColorAndroid="transparent"
                                 onChangeText={Status => this.setState({Status})}
                                 placeholderTextSize="20"
@@ -449,24 +481,6 @@ class CreatePost extends Component {
                                         marginHorizontal: 10
                                     }}
                                 />
-                                {/*<TextInput*/}
-                                {/*underlineColorAndroid="transparent"*/}
-                                {/*autoCapitalize="none"*/}
-                                {/*returnKeyType="next"*/}
-                                {/*placeholder="Thời gian bắt đầu"*/}
-                                {/*onChangeText={TimeStart => this.setState({ TimeStart })}*/}
-                                {/*style={{*/}
-                                {/*marginTop: 10,*/}
-                                {/*marginLeft: 5,*/}
-                                {/*borderWidth: 1,*/}
-                                {/*borderColor: COLOR.BORDER_INPUT,*/}
-                                {/*borderRadius: 5,*/}
-                                {/*paddingTop: 0,*/}
-                                {/*paddingBottom: 0,*/}
-                                {/*paddingLeft: 10,*/}
-                                {/*marginHorizontal: 10*/}
-                                {/*}}*/}
-                                {/*/>*/}
                                 <View style = {{flexDirection: 'column', marginHorizontal: 10, marginTop: 5}}>
                                     <Text>Thời gian bắt đầu</Text>
                                     <DatePicker
@@ -492,49 +506,6 @@ class CreatePost extends Component {
                                     />
 
                                 </View>
-                                {/*<View style = {{flexDirection: 'column', marginHorizontal: 10, marginTop: 5}}>*/}
-                                    {/*<Text>Thời gian kết thúc</Text>*/}
-                                    {/*<DatePicker*/}
-                                        {/*style={{width: "100%"}}*/}
-                                        {/*date={this.state.TimeFinish}*/}
-                                        {/*mode="datetime"*/}
-                                        {/*format="YYYY-MM-DD HH:mm"*/}
-                                        {/*confirmBtnText="Confirm"*/}
-                                        {/*cancelBtnText="Cancel"*/}
-                                        {/*customStyles={{*/}
-                                            {/*dateIcon: {*/}
-                                                {/*position: 'absolute',*/}
-                                                {/*left: 0,*/}
-                                                {/*top: 4,*/}
-                                                {/*marginLeft: 0*/}
-                                            {/*},*/}
-                                            {/*dateInput: {*/}
-                                                {/*marginLeft: 36*/}
-                                            {/*}*/}
-                                        {/*}}*/}
-                                        {/*minuteInterval={10}*/}
-                                        {/*onDateChange={(datetime) => {this.setState({TimeFinish: datetime}, () => console.log('datetime1', this.state.TimeFinish));}}*/}
-                                    {/*/>*/}
-
-                                {/*</View>*/}
-                                {/*<TextInput*/}
-                                    {/*underlineColorAndroid="transparent"*/}
-                                    {/*autoCapitalize="none"*/}
-                                    {/*returnKeyType="next"*/}
-                                    {/*placeholder="Chỉ tiêu"*/}
-                                    {/*onChangeText={Targets => this.setState({Targets})}*/}
-                                    {/*style={{*/}
-                                        {/*marginTop: 10,*/}
-                                        {/*marginLeft: 5,*/}
-                                        {/*borderWidth: 1,*/}
-                                        {/*borderColor: COLOR.BORDER_INPUT,*/}
-                                        {/*borderRadius: 5,*/}
-                                        {/*paddingTop: 0,*/}
-                                        {/*paddingBottom: 0,*/}
-                                        {/*paddingLeft: 10,*/}
-                                        {/*marginHorizontal: 10*/}
-                                    {/*}}*/}
-                                {/*/>*/}
                                 <TextInput
                                     underlineColorAndroid="transparent"
                                     autoCapitalize="none"
@@ -556,69 +527,86 @@ class CreatePost extends Component {
                             </View>
                         ) : null}
 
-                        <Text style={{marginLeft: 10, color: "black", marginTop: 10}}>
+                        <Text style={{marginLeft: 10, marginTop: 10}}>
                             Thêm vào bài viết
                         </Text>
 
                         <View style={styles.view_border}>
-                            <View style={{flexDirection: "row"}}>
+
                                 <TouchableOpacity onPress={() => this._createVote()}>
                                     <View style={styles.view_vote}>
-                                        <Text style={{marginLeft: 5, color: "black"}}>
-                                            #Thămdòýkiến
+                                        <Text style={{marginLeft: 5, fontSize: 12, marginRight: 5,}}>
+                                            #thămdòýkiến
                                         </Text>
+                                        {this.state.isVote ? (
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    this.setState({
+                                                        isVote: false
+                                                    })
+                                                }
+                                            >
+                                                <Image
+                                                    source={require("../../../assets/btn_close.png")}
+                                                    style={{
+                                                        marginRight: 5,
+                                                        height: 12,
+                                                        width: 12
+                                                    }}
+                                                    resizeMode="cover"
+                                                />
+                                            </TouchableOpacity>
+                                        ) : null}
                                     </View>
+
                                 </TouchableOpacity>
-                                {this.state.isVote ? (
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            this.setState({
-                                                isVote: false
-                                            })
-                                        }
-                                    >
-                                        <Icon name="close" size={25} color="#424242"/>
-                                    </TouchableOpacity>
-                                ) : null}
-                            </View>
-                            <View style={{flexDirection: "row"}}>
+
                                 <TouchableOpacity onPress={() => this._createEvent()}>
                                     <View style={styles.view_event}>
-                                        <Text style={{marginLeft: 5, color: "black"}}>
-                                            #Sựkiện
+                                        <Text style={{marginLeft: 5, fontSize: 12,   marginRight: 5,}}>
+                                            #sựkiện
                                         </Text>
+                                        {this.state.isEvent ? (
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    this.setState({
+                                                        isEvent: false
+                                                    })
+                                                }
+                                            >
+                                                <Image
+                                                    source={require("../../../assets/btn_close.png")}
+                                                    style={{
+                                                        marginRight: 5,
+
+                                                        height: 12,
+                                                        width: 12
+                                                    }}
+                                                    resizeMode="cover"
+                                                />
+                                            </TouchableOpacity>
+                                        ) : null}
                                     </View>
                                 </TouchableOpacity>
-                                {this.state.isEvent ? (
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            this.setState({
-                                                isEvent: false
-                                            })
-                                        }
-                                    >
-                                        <Icon name="close" size={25} color="#424242"/>
-                                    </TouchableOpacity>
-                                ) : null}
-                            </View>
+
 
                             <TouchableOpacity>
                                 <Image
-                                    source={require("../../../assets/emoji.png")}
+                                    source={require("../../../assets/btn_emo.png")}
                                     style={styles.button_image}
                                     resizeMode="cover"
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
                                 <Image
-                                    source={require("../../../assets/image_icon.png")}
+                                    source={require("../../../assets/btn_img.png")}
                                     style={styles.button_image}
                                     resizeMode="cover"
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={this.onClickShowModal}>
                                 <Image
-                                    source={require("../../../assets/hashtag.png")}
+                                    source={require("../../../assets/btn_tag.png")}
                                     style={styles.button_image}
                                     resizeMode="cover"
                                 />
@@ -629,7 +617,7 @@ class CreatePost extends Component {
                                 }
                             >
                                 <View style={styles.view_post}>
-                                    <Text>Đăng</Text>
+                                    <Text style = {{color: "white"}}>ĐĂNG</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -691,9 +679,11 @@ const styles = StyleSheet.create({
     },
     view_event: {
         borderWidth: 1,
+
         height: 25,
-        borderColor: "#E0E0E0",
-        backgroundColor: "#EEEEEE",
+        borderRadius: 25/2,
+        borderColor: "#B8B8B8",
+        backgroundColor: "#B8B8B8",
         alignItems: "center",
         flexDirection: "row"
     },
@@ -701,29 +691,31 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginLeft: 10,
         height: 25,
-        borderColor: "#E0E0E0",
-        backgroundColor: "#EEEEEE",
+        borderRadius: 25/2,
+        borderColor: "#B8B8B8",
+        backgroundColor: "#B8B8B8",
         alignItems: "center",
         flexDirection: "row"
     },
     view_post: {
         marginLeft: 10,
         marginRight: 10,
-        backgroundColor: "#B3E5FC",
+        backgroundColor: "#74BA90",
         borderWidth: 1,
-        borderRadius: 3,
-        borderColor: "#81D4FA",
+        borderRadius: 25/2,
+        borderColor: "#74BA90",
         alignItems: "center",
         justifyContent: "center",
         height: 25,
-        width: 65
+        width: 75
     },
     view_bottom: {
         flexDirection: "column"
     },
     view_border: {
+        marginBottom: 5,
         flexDirection: "row",
-        marginTop: 10,
+        marginTop: 5,
         minHeight: 30,
         justifyContent: "space-between",
         alignItems: "center"
@@ -732,6 +724,13 @@ const styles = StyleSheet.create({
         height: DEVICE_WIDTH / 6 + 20,
         width: DEVICE_WIDTH / 6
         // borderRadius: DEVICE_WIDTH / 12,
+    },
+    image_circle_avt: {
+        height: DEVICE_WIDTH / 10,
+        width: DEVICE_WIDTH / 10,
+        borderRadius: DEVICE_WIDTH / 20,
+        marginLeft: 10,
+        // marginTop: 10
     },
     modal: {
         height: 200

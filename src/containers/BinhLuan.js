@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     Text,
@@ -23,18 +23,21 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {searchCmt} from "../actions/searchCmtActions";
 import {createCmt} from "../actions/createCmtActions";
-import {URL_SOCKET} from "../constant/api";
+import {URL_BASE, URL_SOCKET} from "../constant/api";
 import SocketIOClient from "socket.io-client";
 import PhotoGrid from "../components/PhotoGrid";
+import {CustomizeHeader} from "../components/CommonView";
+import {COLOR} from "../constant/Color";
+import ReadMore from "react-native-read-more-text";
+import PollVote from "../components/PollVote";
 
 
 class BinhLuan extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            ArrCmt: [
-
-            ]
+            ArrCmt: [],
+            PostContent: []
 
         }
         const {UserProfile} = this.props
@@ -42,7 +45,7 @@ class BinhLuan extends Component {
             return null
 
         }
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const itemStatus = navigation.getParam('item');
         this.socket = SocketIOClient(URL_SOCKET, {
             pingTimeout: 30000,
@@ -63,17 +66,26 @@ class BinhLuan extends Component {
         })
 
 
-
-
     }
-    componentDidMount(){
-        const { navigation } = this.props;
+
+    componentDidMount() {
+        const {navigation} = this.props;
         const itemStatus = navigation.getParam('item');
         console.log('itemStatus', itemStatus)
         this._searchCmt()
+        let PostContent = itemStatus.PostContent
+        if (itemStatus.Type == 2) {
+            PostContent = JSON.parse(PostContent)
+            this.setState({
+                    PostContent: PostContent,
+                },
+                // () => console.log('PostContent', this.state.PostContent)
+            )
+        }
     }
+
     _searchCmt = async () => {
-        const { navigation, searchCmt } = this.props;
+        const {navigation, searchCmt} = this.props;
         const itemStatus = navigation.getParam('item');
         let ArrCmt = await searchCmt({
             Page_size: 100,
@@ -89,14 +101,13 @@ class BinhLuan extends Component {
         })
         console.log('ArrCmt', ArrCmt)
         this.setState({
-            ArrCmt:ArrCmt.Value
+            ArrCmt: ArrCmt.Value
         })
 
 
-
     }
-    _createCmt = async(cmt_content) => {
-        const { navigation, createCmt, UserProfile } = this.props;
+    _createCmt = async (cmt_content) => {
+        const {navigation, createCmt, UserProfile} = this.props;
         const itemStatus = navigation.getParam('item');
         let Cmt = await createCmt({
             Post_id: itemStatus.PostID,
@@ -109,8 +120,8 @@ class BinhLuan extends Component {
             Videos: "",
             Content: cmt_content,
         })
-        console.log('cmt',Cmt)
-        if (Cmt.ErrorCode =="00"){
+        console.log('cmt', Cmt)
+        if (Cmt.ErrorCode == "00") {
             this._sendCmt(Cmt.Value.CreatedTime, cmt_content)
 
         }
@@ -135,8 +146,6 @@ class BinhLuan extends Component {
     }
 
 
-
-
     onReceiveTextInputClick = (text) => {
         if (text === "")
             return;
@@ -145,139 +154,308 @@ class BinhLuan extends Component {
     }
 
 
-
     render() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const itemStatus = navigation.getParam('item');
         let ArrImg = itemStatus.Images ? itemStatus.Images : null
-        ArrImg = JSON.parse(ArrImg)
 
+        try {
+            ArrImg = JSON.parse(ArrImg);
+        } catch (e) {
+            console.log('e');
+        }
         return (
 
-            <KeyboardAvoidingView style={{ flex: 1 }}
+            <KeyboardAvoidingView style={{flex: 1}}
                                   behavior={Platform.OS === 'ios' ? "padding" : null}
                                   keyboardVerticalOffset={64}
             >
                 <ScrollView>
-                <View style={{flexDirection: "row", marginTop: 10, alignItems: 'center'}}>
-                    <Image
-                        style={styles.image_circle}
-                        source={{
-                            uri:
-                                "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",
-                        }}
-                        resizeMode="cover"
+                    <CustomizeHeader
+                        label={"Chi tiết bài viết"}
+                        onBackPress={() => this.props.navigation.goBack()}
                     />
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            marginTop: 10,
+                            alignItems: "center",
+                        }}
+                    >
+                        <TouchableOpacity onPress={this._onClickAvatar}>
+                            <Image
+                                style={styles.image_circle}
+                                source={{
+                                    uri: URL_BASE + itemStatus.Avatar
+                                }}
+                                resizeMode="cover"
+                            />
+                        </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
+                            <View
+                                style={{
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                    marginLeft: 5,
+                                    paddingTop: 3,
+                                    paddingBottom: 3
+                                }}
+                            >
+                                <TouchableOpacity onPress={this._onClickAvatar}>
+                                    <Text style={{color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold"}}>
+                                        {itemStatus.FullName}
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text
+                                    style={{ fontSize: 12}}>{itemStatus.UserType == 2 ? "Hội viên cá nhân" : itemStatus.UserType == 3 ? "Hội viên doanh nghiệp" : itemStatus.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
 
-                    <View style={{marginLeft: 10, flex: 1}}>
-                        <View style={{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
-                            <Text style={{color: "#2196F3", fontWeight: "bold"}}>
-                                {itemStatus.FullName}
-                            </Text>
-                            <TouchableOpacity>
-                                <IconMore name="ios-more" size={25} color="black" style={{marginRight: 10}}/>
+                            </View>
+                            <View
+                                style={{
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    flexDirection: "row",
+                                }}
+                            >
+
+                                <Text
+                                    style={{fontSize: 12}}
+                                >
+                                    {moment(itemStatus.CreatedDate).format("DD-MM-YY LT")}
+                                    {/*{moment().startOf('hour').fromNow()}*/}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setModalVisible(true);
+                                    }}
+                                >
+                                    <Image
+                                        style={{marginLeft: 3, width: 15, height: 15, marginRight: 20}}
+                                        source={require('../../assets/icon_more.png')}
+                                        resizeMode="cover"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    {
+                        itemStatus.Type == 2 ?
+                            <View style={{marginHorizontal: 15, flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{
+                                    color: '#666666',
+                                    fontWeight: 'bold'
+                                }}>{this.state.PostContent.Name}</Text>
+                            </View> : null
+                    }
+                    {
+                        itemStatus.Type == 2 ?
+                            <View style={{marginHorizontal: 15, flexDirection: 'row'}}>
+                                <Text
+                                    style={{color: "#F0A75B", fontSize: 12,}}>
+                                    {this.state.PostContent.StartDate} - {this.state.PostContent.Address}
+                                </Text>
+                            </View>
+                            : null
+                    }
+                    <View style={{marginHorizontal: 15, marginTop: 8}}>
+                        <View>
+                            <ReadMore
+                                numberOfLines={3}
+                                renderTruncatedFooter={this._renderTruncatedFooter}
+                                renderRevealedFooter={this._renderRevealedFooter}
+                                onReady={this._handleTextReady}
+                            >
+                                <Text
+                                    style={{}}>{itemStatus.Type != 2 ? itemStatus.PostContent : this.state.PostContent.Description}</Text>
+                            </ReadMore>
+                        </View>
+                    </View>
+                    {/*<FlatList*/}
+                        {/*style={{marginTop: 5}}*/}
+                        {/*data={this.state.ArrPoll}*/}
+                        {/*renderItem={(item) => {*/}
+                            {/*return (*/}
+                                {/*<PollVote*/}
+                                    {/*dataItem={item}*/}
+                                {/*/>*/}
+
+                            {/*)*/}
+                        {/*}}*/}
+
+                        {/*extraData={this.state}*/}
+                        {/*keyExtractor={(item, index) => index.toString()}*/}
+
+                    {/*/>*/}
+                    <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 5}}>
+                        {ArrImg ? (
+                            <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
+                        ) : null}
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            marginTop: 5,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                        }}
+                    >
+                        <View style={{flexDirection: "row",}}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginLeft: 10,
+                                    alignItems: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 30,
+                                    width: 65,
+                                    borderRadius: 15,
+                                    borderWidth: 1,
+                                    borderColor: '#C7C7C7',
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                    {
+                                        this.state.liked ?
+                                            <TouchableOpacity  style = {{ flex: 1}}
+                                                               // onPress={() =>  this.unlikePost(item.PostID) }
+                                            >
+
+                                                <Image
+                                                    style={{width: null, height: null, flex:1}}
+                                                    source={require('../../assets/icon_heart_active.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity> : <TouchableOpacity  style = {{ flex: 1}}
+                                                                                     // onPress={() =>  this.likePost(itemStatus.PostID) }
+                                            >
+
+
+                                                <Image
+                                                    style={{width: null, height: null, flex: 1}}
+                                                    source={require('../../assets/icon_heart.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity>
+                                    }
+
+                                </View>
+                                <Text style={{marginRight: 15, color: "#777777"}}> {itemStatus.TotalLike}</Text>
+                            </View>
+
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginLeft: 10,
+                                        alignItems: "center",
+                                        backgroundColor: "#C7C7C7",
+                                        height: 30,
+                                        width: 65,
+                                        borderRadius: 15,
+                                        borderWidth: 1,
+                                        borderColor: '#C7C7C7',
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_comment.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {itemStatus.TotalComment}</Text>
+                                </View>
+                            <TouchableOpacity onPress={() => this.onShare()}>
+                                <View
+                                    style={{
+
+                                        flexDirection: "row",
+                                        marginLeft: 10,
+                                        alignItems: "center",
+                                        backgroundColor: "#C7C7C7",
+                                        height: 30,
+                                        width: 65,
+                                        borderRadius: 15,
+                                        borderWidth: 1,
+                                        borderColor: '#C7C7C7',
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_share.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {itemStatus.TotalShare}</Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
-                        <View style={{justifyContent: 'space-between', alignItems: "center", flexDirection: 'row'}}>
-                            <Text style={{color: "black"}}>Quản trị viên</Text>
-                            <Text style={{
+
+
+                        {itemStatus.Type == 2 ? <View
+                            style={{
+
+                                flexDirection: "row",
                                 marginRight: 10,
-                                color: 'black'
-                            }}>{moment(itemStatus.CreatedDate).startOf('hour').fromNow()}</Text>
+                                alignItems: "center",
+                                backgroundColor: "#C7C7C7",
+                                height: 30,
+                                width: 100,
+                                borderRadius: 15,
+                                borderWidth: 1,
+                                borderColor: '#C7C7C7',
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <View style={{width: 15, height: 15, marginLeft: 10}}>
 
-                        </View>
-                    </View>
-                </View>
-                <View style={{marginHorizontal: 10, marginTop: 10}}>
-                    <View>
+                                <TouchableOpacity  style = {{ flex: 1}}
+                                                   // onPress={() => this._joinEvent(item.PostID)}
+                                >
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={this.state.isJoin ? require('../../assets/icon_forcus_active.png') : require('../../assets/icon_forcus.png')}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={{marginRight: 10, color: "#777777"}}>Tham gia</Text>
+                        </View> : null}
 
-                            <Text>{itemStatus.PostContent}</Text>
-                    </View>
-                </View>
-                {ArrImg ? (
-                <PhotoGrid
-                    source={ArrImg}
-                    navigation={this.props.navigation}
-                />
-                ) : null}
 
-                <View
-                    style={{
-                        flexDirection: "row",
-                        marginTop: 5,
-                        justifyContent: "space-between",
-                        alignItems: 'center'
-                    }}
-                >
-                    <View style={{flexDirection: "row", marginLeft: 10, alignItems: 'center'}}>
-                        <Icon1 name="like" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalLike} </Text>
                     </View>
-                    <View style={{flexDirection: "row", alignItems: 'center'}}>
-                        <Icon1 name="comment" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalComment}</Text>
-                    </View>
-                    <View style={{flexDirection: "row", marginRight: 10, alignItems: 'center'}}>
-                        <Icon name="share-outline" size={25} color="#42A5F5"/>
-                        <Text style={{color: "#42A5F5"}}>{itemStatus.TotalShare}</Text>
-                    </View>
-                </View>
-                <View
-                    style={{height: 1, backgroundColor: "#cccccc"}}
-                />
-                <View
-                    style={{
-                        flexDirection: "row",
-                        marginTop: 10,
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                    }}
-                >
-                    <View style={{flexDirection: "row", marginLeft: 20, alignItems: "center"}}>
-                        <Icon1 name="like" size={25} color="#424242"/>
-                        <TouchableOpacity>
-                            <Text>Thích</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {/*<TouchableOpacity onPress = {()=> this.props.navigation.navigate('BinhLuan', {item: item})}>*/}
-                        <View style={{flexDirection: "row", alignItems: "center"}}>
-                            <Icon1 name="comment" size={25} color="#424242"/>
-
-                            <Text style={{color: "#424242"}}>Bình luận</Text>
-                        </View>
-                    {/*</TouchableOpacity>*/}
-                    <View style={{flexDirection: "row", marginRight: 20, alignItems: "center"}}>
-                        <Icon name="share-outline" size={25} color="#424242"/>
-
-                        <Text style={{color: "#424242"}}>Share</Text>
-                    </View>
-                </View>
-                <FlatList
-                    data={this.state.ArrCmt}
-                    renderItem={(item) => {
-                        return (
-                            <BinhLuanItem
-                                dataItem={item}
-                            />
-                        )
-                    }}
-                    keyExtractor={(item, index) => index.toString()}
-                    onEndReachedThreshold={100}
-                    showsVerticalScrollIndicator={false}
-                    ref={ref => this.flatList = ref}
-                    onContentSizeChange={() => {
-                        // console.log("on size change");
-                        this.flatList.scrollToEnd({ animated: true })
-                    }}
-                    onLayout={() => {
-                        // console.log("got to onlayout");
-                        this.flatList.scrollToEnd({ animated: true })
-                    }
-                    }
-                />
+                    <FlatList
+                        data={this.state.ArrCmt}
+                        renderItem={(item) => {
+                            return (
+                                <BinhLuanItem
+                                    dataItem={item}
+                                />
+                            )
+                        }}
+                        onEndReachedThreshold={100}
+                        showsVerticalScrollIndicator={false}
+                        ref={ref => this.flatList = ref}
+                        onContentSizeChange={() => {
+                            console.log("on size change");
+                            this.flatList.scrollToEnd({ animated: true })
+                        }}
+                        onLayout={() => {
+                            console.log("got to onlayout");
+                            this.flatList.scrollToEnd({ animated: true })
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                        extraData={this.state}
+                    />
                 </ScrollView>
                 <TextInputChat
-                    style={{marginTop:5}}
+                    style={{marginTop: 5}}
                     onReceiveTextInputClick={this.onReceiveTextInputClick}
                 />
 

@@ -222,6 +222,11 @@ class StatusItems extends Component {
 
 
     render() {
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+
+        }
         const {item} = this.props.dataItem;
         console.log('item.cmt', item.Comments)
         // let PollVote = item.Poll ? item.Poll : null
@@ -271,7 +276,7 @@ class StatusItems extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <Text
-                                    style={{}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
+                                    style={{ fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
 
                             </View>
                             <View
@@ -283,7 +288,7 @@ class StatusItems extends Component {
                             >
 
                                 <Text
-                                    style={{}}
+                                    style={{fontSize: 12}}
                                 >
                                     {moment(item.CreatedDate).format("DD-MM-YY LT")}
                                     {/*{moment().startOf('hour').fromNow()}*/}
@@ -405,6 +410,9 @@ class StatusItems extends Component {
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
+                            <TouchableOpacity  onPress={() =>
+                                this.props.navigation.navigate("BinhLuan", {item})
+                            }>
                             <View
                                 style={{
                                     flexDirection: "row",
@@ -429,6 +437,8 @@ class StatusItems extends Component {
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalComment}</Text>
                             </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.onShare()}>
                             <View
                                 style={{
 
@@ -454,7 +464,9 @@ class StatusItems extends Component {
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalShare}</Text>
                             </View>
+                            </TouchableOpacity>
                         </View>
+
 
                         {item.Type == 2 ? <View
                             style={{
@@ -486,78 +498,10 @@ class StatusItems extends Component {
 
 
                     </View>
+
                     {
                         item.Comments.length > 0?  <View style={{height: 1, marginTop: 5, backgroundColor: "#cccccc"}}/>: null
                     }
-
-                    {/*<View*/}
-                    {/*style={{*/}
-                    {/*flexDirection: "row",*/}
-                    {/*marginTop: 10,*/}
-                    {/*justifyContent: "space-between",*/}
-                    {/*alignItems: "center",*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<View*/}
-                    {/*style={{*/}
-                    {/*flexDirection: "row",*/}
-                    {/*marginLeft: 20,*/}
-                    {/*alignItems: "center",*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<Icon1 name="like" size={25} color={this.state.liked ? "blue" : "#424242"}/>*/}
-                    {/*<TouchableOpacity*/}
-                    {/*onPress={() => this.state.liked ? this.unlikePost(item.PostID) : this.likePost(item.PostID)}>*/}
-                    {/*<Text style={{color: this.state.liked ? 'blue' : null}}>Thích</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
-                    {/*<TouchableOpacity*/}
-                    {/*onPress={() =>*/}
-                    {/*this.props.navigation.navigate("BinhLuan", {item})*/}
-                    {/*}*/}
-                    {/*>*/}
-                    {/*<View style={{flexDirection: "row", alignItems: "center"}}>*/}
-                    {/*<Icon1 name="comment" size={25} color="#424242"/>*/}
-
-                    {/*<Text style={{color: "#424242"}}>Bình luận</Text>*/}
-                    {/*</View>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*<TouchableOpacity onPress={() => this.onShare()}>*/}
-                    {/*<View*/}
-                    {/*style={*/}
-                    {/*item.Type == 2 ?*/}
-                    {/*{*/}
-                    {/*flexDirection: "row",*/}
-                    {/*marginRight: 20,*/}
-                    {/*alignItems: "center",*/}
-                    {/*} : {*/}
-                    {/*flexDirection: "row",*/}
-                    {/*alignItems: "center",*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<Icon name="share-outline" size={25} color="#424242"/>*/}
-
-                    {/*<Text style={{color: "#424242"}}>Share</Text>*/}
-                    {/*</View>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*{*/}
-                    {/*item.Type == 2 ? <TouchableOpacity onPress={() => this._joinEvent(item.PostID)}>*/}
-                    {/*<View*/}
-                    {/*style={{*/}
-                    {/*flexDirection: "row",*/}
-                    {/*marginRight: 20,*/}
-                    {/*alignItems: "center",*/}
-                    {/*}}*/}
-                    {/*>*/}
-                    {/*<IconAdd name="add-user" size={20} color="#424242"/>*/}
-                    {/*{*/}
-                    {/*this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :*/}
-                    {/*<Text style={{color: "#424242"}}>Tham gia</Text>*/}
-                    {/*}*/}
-                    {/*</View>*/}
-                    {/*</TouchableOpacity> : null*/}
-                    {/*}*/}
-                    {/*</View>*/}
                     {
                         item.Comments.length > 0? <View>
                         <View
@@ -567,7 +511,7 @@ class StatusItems extends Component {
                                 alignItems: "center",
                             }}
                         >
-                            <TouchableOpacity onPress={this._onClickAvatar}>
+
                                 <Image
                                     style={styles.image_circle}
                                     source={{
@@ -575,7 +519,6 @@ class StatusItems extends Component {
                                     }}
                                     resizeMode="cover"
                                 />
-                            </TouchableOpacity>
                             <View
                                 style={{
                                     marginRight: 15,
@@ -602,7 +545,62 @@ class StatusItems extends Component {
 
                     </View> : null}
 
+
                 </View>
+                <TouchableOpacity  onPress={() => this.props.navigation.navigate("BinhLuan", {item})
+                }>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        marginTop: 5,
+                        alignItems: "center",
+                    }}
+                >
+
+                        <Image
+                            style={styles.image_circle}
+                            source={{
+                                uri: URL_BASE + UserProfile.Value[0].Avatar
+                            }}
+                            resizeMode="cover"
+                        />
+                    <View
+                        style={{
+                            marginRight: 15,
+                            justifyContent: "space-between",
+                            flexDirection: "row",
+                            alignItems: 'center',
+                            backgroundColor: "#F5F5F3",
+                            height: 30,
+                            borderRadius: 15,
+                            marginLeft: 5,
+                            borderWidth: 1,
+                            flex: 1,
+                            paddingRight: 10,
+                            paddingLeft: 10,
+                            borderColor: '#F5F5F3',
+                        }}
+                    >
+
+
+                        <TouchableOpacity  style = {{marginLeft: 5,  height: 15, width: 15}}>
+                            <Image
+                                style={{width: null, height: null, flex: 1}}
+                                source={ require('../../assets/img.png') }
+                                resizeMode="contain"
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity   style = {{marginRight: 5, height: 15, width: 15}}>
+                            <Image
+                                style={{width: null, height: null, flex: 1}}
+                                source={ require('../../assets/emo.png')}
+                                resizeMode="contain"
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+                </TouchableOpacity>
 
                 <View
                     style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}

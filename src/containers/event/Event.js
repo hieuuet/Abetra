@@ -15,7 +15,7 @@ import {connect} from "react-redux";
 import style_common from "../../style-common/index";
 import EventItem from "../../components/EventItem";
 import {searchPost} from "../../actions/index";
-import {ViewLoading} from "../../components/CommonView";
+import {CustomizeHeader, ViewLoading} from "../../components/CommonView";
 import {getEvent} from "../../actions/getEventActions";
 import {COLOR} from "../../constant/Color";
 
@@ -99,6 +99,10 @@ class Event extends Component {
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 keyboardVerticalOffset={64}
             >
+                <CustomizeHeader
+                    label={"Sự kiện"}
+                    onBackPress={() => this.props.navigation.goBack()}
+                />
                 <ScrollView style={{flex: 1}}>
                     {this.state.ArrEvent.length === 0 && !this.state.isLoading ? (
                         this._renderEmpty()

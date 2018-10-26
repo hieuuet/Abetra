@@ -283,6 +283,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   txt_header: {
+    color: COLOR.COLOR_BACKGROUND,
+      fontSize: 15,
     flex: 1,
     marginRight: 35 + 10,
     textAlign: "center"
