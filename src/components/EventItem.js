@@ -23,21 +23,66 @@ import {connect} from "react-redux";
 import {joinEvent} from "../actions/joinEventActions";
 import {URL_BASE} from "../constant/api";
 import {COLOR} from "../constant/Color";
+import {likePost} from "../actions/likePostActions";
 
 
 class EventItem extends Component {
     constructor(props) {
         super(props);
-
+        this.countliked = this.props.dataItem.item.TotalLike;
         this.state = {
+            Type: "",
             modalVisible: false,
-            isJoin: false
+            isJoin: false,
+            countLike: this.countliked,
+            like: false
         };
+    }
+    componentDidMount() {
+        const {item} = this.props.dataItem;
+        const {UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+        }
+        //ArrUser Liked
+        let dataLike = (item.LikePost) ? item.LikePost : '[]'
+        let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
+        //Get Arr IntUserID
+        var ArrIntUserID = ArrUserLiked.map(function (o) {
+            return o.IntUserID;
+        });
+        // console.log('ArrIntUserID', ArrIntUserID)
+        // console.log('ArrIntUserID', ArrIntUserID)
+
+        if (ArrIntUserID.indexOf(UserProfile.Value[0].IntUserID) > -1) {
+            this.setState({liked: true})
+        }
+        // console.log('userLiked', ArrUserLiked)
+
+
+        let dataPoll = (item.Poll) ? item.Poll : '[]'
+        let Poll = dataPoll ? JSON.parse(dataPoll) : [];
+        this.setState({
+            ArrPoll: Poll,
+            // countCheck:  Poll.TotalVote
+
+        })
+        let PostContent = item.PostContent
+        if (item.Type == 2) {
+            PostContent = JSON.parse(PostContent)
+            this.setState({
+                    PostContent: PostContent,
+                },
+                // () => console.log('PostContent', this.state.PostContent)
+            )
+        }
+
+
     }
 
     _renderTruncatedFooter = (handlePress) => {
         return (
-            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+            <Text style={{color: "#C3E3D7", fontSize: 12}} onPress={handlePress}>
                 Xem thêm
             </Text>
         );
@@ -45,7 +90,7 @@ class EventItem extends Component {
 
     _renderRevealedFooter = (handlePress) => {
         return (
-            <Text style={{color: "red", marginTop: 5}} onPress={handlePress}>
+            <Text style={{color: "#C3E3D7", fontSize: 12}} onPress={handlePress}>
                 Thu gọn
             </Text>
         );
@@ -124,78 +169,62 @@ class EventItem extends Component {
 
 
     }
+    likePost = async (postId) => {
+        const {likePost, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+
+        }
+        let like = await likePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: postId,
+            FullName: UserProfile.Value[0].FullName,
+            Islike: 1,
+            TableLog: 0
+        })
+        console.log('like', like)
+        if (like.Error === null) {
+            let currentLike = this.state.countLike;
+            currentLike++;
+            this.setState({liked: true, countLike: currentLike});
+        }
+
+
+    }
+    unlikePost = async (postId) => {
+        const {likePost, UserProfile} = this.props
+        if (UserProfile.length <= 0) {
+            return null
+
+        }
+        let like = await likePost({
+            IntUserID: UserProfile.Value[0].IntUserID,
+            PostID: postId,
+            FullName: UserProfile.Value[0].FullName,
+            Islike: 0,
+            TableLog: 0
+        })
+        console.log('like', like)
+        if (like.Error === null) {
+            let currentLike = this.state.countLike;
+            currentLike--;
+            this.setState({liked: false, countLike: currentLike});
+        }
+
+
+    }
+
 
     render() {
         const {item} = this.props.dataItem;
         const {fromEvent, fromEventJoin} = this.props
         const {setModalVisible} = this.props
-        let ArrImg = item.Images ? item.Images : null;
+        let ArrImg = item.Image ? item.Image : null;
         ArrImg = JSON.parse(ArrImg);
 
         return (
             <View>
                 <View>
-                    {/*<View*/}
-                        {/*style={{*/}
-                            {/*flexDirection: "row",*/}
-                            {/*marginTop: 10,*/}
-                            {/*alignItems: "center",*/}
-                        {/*}}*/}
-                    {/*>*/}
-                        {/*<TouchableOpacity onPress={this._onClickAvatar}>*/}
-                            {/*<Image*/}
-                                {/*style={styles.image_circle}*/}
-                                {/*source={{*/}
-                                    {/*uri:*/}
-                                        {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
-                                {/*}}*/}
-                                {/*resizeMode="cover"*/}
-                            {/*/>*/}
-                        {/*</TouchableOpacity>*/}
-
-                        {/*<View style={{marginLeft: 10, flex: 1}}>*/}
-                            {/*<View*/}
-                                {/*style={{*/}
-                                    {/*justifyContent: "space-between",*/}
-                                    {/*alignItems: "center",*/}
-                                    {/*flexDirection: "row",*/}
-                                {/*}}*/}
-                            {/*>*/}
-                                {/*<Text style={{color: "#2196F3", fontWeight: "bold"}}>*/}
-                                    {/*{item.UserName}*/}
-                                {/*</Text>*/}
-                                {/*<TouchableOpacity*/}
-                                    {/*onPress={() => {*/}
-                                        {/*this.setModalVisible(true);*/}
-                                    {/*}}*/}
-                                {/*>*/}
-                                    {/*<IconMore*/}
-                                        {/*name="ios-more"*/}
-                                        {/*size={25}*/}
-                                        {/*color="black"*/}
-                                        {/*style={{marginRight: 10}}*/}
-                                    {/*/>*/}
-                                {/*</TouchableOpacity>*/}
-                            {/*</View>*/}
-                            {/*<View*/}
-                                {/*style={{*/}
-                                    {/*justifyContent: "space-between",*/}
-                                    {/*alignItems: "center",*/}
-                                    {/*flexDirection: "row",*/}
-                                {/*}}*/}
-                            {/*>*/}
-                                {/*<Text style={{color: "black"}}>Quản trị viên</Text>*/}
-                                {/*<Text*/}
-                                    {/*style={{*/}
-                                        {/*marginRight: 10,*/}
-                                        {/*color: "black",*/}
-                                    {/*}}*/}
-                                {/*>*/}
-                                    {/*{moment(item.CreateDate).format("DD/MM/YY HH:mm")}*/}
-                                {/*</Text>*/}
-                            {/*</View>*/}
-                        {/*</View>*/}
-                    {/*</View>*/}
                     <View
                         style={{
                             flexDirection: "row",
@@ -206,10 +235,10 @@ class EventItem extends Component {
                         <TouchableOpacity onPress={this._onClickAvatar}>
                             <Image
                                 style={styles.image_circle}
-                                source={{
+                                source={
                                     // uri: URL_BASE + item.Avatar
-                                    uri: "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg"
-                                }}
+                                    item.Avatar ? {uri: URL_BASE + item.Avatar } : require("../../assets/avatar.png")
+                                }
                                 resizeMode="cover"
                             />
                         </TouchableOpacity>
@@ -229,7 +258,7 @@ class EventItem extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <Text
-                                    style={{ fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
+                                    style={{ fontSize: 12}}>{item.UserType == 1? "Quản trị viên" : item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : item.UserType == 5 ? "Aibetra Admin" : "Aibetra"}</Text>
 
                             </View>
                             <View
@@ -260,13 +289,19 @@ class EventItem extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={{marginHorizontal: 10, flexDirection: 'row', marginTop: 10}}>
-                        <Text style={{color: "#42A5F5"}}>SỰ KIỆN: </Text>
-                        <Text style={{color: 'black'}}>{item.Name}</Text>
+                    <View style={{marginHorizontal: 15, flexDirection: 'row', marginTop: 10}}>
+                        <Text style={{
+                            color: '#666666',
+                            fontWeight: 'bold'
+                        }}>{item.Name}</Text>
                     </View>
-                    <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
-                        <Text style={{color: "#FFA726"}}>{moment(item.StartDate).format("HH:mm DD/MM/YYYY")} - </Text>
-                        {/*<Text style={{color: '#FFA726'}}>{moment(item.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
+                    <View style={{marginHorizontal: 15, flexDirection: 'row'}}>
+                        <Text
+                            style={{color: "#F0A75B", fontSize: 12,}}>
+                            {/*{moment(this.state.PostContent.StartDate).format("DD-MM-YY LT")} */}
+                            {moment(item.StartDate).format("DD-MM-YY LT")} - {item.Address}
+                        </Text>
+                        {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                     </View>
                     <View style={{marginHorizontal: 10, marginTop: 10}}>
                         <View>
@@ -280,9 +315,9 @@ class EventItem extends Component {
                             </ReadMore>
                         </View>
                     </View>
-                    {/*{ArrImg ? (*/}
-                    {/*<PhotoGrid source={ArrImg} navigation={this.props.navigation}/>*/}
-                    {/*) : null}*/}
+                    {ArrImg ? (
+                    <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
+                    ) : null}
 
                     <View
                         style={{
@@ -292,103 +327,137 @@ class EventItem extends Component {
                             alignItems: "center",
                         }}
                     >
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginLeft: 10,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Icon1 name="like" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}> 0</Text>
-                        </View>
-                        <View style={{flexDirection: "row", alignItems: "center"}}>
-                            <Icon1 name="comment" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>0</Text>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginRight: 10,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Icon name="share-outline" size={25} color="#42A5F5"/>
-                            <Text style={{color: "#42A5F5"}}>0</Text>
-                        </View>
-                    </View>
-                    <View style={{height: 1, backgroundColor: "#cccccc"}}/>
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            marginTop: 10,
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginLeft: 20,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Icon1 name="like" size={25} color="#424242"/>
-                            <TouchableOpacity>
-                                <Text>Thích</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity
-                            // onPress={() =>
-                            //     this.props.navigation.navigate("BinhLuan", {item})
-                            // }
-                        >
-                            <View style={{flexDirection: "row", alignItems: "center"}}>
-                                <Icon1 name="comment" size={25} color="#424242"/>
-
-                                <Text style={{color: "#424242"}}>Bình luận</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.onShare()}>
+                        <View style={{flexDirection: "row",}}>
                             <View
-                                style={
-                                    fromEvent ? {
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                    } : {
-                                        flexDirection: "row",
-                                        marginRight: 20,
-                                        alignItems: "center",
-                                    }}
+                                style={{
+                                    flexDirection: "row",
+                                    marginLeft: 10,
+                                    alignItems: "center",
+                                    backgroundColor: "#C7C7C7",
+                                    height: 30,
+                                    width: 65,
+                                    borderRadius: 15,
+                                    borderWidth: 1,
+                                    borderColor: '#C7C7C7',
+                                    justifyContent: "space-between",
+                                }}
                             >
-                                <Icon name="share-outline" size={25} color="#424242"/>
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                    {
+                                        this.state.liked ?
+                                            <TouchableOpacity  style = {{ flex: 1}} onPress={() =>  this.unlikePost(item.PostID) }>
 
-                                <Text style={{color: "#424242"}}>Share</Text>
+                                                <Image
+                                                    style={{width: null, height: null, flex:1}}
+                                                    source={require('../../assets/icon_heart_active.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity> : <TouchableOpacity  style = {{ flex: 1}}  onPress={() =>  this.likePost(item.PostID) }>
+
+
+                                                <Image
+                                                    style={{width: null, height: null, flex: 1}}
+                                                    source={require('../../assets/icon_heart.png')}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity>
+                                    }
+
+                                </View>
+                                <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
-                        </TouchableOpacity>
-                        {
-                            fromEvent ? <TouchableOpacity onPress={() => this._joinEvent(item.ID)}>
+                            <TouchableOpacity  onPress={() =>
+                                this.props.navigation.navigate("BinhLuan", {item})
+                            }>
                                 <View
                                     style={{
                                         flexDirection: "row",
-                                        marginRight: 20,
+                                        marginLeft: 10,
                                         alignItems: "center",
+                                        backgroundColor: "#C7C7C7",
+                                        height: 30,
+                                        width: 65,
+                                        borderRadius: 15,
+                                        borderWidth: 1,
+                                        borderColor: '#C7C7C7',
+                                        justifyContent: "space-between",
                                     }}
                                 >
-                                    <IconAdd name="add-user" size={20} color="#424242"/>
-                                    {
-                                        this.state.isJoin ? <Text style={{color: "#424242"}}> Đã tham gia</Text> :
-                                            <Text style={{color: "#424242"}}>Tham gia</Text>
-                                    }
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_comment.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalComment}</Text>
                                 </View>
-                            </TouchableOpacity> : null
-                        }
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.onShare()}>
+                                <View
+                                    style={{
+
+                                        flexDirection: "row",
+                                        marginLeft: 10,
+                                        alignItems: "center",
+                                        backgroundColor: "#C7C7C7",
+                                        height: 30,
+                                        width: 65,
+                                        borderRadius: 15,
+                                        borderWidth: 1,
+                                        borderColor: '#C7C7C7',
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_share.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalShare}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+
+                        {item.Type == 2 ? <View
+                            style={{
+
+                                flexDirection: "row",
+                                marginRight: 10,
+                                alignItems: "center",
+                                backgroundColor: "#C7C7C7",
+                                height: 30,
+                                width: 100,
+                                borderRadius: 15,
+                                borderWidth: 1,
+                                borderColor: '#C7C7C7',
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <View style={{width: 15, height: 15, marginLeft: 10}}>
+
+                                <TouchableOpacity  style = {{ flex: 1}} onPress={() => this._joinEvent(item.PostID)}>
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={this.state.isJoin ? require('../../assets/icon_forcus_active.png') : require('../../assets/icon_forcus.png')}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={{marginRight: 10, color: "#777777"}}>Tham gia</Text>
+                        </View> : null}
+
 
                     </View>
 
                 </View>
 
-                <View
+                    <View
                     style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}
                 />
                 <MenuPost
@@ -410,11 +479,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        likePost: bindActionCreators(likePost, dispatch),
         joinEvent: bindActionCreators(joinEvent, dispatch)
 
     };
 };
+
 
 EventItem = connect(
     mapStateToProps,

@@ -51,9 +51,10 @@ class Event extends Component {
         this.setState({
             isLoading: true,
         });
-        const {getEvent} = this.props;
+        const {getEvent, UserProfile} = this.props;
 
         let Event = await getEvent({
+            IntUserID: UserProfile.Value[0].IntUserID,
             PageSize: 100,
             PageIndex: 1,
             Keyword: "",
@@ -61,17 +62,17 @@ class Event extends Component {
             ToDate: "",
             Status: 1,
             EnterpriseID: 0,
-            Type: 0	,
-            LangID: 129,
+            intUserLog: UserProfile.Value[0].IntUserID,
+            Type: 0
         });
+        console.log('Event', Event)
 
-        if (Event && Event.ErrorCode === "00") {
+        if (Event && Event.ErrorCode === null) {
             this.setState(
                 {
                     isLoading: false,
                     ArrEvent: Event.Value,
-                },
-                () => console.log("ArrEvent", this.state.ArrEvent)
+                }
             );
         } else {
             this.setState({

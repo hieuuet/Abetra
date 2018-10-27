@@ -228,7 +228,7 @@ class StatusItems extends Component {
 
         }
         const {item} = this.props.dataItem;
-        console.log('item.cmt', item.Comments)
+        // console.log('item.cmt', item.Comments)
         // let PollVote = item.Poll ? item.Poll : null
         // PollVote =  JSON.parse(PollVote)
         // console.log('PollVote', PollVote)
@@ -276,7 +276,7 @@ class StatusItems extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <Text
-                                    style={{ fontSize: 12}}>{item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : null}</Text>
+                                    style={{ fontSize: 12}}>{item.UserType == 1? "Quản trị viên" : item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : item.UserType == 5 ? "Aibetra Admin" : "Aibetra"}</Text>
 
                             </View>
                             <View

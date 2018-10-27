@@ -56,7 +56,7 @@ class EventJoin extends Component {
 
         let Event = await getEventJoin({
 
-            PageSize: 20,
+            PageSize: 100,
             PageIndex: 1,
             Keyword: "",
             FromDate: "",
