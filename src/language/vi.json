@@ -54,7 +54,7 @@
 
   "menu": {
     "marked": "Bài viết đã lưu",
-    "logout":"Đăng xuất",
+    "logout": "Đăng xuất",
     "nearly": "Dịch vụ quanh đây",
     "promotion": "Chương trình khuyến mại",
     "intro": "Giới thiệu",
@@ -74,10 +74,26 @@
     "man": "Nam",
     "women": "Nữ",
     "undefined": "Không xác định",
-    "address":"Địa chỉ",
+    "address": "Địa chỉ",
     "intro": "Giới thiệu",
     "marked": "Bài viết đã lưu",
-    "follow":"Hội viên đang theo dõi",
-    "event_join":"Sự kiện đã tham gia"
+    "follow": "Hội viên đang theo dõi",
+    "event_join": "Sự kiện đã tham gia",
+    "date_register": "Ngày đăng ký",
+    "date_expire": "Ngày hết hạn",
+    "certificate_link": "Giấy chứng nhận hội viên",
+    "term_link": "Tham khảo quyền lợi chính sách hội viên",
+    "save": "Lưu",
+    "edit":"Sửa",
+    "not_register_member":"Tài khoản của bạn chưa đăng ký hội viên của Aibetra",
+    "refer_benifet":"Tham khảo quyền lợi và chính sách hội viên",
+    "type_business":"Lĩnh vực hoạt động",
+    "create_new_post":"Đăng bài viết mới",
+    "input_post":"Nhập nội dung bài viết",
+    "post_created":"Bài viết đã tạo",
+    "register_now":"Đăng ký ngay",
+    "waiting_accept":"Đã đăng ký hội viên, đang trong quá trình phê duyệt.",
+    "message":"Nhắn tin",
+    "follow_action":"Theo dõi"
   }
 }

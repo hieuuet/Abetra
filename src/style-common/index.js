@@ -53,6 +53,9 @@ export default (style = StyleSheet.create({
   text_color_base: {
     color: COLOR.COLOR_BLACK
   },
+  text_color_White: {
+    color: COLOR.COLOR_WHITE
+  },
   btn_tab_active: {
     flex: 1,
     margin: 10,

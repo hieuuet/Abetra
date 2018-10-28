@@ -78,6 +78,24 @@
     "intro": "Introduce",
     "marked": "Post marked",
     "follow": "Member follow",
-    "event_join": "Event joined"
+    "event_join": "Event joined",
+    "date_register":"Date register",
+    "date_expire":"Date Expire",
+    "certificate_link":"Certificate",
+    "term_link":"Term",
+    "save":"save",
+    "edit":"Save",
+    "not_register_member":"Your Account not register member of Aibetra app",
+    "refer_benifet":"Reference benifet of member",
+    "type_business":"Type of bunisess",
+    "create_new_post":"Create new post",
+    "input_post":"Input content of post",
+    "post_created":"Post has created",
+    "register_now":"Register now",
+    "waiting_accept":"Has been register member, waiting accept.",
+    "message":"Message",
+    "follow_action":"Follow"
+
+
   }
 }

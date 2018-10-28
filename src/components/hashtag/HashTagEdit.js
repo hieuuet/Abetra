@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Text
 } from "react-native";
 const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
@@ -16,14 +17,19 @@ export default class HashTagEdit extends Component {
     super(props);
 
     this.state = {
-      data: this.props.data,
+      data: this.props.data
     };
 
     const widthTag = parseInt((width - 20) / this.props.numColumns);
     this.style_edit = {
-      width: widthTag - 10,
       color: COLOR.COLOR_BLACK,
-      textAlign: "center",
+      width: widthTag - 10,
+      textAlign: "center"
+    };
+    this.style_edit_selected = {
+      color: COLOR.COLOR_WHITE,
+      width: widthTag - 10,
+      textAlign: "center"
     };
   }
 
@@ -45,21 +51,31 @@ export default class HashTagEdit extends Component {
     }
     this.props.onPressItemTag;
   };
-  _renderItemTag = (itemTag) => {
+  _renderItemTag = itemTag => {
     return (
-      <View key={itemTag.index} style={styles.containerTag}>
+      <View
+        key={itemTag.index}
+        style={
+          (itemTag.item.select && this.props.selectable) ||
+          !this.props.selectable
+            ? styles.bg_select
+            : styles.bg_unselect
+        }
+      >
         <TouchableOpacity
           onPress={() =>
             this.props.selectable &&
             this.onPress(itemTag.index, itemTag.item.hashtag)
           }
-          style={
-            itemTag.item.select && this.props.selectable
-              ? styles.bg_select
-              : styles.bg_unselect
-          }
         >
-          <TextInput
+          <Text
+            style={
+              itemTag.item.select ? this.style_edit_selected : this.style_edit
+            }
+          >
+            {itemTag.item.hashtag}
+          </Text>
+          {/* <TextInput
             underlineColorAndroid="transparent"
             autoCapitalize="none"
             returnKeyType="done"
@@ -68,7 +84,7 @@ export default class HashTagEdit extends Component {
             defaultValue={itemTag.item.hashtag}
             onChangeText={this.onChangeItem}
             style={this.style_edit}
-          />
+          /> */}
         </TouchableOpacity>
       </View>
     );
@@ -94,29 +110,35 @@ HashTagEdit.propTypes = {
   editable: PropTypes.bool.isRequired,
   selectable: PropTypes.bool.isRequired,
   numColumns: PropTypes.number,
-  onDataSelected: PropTypes.func,
+  onDataSelected: PropTypes.func
 };
 
 HashTagEdit.defaultProps = {
   numColumns: 3,
   editable: false,
-  selectable: false,
+  selectable: false
 };
 
 const styles = StyleSheet.create({
   containerTag: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 5,
+    margin: 5
   },
   bg_unselect: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5,
     borderRadius: 25,
     backgroundColor: COLOR.COLOR_TAG,
-    flexDirection: "row",
+    minHeight: 40
   },
   bg_select: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5,
     borderRadius: 25,
-    backgroundColor: COLOR.COLOR_ORANGE,
-    flexDirection: "row",
-  },
+    backgroundColor: COLOR.COLOR_TAG_SELECT,
+    minHeight: 40
+  }
 });

@@ -129,7 +129,7 @@ SearchView.propTypes = {
  * Scrollview listen onEndReach
  */
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-  const paddingToBottom = 0;
+  const paddingToBottom = 5;
   return (
     layoutMeasurement.height + contentOffset.y >=
     contentSize.height - paddingToBottom

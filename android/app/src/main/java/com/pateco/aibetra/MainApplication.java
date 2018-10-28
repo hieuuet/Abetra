@@ -7,6 +7,7 @@ import cl.json.RNSharePackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new FastImageViewPackage(),
                     new VectorIconsPackage(),
                     new PickerPackage(),
                     new RNTextInputResetPackage(),

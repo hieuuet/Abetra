@@ -8,18 +8,11 @@ import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
 import { getRank } from "../../../constant/UtilsFunction";
+import HeaderMember from "./HeaderMember";
+// import { isEqual } from "lodash";
+import { TEXT_PROFILE } from "../../../language";
 
 class MemberProfile extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-
-    return {
-      title: params.title ? params.title : "Member Profile",
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -27,12 +20,18 @@ class MemberProfile extends Component {
       tabIndex: 0,
       memberProfile: {}
     };
+
+    this.TEXT_PROFILE = TEXT_PROFILE();
   }
 
   componentDidMount() {
     this._loadMemberProfile();
   }
-
+  // componentWillReceiveProps(nextProps) {
+  //   if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+  //     this.TEXT_PROFILE = TEXT_PROFILE();
+  //   }
+  // }
   _loadMemberProfile = async () => {
     const dataMember = this.props.navigation.getParam("item");
     if (!dataMember || !dataMember.UserID) return;
@@ -41,14 +40,11 @@ class MemberProfile extends Component {
       user_id: dataMember.UserID,
       option: 100
     });
-    console.log('dataProfile', dataProfile)
+    console.log("dataProfile", dataProfile);
     if (!dataProfile || dataProfile.Message !== null) {
-      this.setState({
+      return this.setState({
         memberProfile: dataProfile.Value[0],
         isLoading: false
-      });
-      return this.props.navigation.setParams({
-        title: dataProfile.Value[0].FullName
       });
     }
     this.setState({
@@ -79,10 +75,18 @@ class MemberProfile extends Component {
   render() {
     // console.log("render member");
     return (
-      <View style={style_common.container}>
+      <View style={style_common.container_white}>
+        <HeaderMember
+          navigation={this.props.navigation}
+          userProfile={this.state.memberProfile}
+          TEXT_PROFILE={this.TEXT_PROFILE}
+          currentTab={this.state.tabIndex}
+          allRank={this.props.allRank}
+          onLoading={this.onLoading}
+        />
         <View style={styles.tab}>
           <TabView
-            label="Tài khoản"
+            label={this.TEXT_PROFILE.Account}
             onPress={() => {
               this.setState({ tabIndex: 0 });
             }}
@@ -90,7 +94,7 @@ class MemberProfile extends Component {
             style={styles.btn_margin_right}
           />
           <TabView
-            label="Hội viên"
+            label={this.TEXT_PROFILE.Member}
             onPress={() => {
               this.setState({ tabIndex: 1 });
             }}
@@ -111,6 +115,7 @@ class MemberProfile extends Component {
               navigation={this.props.navigation}
               _getRank={this._getRank}
               onLoading={this.onLoading}
+              TEXT_PROFILE={this.TEXT_PROFILE}
             />
           </View>
           <View
@@ -125,6 +130,7 @@ class MemberProfile extends Component {
               dataUser={this.state.memberProfile}
               _getRank={this._getRank}
               onLoading={this.onLoading}
+              TEXT_PROFILE={this.TEXT_PROFILE}
             />
           </View>
         </View>
@@ -146,7 +152,8 @@ export default MemberProfile;
 const styles = StyleSheet.create({
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE
+    marginTop: -40,
+    backgroundColor: "transparent"
   },
 
   content: {

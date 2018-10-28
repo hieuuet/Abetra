@@ -30,6 +30,8 @@ import CertificateMember from "../containers/CertificateMember";
 import Language from "../containers/menu/Language";
 import Guide from "../containers/menu/Guide";
 import About from "../containers/menu/About";
+import Header from "../containers/user-manage/my-profile/HeaderProfile";
+
 import {
   MemberProfile,
   Profile,
@@ -125,6 +127,13 @@ const TabHome = createMaterialTopTabNavigator(
   }
 );
 const RootStack = createStackNavigator({
+  // Header: {
+  //   screen: Header,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+
   SplashScreen: {
     screen: SplashScreen,
     navigationOptions: {
@@ -137,6 +146,7 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+
   Guide: {
     screen: Guide,
     navigationOptions: {
@@ -185,7 +195,10 @@ const RootStack = createStackNavigator({
     }
   },
   MemberProfile: {
-    screen: MemberProfile
+    screen: MemberProfile,
+    navigationOptions: {
+      header: null
+    }
   },
 
   RegisterMember: {
@@ -237,8 +250,8 @@ const RootStack = createStackNavigator({
   CreatePost: {
     screen: CreatePost,
     navigationOptions: {
-        header: null,
-    },
+      header: null
+    }
   },
   ImageDetail: {
     screen: ImageDetail,
@@ -249,20 +262,20 @@ const RootStack = createStackNavigator({
   SavePost: {
     screen: SavePost,
     navigationOptions: {
-        header: null,
-    },
+      header: null
+    }
   },
   Event: {
     screen: Event,
     navigationOptions: {
-        header: null,
-    },
+      header: null
+    }
   },
   EventJoin: {
     screen: EventJoin,
-      navigationOptions: {
-          header: null,
-      },
+    navigationOptions: {
+      header: null
+    }
   }
 });
 

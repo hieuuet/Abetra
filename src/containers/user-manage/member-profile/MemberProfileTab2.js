@@ -48,6 +48,7 @@ class MemberProfileTab2 extends Component {
     }
     return !(
       isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
       isEqual(nextState, this.state)
     );
   }
@@ -67,7 +68,7 @@ class MemberProfileTab2 extends Component {
       User_type: TYPE_POST.ALL,
       Pin: TYPE_POST_PIN.ALL,
       Option: 0,
-      IntUserID:dataUser.IntUserID
+      IntUserID: dataUser.IntUserID
     });
 
     const resultPost = result && result.ErrorCode === "00" ? result.Value : [];
@@ -113,24 +114,11 @@ class MemberProfileTab2 extends Component {
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
           <View style={styles.container}>
-            <Text style={styles.text_h1}>{this.props._getRank()}</Text>
-            <View style={styles.wrap_header}>
-              <View style={style_common.container}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate("CertificateMember");
-                  }}
-                >
-                  <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
-                </TouchableOpacity>
-              </View>
-              <Image
-                source={IMAGE.logo}
-                resizeMode="cover"
-                style={styles.avatar}
-              />
-            </View>
-            <View style={style_common.line} />
+            <Text style={styles.text_title}>
+              {this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.TypeBusiness &&
+                this.props.TEXT_PROFILE.TypeBusiness.toUpperCase()}
+            </Text>
             <HashTagEdit
               data={this.allTags}
               editable={false}
@@ -138,10 +126,11 @@ class MemberProfileTab2 extends Component {
               numColumns={2}
               ref="hashTag"
             />
-            {this.allTags.length > 0 ? (
-              <View style={style_common.line} />
-            ) : null}
-            <Text style={style_common.text_h1}>Bài viết đã đăng</Text>
+            <Text style={styles.text_title}>
+              {this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.PostCreated &&
+                this.props.TEXT_PROFILE.PostCreated.toUpperCase()}
+            </Text>
 
             {/* Tạo flatlist bài viết ở đây */}
             <FlatList
@@ -178,6 +167,11 @@ MemberProfileTab2.propTypes = {
 };
 export default MemberProfileTab2;
 const styles = StyleSheet.create({
+  text_title: {
+    marginTop: 5,
+    marginBottom: 5,
+    color: COLOR.COLOR_BLACK
+  },
   container: {
     flex: 1,
     margin: 10

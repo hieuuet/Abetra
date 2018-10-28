@@ -19,11 +19,9 @@ import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import EditView from "./EditView";
 import { COLOR } from "../../../constant/Color";
-import { strings } from "../../../language/i18n";
 import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
-import MenuItem from "../../../components/MenuItem";
 import MyDatePicker from "../../../components/DatePicker";
 import {
   updateUserProfile,
@@ -38,7 +36,6 @@ import { formatDate } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 const ImagePicker = NativeModules.ImageCropPicker;
 
-import Ionicon from "react-native-vector-icons/dist/Ionicons";
 import PropTypes from "prop-types";
 class MyProfileTab1 extends Component {
   constructor(props) {
@@ -50,8 +47,6 @@ class MyProfileTab1 extends Component {
         ? JSON.parse(this.props.dataUser.ImageDescription)
         : [];
 
-    this.textAddress =
-      (this.props.dataUser && this.props.dataUser.Address) || "";
     this.textDescription =
       (this.props.dataUser && this.props.dataUser.Description) || "";
 
@@ -61,19 +56,11 @@ class MyProfileTab1 extends Component {
       showEmoticons: false,
       textDescription: this.textDescription
     };
-
-    this.radioData = [
-      {
-        label: strings("profile.man"),
-        value: GENDER_STATE.MAN
-      },
-      { label: strings("profile.women"), value: GENDER_STATE.WOMEN },
-      { label: strings("profile.undefined"), value: GENDER_STATE.OTHER }
-    ];
-
+    this.initRadioData();
     this.arrBase64 = [];
     this.arrPath = [];
   }
+
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       if (this.state.showEmoticons) {
@@ -82,10 +69,15 @@ class MyProfileTab1 extends Component {
       }
     });
   }
-  componentWillReceiveProps(props) {}
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE)) {
+      this.initRadioData();
+    }
+  }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
       isEqual(nextState, this.state)
     );
   }
@@ -97,6 +89,27 @@ class MyProfileTab1 extends Component {
       field,
       value
     });
+  };
+
+  initRadioData = () => {
+    this.radioData = [
+      {
+        label:
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Man) || "Man",
+        value: GENDER_STATE.MAN
+      },
+      {
+        label:
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Women) || "Women",
+        value: GENDER_STATE.WOMEN
+      },
+      {
+        label:
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Undefined) ||
+          "Undefined",
+        value: GENDER_STATE.OTHER
+      }
+    ];
   };
 
   /**
@@ -146,7 +159,6 @@ class MyProfileTab1 extends Component {
   callApiUploadAddress = async allImage => {
     //check if data not change
     if (
-      this.textAddress === this.dataUser.Address &&
       this.textDescription === this.dataUser.Description &&
       allImage === this.oldImage
     )
@@ -154,7 +166,7 @@ class MyProfileTab1 extends Component {
     const resultUpdate = await updateAddressDesscription({
       profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
-      Address: this.textAddress,
+      Address: this.dataUser.Address,
       Description: this.textDescription,
       ImageDescription: JSON.stringify(allImage)
     });
@@ -211,14 +223,15 @@ class MyProfileTab1 extends Component {
     else return 1;
   };
 
-  _renderHeader = () => {
+  _renderEdit = () => {
     return (
       <View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}
           >
-            Ngày sinh
+            {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Birth_day) ||
+              ""}
           </Text>
           <MyDatePicker
             initDate={
@@ -241,14 +254,14 @@ class MyProfileTab1 extends Component {
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}
           >
-            {strings("profile.gender")}
+            {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Gender) || ""}
           </Text>
           <RadioForm
             radio_props={this.radioData}
             initial={this.getGenderState()}
             formHorizontal={true}
             buttonColor={"gray"}
-            selectedButtonColor={"gray"}
+            selectedButtonColor={"#53A1CB"}
             buttonSize={5}
             animation={true}
             style={styles.radio_form}
@@ -262,7 +275,9 @@ class MyProfileTab1 extends Component {
         </View>
 
         <EditView
-          label={strings("profile.email")}
+          label={
+            (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Email) || ""
+          }
           keyboardType="email-address"
           text_edit={
             this.dataUser && this.dataUser.Email ? this.dataUser.Email : ""
@@ -279,13 +294,33 @@ class MyProfileTab1 extends Component {
           }}
         />
         <EditView
-          label={strings("profile.mobile")}
+          label={
+            (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Mobile) || ""
+          }
           keyboardType="numeric"
           text_edit={
             this.dataUser && this.dataUser.Phone ? this.dataUser.Phone : ""
           }
           onPress={() => this.props.navigation.navigate("ChangePhone")}
           isEditAble={true}
+        />
+        <EditView
+          label={
+            (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Address) || ""
+          }
+          text_edit={
+            this.dataUser && this.dataUser.Address ? this.dataUser.Address : ""
+          }
+          isEditAble={true}
+          onSubmit={text => {
+            if (!this.dataUser || text.trim() === this.dataUser.Address) return;
+
+            this.dataUser.Address = text.trim();
+            this.callApiUpdateProfile({
+              field: "Address",
+              value: text.trim()
+            });
+          }}
         />
       </View>
     );
@@ -294,19 +329,7 @@ class MyProfileTab1 extends Component {
     return (
       <View style={style_common.wrapper}>
         <Text style={[style_common.text_color_base, styles.txt_title]}>
-          Địa chỉ
-        </Text>
-        <TextInput
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          returnKeyType="done"
-          placeholder={"Địa chỉ"}
-          defaultValue={this.textAddress}
-          onChangeText={text => (this.textAddress = text.trim())}
-          style={[style_common.input_border, styles.text_address]}
-        />
-        <Text style={[style_common.text_color_base, styles.txt_title]}>
-          Giới thiệu
+          {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Intro) || ""}
         </Text>
         <TextInput
           underlineColorAndroid="transparent"
@@ -315,11 +338,6 @@ class MyProfileTab1 extends Component {
           numberOfLines={5}
           multiline={true}
           defaultValue={this.state.textDescription}
-          placeholder={`Giới thiệu về ${
-            this.dataUser && this.dataUser.FullName
-              ? this.dataUser.FullName
-              : ""
-          }`}
           onChangeText={text => {
             this.textDescription = text.trim();
           }}
@@ -352,7 +370,9 @@ class MyProfileTab1 extends Component {
             style={styles.btn_save}
             onPress={this.updateProfileAddressDes}
           >
-            <Text>Lưu</Text>
+            <Text>
+              {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Save) || ""}
+            </Text>
           </TouchableOpacity>
         </View>
         <PhotoGrid
@@ -368,37 +388,50 @@ class MyProfileTab1 extends Component {
     );
   };
 
+  _itemFooter = (title, sourcIcon, onPress) => {
+    return (
+      <TouchableOpacity
+        style={{
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          flex: 1
+        }}
+        onPress={onPress}
+      >
+        <Image
+          source={sourcIcon}
+          style={{ width: 30, height: 30 * (84 / 92) }}
+          resizeMode="cover"
+        />
+        <Text style={{ textAlign: "center", color: COLOR.COLOR_TEXT_BLUE }}>
+          {title}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   _renderFooter = () => {
     return (
       <View style={styles.content_footer}>
-        <MenuItem
-          title="Bài viết đã lưu"
-          nameIcon="bookmark"
-          icon_color={COLOR.COLOR_SKY}
-          title_color={COLOR.COLOR_SKY}
-          onPress={() => {
+        {this._itemFooter(
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Marked) || "",
+          IMAGE.btn_luu,
+          () => {
             this.props.navigation.navigate("SavePost");
-          }}
-          style={styles.menu_bottom}
-        />
-        <MenuItem
-          title="Cac hoi vien dang theo doi"
-          nameIcon="user-plus"
-          icon_color={COLOR.COLOR_SKY}
-          title_color={COLOR.COLOR_SKY}
-          onPress={() => {}}
-          style={styles.menu_bottom}
-        />
-        <MenuItem
-          title="Su kien da tham gia"
-          nameIcon="calendar-check"
-          icon_color={COLOR.COLOR_SKY}
-          title_color={COLOR.COLOR_SKY}
-          onPress={() => {
+          }
+        )}
+        {this._itemFooter(
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Follow) || "",
+          IMAGE.btn_hoivien,
+          () => {}
+        )}
+        {this._itemFooter(
+          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.EventJoin) || "",
+          IMAGE.btn_event,
+          () => {
             this.props.navigation.navigate("EventJoin");
-          }}
-          style={styles.menu_bottom}
-        />
+          }
+        )}
       </View>
     );
   };
@@ -423,7 +456,7 @@ class MyProfileTab1 extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={styles.parent}>
-            {this._renderHeader()}
+            {this._renderEdit()}
             {this._renderContent()}
             {this._renderFooter()}
           </View>
@@ -500,9 +533,10 @@ const styles = StyleSheet.create({
   },
 
   content_footer: {
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flexDirection: "row",
     marginTop: 10,
-    marginBottom: 10,
     flex: 1
   },
 

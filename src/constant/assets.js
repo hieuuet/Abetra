@@ -16,9 +16,26 @@ export const IMAGE = {
   btn_normal: require("../../assets/btn_normal.png"),
 
   //profile
-  bg_head_profile: require('../../assets/profile/bg_head.png'),
-  bg_change_pass: require('../../assets/profile/btn_doimk.png'),
-  btn_edit1:require('../../assets/profile/btn_edit1.png'),
+  bg_head_profile: require("../../assets/profile/bg_head.png"),
+  bg_change_pass: require("../../assets/profile/btn_doimk.png"),
+  btn_edit1: require("../../assets/profile/btn_edit1.png"),
+  medal_bac: require("../../assets/profile/medal_bac.png"),
+  medal_dong: require("../../assets/profile/medal_dong.png"),
+  medal_kimcuong: require("../../assets/profile/medal_kimcuong.png"),
+  medal_vang: require("../../assets/profile/medal_vang.png"),
+  btn_edit: require("../../assets/profile/btn_edit.png"),
+  btn_event: require("../../assets/profile/btn_event.png"),
+  btn_hoivien: require("../../assets/profile/btn_hoivien.png"),
+  btn_luu: require("../../assets/profile/btn_luu.png"),
+  hoiviendong: require("../../assets/profile/hoiviendong.png"),
+  hoivienbac: require("../../assets/profile/hoivienbac.png"),
+  hoivienvang: require("../../assets/profile/hoivienvang.png"),
+  hoivienkimcuong: require("../../assets/profile/hoivienkimcuong.png"),
+  left_tab: require("../../assets/profile/left_tab.png"),
+  right_tab: require("../../assets/profile/right_tab.png"),
+  icon_follow: require("../../assets/profile/icon_follow.png"),
+  icon_sms: require("../../assets/profile/icon_sms.png"),
+
 
 
 };

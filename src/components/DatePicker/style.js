@@ -19,15 +19,16 @@ let style = StyleSheet.create({
   },
   dateInput: {
     flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#aaa",
+    
+    // height: 40,
+    // borderWidth: 1,
+    // borderColor: "#aaa",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5
+    // borderRadius: 5
   },
   dateText: {
-    color: "#333"
+    color: "#333",
   },
   placeholderText: {
     color: "#c9c9c9"

@@ -35,6 +35,7 @@ class EditView extends Component {
     if (this.refs.input) this.refs.input.focus();
   }
   render() {
+    console.log("render edit");
     return (
       <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="never">
         <View style={styles.wrapper}>
@@ -80,18 +81,19 @@ class EditView extends Component {
               onPress={
                 this.props.onPress ||
                 (() => {
-                  this.setState({ allowEdit: true });
+                  this.setState({ allowEdit: !this.state.allowEdit });
                 })
               }
             >
               <Image
-                source={IMAGE.btn_edit1}
+                source={
+                  this.props.type === 1 ? IMAGE.btn_edit1 : IMAGE.btn_edit
+                }
                 resizeMode="cover"
                 style={
-                  this.props.type === 1 ? styles.iconedit : styles.iconedit
+                  this.props.type === 1 ? styles.iconedit1 : styles.iconedit
                 }
               />
-              {/* <Icon name="edit" size={20} color={COLOR.COLOR_BLACK} /> */}
             </TouchableOpacity>
           ) : null}
         </View>
@@ -127,9 +129,14 @@ EditView.defaultProps = {
   keyboardType: "default"
 };
 const styles = StyleSheet.create({
-  iconedit: {
+  iconedit1: {
     width: 20,
     height: 20
+  },
+  iconedit: {
+    width: 20,
+    height: 20 * (70 / 54),
+    marginTop:5
   },
   wrapper: {
     justifyContent: "flex-start",

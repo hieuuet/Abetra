@@ -29,12 +29,11 @@ import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
 import { NavigationActions, StackActions } from "react-navigation";
 import { URL_BASE } from "../../../constant/api";
-
+import HeaderProfile from "./HeaderProfile";
 import { TEXT_PROFILE } from "../../../language";
 const ImagePicker = NativeModules.ImageCropPicker;
 
 class Profile extends Component {
-
   constructor(props) {
     super(props);
     //get tag has been selected when register and bind with select of all tab
@@ -59,9 +58,8 @@ class Profile extends Component {
       isLoading: false,
       tabIndex: 0,
       allTag: allTags,
-      localAvatar:undefined
+      localAvatar: undefined
     };
-
 
     this.idTagSelected = [];
 
@@ -240,80 +238,85 @@ class Profile extends Component {
               alignItems: "center"
             }}
           >
-            <TouchableOpacity onPress={this.pickOneImageToUpload}>
-              <Image
-                source={
-                  source
-                }
-                resizeMode="cover"
+            <View>
+              <TouchableOpacity onPress={this.pickOneImageToUpload}>
+                {/* <FastImage
                 style={styles.avatar}
-                queryCache={[source]}
-              />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flex: 3,
-              justifyContent: "flex-start",
-              alignContent: "flex-start",
-              marginRight: 10,
-              marginLeft: 10
-            }}
-          >
-            <EditView
-              text_edit={
-                (this.userProfile && this.userProfile.FullName) || "Not Found"
-              }
-              type={1}
-              isEditAble={true}
-              style_edit={styles.edit_name}
-              onSubmit={text => {
-                if (
-                  !this.userProfile ||
-                  text.trim() === this.userProfile.FullName
-                )
-                  return;
-                this.userProfile.FullName = text.trim();
-                this.callApiUpdateProfile({
-                  field: "FullName",
-                  value: text.trim()
-                });
-              }}
-            />
-            <EditView
-              text_edit={
-                (this.userProfile && this.userProfile.UserName) || "Not Found"
-              }
-              style_edit={styles.edit_userName}
-            />
-            <TouchableOpacity
+                source={source}
+                resizeMode={FastImage.resizeMode.cover}
+              /> */}
+                <Image
+                  source={source}
+                  resizeMode="cover"
+                  style={styles.avatar}
+                  queryCache={[source]}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
               style={{
-                borderRadius: 25,
-                width: 140,
-                minHeight: 50,
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row"
+                flex: 3,
+                justifyContent: "flex-start",
+                alignContent: "flex-start",
+                marginRight: 10,
+                marginLeft: 10
               }}
             >
-              <Image
-                resizeMode="contain"
-                source={IMAGE.bg_change_pass}
-                style={{
-                  flex: 1,
-                  height: 50
+              <EditView
+                text_edit={
+                  (this.userProfile && this.userProfile.FullName) || "Not Found"
+                }
+                type={1}
+                isEditAble={true}
+                style_edit={styles.edit_name}
+                onSubmit={text => {
+                  if (
+                    !this.userProfile ||
+                    text.trim() === this.userProfile.FullName
+                  )
+                    return;
+                  this.userProfile.FullName = text.trim();
+                  this.callApiUpdateProfile({
+                    field: "FullName",
+                    value: text.trim()
+                  });
                 }}
               />
-              <Text
+              <EditView
+                text_edit={
+                  (this.userProfile && this.userProfile.UserName) || "Not Found"
+                }
+                style_edit={styles.edit_userName}
+              />
+              <TouchableOpacity
                 style={{
-                  alignSelf: "center",
-                  position: "absolute",
-                  color: COLOR.COLOR_WHITE
+                  borderRadius: 25,
+                  width: 140,
+                  minHeight: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row"
                 }}
               >
-                {this.TEXT_PROFILE.ChangePass}
-              </Text>
-            </TouchableOpacity>
+                <Image
+                  resizeMode="contain"
+                  source={IMAGE.bg_change_pass}
+                  style={{
+                    flex: 1,
+                    height: 50
+                  }}
+                />
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    position: "absolute",
+                    color: COLOR.COLOR_WHITE
+                  }}
+                >
+                  {this.TEXT_PROFILE.ChangePass}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -330,7 +333,15 @@ class Profile extends Component {
     console.log("render profile");
     return (
       <View style={style_common.container_white}>
-        {this._renderHeader()}
+        <HeaderProfile
+          navigation={this.props.navigation}
+          userProfile={this.userProfile}
+          TEXT_PROFILE={this.TEXT_PROFILE}
+          currentTab={this.state.tabIndex}
+          allRank={this.props.allRank}
+          onLoading={this.onLoading}
+        />
+
         <View style={styles.tab}>
           <TabView
             label={this.TEXT_PROFILE.Account}
@@ -361,6 +372,7 @@ class Profile extends Component {
               navigation={this.props.navigation}
               onLoading={this.onLoading}
               reLoadProfile={this.reLoadProfile}
+              TEXT_PROFILE={this.TEXT_PROFILE}
             />
           </View>
           <View
@@ -376,6 +388,7 @@ class Profile extends Component {
               tagSelected={this.state.allTag}
               onLoading={this.onLoading}
               allRank={this.props.allRank}
+              TEXT_PROFILE={this.TEXT_PROFILE}
             />
           </View>
         </View>
@@ -452,7 +465,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     flexDirection: "row",
-    marginTop: -20,
+    marginTop: -40,
     backgroundColor: "transparent"
   },
 

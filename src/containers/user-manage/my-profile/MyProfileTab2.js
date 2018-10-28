@@ -4,20 +4,17 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   Platform,
   KeyboardAvoidingView,
   FlatList
 } from "react-native";
 import { isEqual } from "lodash";
-import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
 import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
-import { getRank } from "../../../constant/UtilsFunction";
 import { MyCoolScrollViewComponent } from "../../../components/CommonView";
 import { searchPost2 } from "../../../actions";
 import { TYPE_POST, TYPE_POST_PIN } from "../../../constant/KeyConstant";
@@ -55,6 +52,7 @@ class MyProfileTab2 extends Component {
     }
     return !(
       isEqual(nextProps.tagSelected, this.props.tagSelected) &&
+      isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
       isEqual(nextState, this.state)
     );
   }
@@ -89,7 +87,7 @@ class MyProfileTab2 extends Component {
   };
   onEndReached = () => {
     // call loadmore api
-    // console.log("scroll to end");
+    console.log("scroll to end");
 
     this.Page_index++;
     this.loadUserPost(this.props.dataUser);
@@ -99,7 +97,7 @@ class MyProfileTab2 extends Component {
     return (
       <View style={styles.container}>
         <Text style={style_common.text_color_base}>
-          Tài khoản của bạn chưa đăng ký hội viên của Aibetra
+          {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.NotRegisterMember}
         </Text>
         <TouchableOpacity
           onPress={() => {
@@ -107,13 +105,13 @@ class MyProfileTab2 extends Component {
           }}
         >
           <Text style={styles.text_link}>
-            Tham khảo quyền lợi và chính sách hội viên
+            {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.ReferBenifet}
           </Text>
         </TouchableOpacity>
         <ButtonBorder
           my_style={[style_common.input_border, styles.btn_register]}
           text_style={styles.text_btn}
-          label={"Đăng ký ngay"}
+          label={this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.RegisterNow}
           onPress={() => this.props.navigation.navigate("RegisterMember")}
         />
       </View>
@@ -130,48 +128,17 @@ class MyProfileTab2 extends Component {
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
           <View style={styles.container}>
-            <Text style={styles.text_h1}>
-              {getRank(this.props.dataUser.PackgeID, this.props.allRank)}
-            </Text>
-            <View style={styles.wrap_header}>
-              <View style={style_common.container}>
-                <Text style={style_common.text_color_base}>
-                  Ngày đăng ký:
-                  {this.props.dataUser.StartPackage || ""}
-                </Text>
-                <Text style={style_common.text_color_base}>
-                  Ngày hết hạn: {this.props.dataUser.EndPackage || ""}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate("CertificateMember");
-                  }}
-                >
-                  <Text style={styles.text_link}>Giấy chứng nhận hội viên</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate("Benifet");
-                  }}
-                >
-                  <Text style={styles.text_link}>
-                    Tham khảo quyền lợi chính sách hội viên
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <Image
-                source={IMAGE.logo}
-                resizeMode="cover"
-                style={styles.avatar}
-              />
-            </View>
-            <View style={style_common.line} />
+            {/* <View style={style_common.line} /> */}
             <View style={styles.container_title}>
-              <Text style={styles.text_title}>Lĩnh vực hoạt động</Text>
+              <Text style={styles.text_title}>
+                {this.props.TEXT_PROFILE &&
+                  this.props.TEXT_PROFILE.TypeBusiness &&
+                  this.props.TEXT_PROFILE.TypeBusiness.toUpperCase()}
+              </Text>
               <ButtonBorder
                 my_style={[style_common.input_border, styles.btn_save]}
                 text_style={styles.text_btn}
-                label={"Sửa"}
+                label={this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Edit}
                 onPress={this.props.onClickShowModal}
               />
             </View>
@@ -181,17 +148,24 @@ class MyProfileTab2 extends Component {
               numColumns={2}
               ref="hashTag"
             />
-            <View style={style_common.line} />
-            <Text style={style_common.text_color_base}>Đăng bài viết mới</Text>
+            <Text style={styles.marginText}>
+              {this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.CreateNewPost &&
+                this.props.TEXT_PROFILE.CreateNewPost.toUpperCase()}
+            </Text>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("CreatePost")}
               style={styles.btn_create_post}
             >
               <Text style={style_common.text_color_base}>
-                Nội dung bài viết
+                {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.InputPost}
               </Text>
             </TouchableOpacity>
-            <Text style={style_common.text_color_base}>Bài viết đã tạo</Text>
+            <Text style={style_common.text_color_base}>
+              {this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.PostCreated &&
+                this.props.TEXT_PROFILE.PostCreated.toUpperCase()}
+            </Text>
 
             {/* Tạo flatlist bài viết ở đây */}
             <FlatList
@@ -224,7 +198,7 @@ class MyProfileTab2 extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text_center}>
-          Đã đăng ký hội viên, đang trong quá trình phê duyệt.
+          {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.WaitingAccept}
         </Text>
       </View>
     );
@@ -323,6 +297,11 @@ const styles = StyleSheet.create({
   },
   text_center: {
     alignSelf: "center",
+    color: COLOR.COLOR_BLACK
+  },
+  marginText: {
+    marginTop: 5,
+    marginBottom: 5,
     color: COLOR.COLOR_BLACK
   }
 });

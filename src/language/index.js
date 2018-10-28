@@ -1,12 +1,12 @@
 import { strings } from "./i18n";
-export const TEXT_REGISTER  = () => ( {
+export const TEXT_REGISTER = () => ({
   Register: strings("register.btn_register"),
   InputRePass: strings("register.input_rePass"),
   InputName: strings("register.input_fullname"),
   AgreeTerm: strings("register.agree_term"),
   HasAccount: strings("register.has_account")
 });
-export const TEXT_LOGIN  = () => ({
+export const TEXT_LOGIN = () => ({
   InputPhone: strings("login.input_phone"),
   InputPass: strings("login.input_pass"),
   NotAccount: strings("login.not_account"),
@@ -76,25 +76,38 @@ export const TEXT_MENU = () => {
   };
 };
 
-export const TEXT_PROFILE = ()=>({
-  Account:strings("profile.account"),
-  Member:strings("profile.member"),
-  ChangePass:strings("profile.change_pass"),
-  Birth_day:strings("profile.birth_day"),
-  Email:strings("profile.email"),
-  Mobile:strings("profile.mobile"),
-  Gender:strings("profile.gender"),
-  Man:strings("profile.man"),
-  Women:strings("profile.women"),
-  Undefined:strings("profile.undefined"),
-  Address:strings("profile.address"),
-  Intro:strings("profile.intro"),
-  Marked:strings("profile.marked"),
-  Follow:strings("profile.follow"),
-  EventJoin:strings("profile.event_join"),
+export const TEXT_PROFILE = () => ({
+  Account: strings("profile.account"),
+  Member: strings("profile.member"),
+  ChangePass: strings("profile.change_pass"),
+  Birth_day: strings("profile.birth_day"),
+  Email: strings("profile.email"),
+  Mobile: strings("profile.mobile"),
+  Gender: strings("profile.gender"),
+  Man: strings("profile.man"),
+  Women: strings("profile.women"),
+  Undefined: strings("profile.undefined"),
+  Address: strings("profile.address"),
+  Intro: strings("profile.intro"),
+  Marked: strings("profile.marked"),
+  Follow: strings("profile.follow"),
+  EventJoin: strings("profile.event_join"),
+  DateRegister: strings("profile.date_register"),
+  DateExpire: strings("profile.date_expire"),
+  Certificate: strings("profile.certificate_link"),
+  Term: strings("profile.term_link"),
+  Save:strings("profile.save"),
+  Edit:strings("profile.edit"),
+  NotRegisterMember:strings("profile.not_register_member"),
+  ReferBenifet:strings("profile.refer_benifet"),
+  TypeBusiness:strings("profile.type_business"),
+  CreateNewPost:strings("profile.create_new_post"),
+  InputPost:strings("profile.input_post"),
+  PostCreated:strings("profile.post_created"),
+  RegisterNow:strings("profile.register_now"),
+  WaitingAccept:strings("profile.waiting_accept"),
+  Message:strings("profile.message"),
+  FollowAction:strings("profile.follow_action")
 
-
-
-
-
-})
+  
+});

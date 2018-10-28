@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ImageBackground,
   Alert
 } from "react-native";
 
@@ -35,6 +36,7 @@ class MemberProfileTab1 extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       isEqual(nextProps.dataUser, this.props.dataUser) &&
+      isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
       isEqual(nextState, this.state)
     );
   }
@@ -68,7 +70,7 @@ class MemberProfileTab1 extends Component {
       this.props.navigation.navigate("Chat", {
         MsgGroupID: MsgGroupID.ObjectResult.MsgGroupID,
         ProfileMember: this.props.dataUser,
-          title: this.props.dataUser.FullName
+        title: this.props.dataUser.FullName
       });
     } else {
       Alert.alert(
@@ -80,59 +82,59 @@ class MemberProfileTab1 extends Component {
     }
   };
 
-  _renderHeader = () => {
-    return (
-      <View style={styles.contain_avatar}>
-        <View>
-          <Image
-            source={
-              this.props.dataUser && this.props.dataUser.Avatar
-                ? { uri: URL_BASE + this.dataUser.Avatar }
-                : IMAGE.logo
-            }
-            resizeMode="cover"
-            style={styles.avatar}
-          />
-          <Text style={styles.text_h1}>{this.props._getRank()}</Text>
-        </View>
-        <View style={styles.right_avatar}>
-          <Text style={styles.text_name}>
-            {this.props.dataUser && this.props.dataUser.FullName
-              ? this.props.dataUser.FullName
-              : ""}
-          </Text>
-          <Text style={style_common.text_color_base}>
-            {getGender(this.props.dataUser.Gender)}
-          </Text>
-          <Text style={style_common.text_color_base}>
-            Sinh nhật: 
-            {this.props.dataUser && this.props.dataUser.BirdDate
-              ? formatDate(this.props.dataUser.BirdDate)
-              : ""}
-          </Text>
-          <Text style={style_common.text_color_base}>
-            Mobile: 
-            {this.props.dataUser && this.props.dataUser.UserName
-              ? this.props.dataUser.UserName
-              : ""}
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginRight: 10
-          }}
-          onPress={() => this._createMsgGroup()}
-        >
-          <Icon name="message-processing" size={32} color={COLOR.COLOR_SKY} />
-          <Text style={style_common.text_color_base}>Chat</Text>
-        </TouchableOpacity>
+  // _renderHeader = () => {
+  //   return (
+  //     <View style={styles.contain_avatar}>
+  //       <View>
+  //         <Image
+  //           source={
+  //             this.props.dataUser && this.props.dataUser.Avatar
+  //               ? { uri: URL_BASE + this.dataUser.Avatar }
+  //               : IMAGE.logo
+  //           }
+  //           resizeMode="cover"
+  //           style={styles.avatar}
+  //         />
+  //         <Text style={styles.text_h1}>{this.props._getRank()}</Text>
+  //       </View>
+  //       <View style={styles.right_avatar}>
+  //         <Text style={styles.text_name}>
+  //           {this.props.dataUser && this.props.dataUser.FullName
+  //             ? this.props.dataUser.FullName
+  //             : ""}
+  //         </Text>
+  //         <Text style={style_common.text_color_base}>
+  //           {getGender(this.props.dataUser.Gender)}
+  //         </Text>
+  //         <Text style={style_common.text_color_base}>
+  //           Sinh nhật:
+  //           {this.props.dataUser && this.props.dataUser.BirdDate
+  //             ? formatDate(this.props.dataUser.BirdDate)
+  //             : ""}
+  //         </Text>
+  //         <Text style={style_common.text_color_base}>
+  //           Mobile:
+  //           {this.props.dataUser && this.props.dataUser.UserName
+  //             ? this.props.dataUser.UserName
+  //             : ""}
+  //         </Text>
+  //       </View>
+  //       <TouchableOpacity
+  //         style={{
+  //           justifyContent: "center",
+  //           alignItems: "center",
+  //           marginRight: 10
+  //         }}
+  //         onPress={() => this._createMsgGroup()}
+  //       >
+  //         <Icon name="message-processing" size={32} color={COLOR.COLOR_SKY} />
+  //         <Text style={style_common.text_color_base}>Chat</Text>
+  //       </TouchableOpacity>
 
-        <View style={style_common.line} />
-      </View>
-    );
-  };
+  //       <View style={style_common.line} />
+  //     </View>
+  //   );
+  // };
   _renderContent = () => {
     let dataImage = [];
     if (
@@ -156,12 +158,75 @@ class MemberProfileTab1 extends Component {
           navigation={this.props.navigation}
         />
         <Text style={styles.textDescription}>
-          Địa chỉ: {this.dataUser.Address || ""}
+          {`${(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Address) ||
+            ""}: ${this.dataUser.Address || ""}`}
         </Text>
       </View>
     );
   };
 
+  _renderBottom = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignSelf: "center",
+          alignContent: "center"
+        }}
+      >
+        <TouchableOpacity
+          style={{ width: 120, minHeight: 40 }}
+          onPress={() => this._createMsgGroup()}
+        >
+          <ImageBackground
+            source={IMAGE.left_tab}
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              padding: 5,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            resizeMode="stretch"
+          >
+            <Image
+              source={IMAGE.icon_sms}
+              style={styles.icon_bottom1}
+              resizeMode="cover"
+            />
+            <Text style={{ marginLeft: 5 }}>
+              {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Message) ||
+                ""}
+            </Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ width: 120, minHeight: 40 }}>
+          <ImageBackground
+            source={IMAGE.right_tab}
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              padding: 5,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            resizeMode="stretch"
+          >
+            <Image
+              source={IMAGE.icon_follow}
+              style={styles.icon_bottom2}
+              resizeMode="cover"
+            />
+            <Text style={{ marginLeft: 5 }}>
+              {(this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.FollowAction) ||
+                ""}
+            </Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   render() {
     this.dataUser = this.props.dataUser;
 
@@ -177,9 +242,8 @@ class MemberProfileTab1 extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={styles.parent}>
-            {this._renderHeader()}
-            <View style={style_common.line} />
             {this._renderContent()}
+            {this._renderBottom()}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -213,6 +277,14 @@ MemberProfileTab1.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  icon_bottom1: {
+    width: 20,
+    height: 20
+  },
+  icon_bottom2: {
+    width: 20 * (63 / 43),
+    height: 20
+  },
   parent: {
     flex: 1,
     padding: 10

@@ -500,6 +500,7 @@ DatePicker.defaultProps = {
   confirmBtnText: "确定",
   cancelBtnText: "取消",
   iconSource: require("./date_icon.png"),
+  // iconSource: require("../../../assets/profile/btn_edit.png"),
   customStyles: {},
 
   // whether or not show the icon
