@@ -30,8 +30,6 @@ import CertificateMember from "../containers/CertificateMember";
 import Language from "../containers/menu/Language";
 import Guide from "../containers/menu/Guide";
 import About from "../containers/menu/About";
-import Header from "../containers/user-manage/my-profile/HeaderProfile";
-
 import {
   MemberProfile,
   Profile,
@@ -40,100 +38,10 @@ import {
 import SavePost from "../containers/post/SavePost";
 import Location from "../containers/Location";
 import EventJoin from "../containers/event/EventJoin";
+import WrapperTab from "../containers/WrapperTab";
+import TabHome from "./TabHome";
 
-const TabHome = createMaterialTopTabNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="home" size={23} style={{ color: tintColor }} />
-        )
-      }
-    },
-    Message: {
-      screen: Message,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon1
-            name="facebook-messenger"
-            size={23}
-            style={{ color: tintColor }}
-          />
-        )
-      }
-    },
-    Location: {
-      screen: Location,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon2 name="location" size={23} style={{ color: tintColor }} />
-        )
-      }
-    },
-    DoanhNghiep: {
-      screen: DoanhNghiep,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon3 name="event-note" size={23} style={{ color: tintColor }} />
-        )
-      }
-    },
-
-    Menu: {
-      screen: Menu,
-      navigationOptions: {
-        // headerBackTitle: 'Back',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon2 name="menu" size={23} style={{ color: tintColor }} />
-        )
-      }
-    }
-  },
-  {
-    tabBarPosition: "top",
-    lazy: true,
-    animationEnabled: true,
-    tabBarOptions: {
-      upperCaseLabel: false,
-
-      showIcon: true,
-      showLabel: false,
-      activeTintColor: "black",
-      inactiveTintColor: "white",
-      // activeBackgroundColor:'white',
-      // inactiveBackgroundColor:'#eaa33f',
-      // pressColor: 'white',
-      indicatorStyle: {
-        // backgroundColor: 'white'
-        backgroundColor: "transparent"
-      },
-      labelStyle: {
-        fontSize: 11,
-        alignSelf: "center"
-      }
-      // style: {
-      //     backgroundColor: '#fc9b03',
-      //
-      // },
-      // tabStyle: {
-      //     backgroundColor:'white'
-      // }
-    }
-  }
-);
 const RootStack = createStackNavigator({
-  // Header: {
-  //   screen: Header,
-  //   navigationOptions: {
-  //     header: null
-  //   }
-  // },
-
   SplashScreen: {
     screen: SplashScreen,
     navigationOptions: {
@@ -146,7 +54,6 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-
   Guide: {
     screen: Guide,
     navigationOptions: {
@@ -273,6 +180,12 @@ const RootStack = createStackNavigator({
   },
   EventJoin: {
     screen: EventJoin,
+    navigationOptions: {
+      header: null
+    }
+  },
+  WrapperTab: {
+    screen: WrapperTab,
     navigationOptions: {
       header: null
     }
