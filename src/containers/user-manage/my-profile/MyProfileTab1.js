@@ -226,7 +226,7 @@ class MyProfileTab1 extends Component {
   _renderEdit = () => {
     return (
       <View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.wrapper_edit}>
           <Text
             style={[style_common.text_color_base, styles.label_radio_group]}
           >
@@ -391,20 +391,15 @@ class MyProfileTab1 extends Component {
   _itemFooter = (title, sourcIcon, onPress) => {
     return (
       <TouchableOpacity
-        style={{
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          flex: 1
-        }}
+        style={styles.wrapper_footer}
         onPress={onPress}
       >
         <Image
           source={sourcIcon}
-          style={{ width: 30, height: 30 * (84 / 92) }}
+          style={styles.img_btn_footer}
           resizeMode="cover"
         />
-        <Text style={{ textAlign: "center", color: COLOR.COLOR_TEXT_BLUE }}>
+        <Text style={styles.text_footer}>
           {title}
         </Text>
       </TouchableOpacity>
@@ -464,16 +459,10 @@ class MyProfileTab1 extends Component {
 
         {this.state.showEmoticons ? (
           <View
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              left: 0,
-              bottom: 0
-            }}
+            style={styles.wrapper_emoji}
           >
             <TouchableOpacity
-              style={{ flex: 1 }}
+              style={style_common.container}
               onPress={() => {
                 this.setState({ showEmoticons: false });
               }}
@@ -485,10 +474,7 @@ class MyProfileTab1 extends Component {
               showTabs={false}
               showHistory={true}
               columns={10}
-              style={{
-                backgroundColor: "gray",
-                height: 200
-              }}
+              style={styles.emoji}
             />
           </View>
         ) : null}
@@ -507,6 +493,26 @@ MyProfileTab1.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  wrapper_emoji:{
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0
+  },
+  emoji:{
+    backgroundColor: "gray",
+    height: 200
+  },
+  wrapper_edit:{ flexDirection: "row", alignItems: "center" },
+  wrapper_footer:{
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flex: 1
+  },
+  img_btn_footer:{ width: 30, height: 30 * (84 / 92) },
+  text_footer:{ textAlign: "center", color: COLOR.COLOR_TEXT_BLUE },
   parent: {
     flex: 1,
     padding: 10

@@ -1,7 +1,6 @@
 import { strings } from "../language/i18n";
 import { GENDER_STATE } from "./KeyConstant";
 import moment from "moment";
-import { IMAGE } from "./assets";
 
 /**
  * get string gender from state
@@ -31,52 +30,23 @@ export const formatDate = stringDate => {
 
 /**
  * Get rank from PackgeID
+ *
+CreateDate: "2018-09-06T17:28:17.25"
+ID: 13
+Icon: "http://123.16.53.210:9001/upload/737/images/rank/medal_kimcuong.png"
+Icon2: "http://123.16.53.210:9001/upload/737/images/rank/hoivienkimcuong.png"
+LangID: 129
+Point: 500000
+Price: 5000
+RankName: "Hạng kim cương"
+RowNum: 1
+Status: 1
+Summary: "<p>Hạng kim cương</p>↵"
+TotalRow: 4
  */
 export const getRank = (PackgeID, allRank = []) => {
   if (!PackgeID || allRank.length === 0) {
-    return "";
+    return undefined;
   }
-  const rank = allRank.find(rank => rank.ID === PackgeID);
-  return (rank && rank.RankName) || "";
-};
-/**
- * Get rank image from PackgeID
- */
-export const getRankImage = (PackgeID, allRank = []) => {
-  if (!PackgeID || allRank.length === 0) {
-    return IMAGE.logo;
-  }
-  const rank = allRank.find(rank => rank.ID === PackgeID);
-  if (!rank) return IMAGE.logo;
-  switch (rank.RowNum) {
-    case 1:
-      return IMAGE.medal_kimcuong;
-    case 2:
-      return IMAGE.medal_vang;
-    case 3:
-      return IMAGE.medal_bac;
-    case 4:
-      return IMAGE.medal_dong;
-  }
-};
-
-/**
- * Get rank image thumnail from PackgeID
- */
-export const getRankImageThumnail = (PackgeID, allRank = []) => {
-  if (!PackgeID || allRank.length === 0) {
-    return IMAGE.logo;
-  }
-  const rank = allRank.find(rank => rank.ID === PackgeID);
-  if (!rank) return IMAGE.logo;
-  switch (rank.RowNum) {
-    case 1:
-      return IMAGE.hoivienkimcuong;
-    case 2:
-      return IMAGE.hoivienvang;
-    case 3:
-      return IMAGE.hoivienbac;
-    case 4:
-      return IMAGE.hoiviendong;
-  }
+  return allRank.find(rank => rank.ID === PackgeID);
 };

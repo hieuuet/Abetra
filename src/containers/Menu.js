@@ -47,6 +47,8 @@ class Menu extends Component {
     this.props.navigation.dispatch(resetAction);
   };
   renderHeader = () => {
+    const rank = getRank(this.userProfile.PackgeID, this.props.allRank);
+
     return (
       <TouchableOpacity
         style={[style_common.card_view, styles.header_container]}
@@ -71,9 +73,7 @@ class Menu extends Component {
               : ""}
           </Text>
           <Text style={styles.text_rank}>
-            {this.props.isGuest
-              ? "Guest"
-              : getRank(this.userProfile.PackgeID, this.props.allRank)}
+            {this.props.isGuest ? "Guest" : (rank && rank.RankName) || ""}
           </Text>
         </View>
       </TouchableOpacity>

@@ -7,7 +7,6 @@ import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
-import { getRank } from "../../../constant/UtilsFunction";
 import HeaderMember from "./HeaderMember";
 // import { isEqual } from "lodash";
 import { TEXT_PROFILE } from "../../../language";
@@ -62,10 +61,6 @@ class MemberProfile extends Component {
     this.setState({ isLoading });
   };
 
-  _getRank = () => {
-    return getRank(this.state.memberProfile.PackgeID, this.props.allRank);
-  };
-
   _renderLoading = () => {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
@@ -73,7 +68,6 @@ class MemberProfile extends Component {
   };
 
   render() {
-    // console.log("render member");
     return (
       <View style={style_common.container_white}>
         <HeaderMember
@@ -103,7 +97,7 @@ class MemberProfile extends Component {
           />
         </View>
 
-        <View style={{ flex: 1 }}>
+        <View style={style_common.container}>
           <View
             style={[
               styles.content,
@@ -113,7 +107,6 @@ class MemberProfile extends Component {
             <MemberProfileTab1
               dataUser={this.state.memberProfile}
               navigation={this.props.navigation}
-              _getRank={this._getRank}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
             />
@@ -128,7 +121,6 @@ class MemberProfile extends Component {
               navigation={this.props.navigation}
               allHashTag={this.props.allHashTag}
               dataUser={this.state.memberProfile}
-              _getRank={this._getRank}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
             />

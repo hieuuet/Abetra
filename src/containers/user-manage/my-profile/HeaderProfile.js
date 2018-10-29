@@ -15,7 +15,7 @@ import { COLOR } from "../../../constant/Color";
 import EditView from "./EditView";
 import FastImage from "react-native-fast-image";
 import { isEqual } from "lodash";
-import { getRank, getRankImage } from "../../../constant/UtilsFunction";
+import { getRank } from "../../../constant/UtilsFunction";
 import style_common from "../../../style-common";
 import { updateUserProfile, uploadImage2 } from "../../../actions";
 import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
@@ -87,7 +87,7 @@ class HeaderProfile extends Component {
         ? { uri: URL_BASE + this.props.userProfile.Avatar }
         : IMAGE.logo;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={style_common.container}>
         <TouchableOpacity
           style={styles.btn_back}
           onPress={() => this.props.navigation.goBack()}
@@ -98,20 +98,8 @@ class HeaderProfile extends Component {
             source={IMAGE.icon_back}
           />
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flex: 2,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
+        <View style={styles.wrapper_left}>
+          <View style={styles.wrap_avatar}>
             <TouchableOpacity onPress={this.pickOneImageToUpload}>
               <FastImage
                 style={styles.avatar}
@@ -120,15 +108,7 @@ class HeaderProfile extends Component {
               />
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              flex: 3,
-              justifyContent: "flex-start",
-              alignContent: "flex-start",
-              marginRight: 10,
-              marginLeft: 10
-            }}
-          >
+          <View style={styles.wrapper_right}>
             <EditView
               text_edit={
                 (this.props.userProfile && this.props.userProfile.FullName) ||
@@ -158,31 +138,15 @@ class HeaderProfile extends Component {
               style_edit={styles.edit_userName}
             />
             <TouchableOpacity
-              style={{
-                borderRadius: 25,
-                width: 140,
-                minHeight: 50,
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row"
-              }}
+              style={styles.btn_change_pass}
               onPress={() => this.props.navigation.navigate("ChangePassword")}
             >
               <Image
                 resizeMode="contain"
                 source={IMAGE.bg_change_pass}
-                style={{
-                  flex: 1,
-                  height: 50
-                }}
+                style={styles.bg_change_pass}
               />
-              <Text
-                style={{
-                  alignSelf: "center",
-                  position: "absolute",
-                  color: COLOR.COLOR_WHITE
-                }}
-              >
+              <Text style={styles.text_change_pass}>
                 {(this.props.TEXT_PROFILE &&
                   this.props.TEXT_PROFILE.ChangePass) ||
                   ""}
@@ -201,14 +165,13 @@ class HeaderProfile extends Component {
     )
       return <View />;
 
+    const rank = getRank(
+      (this.props.userProfile && this.props.userProfile.PackgeID) || "",
+      this.props.allRank
+    );
     return (
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
+      <View style={style_common.container}>
+        <View style={styles.wrap_tab2}>
           <TouchableOpacity
             style={styles.btn_back}
             onPress={() => this.props.navigation.goBack()}
@@ -219,32 +182,20 @@ class HeaderProfile extends Component {
               source={IMAGE.icon_back}
             />
           </TouchableOpacity>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              marginTop: 15,
-              marginRight: 45,
-              color: COLOR.COLOR_WHITE,
-              fontWeight: "bold"
-            }}
-          >
-            {getRank(
-              (this.props.userProfile && this.props.userProfile.PackgeID) || "",
-              this.props.allRank
-            ).toUpperCase()}
+          <Text style={styles.text_title_rank}>
+            {((rank && rank.RankName) || "").toUpperCase()}
           </Text>
         </View>
         <View style={styles.wrap_header}>
           <View style={style_common.container}>
-            <Text style={{ color: COLOR.COLOR_WHITE }}>
+            <Text style={style_common.text_color_White}>
               {`${(this.props.TEXT_PROFILE &&
                 this.props.TEXT_PROFILE.DateRegister) ||
                 ""}:${(this.props.userProfile &&
                 this.props.userProfile.StartPackage) ||
                 ""}`}
             </Text>
-            <Text style={{ color: COLOR.COLOR_WHITE }}>
+            <Text style={style_common.text_color_White}>
               {`${(this.props.TEXT_PROFILE &&
                 this.props.TEXT_PROFILE.DateExpire) ||
                 ""}:${(this.props.userProfile &&
@@ -275,10 +226,7 @@ class HeaderProfile extends Component {
             </TouchableOpacity>
           </View>
           <Image
-            source={getRankImage(
-              (this.props.userProfile && this.props.userProfile.PackgeID) || "",
-              this.props.allRank
-            )}
+            source={{ uri: rank && rank.Icon }}
             resizeMode="cover"
             style={styles.img_rank}
           />
@@ -294,7 +242,7 @@ class HeaderProfile extends Component {
         : this._renderHeaderTab2();
 
     return (
-      <View style={{ height: 220, flexDirection: "column" }}>
+      <View style={styles.parrent}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="transparent"
@@ -314,6 +262,50 @@ class HeaderProfile extends Component {
 
 export default HeaderProfile;
 const styles = StyleSheet.create({
+  parrent: { height: 220, flexDirection: "column" },
+
+  text_title_rank: {
+    flex: 1,
+    textAlign: "center",
+    marginTop: 15,
+    marginRight: 45,
+    color: COLOR.COLOR_WHITE,
+    fontWeight: "bold"
+  },
+  wrapper_left: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  wrap_avatar: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  wrapper_right: {
+    flex: 3,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
+    marginRight: 10,
+    marginLeft: 10
+  },
+  btn_change_pass: {
+    borderRadius: 25,
+    width: 140,
+    minHeight: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
+  },
+  text_change_pass: {
+    alignSelf: "center",
+    position: "absolute",
+    color: COLOR.COLOR_WHITE
+  },
+  bg_change_pass: {
+    flex: 1,
+    height: 50
+  },
   edit_name: {
     fontSize: 25,
     color: COLOR.COLOR_WHITE
@@ -330,6 +322,10 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     borderWidth: 2,
     borderColor: COLOR.COLOR_WHITE
+  },
+  wrap_tab2: {
+    flexDirection: "row",
+    alignItems: "center"
   },
   img_rank: {
     width: 90,
@@ -364,6 +360,6 @@ const styles = StyleSheet.create({
     margin: 10
   },
   text_link: {
-    color: COLOR.COLOR_TEXT_SEA,
+    color: COLOR.COLOR_TEXT_SEA
   }
 });

@@ -15,13 +15,10 @@ import EditView from "../my-profile/EditView";
 import FastImage from "react-native-fast-image";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
-import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
 import {
   formatDate,
   getGender,
-  getRank,
-  getRankImage,
-  getRankImageThumnail
+  getRank
 } from "../../../constant/UtilsFunction";
 
 class HeaderMember extends Component {
@@ -45,9 +42,12 @@ class HeaderMember extends Component {
       : this.props.userProfile && this.props.userProfile.Avatar
         ? { uri: URL_BASE + this.props.userProfile.Avatar }
         : IMAGE.logo;
-
+    const rank = getRank(
+      this.props.userProfile && this.props.userProfile.PackgeID,
+      this.props.allRank
+    );
     return (
-      <View style={{ flex: 1 }}>
+      <View style={style_common.container}>
         <TouchableOpacity
           style={styles.btn_back}
           onPress={() => this.props.navigation.goBack()}
@@ -58,20 +58,8 @@ class HeaderMember extends Component {
             source={IMAGE.icon_back}
           />
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flex: 2,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
+        <View style={styles.wrapper_left}>
+          <View style={styles.wrap_avatar}>
             <TouchableOpacity>
               <FastImage
                 style={styles.avatar}
@@ -79,40 +67,18 @@ class HeaderMember extends Component {
                 resizeMode={FastImage.resizeMode.cover}
               />
             </TouchableOpacity>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
+            <View style={styles.wrap_rank}>
               <Image
-                source={getRankImageThumnail(
-                  (this.props.userProfile && this.props.userProfile.PackgeID) ||
-                    "",
-                  this.props.allRank
-                )}
+                source={{ uri: rank && rank.Icon2 }}
                 resizeMode="cover"
                 style={styles.img_rank_thumb}
               />
-              <Text style={{ color: COLOR.COLOR_WHITE, textAlign: "center" }}>
-                {getRank(
-                  (this.props.userProfile && this.props.userProfile.PackgeID) ||
-                    "",
-                  this.props.allRank
-                )}
+              <Text style={styles.text_rank_thumb}>
+                {rank && rank.RankName}
               </Text>
             </View>
           </View>
-          <View
-            style={{
-              flex: 3,
-              justifyContent: "flex-start",
-              alignContent: "flex-start",
-              marginRight: 10,
-              marginLeft: 10
-            }}
-          >
+          <View style={styles.wrapper_right}>
             <EditView
               text_edit={
                 (this.props.userProfile && this.props.userProfile.FullName) ||
@@ -160,14 +126,13 @@ class HeaderMember extends Component {
     );
   };
   _renderHeaderTab2 = () => {
+    const rank = getRank(
+      this.props.userProfile && this.props.userProfile.PackgeID,
+      this.props.allRank
+    );
     return (
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
+      <View style={style_common.container}>
+        <View style={styles.wrap_tab2}>
           <TouchableOpacity
             style={styles.btn_back}
             onPress={() => this.props.navigation.goBack()}
@@ -178,20 +143,8 @@ class HeaderMember extends Component {
               source={IMAGE.icon_back}
             />
           </TouchableOpacity>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              marginTop: 15,
-              marginRight: 45,
-              color: COLOR.COLOR_WHITE,
-              fontWeight: "bold"
-            }}
-          >
-            {getRank(
-              (this.props.userProfile && this.props.userProfile.PackgeID) || "",
-              this.props.allRank
-            ).toUpperCase()}
+          <Text style={styles.text_title_rank}>
+            {((rank && rank.RankName) || "").toUpperCase()}
           </Text>
         </View>
         <View style={styles.wrap_header}>
@@ -209,10 +162,7 @@ class HeaderMember extends Component {
             </TouchableOpacity>
           </View>
           <Image
-            source={getRankImage(
-              (this.props.userProfile && this.props.userProfile.PackgeID) || "",
-              this.props.allRank
-            )}
+            source={{ uri: rank && rank.Icon }}
             resizeMode="cover"
             style={styles.img_rank}
           />
@@ -228,7 +178,7 @@ class HeaderMember extends Component {
         : this._renderHeaderTab2();
 
     return (
-      <View style={{ height: 220, flexDirection: "column" }}>
+      <View style={styles.parrent}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="transparent"
@@ -248,10 +198,46 @@ class HeaderMember extends Component {
 
 export default HeaderMember;
 const styles = StyleSheet.create({
+  parrent: { height: 220, flexDirection: "column" },
+  text_title_rank: {
+    flex: 1,
+    textAlign: "center",
+    marginTop: 15,
+    marginRight: 45,
+    color: COLOR.COLOR_WHITE,
+    fontWeight: "bold"
+  },
+  wrapper_left: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  wrap_avatar: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  wrap_rank: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  wrapper_right: {
+    flex: 3,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
+    marginRight: 10,
+    marginLeft: 10
+  },
+  wrap_tab2: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   edit_name: {
     fontSize: 25,
     color: COLOR.COLOR_WHITE
   },
+  text_rank_thumb: { color: COLOR.COLOR_WHITE, textAlign: "center" },
   edit_userName: {
     color: COLOR.COLOR_WHITE
   },
@@ -282,18 +268,6 @@ const styles = StyleSheet.create({
   img_back: {
     width: 35,
     height: 35 * (53 / 82)
-  },
-  iconedit: {
-    width: 20,
-    height: 20
-  },
-  edit: {
-    color: COLOR.COLOR_BLACK,
-    justifyContent: "center",
-    textAlignVertical: "center",
-    alignItems: "center",
-    margin: 1,
-    flex: 1
   },
   wrap_header: {
     flexDirection: "row",

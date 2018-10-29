@@ -3,14 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  Image,
   Platform,
   KeyboardAvoidingView,
   FlatList
 } from "react-native";
 import { isEqual } from "lodash";
-import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
@@ -163,7 +160,6 @@ MemberProfileTab2.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   allHashTag: PropTypes.array.isRequired,
-  _getRank: PropTypes.func.isRequired
 };
 export default MemberProfileTab2;
 const styles = StyleSheet.create({

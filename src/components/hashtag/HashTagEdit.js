@@ -70,7 +70,8 @@ export default class HashTagEdit extends Component {
         >
           <Text
             style={
-              itemTag.item.select ? this.style_edit_selected : this.style_edit
+              (itemTag.item.select && this.props.selectable) ||
+          !this.props.selectable ? this.style_edit_selected : this.style_edit
             }
           >
             {itemTag.item.hashtag}

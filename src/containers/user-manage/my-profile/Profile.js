@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  BackHandler,
-  StatusBar,
-  Image,
-  NativeModules,
-  TouchableOpacity,
-  Text
-} from "react-native";
+import { View, StyleSheet, BackHandler, NativeModules } from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
@@ -22,13 +13,10 @@ import {
 } from "../../../actions";
 import MyProfileTab2 from "./MyProfileTab2";
 import { isEqual } from "lodash";
-import { IMAGE } from "../../../constant/assets";
-import EditView from "./EditView";
 
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
 import { NavigationActions, StackActions } from "react-navigation";
-import { URL_BASE } from "../../../constant/api";
 import HeaderProfile from "./HeaderProfile";
 import { TEXT_PROFILE } from "../../../language";
 const ImagePicker = NativeModules.ImageCropPicker;
@@ -194,134 +182,7 @@ class Profile extends Component {
       })
       .catch(e => console.log(e));
   };
-  _renderHeader() {
-    const source = this.state.localAvatar
-      ? { uri: this.state.localAvatar }
-      : this.userProfile && this.userProfile.Avatar
-        ? { uri: URL_BASE + this.userProfile.Avatar }
-        : IMAGE.logo;
-    console.log("source", source);
 
-    return (
-      <View style={{ height: 190 }}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent={true}
-        />
-        <Image
-          style={styles.backgound_header}
-          source={IMAGE.bg_head_profile}
-          resizeMode="stretch"
-        />
-        <TouchableOpacity
-          style={styles.btn_back}
-          onPress={() => this.props.navigation.goBack()}
-        >
-          <Image
-            style={styles.img_back}
-            resizeMode="cover"
-            source={IMAGE.icon_back}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flex: 2,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <View>
-              <TouchableOpacity onPress={this.pickOneImageToUpload}>
-                {/* <FastImage
-                style={styles.avatar}
-                source={source}
-                resizeMode={FastImage.resizeMode.cover}
-              /> */}
-                <Image
-                  source={source}
-                  resizeMode="cover"
-                  style={styles.avatar}
-                  queryCache={[source]}
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flex: 3,
-                justifyContent: "flex-start",
-                alignContent: "flex-start",
-                marginRight: 10,
-                marginLeft: 10
-              }}
-            >
-              <EditView
-                text_edit={
-                  (this.userProfile && this.userProfile.FullName) || "Not Found"
-                }
-                type={1}
-                isEditAble={true}
-                style_edit={styles.edit_name}
-                onSubmit={text => {
-                  if (
-                    !this.userProfile ||
-                    text.trim() === this.userProfile.FullName
-                  )
-                    return;
-                  this.userProfile.FullName = text.trim();
-                  this.callApiUpdateProfile({
-                    field: "FullName",
-                    value: text.trim()
-                  });
-                }}
-              />
-              <EditView
-                text_edit={
-                  (this.userProfile && this.userProfile.UserName) || "Not Found"
-                }
-                style_edit={styles.edit_userName}
-              />
-              <TouchableOpacity
-                style={{
-                  borderRadius: 25,
-                  width: 140,
-                  minHeight: 50,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row"
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  source={IMAGE.bg_change_pass}
-                  style={{
-                    flex: 1,
-                    height: 50
-                  }}
-                />
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    position: "absolute",
-                    color: COLOR.COLOR_WHITE
-                  }}
-                >
-                  {this.TEXT_PROFILE.ChangePass}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
   render() {
     //get userProfile from Redux
     this.userProfile =
@@ -360,7 +221,7 @@ class Profile extends Component {
             style={styles.btn_margin_left}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={style_common.container}>
           <View
             style={[
               styles.content,

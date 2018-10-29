@@ -52,6 +52,7 @@ class EnterpriseItem extends Component {
 
   render() {
     const { item } = this.props.dataItem;
+    const rank = getRank(item.PackgeID, this.props.allRank);
 
     return (
       <TouchableOpacity style={styles.parent} onPress={this._onClickItem}>
@@ -82,7 +83,7 @@ class EnterpriseItem extends Component {
             </TouchableOpacity>
           </View>
           <Text style={styles.text_rank}>
-            {getRank(item.PackgeID, this.props.allRank)}
+            {rank && rank.RankName ||""}
           </Text>
           <Text style={style_common.text_color_base}>
             {item.Description || "Spa dep lam"}
