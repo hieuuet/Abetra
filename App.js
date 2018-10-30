@@ -25,6 +25,7 @@ const instructions = Platform.select({
 
 import { Provider } from "react-redux";
 import store from "./src/store/index";
+import WrapperTab from "./src/containers/WrapperTab";
 export default class App extends Component {
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
@@ -51,7 +52,7 @@ export default class App extends Component {
     ]);
     return (
       <Provider store={store}>
-        <RootStack />
+        <WrapperTab />
       </Provider>
     );
   }

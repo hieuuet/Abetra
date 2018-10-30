@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {URL_BASE} from "../constant/api";
+import moment from "moment";
 
 export default class TinNhanItem extends Component {
   constructor(props) {
@@ -57,8 +58,8 @@ export default class TinNhanItem extends Component {
               flex: 4,
               flexDirection: 'column',
               marginLeft: 10,
-              marginTop: 10,
-              marginBottom: 10,
+              marginTop: 5,
+              marginBottom: 5,
               justifyContent: 'center',
             }}
           >
@@ -66,15 +67,16 @@ export default class TinNhanItem extends Component {
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
               <Text
-                style={{ fontWeight: '600' }}
+                style={{ fontWeight: '600', color: "#141432" }}
                 numberOfLines={1}
                 ellipsizeMode={'tail'}
               >
                 {item.FullNameOrGroupName}
               </Text>
-              <Text>{item.Time}</Text>
+              {/*<Text>{item.CreatedDate}</Text>*/}
+              <Text style = {{fontSize: 12, marginRight: 10}}>{moment(item.CreatedDate).format("DD/MM/YYYY")}</Text>
             </View>
-            <Text style={{}} numberOfLines={1} ellipsizeMode={'tail'}>
+            <Text style={{fontSize: 12, marginRight: 15}} numberOfLines={1} ellipsizeMode={'tail'}>
               {item.IsSystem === 1 ? item.Description : item.Content}
             </Text>
           </View>
@@ -82,7 +84,7 @@ export default class TinNhanItem extends Component {
         <View
           style={{
             height: 1,
-            marginLeft: DEVICE_WIDTH / 8,
+            marginLeft: DEVICE_WIDTH / 7 + 20,
             backgroundColor: '#E0E0E0',
           }}
         />
@@ -95,14 +97,14 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   image_avt: {
-    height: DEVICE_WIDTH / 8,
-    width: DEVICE_WIDTH / 8,
-    borderRadius: DEVICE_WIDTH / 16,
+    height: DEVICE_WIDTH / 7,
+    width: DEVICE_WIDTH / 7,
+    borderRadius: DEVICE_WIDTH / 14,
     marginLeft: 10,
-    marginRight: 10,
     marginBottom: 10,
     marginTop: 10,
     borderColor: 'white',
     borderWidth: 1,
   },
+
 });

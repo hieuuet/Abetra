@@ -1,5 +1,9 @@
 import React from "react";
 import {
+    Image,
+    StyleSheet
+} from 'react-native'
+import {
     createMaterialTopTabNavigator,
     createStackNavigator
 } from "react-navigation";
@@ -12,8 +16,12 @@ import Icon1 from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/Entypo";
 import Icon3 from "react-native-vector-icons/MaterialIcons";
 import Location from "../containers/Location";
-import RootStack from "./Navigation";
-
+import Event from "../containers/event/Event";
+import {
+    MemberProfile,
+    Profile,
+    RegisterMember
+} from "../containers/user-manage";
 const TabHome = createMaterialTopTabNavigator(
     {
         Home: {
@@ -21,38 +29,66 @@ const TabHome = createMaterialTopTabNavigator(
             navigationOptions: {
                 // headerBackTitle: 'Back',
                 tabBarIcon: ({tintColor}) => (
-                    <Icon name="home" size={23} style={{color: tintColor}}/>
-                )
-            }
-        },
-        Message: {
-            screen: Message,
-            navigationOptions: {
-                // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
-                    <Icon1
-                        name="facebook-messenger"
-                        size={23}
-                        style={{color: tintColor}}
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/tab/icon_feed.png")
+
+                        }
+                        resizeMode="cover"
                     />
+                    // <Icon name="home" size={23} style={{color: tintColor}}/>
                 )
             }
         },
+
         Location: {
             screen: Location,
             navigationOptions: {
                 // headerBackTitle: 'Back',
                 tabBarIcon: ({tintColor}) => (
-                    <Icon2 name="location" size={23} style={{color: tintColor}}/>
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/tab/icon_service.png")
+
+                        }
+                        resizeMode="cover"
+                    />
+
                 )
             }
         },
-        DoanhNghiep: {
-            screen: DoanhNghiep,
+        Event: {
+            screen: Event,
             navigationOptions: {
                 // headerBackTitle: 'Back',
                 tabBarIcon: ({tintColor}) => (
-                    <Icon3 name="event-note" size={23} style={{color: tintColor}}/>
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/tab/icon_forcus.png")
+
+                        }
+                        resizeMode="cover"
+                    />
+
+                )
+            }
+        },
+        Profile: {
+            screen: Profile,
+            navigationOptions: {
+                // headerBackTitle: 'Back',
+                tabBarIcon: ({tintColor}) => (
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/tab/icon_myfeeds.png")
+
+                        }
+                        resizeMode="cover"
+                    />
                 )
             }
         },
@@ -62,7 +98,14 @@ const TabHome = createMaterialTopTabNavigator(
             navigationOptions: {
                 // headerBackTitle: 'Back',
                 tabBarIcon: ({tintColor}) => (
-                    <Icon2 name="menu" size={23} style={{color: tintColor}}/>
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/tab/icon_moretop.png")
+
+                        }
+                        resizeMode="cover"
+                    />
                 )
             }
         }
@@ -85,18 +128,22 @@ const TabHome = createMaterialTopTabNavigator(
                 // backgroundColor: 'white'
                 backgroundColor: "transparent"
             },
-            labelStyle: {
-                fontSize: 11,
-                alignSelf: "center"
+            tabStyle: {
+                height: 40,
+                // backgroundColor:'white'
             },
             style: {
                 backgroundColor: 'white',
 
             },
-            // tabStyle: {
-            //     backgroundColor:'white'
-            // }
         }
     }
 );
+const styles = StyleSheet.create({
+    btn: {
+        height: 18,
+        marginRight: 10,
+        width: 18*(77/73)
+    }
+})
 export default TabHome;

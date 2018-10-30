@@ -6,6 +6,7 @@ import {
     Image,
     Dimention, Dimensions
 } from 'react-native';
+import {URL_BASE} from "../constant/api";
 
 export default class ChatItem extends Component {
     constructor(props) {
@@ -31,22 +32,19 @@ export default class ChatItem extends Component {
 
                         }}>
                             <View style={{
-                                borderRadius: 10,
+                                borderRadius: 15,
                                 marginRight: 10,
                                 borderWidth: 1,
-                                backgroundColor: '#64B5F6',
-                                borderColor: '#64B5F6',
+                                backgroundColor: '#B7DAB6',
+                                borderColor: '#B7DAB6',
                                 alignSelf: 'flex-end',
+                                padding: 10
 
                             }}>
                                 <Text style={{
                                     alignSelf: 'flex-end',
                                     borderColor: '#FAFAFA',
                                     justifyContent: 'flex-end',
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    paddingTop: 10,
-                                    paddingBottom: 10,
 
 
                                 }}>{item.Content}</Text>
@@ -64,7 +62,7 @@ export default class ChatItem extends Component {
                             <Image style={styles.image_avt}
 
                                    source={{
-                                       uri:"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg"
+                                       uri: URL_BASE + item.Avatar
                                    }}
 
                                    resizeMode="cover"
@@ -73,22 +71,19 @@ export default class ChatItem extends Component {
                             <View>
                                 <View style={{ marginRight: DEVICE_WIDTH / 3 }}>
                                     <View style={{
-                                        borderRadius: 10,
+                                        borderRadius: 15,
                                         marginRight: 10,
                                         borderWidth: 1,
-                                        backgroundColor: '#FAFAFA',
-                                        borderColor: '#FAFAFA',
+                                        backgroundColor: '#D7D7D7',
+                                        borderColor: '#D7D7D7',
                                         alignSelf: 'flex-start',
+                                        padding: 10
 
                                     }}>
                                         <Text style={{
 
                                             justifyContent: 'flex-start',
-                                            alignSelf: 'flex-start',
-                                            paddingLeft: 10,
-                                            paddingRight: 10,
-                                            paddingTop: 10,
-                                            paddingBottom: 10,
+                                            alignSelf: 'flex-start'
 
                                         }}>{item.Content}</Text>
                                     </View>
@@ -111,9 +106,9 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
         image_avt: {
-            height: DEVICE_WIDTH / 8,
-            width: DEVICE_WIDTH / 8,
-            borderRadius: DEVICE_WIDTH / 16,
+            height: DEVICE_WIDTH / 12,
+            width: DEVICE_WIDTH / 12,
+            borderRadius: DEVICE_WIDTH / 24,
             marginLeft: 10,
             marginRight: 10,
 

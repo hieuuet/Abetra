@@ -4,7 +4,7 @@ import {
     Text,
     FlatList,
     Platform,
-    KeyboardAvoidingView
+    KeyboardAvoidingView, ScrollView
 } from 'react-native';
 import ChatItem from "../components/ChatItem";
 import TextInputChat from "../components/TextInputChat";
@@ -14,20 +14,21 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {loadDetailMsg} from "../actions/detailMsgActions";
 import {COLOR} from "../constant/Color";
+import {CustomizeHeader} from "../components/CommonView";
 
 
 class Chat extends Component {
-    static navigationOptions = ({navigation}) => {
-        const {params = {}} = navigation.state
-
-        return {
-            title: `${navigation.getParam('title')}`,
-            headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
-            headerTitleStyle: {color: COLOR.TITLE_HEADER},
-            headerTintColor: 'white',
-
-        }
-    }
+    // static navigationOptions = ({navigation}) => {
+    //     const {params = {}} = navigation.state
+    //
+    //     return {
+    //         title: `${navigation.getParam('title')}`,
+    //         headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
+    //         headerTitleStyle: {color: COLOR.TITLE_HEADER},
+    //         headerTintColor: 'white',
+    //
+    //     }
+    // }
     constructor(props) {
         super(props)
         this.state = {
@@ -155,6 +156,9 @@ class Chat extends Component {
         if (UserProfile.length <= 0) {
             return null
         }
+        const {navigation} = this.props;
+        const Title = navigation.getParam('title');
+
         return (
 
             <KeyboardAvoidingView style={{flex: 1}}
@@ -162,6 +166,10 @@ class Chat extends Component {
                                   behavior={Platform.OS === 'ios' ? "padding" : null}
                                   keyboardVerticalOffset={64}
             >
+                <CustomizeHeader
+                    label={Title}
+                    onBackPress={() => this.props.navigation.goBack()}
+                />
                 <FlatList
 
                     data={this.state.ArrMess}

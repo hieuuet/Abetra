@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
     width: 150,
-    flexDirection: "row",
+    flexDirection: "row"
   },
   btn: {
     borderRadius: 20,
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   img_bg: {
     flex: 1,
     height: 40,
-    borderRadius: 40,
+    borderRadius: 40
   },
   wrapper_content: {
     position: "absolute",
@@ -336,8 +336,8 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   img_back: {
-    width: 35,
-    height: 35 * (53 / 82)
+    width: 30,
+    height: 30 * (53 / 82)
   },
   header_wrapper: {
     height: 65,
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   },
   txt_header: {
     color: COLOR.COLOR_BACKGROUND,
-    fontSize: 15,
+    fontSize: 16,
     flex: 1,
     marginRight: 35 + 10,
     textAlign: "center"

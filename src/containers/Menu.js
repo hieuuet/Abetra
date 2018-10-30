@@ -99,13 +99,7 @@ class Menu extends Component {
             this.props.navigation.navigate("SavePost");
           }}
         />
-        <MenuItem
-          title={
-            this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
-          }
-          source={require("../../assets/event.png")}
-          onPress={this.logout}
-        />
+
         <MenuItem
           title={this.TEXT_MENU.Event}
           source={require("../../assets/event.png")}
@@ -158,6 +152,13 @@ class Menu extends Component {
           source={require("../../assets/event.png")}
           style={styles.style_menu}
         />
+          <MenuItem
+              title={
+                  this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
+              }
+              source={require("../../assets/event.png")}
+              onPress={this.logout}
+          />
         {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
       </ScrollView>
     );
