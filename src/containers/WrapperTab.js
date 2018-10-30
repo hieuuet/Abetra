@@ -7,11 +7,12 @@ import {
     StyleSheet, StatusBar, Image, TouchableOpacity
 } from 'react-native';
 
-
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {IMAGE} from "../constant/assets";
 import TabHome from "../routers/TabHome";
+import {COLOR} from "../constant/Color";
 
 
 class WrapperTab extends Component {
@@ -43,8 +44,10 @@ class WrapperTab extends Component {
                             >
 
 
-                                <View  style={{height: 22, backgroundColor: "#2A9490", flex: 1, borderRadius: 22/2}}>
+                                <View  style={{height: 25, backgroundColor: "#2A9490", flex: 1, borderRadius: 25/2, flexDirection: 'row', alignItems: 'center'}}>
 
+                                    <Icon name="search" size={15} color= {COLOR.COLOR_BACKGROUND} style = {{marginLeft: 10}}/>
+                                    <Text style = {{color: COLOR.COLOR_BACKGROUND, marginLeft: 15, fontWeight: "500"}}>Tìm kiếm</Text>
 
                                 </View>
 
@@ -52,7 +55,7 @@ class WrapperTab extends Component {
 
                                 >
                                     <Image
-                                        style={{marginLeft: 15, height: 10, width: 20}}
+                                        style={{marginLeft: 15, height: 19, width: 19 * (69/53)}}
                                         source={require("../../assets/wrappertab/icon_mail.png")}
                                         resizeMode="cover"
                                     />

@@ -143,10 +143,10 @@ const RootStack = createStackNavigator({
   },
 
   Chat: {
-    screen: Chat
-    // navigationOptions: {
-    //     header: null,
-    // },
+    screen: Chat,
+    navigationOptions: {
+        header: null,
+    },
   },
   BinhLuan: {
     screen: BinhLuan,

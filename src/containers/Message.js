@@ -63,11 +63,11 @@ class Message extends Component {
     // console.log("render message");
     return (
       <View style={style_common.container_white}>
-        <SearchView
-          onPress={() => {
-            this.props.navigation.navigate("Search");
-          }}
-        />
+        {/*<SearchView*/}
+          {/*onPress={() => {*/}
+            {/*this.props.navigation.navigate("Search");*/}
+          {/*}}*/}
+        {/*/>*/}
         <View style={styles.tab}>
           <TabView
             label="Tin nhắn"

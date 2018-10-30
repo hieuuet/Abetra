@@ -8,12 +8,14 @@ import {
     TextInput,
     findNodeHandle,
     Platform,
-    NativeModules
+    NativeModules,
 } from 'react-native';
 var ImagePicker = NativeModules.ImageCropPicker;
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import TextInputReset from 'react-native-text-input-reset';
+import {URL_BASE} from "../constant/api";
+import {COLOR} from "../constant/Color";
 
 export default class TextInputChat extends Component {
 
@@ -69,44 +71,44 @@ export default class TextInputChat extends Component {
         // console.log("render---",this.state.textSubmit)
         return (
             <View style={{
-                height:42,
+                height:30,
                 // flexWrap: 'wrap',
                 flexDirection: 'row',
                 // alignSelf: 'center',
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderTopColor:'gray',
-                borderTopWidth:1
+                marginBottom: 5,
+                // borderTopColor:'gray',
+                // borderTopWidth:1,marginLeft: 15
 
 
                 // backgroundColor:'gray'
             }}>
-                <TouchableOpacity onPress={() => this.pickSingle(false)}>
-                    <Image
-                        source={require("../../assets/image_icon.png")}
-                        style={{
+                {/*<TouchableOpacity onPress={() => this.pickSingle(false)}>*/}
+                    {/*<Image*/}
+                        {/*source={require("../../assets/image_icon.png")}*/}
+                        {/*style={{*/}
 
-                                height: 20,
-                                width: 40
-                        }}
-                        resizeMode="cover"
-                    />
-                </TouchableOpacity>
+                                {/*height: 20,*/}
+                                {/*width: 40*/}
+                        {/*}}*/}
+                        {/*resizeMode="cover"*/}
+                    {/*/>*/}
+                {/*</TouchableOpacity>*/}
 
+                <View style = {{ flex: 1,  minHeight: 10, flexDirection: 'row', alignItems: 'center',
+                    borderColor:'#A8A8A7',
+                    borderWidth:1,marginLeft: 15,
+                    borderRadius: 15,
+                    marginRight: 10}}>
                 <TextInput
                     style={{
-                        flex: 1,
-                        // borderWidth: 1,
-                        // borderRadius: 4,
-                        // borderBottomLeftRadius:4,
-                        // borderTopLeftRadius:4,
-                        // marginLeft: 1,
-                        // borderColor: "#000",
-                        // shadowColor: "#000",
-                        paddingLeft: 5,
-                        minHeight: 42,
+                        flex:1,
+                        paddingLeft: 10,
+                        minHeight: 30,
                     }}
                     placeholder={"Nhập vào đây..."}
+                    placeholderTextColor={"#A8A8A7"}
                     underlineColorAndroid="transparent"
                     autoCapitalize={'none'}
                     value={this.state.textSubmit}
@@ -125,17 +127,44 @@ export default class TextInputChat extends Component {
 
 
                 />
+                    <TouchableOpacity>
+                    <Image
+                        style={styles.btn}
+                        source={
+                             require("../../assets/btn_emo.png")
+
+                            }
+                        resizeMode="cover"
+                    />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.pickSingle(false)}>
+                    <Image
+                        style={styles.btn}
+                        source={
+                            require("../../assets/btn_img.png")
+
+                            }
+                        resizeMode="cover"
+                    />
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                     onPress={this.onClickSend}
-                    style={{justifyContent: 'center', alignItems: 'center',width:50,height:42, backgroundColor:'gray'}}
+                    style={{justifyContent: 'center', alignItems: 'center',width: 60,height:30, backgroundColor:'#7EC08A', marginRight: 10, borderRadius: 30/2}}
                 >
 
-                    <Icon name="ios-send" size={40} color="#33ccff"
-                          style={{flex:1}}
-                    />
+                    <Text style = {{color: COLOR.COLOR_BACKGROUND}}>GỬI</Text>
 
                 </TouchableOpacity>
             </View>
         )
     }
 };
+const styles = StyleSheet.create({
+    btn: {
+        height: 22,
+        marginRight: 10,
+        width: 22
+    }
+
+})

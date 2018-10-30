@@ -248,53 +248,53 @@ class Home extends Component {
             />
           }
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignSelf: "stretch"
-            }}
-          >
-            <SearchView
-              onPress={() => {
-                this.props.navigation.navigate("Search");
-              }}
-              style={style_common.container}
-            />
-            {this.props.UserProfile &&
-            this.props.UserProfile.Value &&
-            this.props.UserProfile.Value[0] &&
-            this.props.UserProfile.Value[0].Type ===
-              TYPE_ACCOUNT.TEMP ? null : (
-                <TouchableOpacity
-                  style={{
-                    width: 30,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: 10
-                  }}
-                  onPress={() => {
-                    if (this.props.isGuest) return requestRegister(navigation);
+          {/*<View*/}
+            {/*style={{*/}
+              {/*flexDirection: "row",*/}
+              {/*alignSelf: "stretch"*/}
+            {/*}}*/}
+          {/*>*/}
+            {/*<SearchView*/}
+              {/*onPress={() => {*/}
+                {/*this.props.navigation.navigate("Search");*/}
+              {/*}}*/}
+              {/*style={style_common.container}*/}
+            {/*/>*/}
+            {/*{this.props.UserProfile &&*/}
+            {/*this.props.UserProfile.Value &&*/}
+            {/*this.props.UserProfile.Value[0] &&*/}
+            {/*this.props.UserProfile.Value[0].Type ===*/}
+              {/*TYPE_ACCOUNT.TEMP ? null : (*/}
+                {/*<TouchableOpacity*/}
+                  {/*style={{*/}
+                    {/*width: 30,*/}
+                    {/*alignItems: "center",*/}
+                    {/*justifyContent: "center",*/}
+                    {/*marginRight: 10*/}
+                  {/*}}*/}
+                  {/*onPress={() => {*/}
+                    {/*if (this.props.isGuest) return requestRegister(navigation);*/}
 
-                    this.props.navigation.navigate("CreatePost");
-                  }}
-                >
-                  <View
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 1,
-                      backgroundColor: "#0277BD",
-                      height: 30,
-                      width: 30,
-                      borderRadius: 30 / 2,
-                      borderColor: "#BDBDBD"
-                    }}
-                  >
-                    <Icon1 name="plus" size={30} color="white" />
-                  </View>
-                </TouchableOpacity>
-              )}
-          </View>
+                    {/*this.props.navigation.navigate("CreatePost");*/}
+                  {/*}}*/}
+                {/*>*/}
+                  {/*<View*/}
+                    {/*style={{*/}
+                      {/*alignItems: "center",*/}
+                      {/*justifyContent: "center",*/}
+                      {/*borderWidth: 1,*/}
+                      {/*backgroundColor: "#0277BD",*/}
+                      {/*height: 30,*/}
+                      {/*width: 30,*/}
+                      {/*borderRadius: 30 / 2,*/}
+                      {/*borderColor: "#BDBDBD"*/}
+                    {/*}}*/}
+                  {/*>*/}
+                    {/*<Icon1 name="plus" size={30} color="white" />*/}
+                  {/*</View>*/}
+                {/*</TouchableOpacity>*/}
+              {/*)}*/}
+          {/*</View>*/}
           {this.state.ArrPost.length === 0 && !this.state.isLoading ? (
             this._renderEmpty()
           ) : (

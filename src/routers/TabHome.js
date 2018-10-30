@@ -85,17 +85,14 @@ const TabHome = createMaterialTopTabNavigator(
                 // backgroundColor: 'white'
                 backgroundColor: "transparent"
             },
-            labelStyle: {
-                fontSize: 11,
-                alignSelf: "center"
+            tabStyle: {
+                height: 30,
+                // backgroundColor:'white'
             },
             style: {
                 backgroundColor: 'white',
 
             },
-            // tabStyle: {
-            //     backgroundColor:'white'
-            // }
         }
     }
 );
