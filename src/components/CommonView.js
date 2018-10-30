@@ -206,7 +206,50 @@ CustomizeHeader.propTypes = {
   onBackPress: PropTypes.func,
   label: PropTypes.string
 };
+
+/**
+ * Button image backgroun cornor
+ */
+export class ButtonBackGround extends Component {
+  render() {
+    return (
+      <TouchableOpacity
+        style={[styles.parrent_btn, this.props.btn_style]}
+        onPress={this.props.onPress}
+      >
+        <Image
+          resizeMode="stretch"
+          source={this.props.source}
+          style={styles.img_bg}
+        />
+        <View style={styles.wrapper_content}>
+          <Text style={[styles.text_default, this.props.text_style]}>
+            {this.props.label}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+ButtonBackGround.propTypes = {
+  onPress: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  btn_style: PropTypes.number,
+  text_style: PropTypes.number,
+  source: PropTypes.number.isRequired
+};
+
 const styles = StyleSheet.create({
+  parrent_btn: {
+    borderRadius: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    width: 150,
+    flexDirection: "row",
+  },
   btn: {
     borderRadius: 20,
     padding: 5,
@@ -216,6 +259,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLOR.COLOR_YELLOW,
     marginTop: 10
+  },
+  img_bg: {
+    flex: 1,
+    height: 40,
+    borderRadius: 40,
+  },
+  wrapper_content: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    borderRadius: 25
+  },
+  text_default: {
+    flex: 1,
+    textAlign: "center",
+    color: COLOR.COLOR_WHITE
   },
   txt: {
     color: COLOR.TEXT_BUTTON
@@ -284,7 +348,7 @@ const styles = StyleSheet.create({
   },
   txt_header: {
     color: COLOR.COLOR_BACKGROUND,
-      fontSize: 15,
+    fontSize: 15,
     flex: 1,
     marginRight: 35 + 10,
     textAlign: "center"

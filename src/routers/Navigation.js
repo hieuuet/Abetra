@@ -109,7 +109,10 @@ const RootStack = createStackNavigator({
   },
 
   RegisterMember: {
-    screen: RegisterMember
+    screen: RegisterMember,
+    navigationOptions: {
+      header: null
+    }
   },
 
   Search: {

@@ -157,8 +157,48 @@ class HeaderProfile extends Component {
       </View>
     );
   };
+
+  _renderHeaderTab2NotRegister = () => {
+    return (
+      <View style={style_common.container}>
+        <View style={styles.wrap_tab2}>
+          <TouchableOpacity
+            style={styles.btn_back}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Image
+              style={styles.img_back}
+              resizeMode="cover"
+              source={IMAGE.icon_back}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.wrap_header}>
+          <View style={style_common.container}>
+            <Text style={style_common.text_color_White}>
+              {this.props.TEXT_PROFILE &&
+                this.props.TEXT_PROFILE.NotRegisterMember}
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate("Benifet");
+              }}
+            >
+              <Text style={styles.text_link}>
+                {`• ${(this.props.TEXT_PROFILE &&
+                  this.props.TEXT_PROFILE.Term) ||
+                  ""}`}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
   _renderHeaderTab2 = () => {
-    if (this.props.userProfile.Type === TYPE_ACCOUNT.TEMP) return <View />;
+    if (this.props.userProfile.Type === TYPE_ACCOUNT.TEMP)
+      return this._renderHeaderTab2NotRegister();
     if (
       this.props.userProfile.Status &
       (this.props.userProfile.Status === STATUS_ACCOUNT.INACTIVE)
@@ -357,7 +397,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10
+    margin: 10,
+    flex: 1
   },
   text_link: {
     color: COLOR.COLOR_TEXT_SEA

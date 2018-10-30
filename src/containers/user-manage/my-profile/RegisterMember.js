@@ -17,7 +17,7 @@ import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
-import { ViewLoading } from "../../../components/CommonView";
+import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
 import {
   getGuide,
   loadUserProfile,
@@ -27,6 +27,7 @@ import {
 } from "../../../actions";
 import ListImage from "../../../components/ListImage";
 import { bindActionCreators } from "redux";
+import { TEXT_REGISTER_MEMBER } from "../../../language";
 
 import {
   registerBusinessMember,
@@ -34,17 +35,12 @@ import {
 } from "../../../actions";
 
 class RegisterMember extends Component {
-  static navigationOptions = ({ navigation }) => {
-    // const { params = {} } = navigation.state;
-    return {
-      title: "Đăng ký hội viên",
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
+  
 
   constructor(props) {
     super(props);
+
+    this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER();
 
     this.state = {
       isLoading: false
@@ -76,6 +72,11 @@ class RegisterMember extends Component {
     if (this.props.allRank.length === 0 || this.props.allHashTag.length === 0) {
       this.props.getAllRank();
       this.props.getCategoryType3({ Type: 3 });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER();
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -215,6 +216,10 @@ class RegisterMember extends Component {
         behavior={Platform.OS === "ios" ? "padding" : null}
         keyboardVerticalOffset={64}
       >
+        <CustomizeHeader
+          label={this.TEXT_REGISTER_MEMBER.RegisterMember}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
         <ScrollView
           keyboardShouldPersistTaps="handled"
           style={style_common.container}
@@ -326,7 +331,9 @@ const mapStateToProps = state => {
     userProfile: state.loadUserProfile.Value[0],
     allRank: state.allRank,
     allHashTag: state.categoryType3,
-    commonSetting: state.commonSetting
+    commonSetting: state.commonSetting,
+    currentLanguage: state.currentLanguage
+
   };
 };
 

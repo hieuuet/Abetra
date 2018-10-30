@@ -95,5 +95,8 @@
     "waiting_accept":"Đã đăng ký hội viên, đang trong quá trình phê duyệt.",
     "message":"Nhắn tin",
     "follow_action":"Theo dõi"
+  },
+  "register_member":{
+    "title_register":"Đăng ký hội viên"
   }
 }

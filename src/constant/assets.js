@@ -35,7 +35,5 @@ export const IMAGE = {
   right_tab: require("../../assets/profile/right_tab.png"),
   icon_follow: require("../../assets/profile/icon_follow.png"),
   icon_sms: require("../../assets/profile/icon_sms.png"),
-
-
-
+  btn_dangky: require("../../assets/profile/btn_dangky.png")
 };

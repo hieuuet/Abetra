@@ -11,7 +11,7 @@ import {
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
-import { ButtonBorder } from "../../../components/CommonView";
+import { ButtonBorder, ButtonBackGround } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import PropTypes from "prop-types";
 import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
@@ -19,6 +19,7 @@ import { MyCoolScrollViewComponent } from "../../../components/CommonView";
 import { searchPost2 } from "../../../actions";
 import { TYPE_POST, TYPE_POST_PIN } from "../../../constant/KeyConstant";
 import StatusItems from "../../../components/StatusItems";
+import { IMAGE } from "../../../constant/assets";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
@@ -95,23 +96,10 @@ class MyProfileTab2 extends Component {
 
   _renderRegisterMember = () => {
     return (
-      <View style={styles.container}>
-        <Text style={style_common.text_color_base}>
-          {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.NotRegisterMember}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            this.props.navigation.navigate("Benifet");
-          }}
-        >
-          <Text style={styles.text_link}>
-            {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.ReferBenifet}
-          </Text>
-        </TouchableOpacity>
-        <ButtonBorder
-          my_style={[style_common.input_border, styles.btn_register]}
-          text_style={styles.text_btn}
+      <View style={styles.container_register}>
+        <ButtonBackGround
           label={this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.RegisterNow}
+          source={IMAGE.header}
           onPress={() => this.props.navigation.navigate("RegisterMember")}
         />
       </View>
@@ -227,19 +215,6 @@ MyProfileTab2.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 10
-  },
-  btn_register: {
-    alignContent: "center",
-    alignSelf: "center",
-    padding: 5,
-    minHeight: 40,
-    backgroundColor: COLOR.COLOR_SKY,
-    borderColor: COLOR.COLOR_SKY
-  },
-
   text_link: {
     color: COLOR.COLOR_SKY
   },
@@ -303,5 +278,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     color: COLOR.COLOR_BLACK
-  }
+  },
+  container_register:{flex:1,alignItems:'center'}
 });

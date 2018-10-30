@@ -95,7 +95,8 @@
     "waiting_accept":"Has been register member, waiting accept.",
     "message":"Message",
     "follow_action":"Follow"
-
-
+  },
+  "register_member":{
+    "title_register":"Register Member"
   }
 }

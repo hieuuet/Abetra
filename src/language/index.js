@@ -96,18 +96,20 @@ export const TEXT_PROFILE = () => ({
   DateExpire: strings("profile.date_expire"),
   Certificate: strings("profile.certificate_link"),
   Term: strings("profile.term_link"),
-  Save:strings("profile.save"),
-  Edit:strings("profile.edit"),
-  NotRegisterMember:strings("profile.not_register_member"),
-  ReferBenifet:strings("profile.refer_benifet"),
-  TypeBusiness:strings("profile.type_business"),
-  CreateNewPost:strings("profile.create_new_post"),
-  InputPost:strings("profile.input_post"),
-  PostCreated:strings("profile.post_created"),
-  RegisterNow:strings("profile.register_now"),
-  WaitingAccept:strings("profile.waiting_accept"),
-  Message:strings("profile.message"),
-  FollowAction:strings("profile.follow_action")
+  Save: strings("profile.save"),
+  Edit: strings("profile.edit"),
+  NotRegisterMember: strings("profile.not_register_member"),
+  ReferBenifet: strings("profile.refer_benifet"),
+  TypeBusiness: strings("profile.type_business"),
+  CreateNewPost: strings("profile.create_new_post"),
+  InputPost: strings("profile.input_post"),
+  PostCreated: strings("profile.post_created"),
+  RegisterNow: strings("profile.register_now"),
+  WaitingAccept: strings("profile.waiting_accept"),
+  Message: strings("profile.message"),
+  FollowAction: strings("profile.follow_action")
+});
 
-  
+export const TEXT_REGISTER_MEMBER = () => ({
+  RegisterMember: strings("register_member.title_register")
 });
