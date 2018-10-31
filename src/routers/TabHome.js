@@ -28,17 +28,16 @@ const TabHome = createMaterialTopTabNavigator(
             screen: Home,
             navigationOptions: {
                 // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor, focused}) => (
                     <Image
                         style={styles.btn}
                         source={
-                            require("../../assets/tab/icon_feed.png")
+                            focused ?  require("../../assets/tab/icon_feed_active.png") : require("../../assets/tab/icon_feed.png")
 
                         }
                         resizeMode="cover"
                     />
-                    // <Icon name="home" size={23} style={{color: tintColor}}/>
-                )
+                ),
             }
         },
 
@@ -46,11 +45,11 @@ const TabHome = createMaterialTopTabNavigator(
             screen: Location,
             navigationOptions: {
                 // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor,focused}) => (
                     <Image
                         style={styles.btn}
                         source={
-                            require("../../assets/tab/icon_service.png")
+                            focused ?  require("../../assets/tab/icon_service_active.png") : require("../../assets/tab/icon_service.png")
 
                         }
                         resizeMode="cover"
@@ -63,11 +62,11 @@ const TabHome = createMaterialTopTabNavigator(
             screen: Event,
             navigationOptions: {
                 // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor,focused}) => (
                     <Image
                         style={styles.btn}
                         source={
-                            require("../../assets/tab/icon_forcus.png")
+                            focused ?  require("../../assets/tab/icon_forcus_active.png") : require("../../assets/tab/icon_forcus.png")
 
                         }
                         resizeMode="cover"
@@ -80,11 +79,11 @@ const TabHome = createMaterialTopTabNavigator(
             screen: Profile,
             navigationOptions: {
                 // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor,focused}) => (
                     <Image
                         style={styles.btn}
                         source={
-                            require("../../assets/tab/icon_myfeeds.png")
+                            focused ?  require("../../assets/tab/icon_myfeeds_active.png") : require("../../assets/tab/icon_myfeeds.png")
 
                         }
                         resizeMode="cover"
@@ -97,11 +96,11 @@ const TabHome = createMaterialTopTabNavigator(
             screen: Menu,
             navigationOptions: {
                 // headerBackTitle: 'Back',
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor, focused}) => (
                     <Image
                         style={styles.btn}
                         source={
-                            require("../../assets/tab/icon_moretop.png")
+                            focused ?  require("../../assets/tab/icon_moretop_active.png") : require("../../assets/tab/icon_moretop.png")
 
                         }
                         resizeMode="cover"
@@ -129,7 +128,7 @@ const TabHome = createMaterialTopTabNavigator(
                 backgroundColor: "transparent"
             },
             tabStyle: {
-                height: 40,
+                height: 35,
                 // backgroundColor:'white'
             },
             style: {
@@ -138,12 +137,16 @@ const TabHome = createMaterialTopTabNavigator(
             },
         }
     }
+
 );
 const styles = StyleSheet.create({
     btn: {
-        height: 18,
-        marginRight: 10,
-        width: 18*(77/73)
+        height: 25,
+        marginBottom: 3,
+        marginTop: 3,
+        marginLeft: 3,
+        marginRight: 3,
+        width: 25*(77/73)
     }
 })
 export default TabHome;

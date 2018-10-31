@@ -52,6 +52,7 @@ class WrapperTab extends Component {
                                 </View>
 
                                 <TouchableOpacity
+                                    onPress = {() => this.props.navigation.navigate("Message")}
 
                                 >
                                     <Image

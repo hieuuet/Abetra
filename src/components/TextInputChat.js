@@ -96,16 +96,17 @@ export default class TextInputChat extends Component {
                     {/*/>*/}
                 {/*</TouchableOpacity>*/}
 
-                <View style = {{ flex: 1,  minHeight: 10, flexDirection: 'row', alignItems: 'center',
+                <View style = {{ flex: 1, minHeight: 30, flexDirection: 'row', alignItems: 'center',
                     borderColor:'#A8A8A7',
                     borderWidth:1,marginLeft: 15,
                     borderRadius: 15,
                     marginRight: 10}}>
                 <TextInput
                     style={{
+                        paddingTop: 0, paddingRight: 10, paddingBottom: 0,
                         flex:1,
-                        paddingLeft: 10,
                         minHeight: 30,
+                        paddingLeft: 10,
                     }}
                     placeholder={"Nhập vào đây..."}
                     placeholderTextColor={"#A8A8A7"}

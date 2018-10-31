@@ -44,7 +44,6 @@ class BinhLuanItem extends Component {
               style={{
                   flexDirection: "row",
                   marginTop: 5,
-                  alignItems: "center",
               }}
           >
 
@@ -61,11 +60,12 @@ class BinhLuanItem extends Component {
                       marginRight: 15,
                       justifyContent: "center",
                       backgroundColor: "#C7C7C7",
-                      height: 30,
                       borderRadius: 15,
                       marginLeft: 5,
                       borderWidth: 1,
                       flex: 1,
+                      paddingTop: 5,
+                      paddingBottom: 5,
                       paddingRight: 10,
                       paddingLeft: 10,
                       borderColor: '#C7C7C7',

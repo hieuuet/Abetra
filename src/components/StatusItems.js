@@ -276,7 +276,7 @@ class StatusItems extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <Text
-                                    style={{ fontSize: 12}}>{item.UserType == 1? "Quản trị viên" : item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : item.UserType == 5 ? "Aibetra Admin" : "Aibetra"}</Text>
+                                    style={{fontSize: 12}}>{item.UserType == 1 ? "Quản trị viên" : item.UserType == 2 ? "Hội viên cá nhân" : item.UserType == 3 ? "Hội viên doanh nghiệp" : item.UserType == 4 ? "Hội viên vãng lai" : item.UserType == 5 ? "Aibetra Admin" : "Aibetra"}</Text>
 
                             </View>
                             <View
@@ -365,42 +365,34 @@ class StatusItems extends Component {
 
                     <View
                         style={{
+                            marginHorizontal: 10,
                             flexDirection: "row",
                             marginTop: 5,
                             justifyContent: "space-between",
                             alignItems: "center",
                         }}
                     >
-                        <View style={{flexDirection: "row",}}>
+                        <View style={{flexDirection: "row"}}>
                             <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginLeft: 10,
-                                    alignItems: "center",
-                                    backgroundColor: "#C7C7C7",
-                                    height: 30,
-                                    width: 65,
-                                    borderRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: '#C7C7C7',
-                                    justifyContent: "space-between",
-                                }}
+                                style={[styles.btn, {width: 65}]}
                             >
-                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                <View style={{width: 15, height: 15}}>
                                     {
                                         this.state.liked ?
-                                            <TouchableOpacity  style = {{ flex: 1}} onPress={() =>  this.unlikePost(item.PostID) }>
+                                            <TouchableOpacity style={{flex: 1}}
+                                                              onPress={() => this.unlikePost(item.PostID)}>
 
                                                 <Image
-                                                    style={{width: null, height: null, flex:1}}
+                                                    style={{width: null, height: null, flex: 1}}
                                                     source={require('../../assets/icon_heart_active.png')}
                                                     resizeMode="contain"
                                                 />
-                                            </TouchableOpacity> : <TouchableOpacity  style = {{ flex: 1}}  onPress={() =>  this.likePost(item.PostID) }>
+                                            </TouchableOpacity> : <TouchableOpacity style={{flex: 1}}
+                                                                                    onPress={() => this.likePost(item.PostID)}>
 
 
-                                                    <Image
-                                                        style={{width: null, height: null, flex: 1}}
+                                                <Image
+                                                    style={{width: null, height: null, flex: 1}}
                                                     source={require('../../assets/icon_heart.png')}
                                                     resizeMode="contain"
                                                 />
@@ -410,87 +402,52 @@ class StatusItems extends Component {
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
-                            <TouchableOpacity  onPress={() =>
+                            <TouchableOpacity onPress={() =>
                                 this.props.navigation.navigate("BinhLuan", {item})
                             }>
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginLeft: 10,
-                                    alignItems: "center",
-                                    backgroundColor: "#C7C7C7",
-                                    height: 30,
-                                    width: 65,
-                                    borderRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: '#C7C7C7',
-                                    justifyContent: "space-between",
-                                }}
-                            >
-                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                <View
+                                    style={[styles.btn, {width: 65}]}
+                                >
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
 
-                                    <Image
-                                        style={{width: null, height: null, flex: 1}}
-                                        source={require('../../assets/icon_comment.png')}
-                                        resizeMode="contain"
-                                    />
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_comment.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalComment}</Text>
                                 </View>
-                                <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalComment}</Text>
-                            </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.onShare()}>
-                            <View
-                                style={{
+                                <View
+                                    style={[styles.btn, {width: 65}]}
+                                >
+                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
 
-                                    flexDirection: "row",
-                                    marginLeft: 10,
-                                    alignItems: "center",
-                                    backgroundColor: "#C7C7C7",
-                                    height: 30,
-                                    width: 65,
-                                    borderRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: '#C7C7C7',
-                                    justifyContent: "space-between",
-                                }}
-                            >
-                                <View style={{width: 15, height: 15, marginLeft: 10}}>
-
-                                    <Image
-                                        style={{width: null, height: null, flex: 1}}
-                                        source={require('../../assets/icon_share.png')}
-                                        resizeMode="contain"
-                                    />
+                                        <Image
+                                            style={{width: null, height: null, flex: 1}}
+                                            source={require('../../assets/icon_share.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalShare}</Text>
                                 </View>
-                                <Text style={{marginRight: 15, color: "#777777"}}> {item.TotalShare}</Text>
-                            </View>
                             </TouchableOpacity>
                         </View>
 
 
                         {item.Type == 2 ? <View
-                            style={{
-
-                                flexDirection: "row",
-                                marginRight: 10,
-                                alignItems: "center",
-                                backgroundColor: "#C7C7C7",
-                                height: 30,
-                                width: 100,
-                                borderRadius: 15,
-                                borderWidth: 1,
-                                borderColor: '#C7C7C7',
-                                justifyContent: "space-between",
-                            }}
+                            style={[styles.btn, {width: 100}]}
                         >
                             <View style={{width: 15, height: 15, marginLeft: 10}}>
 
-                                <TouchableOpacity  style = {{ flex: 1}} onPress={() => this._joinEvent(item.PostID)}>
-                                <Image
-                                    style={{width: null, height: null, flex: 1}}
-                                    source={this.state.isJoin ? require('../../assets/icon_forcus_active.png') : require('../../assets/icon_forcus.png')}
-                                    resizeMode="contain"
-                                />
+                                <TouchableOpacity style={{flex: 1}} onPress={() => this._joinEvent(item.PostID)}>
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={this.state.isJoin ? require('../../assets/icon_forcus_active.png') : require('../../assets/icon_forcus.png')}
+                                        resizeMode="contain"
+                                    />
                                 </TouchableOpacity>
                             </View>
                             <Text style={{marginRight: 10, color: "#777777"}}>Tham gia</Text>
@@ -500,17 +457,17 @@ class StatusItems extends Component {
                     </View>
 
                     {
-                        item.Comments.length > 0?  <View style={{height: 1, marginTop: 5, backgroundColor: "#cccccc"}}/>: null
+                        item.Comments.length > 0 ?
+                            <View style={{height: 1, marginTop: 5, backgroundColor: "#cccccc"}}/> : null
                     }
                     {
-                        item.Comments.length > 0? <View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginTop: 10,
-                                alignItems: "center",
-                            }}
-                        >
+                        item.Comments.length > 0 ? <View>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginTop: 10,
+                                }}
+                            >
 
                                 <Image
                                     style={styles.image_circle}
@@ -519,43 +476,45 @@ class StatusItems extends Component {
                                     }}
                                     resizeMode="cover"
                                 />
-                            <View
-                                style={{
-                                    marginRight: 15,
-                                    justifyContent: "center",
-                                    backgroundColor: "#C7C7C7",
-                                    height: 30,
-                                    borderRadius: 15,
-                                    marginLeft: 5,
-                                    borderWidth: 1,
-                                    flex: 1,
-                                    paddingRight: 10,
-                                    paddingLeft: 10,
-                                    borderColor: '#C7C7C7',
-                                }}
-                            >
+                                <View
+                                    style={{
+                                        marginRight: 15,
+                                        justifyContent: "center",
+                                        backgroundColor: "#C7C7C7",
+                                        borderRadius: 15,
+                                        marginLeft: 5,
+                                        borderWidth: 1,
+                                        flex: 1,
+                                        paddingTop: 5,
+                                        paddingBottom: 5,
+                                        paddingRight: 10,
+                                        paddingLeft: 10,
+                                        borderColor: '#C7C7C7',
+
+                                    }}
+                                >
 
 
-                                    <Text >{item.Comments[0].Content}</Text>
+                                    <Text>{item.Comments[0].Content}</Text>
+                                </View>
+
                             </View>
-
-                        </View>
-                        <Text style={{textAlign: "right", marginRight: 15, color: "#42A5F5"}}>Trả lời</Text>
+                            <Text style={{textAlign: "right", marginRight: 15, color: "#42A5F5"}}>Trả lời</Text>
 
 
-                    </View> : null}
+                        </View> : null}
 
 
                 </View>
-                <TouchableOpacity  onPress={() => this.props.navigation.navigate("BinhLuan", {item})
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("BinhLuan", {item})
                 }>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        marginTop: 5,
-                        alignItems: "center",
-                    }}
-                >
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            marginTop: 5,
+                            alignItems: "center",
+                        }}
+                    >
 
                         <Image
                             style={styles.image_circle}
@@ -564,42 +523,42 @@ class StatusItems extends Component {
                             }}
                             resizeMode="cover"
                         />
-                    <View
-                        style={{
-                            marginRight: 15,
-                            justifyContent: "space-between",
-                            flexDirection: "row",
-                            alignItems: 'center',
-                            backgroundColor: "#F5F5F3",
-                            height: 30,
-                            borderRadius: 15,
-                            marginLeft: 5,
-                            borderWidth: 1,
-                            flex: 1,
-                            paddingRight: 10,
-                            paddingLeft: 10,
-                            borderColor: '#F5F5F3',
-                        }}
-                    >
+                        <View
+                            style={{
+                                marginRight: 15,
+                                justifyContent: "space-between",
+                                flexDirection: "row",
+                                alignItems: 'center',
+                                backgroundColor: "#F5F5F3",
+                                height: 30,
+                                borderRadius: 15,
+                                marginLeft: 5,
+                                borderWidth: 1,
+                                flex: 1,
+                                paddingRight: 10,
+                                paddingLeft: 10,
+                                borderColor: '#F5F5F3',
+                            }}
+                        >
 
 
-                        <TouchableOpacity  style = {{marginLeft: 5,  height: 15, width: 15}}>
-                            <Image
-                                style={{width: null, height: null, flex: 1}}
-                                source={ require('../../assets/img.png') }
-                                resizeMode="contain"
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity   style = {{marginRight: 5, height: 15, width: 15}}>
-                            <Image
-                                style={{width: null, height: null, flex: 1}}
-                                source={ require('../../assets/emo.png')}
-                                resizeMode="contain"
-                            />
-                        </TouchableOpacity>
+                            <TouchableOpacity style={{marginLeft: 5, height: 15, width: 15}}>
+                                <Image
+                                    style={{width: null, height: null, flex: 1}}
+                                    source={require('../../assets/img.png')}
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{marginRight: 5, height: 15, width: 15}}>
+                                <Image
+                                    style={{width: null, height: null, flex: 1}}
+                                    source={require('../../assets/emo.png')}
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
-
-                </View>
                 </TouchableOpacity>
 
                 <View
@@ -652,4 +611,16 @@ const styles = StyleSheet.create({
         height: 250,
         marginTop: 10,
     },
+    btn: {
+        flexDirection: "row",
+        marginLeft: 10,
+        alignItems: "center",
+        backgroundColor: "#C7C7C7",
+        height: 30,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#C7C7C7',
+        justifyContent: "space-between",
+
+    }
 });

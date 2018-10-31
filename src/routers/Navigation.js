@@ -40,6 +40,7 @@ import Location from "../containers/Location";
 import EventJoin from "../containers/event/EventJoin";
 import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
+import {Image} from "react-native";
 
 const RootStack = createStackNavigator({
   SplashScreen: {
@@ -54,6 +55,23 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+    Home: {
+        screen: Home,
+    },
+
+    Location: {
+        screen: Location,
+    },
+
+
+
+
+
+
+
+    Menu: {
+        screen: Menu,
+    },
   Guide: {
     screen: Guide,
     navigationOptions: {
@@ -192,7 +210,10 @@ const RootStack = createStackNavigator({
     navigationOptions: {
       header: null
     }
-  }
+  },
+    Message: {
+    screen: Message,
+    }
 });
 
 export default RootStack;
