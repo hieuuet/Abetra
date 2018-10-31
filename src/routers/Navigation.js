@@ -40,7 +40,9 @@ import Location from "../containers/Location";
 import EventJoin from "../containers/event/EventJoin";
 import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
-import {Image} from "react-native";
+import { Image } from "react-native";
+
+
 
 const RootStack = createStackNavigator({
   SplashScreen: {
@@ -55,23 +57,17 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-    Home: {
-        screen: Home,
-    },
+  Home: {
+    screen: Home
+  },
 
-    Location: {
-        screen: Location,
-    },
+  Location: {
+    screen: Location
+  },
 
-
-
-
-
-
-
-    Menu: {
-        screen: Menu,
-    },
+  Menu: {
+    screen: Menu
+  },
   Guide: {
     screen: Guide,
     navigationOptions: {
@@ -166,8 +162,8 @@ const RootStack = createStackNavigator({
   Chat: {
     screen: Chat,
     navigationOptions: {
-        header: null,
-    },
+      header: null
+    }
   },
   BinhLuan: {
     screen: BinhLuan,
@@ -211,9 +207,9 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-    Message: {
-    screen: Message,
-    }
+  Message: {
+    screen: Message
+  }
 });
 
 export default RootStack;

@@ -54,7 +54,7 @@ class Menu extends Component {
         style={[style_common.card_view, styles.header_container]}
         onPress={() => {
           if (this.props.isGuest) return requestRegister(this.props.navigation);
-          this.props.navigation.navigate("Profile");
+          this.props.screenProps.navigate("Profile");
         }}
       >
         <Image
@@ -96,7 +96,7 @@ class Menu extends Component {
           onPress={() => {
             if (this.props.isGuest)
               return requestRegister(this.props.navigation);
-            this.props.navigation.navigate("SavePost");
+            this.props.screenProps.navigate("SavePost");
           }}
         />
 
@@ -104,7 +104,7 @@ class Menu extends Component {
           title={this.TEXT_MENU.Event}
           source={require("../../assets/event.png")}
           onPress={() => {
-            this.props.navigation.navigate("Event");
+            this.props.screenProps.navigate("Event");
           }}
         />
 
@@ -113,38 +113,38 @@ class Menu extends Component {
           source={require("../../assets/event.png")}
 
           // onPress={() => {
-          //     // this.props.navigation.navigate('BaoSuCoKDT')
-          //     this.state.Profile ? this.props.navigation.navigate('BaoSuCoKDT') : this.refs.modal.open()
+          //     // this.props.screenProps.navigate('BaoSuCoKDT')
+          //     this.state.Profile ? this.props.screenProps.navigate('BaoSuCoKDT') : this.refs.modal.open()
           // }}
         />
         <MenuItem
           title={this.TEXT_MENU.Promotion}
           source={require("../../assets/event.png")}
 
-          // onPress={() => this.props.navigation.navigate('ChoFaceHome')}
+          // onPress={() => this.props.screenProps.navigate('ChoFaceHome')}
         />
         <MenuItem
           title={this.TEXT_MENU.Intro}
           source={require("../../assets/event.png")}
-          onPress={() => this.props.navigation.navigate("About")}
+          onPress={() => this.props.screenProps.navigate("About")}
         />
 
         <MenuItem
           title={this.TEXT_MENU.Guide}
           source={require("../../assets/event.png")}
-          onPress={() => this.props.navigation.navigate("Guide")}
+          onPress={() => this.props.screenProps.navigate("Guide")}
         />
         <MenuItem
           title={this.TEXT_MENU.Term}
           source={require("../../assets/event.png")}
-          onPress={() => this.props.navigation.navigate("TermServices")}
+          onPress={() => this.props.screenProps.navigate("TermServices")}
         />
 
         <MenuItem
           title={this.TEXT_MENU.Language}
           source={require("../../assets/event.png")}
           style={styles.style_menu}
-          onPress={() => this.props.navigation.navigate("Language")}
+          onPress={() => this.props.screenProps.navigate("Language")}
         />
         <MenuItem
           title={this.TEXT_MENU.Support}

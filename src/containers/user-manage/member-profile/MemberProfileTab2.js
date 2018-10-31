@@ -69,7 +69,7 @@ class MemberProfileTab2 extends Component {
     });
 
     const resultPost = result && result.ErrorCode === "00" ? result.Value : [];
-    if (result && result.Value.length === 0) {
+    if (result &&  result.Value && result.Value.length === 0) {
       this.Page_index--;
     }
 

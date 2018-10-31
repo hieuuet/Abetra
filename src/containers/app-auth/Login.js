@@ -56,7 +56,7 @@ class Login extends Component {
   goToHomeTab = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "TabHome" })]
+      actions: [NavigationActions.navigate({ routeName: "WrapperTab" })]
     });
     this.props.navigation.dispatch(resetAction);
   };

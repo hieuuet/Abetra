@@ -309,6 +309,7 @@ class Home extends Component {
                   <StatusItems
                     dataItem={item}
                     userID={this.userID}
+                    screenProps={this.props.screenProps}
                     // onReloadBack ={this.onReloadBack}
                     navigation={navigation}
                   />

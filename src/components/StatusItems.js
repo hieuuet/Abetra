@@ -158,9 +158,9 @@ class StatusItems extends Component {
         const {item} = this.props.dataItem;
         if (!item) return;
         if (this.props.userID && item.UserID === this.props.userID) {
-            return this.props.navigation.navigate("Profile");
+            return this.props.screenProps.navigate("Profile");
         }
-        this.props.navigation.navigate("MemberProfile", {item});
+        this.props.screenProps.navigate("MemberProfile", {item});
     };
     setModalVisible = (visible) => {
         // console.log('setModalVisible')
@@ -403,7 +403,7 @@ class StatusItems extends Component {
                                 <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
                             <TouchableOpacity onPress={() =>
-                                this.props.navigation.navigate("BinhLuan", {item})
+                                this.props.screenProps.navigate("BinhLuan", {item})
                             }>
                                 <View
                                     style={[styles.btn, {width: 65}]}
@@ -506,7 +506,7 @@ class StatusItems extends Component {
 
 
                 </View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("BinhLuan", {item})
+                <TouchableOpacity onPress={() => this.props.screenProps.navigate("BinhLuan", {item})
                 }>
                     <View
                         style={{

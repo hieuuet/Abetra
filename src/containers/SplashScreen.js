@@ -28,7 +28,7 @@ class SplashScreen extends Component {
       arrSlide = await getImagePanel().then(data => data.Value || []);
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);
-      if (userID) routerName = "TabHome";
+      if (userID) routerName = "WrapperTab";
     }
 
     const resetAction = StackActions.reset({
