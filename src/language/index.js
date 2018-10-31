@@ -111,5 +111,19 @@ export const TEXT_PROFILE = () => ({
 });
 
 export const TEXT_REGISTER_MEMBER = () => ({
-  RegisterMember: strings("register_member.title_register")
+  RegisterMember: strings("register_member.title_register"),
+  RankMember: strings("register_member.rank_member"),
+  TypeBusiness: strings("register_member.type_business"),
+  ModelBusiness: strings("register_member.modal_business"),
+  Personal: strings("register_member.personal"),
+  Business: strings("register_member.business"),
+  ConfirmContact: strings("register_member.confirm_contact"),
+  GuideRegister: strings("register_member.guide_register"),
+  Register: strings("register_member.register"),
+  InputName: strings("register.input_fullname"),
+  InputPhone: strings("login.input_phone"),
+  Name:strings("register_member.name"),
+  Phone:strings("register_member.phone"),
+  ContactTitle: strings("register.conatact_title"),
+  ContactInfo: strings("login.conatact_info")
 });

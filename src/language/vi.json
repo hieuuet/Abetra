@@ -97,6 +97,20 @@
     "follow_action":"Theo dõi"
   },
   "register_member":{
-    "title_register":"Đăng ký hội viên"
+    "title_register":"Đăng ký hội viên",
+    "rank_member":"Hạng hội viên",
+    "type_business":"Lĩnh vực hoạt động",
+    "modal_business":"Mô hình hoạt động",
+    "personal":"Cá nhân",
+    "business":"Doanh nghiệp",
+    "confirm_contact":"Xác nhận liên hệ",
+    "guide_register":"Hướng dẫn đăng ký",
+    "register":"Đăng ký",
+    "phone":"Phone",
+    "name":"Họ tên",
+    "conatact_title":"Thông tin liên hệ khi cần",
+    "conatact_info":"Để được hỗ trợ vui lòng liên hệ qua Hotline $1 hoặc fanpage."
+
+
   }
 }

@@ -28,15 +28,12 @@ import {
 import ListImage from "../../../components/ListImage";
 import { bindActionCreators } from "redux";
 import { TEXT_REGISTER_MEMBER } from "../../../language";
-
 import {
   registerBusinessMember,
   registerPersonalMember
 } from "../../../actions";
-
+import RankSelect from "./RankSelect";
 class RegisterMember extends Component {
-  
-
   constructor(props) {
     super(props);
 
@@ -204,11 +201,14 @@ class RegisterMember extends Component {
     }
   };
 
+  onRankSelect = rankItem => {
+    console.log(rankItem);
+  };
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
   };
+
   render() {
-    console.log("aaaaa", this.state.imageArr);
     this.initData();
     return (
       <KeyboardAvoidingView
@@ -227,6 +227,10 @@ class RegisterMember extends Component {
         >
           <View style={styles.container}>
             <Text style={style_common.text_h1}>Hạng hội viên</Text>
+            <RankSelect
+              allRank={this.props.allRank || []}
+              onRankSelect={this.onRankSelect}
+            />
             <RadioForm
               radio_props={this.radioRankData}
               initial={0}
@@ -240,7 +244,9 @@ class RegisterMember extends Component {
                 this.rank = value;
               }}
             />
-            <Text style={style_common.text_h1}>Lĩnh vực hoạt động</Text>
+            <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.TypeBusiness.toUpperCase()}
+            </Text>
             <HashTagEdit
               data={this.allTags}
               editable={false}
@@ -250,7 +256,9 @@ class RegisterMember extends Component {
               numColumns={2}
               ref="hashTag"
             />
-            <Text style={style_common.text_h1}>Mô hình hoạt động</Text>
+            <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.ModelBusiness.toUpperCase()}
+            </Text>
             <RadioForm
               radio_props={this.radioTypeData}
               initial={0}
@@ -265,15 +273,19 @@ class RegisterMember extends Component {
               }}
             />
             <View style={style_common.line} />
-            <Text style={style_common.text_h1}>Xác nhận thông tin liên hệ</Text>
+            <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.ConfirmContact.toUpperCase()}
+            </Text>
             <View style={styles.wrap_text}>
-              <Text style={style_common.text_color_base}>Họ tên</Text>
+              <Text style={style_common.text_color_base}>
+                {this.TEXT_REGISTER_MEMBER.Name}
+              </Text>
               <TextInput
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 returnKeyType="done"
                 defaultValue={this.name}
-                placeholder={"Nhập họ tên"}
+                placeholder={this.TEXT_REGISTER_MEMBER.InputName}
                 onChangeText={text => {
                   this.name = text;
                 }}
@@ -282,14 +294,16 @@ class RegisterMember extends Component {
             </View>
 
             <View style={styles.wrap_text}>
-              <Text style={style_common.text_color_base}>Phone</Text>
+              <Text style={style_common.text_color_base}>
+                {this.TEXT_REGISTER_MEMBER.Phone}
+              </Text>
               <TextInput
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 keyboardType="numeric"
                 returnKeyType="done"
                 defaultValue={this.phone}
-                placeholder={"01678910"}
+                placeholder={this.TEXT_REGISTER_MEMBER.InputPhone}
                 onChangeText={text => {
                   this.phone = text;
                 }}
@@ -297,16 +311,20 @@ class RegisterMember extends Component {
               />
             </View>
             <Text style={style_common.text_h1}>
-              Mô tả hướng dẫn quá trình đăng ký
+              {this.TEXT_REGISTER_MEMBER.GuideRegister.toUpperCase()}
             </Text>
             <ListImage
               imageArr={this.imageArr}
               navigation={this.props.navigation}
             />
-            <Text style={style_common.text_h1}>Thông tin liên hệ khi cần</Text>
+            <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.ContactTitle.toUpperCase()}
+            </Text>
             <Text style={style_common.text_color_base}>
-              Để được hỗ trợ vui lòng liên hệ qua Hotline{" "}
-              {this.props.commonSetting.HotLine || ""} hoặc fanpage.
+              {this.TEXT_REGISTER_MEMBER.ContactInfo}
+
+              {/* Để được hỗ trợ vui lòng liên hệ qua Hotline{" "}
+              {this.props.commonSetting.HotLine || ""} hoặc fanpage. */}
             </Text>
             <ButtonBorder
               my_style={[
@@ -328,12 +346,14 @@ class RegisterMember extends Component {
 
 const mapStateToProps = state => {
   return {
-    userProfile: state.loadUserProfile.Value[0],
+    userProfile:
+      state.loadUserProfile.Value &&
+      state.loadUserProfile.Value.length > 0 &&
+      state.loadUserProfile.Value[0],
     allRank: state.allRank,
     allHashTag: state.categoryType3,
     commonSetting: state.commonSetting,
     currentLanguage: state.currentLanguage
-
   };
 };
 

@@ -42,8 +42,6 @@ import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
 import { Image } from "react-native";
 
-
-
 const RootStack = createStackNavigator({
   SplashScreen: {
     screen: SplashScreen,
@@ -53,6 +51,12 @@ const RootStack = createStackNavigator({
   },
   Profile: {
     screen: Profile,
+    navigationOptions: {
+      header: null
+    }
+  },
+  RegisterMember: {
+    screen: RegisterMember,
     navigationOptions: {
       header: null
     }
@@ -117,13 +121,6 @@ const RootStack = createStackNavigator({
   },
   MemberProfile: {
     screen: MemberProfile,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  RegisterMember: {
-    screen: RegisterMember,
     navigationOptions: {
       header: null
     }
