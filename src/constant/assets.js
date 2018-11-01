@@ -12,6 +12,7 @@ export const IMAGE = {
   checked: require("../../assets/ic_check_box.png"),
   unchecked: require("../../assets/ic_check_box_outline_blank.png"),
   header: require("../../assets/header.png"),
+  bg_gray: require("../../assets/bg_gray.png"),
   btn_active: require("../../assets/btn_active.png"),
   btn_normal: require("../../assets/btn_normal.png"),
 
@@ -35,5 +36,6 @@ export const IMAGE = {
   right_tab: require("../../assets/profile/right_tab.png"),
   icon_follow: require("../../assets/profile/icon_follow.png"),
   icon_sms: require("../../assets/profile/icon_sms.png"),
-  btn_dangky: require("../../assets/profile/btn_dangky.png")
+  btn_dangky: require("../../assets/profile/btn_dangky.png"),
+  star: require("../../assets/profile/star.png")
 };

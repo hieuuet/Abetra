@@ -97,6 +97,18 @@
     "follow_action":"Follow"
   },
   "register_member":{
-    "title_register":"Register Member"
+    "title_register":"Register Member",
+    "rank_member":"Rank member",
+    "type_business":"Type of business",
+    "modal_business":"Model of business",
+    "personal":"Personal",
+    "business":"Business",
+    "confirm_contact":"Confirm Contact",
+    "guide_register":"Guide Register",
+    "register":"Register",
+    "phone":"Phone",
+    "name":"Name",
+    "conatact_title":"Contact",
+    "conatact_info":"For support please contact by Hotline $1 or fanpage."
   }
 }
