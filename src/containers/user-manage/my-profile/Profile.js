@@ -192,9 +192,11 @@ class Profile extends Component {
         ? this.props.userProfile.Value[0]
         : {};
     console.log("render profile");
+      const {params} = this.props.navigation.state
     return (
       <View style={style_common.container_white}>
         <HeaderProfile
+            isMenu = {params && params.isMenu ? params.isMenu : null}
           navigation={this.props.navigation}
           userProfile={this.userProfile}
           TEXT_PROFILE={this.TEXT_PROFILE}

@@ -93,6 +93,8 @@ class Event extends Component {
     };
     render() {
         const {navigation} = this.props;
+        const {params} = this.props.navigation.state
+        // console.log('params', params)
 
         return (
             <KeyboardAvoidingView
@@ -100,11 +102,14 @@ class Event extends Component {
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 keyboardVerticalOffset={64}
             >
-                <CustomizeHeader
-                    label={"Sự kiện"}
-                    onBackPress={() => this.props.navigation.goBack()}
-                />
-                <ScrollView style={{flex: 1}}>
+                {
+                    params && params.isMenu ? <CustomizeHeader
+                        label={"Sự kiện"}
+                        onBackPress={() => this.props.navigation.goBack()}
+                    /> : null
+                }
+
+                <ScrollView style={{flex: 1, backgroundColor:COLOR.COLOR_BACKGROUND}}>
                     {this.state.ArrEvent.length === 0 && !this.state.isLoading ? (
                         this._renderEmpty()
                     ) : (

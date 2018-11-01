@@ -208,7 +208,10 @@ const RootStack = createStackNavigator({
     }
   },
   Message: {
-    screen: Message
+    screen: Message,
+      navigationOptions: {
+          header: null
+      }
   }
 });
 

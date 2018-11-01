@@ -15,11 +15,11 @@ export default class MenuItem extends Component {
                                source={this.props.source}
 
                         />
-                        <Text style={{marginLeft: 20, fontSize: 13, color: 'black'}}>{this.props.title}</Text>
+                        <Text style={{marginLeft: 10, fontSize: 13, }}>{this.props.title}</Text>
                     </View>
-                    <Icon name="navigate-next" size={25} style={{marginRight: 10}} color="#E0E0E0"/>
+                    {/*<Icon name="navigate-next" size={25} style={{marginRight: 10}} color="#E0E0E0"/>*/}
                 </View>
-                <View style={{height: 1, backgroundColor: '#E0E0E0', marginLeft: 55, marginTop: 5}}/>
+                <View style={{height: 1, backgroundColor: '#E0E0E0', marginLeft: 55, marginTop: 5, marginRight: 20}}/>
 
             </TouchableOpacity>
         );
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     img: {
         height: 25,
         width: 25,
-        marginLeft: 10
+        marginLeft: 20
     }
 })

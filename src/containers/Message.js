@@ -6,7 +6,7 @@ import { loadMsgGroup } from "../actions/loadMsgGroupActions";
 import { COLOR } from "../constant/Color";
 import style_common from "../style-common";
 import { FlatListCommon, TYPE } from "../components/FlatListCommon";
-import { ViewLoading, SearchView, TabView } from "../components/CommonView";
+import {ViewLoading, SearchView, TabView, CustomizeHeader} from "../components/CommonView";
 
 class Message extends Component {
   constructor(props) {
@@ -68,6 +68,10 @@ class Message extends Component {
             {/*this.props.navigation.navigate("Search");*/}
           {/*}}*/}
         {/*/>*/}
+          <CustomizeHeader
+              label={"Tin nhắn"}
+              onBackPress={() => this.props.navigation.goBack()}
+          />
         <View style={styles.tab}>
           <TabView
             label="Tin nhắn"

@@ -54,7 +54,7 @@ class Menu extends Component {
         style={[style_common.card_view, styles.header_container]}
         onPress={() => {
           if (this.props.isGuest) return requestRegister(this.props.navigation);
-          this.props.screenProps.navigate("Profile");
+          this.props.screenProps.navigate("Profile", {isMenu: true});
         }}
       >
         <Image
@@ -73,7 +73,7 @@ class Menu extends Component {
               : ""}
           </Text>
           <Text style={styles.text_rank}>
-            {this.props.isGuest ? "Guest" : (rank && rank.RankName) || ""}
+            Quan tri vien
           </Text>
         </View>
       </TouchableOpacity>
@@ -92,7 +92,7 @@ class Menu extends Component {
         {this.renderHeader()}
         <MenuItem
           title={this.TEXT_MENU.MarkedPost}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_baivietdaluu.png")}
           onPress={() => {
             if (this.props.isGuest)
               return requestRegister(this.props.navigation);
@@ -102,61 +102,54 @@ class Menu extends Component {
 
         <MenuItem
           title={this.TEXT_MENU.Event}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_sukien.png")}
           onPress={() => {
-            this.props.screenProps.navigate("Event");
+            this.props.screenProps.navigate("Event", {isMenu: true});
           }}
         />
 
         <MenuItem
           title={this.TEXT_MENU.Nearly}
-          source={require("../../assets/event.png")}
-
-          // onPress={() => {
-          //     // this.props.screenProps.navigate('BaoSuCoKDT')
-          //     this.state.Profile ? this.props.screenProps.navigate('BaoSuCoKDT') : this.refs.modal.open()
-          // }}
+          source={require("../../assets/menu/icon_dichvuquanhday.png")}
         />
         <MenuItem
           title={this.TEXT_MENU.Promotion}
-          source={require("../../assets/event.png")}
-
-          // onPress={() => this.props.screenProps.navigate('ChoFaceHome')}
+          source={require("../../assets/menu/icon_khuyenmai.png")}
         />
-        <MenuItem
-          title={this.TEXT_MENU.Intro}
-          source={require("../../assets/event.png")}
-          onPress={() => this.props.screenProps.navigate("About")}
-        />
+        {/*<MenuItem*/}
+          {/*title={this.TEXT_MENU.Intro}*/}
+          {/*source={require("../../assets/menu/icon_huongdan.png")}*/}
+          {/*onPress={() => this.props.screenProps.navigate("About")}*/}
+        {/*/>*/}
 
         <MenuItem
           title={this.TEXT_MENU.Guide}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_huongdan.png")}
           onPress={() => this.props.screenProps.navigate("Guide")}
         />
         <MenuItem
           title={this.TEXT_MENU.Term}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_dieukhoan.png")}
           onPress={() => this.props.screenProps.navigate("TermServices")}
         />
 
         <MenuItem
           title={this.TEXT_MENU.Language}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_ngonngu.png")}
           style={styles.style_menu}
           onPress={() => this.props.screenProps.navigate("Language")}
         />
         <MenuItem
           title={this.TEXT_MENU.Support}
           // title={strings("menu.support")}
-          source={require("../../assets/event.png")}
+          source={require("../../assets/menu/icon_theodoi.png")}
           style={styles.style_menu}
         />
           <MenuItem
               title={
                   this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
               }
-              source={require("../../assets/event.png")}
+              source={require("../../assets/menu/icon_dangxuat.png")}
               onPress={this.logout}
           />
         {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
@@ -190,10 +183,12 @@ const styles = StyleSheet.create({
   header_container: {
     flexDirection: "row",
     flex: 1,
+      paddingBottom: 10,
+      paddingTop: 10,
     margin: 0,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: COLOR.COLOR_GRAY
+    backgroundColor: "#F5F5F5"
   },
   name_container: {
     flex: 1,
@@ -202,12 +197,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start"
   },
   text_name: {
-    fontWeight: "bold",
-    color: COLOR.COLOR_GREEN1
+    // fontWeight: "bold",
+    color: 'black',
+      fontSize: 15
   },
   text_rank: {
-    fontWeight: "bold",
-    color: COLOR.COLOR_ORANGE
+    // fontWeight: "",
+      fontSize: 12
   },
   style_menu: {
     justifyContent: "center",
@@ -218,7 +214,8 @@ const styles = StyleSheet.create({
   avatar: {
     width: 50,
     height: 50,
-    borderRadius: 50
+      marginLeft: 20,
+      borderRadius: 25
   },
   canhbao: {
     width: DEVICE_WIDTH / 2,

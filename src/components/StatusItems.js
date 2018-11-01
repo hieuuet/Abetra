@@ -376,7 +376,7 @@ class StatusItems extends Component {
                             <View
                                 style={[styles.btn, {width: 65}]}
                             >
-                                <View style={{width: 15, height: 15}}>
+                                <View style={{width: 15, height: 15, marginLeft: 10}}>
                                     {
                                         this.state.liked ?
                                             <TouchableOpacity style={{flex: 1}}
