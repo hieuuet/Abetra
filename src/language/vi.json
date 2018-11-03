@@ -11,7 +11,8 @@
     "btn_login": "Đăng nhập",
     "login_fb": "Đăng nhập với ",
     "confirm": "Xác nhận",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "profile_notfound":"Không tìm thấy profile"
   },
 
   "register": {
@@ -84,33 +85,42 @@
     "certificate_link": "Giấy chứng nhận hội viên",
     "term_link": "Tham khảo quyền lợi chính sách hội viên",
     "save": "Lưu",
-    "edit":"Sửa",
-    "not_register_member":"Tài khoản của bạn chưa đăng ký hội viên của Aibetra",
-    "refer_benifet":"Tham khảo quyền lợi và chính sách hội viên",
-    "type_business":"Lĩnh vực hoạt động",
-    "create_new_post":"Đăng bài viết mới",
-    "input_post":"Nhập nội dung bài viết",
-    "post_created":"Bài viết đã tạo",
-    "register_now":"Đăng ký ngay",
-    "waiting_accept":"Đã đăng ký hội viên, đang trong quá trình phê duyệt.",
-    "message":"Nhắn tin",
-    "follow_action":"Theo dõi"
+    "edit": "Sửa",
+    "not_register_member": "Tài khoản của bạn chưa đăng ký hội viên của Aibetra",
+    "refer_benifet": "Tham khảo quyền lợi và chính sách hội viên",
+    "type_business": "Lĩnh vực hoạt động",
+    "create_new_post": "Đăng bài viết mới",
+    "input_post": "Nhập nội dung bài viết",
+    "post_created": "Bài viết đã tạo",
+    "register_now": "Đăng ký ngay",
+    "waiting_accept": "Đã đăng ký hội viên, đang trong quá trình phê duyệt.",
+    "message": "Nhắn tin",
+    "follow_action": "Theo dõi"
   },
-  "register_member":{
-    "title_register":"Đăng ký hội viên",
-    "rank_member":"Hạng hội viên",
-    "type_business":"Lĩnh vực hoạt động",
-    "modal_business":"Mô hình hoạt động",
-    "personal":"Cá nhân",
-    "business":"Doanh nghiệp",
-    "confirm_contact":"Xác nhận liên hệ",
-    "guide_register":"Hướng dẫn đăng ký",
-    "register":"Đăng ký",
-    "phone":"Phone",
-    "name":"Họ tên",
-    "conatact_title":"Thông tin liên hệ khi cần",
-    "conatact_info":"Để được hỗ trợ vui lòng liên hệ qua Hotline $1 hoặc fanpage."
-
-
+  "register_member": {
+    "title_register": "Đăng ký hội viên",
+    "rank_member": "Hạng hội viên",
+    "type_business": "Lĩnh vực hoạt động",
+    "modal_business": "Mô hình hoạt động",
+    "personal": "Cá nhân",
+    "business": "Doanh nghiệp",
+    "confirm_contact": "Xác nhận liên hệ",
+    "guide_register": "Hướng dẫn đăng ký",
+    "register": "Đăng ký",
+    "phone": "Số điện thoại",
+    "name": "Họ tên",
+    "contact_title": "Thông tin liên hệ khi cần",
+    "contact_info": "Để được hỗ trợ vui lòng liên hệ qua Hotline {{phone}} hoặc fanpage.",
+    "required_type_business":"Bạn chưa chọn lĩnh vực hoạt động",
+    "required_modal_business":"Bạn chưa chọn mô hình hoạt động",
+    "required_rank":"Bạn chưa chọn Hạng hội viên",
+    "required_contact":"Thông tin liên hệ không được để trống",
+    "register_fail":"Đăng ký thất bại"
+  },
+  "alert": {
+    "noti_title": "Thông báo",
+    "noti_body_normal": "",
+    "text_positive": "Đồng ý",
+    "text_negative": "Trở lại"
   }
 }

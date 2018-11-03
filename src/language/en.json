@@ -11,7 +11,9 @@
     "btn_login": "Login",
     "login_fb": "Login with ",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "profile_notfound":"Profile not found"
+
   },
 
   "register": {
@@ -79,36 +81,47 @@
     "marked": "Post marked",
     "follow": "Member follow",
     "event_join": "Event joined",
-    "date_register":"Date register",
-    "date_expire":"Date Expire",
-    "certificate_link":"Certificate",
-    "term_link":"Term",
-    "save":"save",
-    "edit":"Save",
-    "not_register_member":"Your Account not register member of Aibetra app",
-    "refer_benifet":"Reference benifet of member",
-    "type_business":"Type of bunisess",
-    "create_new_post":"Create new post",
-    "input_post":"Input content of post",
-    "post_created":"Post has created",
-    "register_now":"Register now",
-    "waiting_accept":"Has been register member, waiting accept.",
-    "message":"Message",
-    "follow_action":"Follow"
+    "date_register": "Date register",
+    "date_expire": "Date Expire",
+    "certificate_link": "Certificate",
+    "term_link": "Term",
+    "save": "save",
+    "edit": "Save",
+    "not_register_member": "Your Account not register member of Aibetra app",
+    "refer_benifet": "Reference benifet of member",
+    "type_business": "Type of bunisess",
+    "create_new_post": "Create new post",
+    "input_post": "Input content of post",
+    "post_created": "Post has created",
+    "register_now": "Register now",
+    "waiting_accept": "Has been register member, waiting accept.",
+    "message": "Message",
+    "follow_action": "Follow"
   },
-  "register_member":{
-    "title_register":"Register Member",
-    "rank_member":"Rank member",
-    "type_business":"Type of business",
-    "modal_business":"Model of business",
-    "personal":"Personal",
-    "business":"Business",
-    "confirm_contact":"Confirm Contact",
-    "guide_register":"Guide Register",
-    "register":"Register",
-    "phone":"Phone",
-    "name":"Name",
-    "conatact_title":"Contact",
-    "conatact_info":"For support please contact by Hotline $1 or fanpage."
+  "register_member": {
+    "title_register": "Register Member",
+    "rank_member": "Rank member",
+    "type_business": "Type of business",
+    "modal_business": "Model of business",
+    "personal": "Personal",
+    "business": "Business",
+    "confirm_contact": "Confirm Contact",
+    "guide_register": "Guide Register",
+    "register": "Register",
+    "phone": "Phone",
+    "name": "Name",
+    "contact_title": "Contact",
+    "contact_info": "For support please contact by Hotline {{phone}} or fanpage.",
+    "required_type_business":"You not select type of business",
+    "required_modal_business":"You not select modal of business",
+    "required_rank":"You not select rank of member",
+    "required_contact":"Infomation of contact not empty",
+    "register_fail":"Register fail"
+  },
+  "alert":{
+    "noti_title":"Notification",
+    "noti_body_normal":"",
+    "text_positive": "OK",
+    "text_negative": "Cancel"
   }
 }

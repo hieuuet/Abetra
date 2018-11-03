@@ -7,17 +7,21 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  Alert
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
 import { COLOR } from "../../../constant/Color";
 import RadioForm from "../../../components/SimpleRadioButton";
-import { ButtonBorder } from "../../../components/CommonView";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
-import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
+import {
+  showAlert,
+  ViewLoading,
+  CustomizeHeader
+} from "../../../components/CommonView";
 import {
   getGuide,
   loadUserProfile,
@@ -33,11 +37,17 @@ import {
   registerPersonalMember
 } from "../../../actions";
 import RankSelect from "./RankSelect";
+import { ButtonBackGround } from "../../../components/CommonView";
+import { IMAGE } from "../../../constant/assets";
+import { web } from "../../../components/Communications";
+
 class RegisterMember extends Component {
   constructor(props) {
     super(props);
 
-    this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER();
+    this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER(
+      (this.props.commonSetting && this.props.commonSetting.HotLine) || ""
+    );
 
     this.state = {
       isLoading: false
@@ -45,11 +55,11 @@ class RegisterMember extends Component {
     this.imageArr = [];
     this.radioTypeData = [
       {
-        label: "Cá nhân",
+        label: this.TEXT_REGISTER_MEMBER.Personal,
         value: TYPE_ACCOUNT.PERSONAL
       },
       {
-        label: "Doanh nghiệp",
+        label: this.TEXT_REGISTER_MEMBER.Business,
         value: TYPE_ACCOUNT.BUSINESS
       }
     ];
@@ -73,7 +83,9 @@ class RegisterMember extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
-      this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER();
+      this.TEXT_REGISTER_MEMBER = TEXT_REGISTER_MEMBER(
+        (this.props.commonSetting && this.props.commonSetting.HotLine) || ""
+      );
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -87,22 +99,6 @@ class RegisterMember extends Component {
         hashtag: tag.Name
       };
     });
-    // console.log("allTags", this.allTags);
-
-    this.radioRankData = this.props.allRank.map(rank => {
-      return {
-        ...rank,
-        label: rank.RankName,
-        value: rank.ID
-      };
-    });
-    // console.log("this.radioRankData", this.radioRankData);
-
-    this.rank =
-      (this.radioRankData &&
-        this.radioRankData[0] &&
-        this.radioRankData[0].value) ||
-      undefined;
 
     this.phone = this.props.userProfile ? this.props.userProfile.Phone : "";
     this.name = this.props.userProfile ? this.props.userProfile.FullName : "";
@@ -114,12 +110,7 @@ class RegisterMember extends Component {
 
   registerMember = async () => {
     if (!this.props.userProfile) {
-      return Alert.alert(
-        "Thông báo",
-        "Không tìm thấy profile",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_REGISTER_MEMBER.ProfileNotFound });
     }
 
     const realTagSelect = this.tagSelected
@@ -127,23 +118,17 @@ class RegisterMember extends Component {
       .map(tag => tag.CatID);
 
     if (realTagSelect.length === 0) {
-      return Alert.alert(
-        "Thông báo",
-        "Bạn chưa chọn lĩnh vực hoạt động nào",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({
+        message: this.TEXT_REGISTER_MEMBER.BusinessTypeRequired
+      });
+    }
+    if (!this.rank) {
+      return showAlert({ message: this.TEXT_REGISTER_MEMBER.RankRequired });
     }
 
     if (this.name.trim().length === 0 || this.phone.trim().length === 0) {
-      return Alert.alert(
-        "Thông báo",
-        "Thông tin liên hệ không được để trống",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_REGISTER_MEMBER.ContactRequired });
     }
-    console.log("realTagSelect", realTagSelect);
     let dataRegister = {
       UserID: this.props.userProfile.UserID,
       Email: this.props.userProfile.Email || "",
@@ -174,35 +159,29 @@ class RegisterMember extends Component {
     }
     this.setState({ isLoading: false });
     if (result && result.ErrorCode === "00") {
-      return Alert.alert(
-        "Thông báo",
-        result.Message,
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              this.props.loadUserProfile({
-                user_id: this.props.userProfile.UserID,
-                option: 100
-              });
-              this.props.navigation.goBack();
-            }
+      return showAlert({
+        message: result && result.Message,
+        positive: {
+          action_positive: () => {
+            this.props.loadUserProfile({
+              user_id: this.props.userProfile.UserID,
+              option: 100
+            });
+            this.props.navigation.goBack();
           }
-        ],
-        { cancelable: false }
-      );
+        }
+      });
     } else {
-      return Alert.alert(
-        "Thông báo",
-        (result && result.Message) || "Đăng ký thất bại",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({
+        message:
+          (result && result.Message) || this.TEXT_REGISTER_MEMBER.RegisterFail
+      });
     }
   };
 
   onRankSelect = rankItem => {
     console.log(rankItem);
+    this.rank = rankItem && rankItem.ID;
   };
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
@@ -226,24 +205,12 @@ class RegisterMember extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={styles.container}>
-            <Text style={style_common.text_h1}>Hạng hội viên</Text>
+            <Text style={style_common.text_h1}>{this.TEXT_REGISTER_MEMBER.RankMember.toUpperCase()}</Text>
             <RankSelect
               allRank={this.props.allRank || []}
               onRankSelect={this.onRankSelect}
             />
-            <RadioForm
-              radio_props={this.radioRankData}
-              initial={0}
-              formHorizontal={false}
-              buttonColor={"gray"}
-              selectedButtonColor={"gray"}
-              buttonSize={5}
-              animation={true}
-              style={styles.radio_form}
-              onPress={value => {
-                this.rank = value;
-              }}
-            />
+
             <Text style={style_common.text_h1}>
               {this.TEXT_REGISTER_MEMBER.TypeBusiness.toUpperCase()}
             </Text>
@@ -264,7 +231,7 @@ class RegisterMember extends Component {
               initial={0}
               formHorizontal={true}
               buttonColor={"gray"}
-              selectedButtonColor={"gray"}
+              selectedButtonColor={"#53A1CB"}
               buttonSize={5}
               animation={true}
               style={styles.radio_form}
@@ -277,37 +244,31 @@ class RegisterMember extends Component {
               {this.TEXT_REGISTER_MEMBER.ConfirmContact.toUpperCase()}
             </Text>
             <View style={styles.wrap_text}>
-              <Text style={style_common.text_color_base}>
-                {this.TEXT_REGISTER_MEMBER.Name}
-              </Text>
               <TextInput
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 returnKeyType="done"
                 defaultValue={this.name}
-                placeholder={this.TEXT_REGISTER_MEMBER.InputName}
+                placeholder={this.TEXT_REGISTER_MEMBER.Name}
                 onChangeText={text => {
                   this.name = text;
                 }}
-                style={[style_common.input_border, styles.text_input]}
+                style={styles.text_input}
               />
             </View>
 
             <View style={styles.wrap_text}>
-              <Text style={style_common.text_color_base}>
-                {this.TEXT_REGISTER_MEMBER.Phone}
-              </Text>
               <TextInput
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 keyboardType="numeric"
                 returnKeyType="done"
                 defaultValue={this.phone}
-                placeholder={this.TEXT_REGISTER_MEMBER.InputPhone}
+                placeholder={this.TEXT_REGISTER_MEMBER.Phone}
                 onChangeText={text => {
                   this.phone = text;
                 }}
-                style={[style_common.input_border, styles.text_input]}
+                style={styles.text_input}
               />
             </View>
             <Text style={style_common.text_h1}>
@@ -317,25 +278,37 @@ class RegisterMember extends Component {
               imageArr={this.imageArr}
               navigation={this.props.navigation}
             />
-            <Text style={style_common.text_h1}>
-              {this.TEXT_REGISTER_MEMBER.ContactTitle.toUpperCase()}
-            </Text>
-            <Text style={style_common.text_color_base}>
-              {this.TEXT_REGISTER_MEMBER.ContactInfo}
 
-              {/* Để được hỗ trợ vui lòng liên hệ qua Hotline{" "}
-              {this.props.commonSetting.HotLine || ""} hoặc fanpage. */}
-            </Text>
-            <ButtonBorder
-              my_style={[
-                style_common.input_border,
-                style_common.card_view,
-                styles.btn_register
-              ]}
-              text_style={style_common.text_color_base}
-              label={"Đăng ký"}
-              onPress={this.registerMember}
-            />
+            <View style={styles.container_register}>
+              <ButtonBackGround
+                label={this.TEXT_REGISTER_MEMBER.Register}
+                source={IMAGE.header}
+                onPress={this.registerMember}
+              />
+            </View>
+            {/* <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.ContactTitle.toUpperCase()}
+            </Text> */}
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Text style={styles.text_fanpage}>
+                {this.TEXT_REGISTER_MEMBER.ContactInfo}
+              </Text>
+              <TouchableOpacity
+                onPress={() => web("fb://page/331230823580420")}
+              >
+                <Image
+                  style={styles.icon_fb}
+                  source={IMAGE.icon_fanpage}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
         {this._renderLoading()}
@@ -376,12 +349,16 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: COLOR.COLOR_WHITE
   },
-  radio_form: { justifyContent: "flex-start", alignItems: "flex-start" },
+  radio_form: { justifyContent: "space-around", flex: 1 },
   text_input: {
-    marginLeft: 20,
-    marginRight: 20,
-    flex: 1
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.BORDER_INPUT,
+    marginLeft: 10,
+    marginRight: 10,
+    flex: 1,
+    alignSelf: "stretch"
   },
+
   wrap_text: {
     justifyContent: "center",
     alignItems: "center",
@@ -397,5 +374,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: COLOR.COLOR_GRAY,
     borderColor: COLOR.COLOR_BLACK
+  },
+  container_register: { flex: 1, alignItems: "center", margin: 10 },
+  icon_fb: {
+    width: 30,
+    height: 30
+  },
+  text_fanpage: {
+    color: COLOR.COLOR_BLACK,
+    textAlign: "left",
+    flex: 1
   }
 });

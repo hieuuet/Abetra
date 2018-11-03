@@ -77,7 +77,7 @@ class RankSelect extends Component {
                 : styles.text_inactive
             }
           >
-            {(rankItem && rankItem.RankName) || ""}
+            {(rankItem && rankItem.ShortName) || ""}
           </Text>
         </ImageBackground>
       </TouchableOpacity>

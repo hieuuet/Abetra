@@ -90,7 +90,7 @@ class HeaderProfile extends Component {
       <View style={style_common.container}>
         <TouchableOpacity
           style={styles.btn_back}
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => this.props.onBackPress() ||this.props.navigation.goBack()}
         >
           <Image
             style={styles.img_back}

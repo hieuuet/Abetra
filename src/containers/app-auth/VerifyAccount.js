@@ -25,6 +25,7 @@ import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
+import { NavigationActions, StackActions } from "react-navigation";
 
 class VerifyAccount extends Component {
   // static navigationOptions = ({ navigation }) => {
@@ -72,7 +73,17 @@ class VerifyAccount extends Component {
     this.goToProfile();
   };
   goToProfile = () => {
-    this.props.navigation.navigate("Profile", { fromVerify: true });
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({
+          routeName: "Profile",
+          params: { fromVerify: true }
+        })
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
+    // this.props.navigation.navigate("Profile", { fromVerify: true });
   };
   _login = async () => {
     const userName = this.props.navigation.getParam("userName");
@@ -129,7 +140,7 @@ class VerifyAccount extends Component {
 
         <Text style={styles.text_info}>{TEXT_VERIFY().NotRecevie}</Text>
         <ButtonBorder
-          label={TEXT_VERIFY.Resend}
+          label={TEXT_VERIFY().Resend}
           onPress={this.reSendCode}
           my_style={style_common.btn_blue_radius}
         />

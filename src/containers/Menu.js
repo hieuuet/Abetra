@@ -42,7 +42,9 @@ class Menu extends Component {
     this.props.resetStore();
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "Login" })]
+      // actions: [NavigationActions.navigate({ routeName: "Login" })]
+      actions: this.props.screenProps.navigate("Login" )
+
     });
     this.props.navigation.dispatch(resetAction);
   };

@@ -57,22 +57,7 @@ class Profile extends Component {
   componentDidMount() {
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.refs.modal && this.refs.modal.state.isOpen) {
-        this.refs.modal.close();
-        return true;
-      } else {
-        //check if navigate from verify screen,navigate to home
-        const fromVerify = this.props.navigation.getParam("fromVerify");
-        if (fromVerify) {
-          const resetAction = StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: "WrapperTab" })]
-          });
-          this.props.navigation.dispatch(resetAction);
-          return true;
-        }
-        return false;
-      }
+      this.handleBackPress();
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -92,6 +77,25 @@ class Profile extends Component {
     this.reLoadProfile();
     this.backHandler.remove();
   }
+
+  handleBackPress = () => {
+    if (this.refs.modal && this.refs.modal.state.isOpen) {
+      this.refs.modal.close();
+      return true;
+    } else {
+      //check if navigate from verify screen,navigate to home
+      const fromVerify = this.props.navigation.getParam("fromVerify");
+      if (fromVerify) {
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: "WrapperTab" })]
+        });
+        this.props.navigation.dispatch(resetAction);
+        return true;
+      }
+      return false;
+    }
+  };
 
   onLoading = isLoading => {
     this.setState({ isLoading });
@@ -192,17 +196,18 @@ class Profile extends Component {
         ? this.props.userProfile.Value[0]
         : {};
     console.log("render profile");
-      const {params} = this.props.navigation.state
+    const { params } = this.props.navigation.state;
     return (
       <View style={style_common.container_white}>
         <HeaderProfile
-            isMenu = {params && params.isMenu ? params.isMenu : null}
+          isMenu={params && params.isMenu ? params.isMenu : null}
           navigation={this.props.navigation}
           userProfile={this.userProfile}
           TEXT_PROFILE={this.TEXT_PROFILE}
           currentTab={this.state.tabIndex}
           allRank={this.props.allRank}
           onLoading={this.onLoading}
+          onBackPress={this.handleBackPress}
         />
 
         <View style={styles.tab}>

@@ -110,7 +110,7 @@ export const TEXT_PROFILE = () => ({
   FollowAction: strings("profile.follow_action")
 });
 
-export const TEXT_REGISTER_MEMBER = () => ({
+export const TEXT_REGISTER_MEMBER = phone => ({
   RegisterMember: strings("register_member.title_register"),
   RankMember: strings("register_member.rank_member"),
   TypeBusiness: strings("register_member.type_business"),
@@ -122,8 +122,20 @@ export const TEXT_REGISTER_MEMBER = () => ({
   Register: strings("register_member.register"),
   InputName: strings("register.input_fullname"),
   InputPhone: strings("login.input_phone"),
-  Name:strings("register_member.name"),
-  Phone:strings("register_member.phone"),
-  ContactTitle: strings("register.conatact_title"),
-  ContactInfo: strings("login.conatact_info")
+  Name: strings("register_member.name"),
+  Phone: strings("register_member.phone"),
+  ContactTitle: strings("register_member.contact_title"),
+  ContactInfo: strings("register_member.contact_info", { phone }),
+  ProfileNotFound: strings("common.profile_notfound"),
+  BusinessTypeRequired: strings("register_member.required_type_business"),
+  BusinessModalRequired: strings("register_member.required_modal_business"),
+  RankRequired: strings("register_member.required_rank"),
+  ContactRequired: strings("register_member.required_contact"),
+  RegisterFail: strings("register_member.register_fail")
+});
+export const TEXT_ALERT = ()=>({
+  NotiTitle: strings("alert.noti_title"),
+  NotiMessage: strings("alert.noti_body_normal"),
+  TextPositive: strings("alert.text_positive"),
+  TextNegative: strings("alert.text_negative"),
 });

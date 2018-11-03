@@ -37,5 +37,6 @@ export const IMAGE = {
   icon_follow: require("../../assets/profile/icon_follow.png"),
   icon_sms: require("../../assets/profile/icon_sms.png"),
   btn_dangky: require("../../assets/profile/btn_dangky.png"),
-  star: require("../../assets/profile/star.png")
+  star: require("../../assets/profile/star.png"),
+  icon_fanpage: require("../../assets/profile/icon_fanpage.png")
 };
