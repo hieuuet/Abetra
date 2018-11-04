@@ -11,7 +11,8 @@ import {
   Platform,
   TextInput,
   AsyncStorage,
-  BackHandler
+  BackHandler,
+  SafeAreaView
 } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";

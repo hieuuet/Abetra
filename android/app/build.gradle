@@ -149,6 +149,14 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-text-input-reset')
+    compile project(':react-native-share')
+    compile project(':react-native-image-crop-picker')
+    compile project(':react-native-i18n')
+    compile project(':react-native-fcm')
+    compile project(':react-native-fbsdk')
+    compile project(':react-native-fast-image')
     implementation project(':react-native-fcm')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])

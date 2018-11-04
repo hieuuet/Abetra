@@ -8,8 +8,7 @@ import React, { Component } from "react";
 import {
   Platform,
   StyleSheet,
-  Text,
-  View,
+  SafeAreaView,
   NetInfo,
   YellowBox
 } from "react-native";
@@ -51,9 +50,11 @@ export default class App extends Component {
       "Warning: isMounted(...) is deprecated"
     ]);
     return (
+      // <SafeAreaView style={styles.safeArea}>
       <Provider store={store}>
         <RootStack />
       </Provider>
+      //  </SafeAreaView>
     );
   }
 }
@@ -74,5 +75,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#333333",
     marginBottom: 5
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#00c853'
   }
 });

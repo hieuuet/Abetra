@@ -102,7 +102,7 @@ export function registerAppListener(navigation){
         console.log("TOKEN (refreshUnsubscribe)", token);
     });
 
-    FCM.enableDirectChannel();
+    // FCM.enableDirectChannel();
     FCM.on(FCMEvent.DirectChannelConnectionChanged, (data) => {
         console.log('direct channel connected' + data);
     });

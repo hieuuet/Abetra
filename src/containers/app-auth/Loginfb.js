@@ -33,14 +33,14 @@ export const facebookLogin = async () => {
   // need to go for webview.
   let result;
   try {
-    LoginManager.setLoginBehavior('NATIVE_ONLY');
+    LoginManager.setLoginBehavior('native');
     result = await LoginManager.logInWithReadPermissions([
       'public_profile',
       'email',
     ]);
   } catch (nativeError) {
     try {
-      LoginManager.setLoginBehavior('WEB_ONLY');
+      LoginManager.setLoginBehavior('web');
       result = await LoginManager.logInWithReadPermissions([
         'public_profile',
         'email',
