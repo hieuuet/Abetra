@@ -12,3 +12,9 @@ node_modules\react-native-emoji-selector\index.js
  
 3.Replace by:
 `<Text style={{ color:'#ffffff', fontSize: (colSize) - 12 }}> {charFromEmojiObject(emoji)} </Text>`
+
+* if have issue when open xcode: `config.h file not found`
+=> fix by run command: `cd ./node_modules/react-native && scripts/ios-install-third-party.sh && cd third-party && cd $(ls | grep 'glog' | awk '{print $1}') && ./configure`
+* If have issue with socket service like issue:
+https://github.com/facebook/react-native/issues/19569
+=> Remove and add again libfishhook.a from Xcode and the path issue will resolve.
