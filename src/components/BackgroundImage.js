@@ -1,19 +1,29 @@
 import React, { Component } from "react";
-import { StyleSheet,SafeAreaView, Image, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  StatusBar,
+  Image,
+  View,
+  TouchableOpacity
+} from "react-native";
 import { IMAGE } from "../constant/assets";
 import PropTypes from "prop-types";
 class BackgroundImage extends Component {
   render() {
     return (
-      
       <View style={[styles.wrapper, this.props.style]}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent={true}
+        />
         <Image
           source={this.props.isIntro ? IMAGE.background : IMAGE.background2}
           style={styles.backgroundImage}
         />
-      
-      {/* <SafeAreaView style={styles.safeArea}> */}
-      {/* <View style={{ marginTop:40, marginBottom:34,alignItems:'center'}}> */}
+
+        {/* <SafeAreaView style={styles.safeArea}> */}
+        {/* <View style={{ marginTop:40, marginBottom:34,alignItems:'center'}}> */}
 
         {this.props.showBackIcon ? (
           <TouchableOpacity
@@ -29,7 +39,7 @@ class BackgroundImage extends Component {
         ) : null}
         {this.props.children}
         {/* </View> */}
-       {/* </SafeAreaView> */}
+        {/* </SafeAreaView> */}
       </View>
     );
   }
@@ -46,15 +56,15 @@ BackgroundImage.defaultProps = {
 };
 export default BackgroundImage;
 const styles = StyleSheet.create({
-  safeArea:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
+  safeArea: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   },
   wrapper: {
     flex: 1,
-    justifyContent:'flex-start',
-    alignItems:'flex-start'
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
   },
   backgroundImage: {
     top: 0,

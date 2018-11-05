@@ -48,7 +48,6 @@ class TermServices extends Component {
     return this.state.isLoading ? <ViewLoading MarginTop={75} /> : null;
   };
   render() {
-    console.log("arr", this.state.dataHtml);
     return (
       <View style={{ flex: 1 }}>
         <CustomizeHeader

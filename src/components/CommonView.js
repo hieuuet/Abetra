@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     minHeight: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLOR.COLOR_YELLOW,
+    backgroundColor: "#FFBE00",
     marginTop: 10
   },
   img_bg: {

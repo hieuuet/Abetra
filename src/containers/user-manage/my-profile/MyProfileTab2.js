@@ -79,7 +79,7 @@ class MyProfileTab2 extends Component {
     });
 
     const resultPost = result && result.ErrorCode === "00" ? result.Value : [];
-    if (result &&  result.Value && result.Value.length === 0) {
+    if (result && result.Value && result.Value.length === 0) {
       this.Page_index--;
     }
 
@@ -115,7 +115,7 @@ class MyProfileTab2 extends Component {
         keyboardVerticalOffset={64}
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
-          <View style={styles.container}>
+          <View style={styles.parent}>
             {/* <View style={style_common.line} /> */}
             <View style={styles.container_title}>
               <Text style={styles.text_title}>
@@ -215,6 +215,10 @@ MyProfileTab2.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  parent: {
+    flex: 1,
+    padding: 10
+  },
   text_link: {
     color: COLOR.COLOR_SKY
   },
@@ -279,5 +283,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: COLOR.COLOR_BLACK
   },
-  container_register:{flex:1,alignItems:'center'}
+  container_register: { flex: 1, alignItems: "center" }
 });

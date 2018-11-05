@@ -1,22 +1,10 @@
 /* Quyền lợi và chính sách hội viên */
 import React, { Component } from "react";
 import { View, WebView, Platform } from "react-native";
-import { COLOR } from "../constant/Color";
 import { getBenifet } from "../actions";
-import { ViewLoading } from "../components/CommonView";
+import { ViewLoading, CustomizeHeader } from "../components/CommonView";
+import { TEXT_BENIFET } from "../language";
 class Benifet extends Component {
-  static navigationOptions = ({ navigation }) => {
-    // console.log("state change redender");
-    return {
-      title: "Quyền lợi & Chính sách",
-      // headerStyle: {
-      //   // backgroundColor: "#23b34c",
-      //   alignSelf: "center",
-      // },
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
   constructor(props) {
     super(props);
 
@@ -24,6 +12,7 @@ class Benifet extends Component {
       isLoading: false,
       dataHtml: ""
     };
+    this.TEXT_BENIFET = TEXT_BENIFET();
   }
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -38,9 +27,12 @@ class Benifet extends Component {
     return this.state.isLoading ? <ViewLoading /> : null;
   };
   render() {
-    console.log("arr", this.state.dataHtml);
     return (
       <View style={{ flex: 1 }}>
+        <CustomizeHeader
+          label={this.TEXT_BENIFET.CertificateTitle}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
         <WebView
           automaticallyAdjustContentInsets={false}
           source={{ html: this.state.dataHtml, baseUrl: "" }}

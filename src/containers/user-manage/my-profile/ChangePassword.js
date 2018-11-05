@@ -8,27 +8,24 @@ import {
   Platform,
   ScrollView,
   Image,
-  TouchableOpacity,
-  Alert
+  TouchableOpacity
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
-import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
+import {
+  showAlert,
+  ButtonBorder,
+  ViewLoading
+} from "../../../components/CommonView";
 
 import { changePassword } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
-import { TEXT_COMMON, TEXT_CHANGE_PASSWORD } from "../../../language";
-class ChangePassword extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: TEXT_CHANGE_PASSWORD().ChangePass,
+import { TEXT_CHANGE_PASSWORD } from "../../../language";
+import BackgroundImage from "../../../components/BackgroundImage";
 
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
+class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,35 +35,23 @@ class ChangePassword extends Component {
     this.newPass = "";
     this.reNewPass = "";
     this.userName = this.props.navigation.getParam("user_name");
+    this.TEXT_CHANGE_PASSWORD = TEXT_CHANGE_PASSWORD();
   }
 
   onChangePass = async () => {
     if (!this.userName)
-      return Alert.alert(
-        "Thông báo",
-        "Không tìm thấy UserID",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.ProfileNotFound });
+
     if (
       this.oldPass.trim().length === 0 ||
       this.newPass.trim().length === 0 ||
       this.reNewPass.trim().length === 0
     )
-      return Alert.alert(
-        "Thông báo",
-        "Bạn chưa nhập đủ mật khẩu",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.RequirePass });
 
     if (this.newPass.trim() !== this.reNewPass.trim())
-      return Alert.alert(
-        "Thông báo",
-        "Mật khẩu mới không trùng khớp nhau",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.PassNotMatch });
+
     this.setState({ isLoading: true });
     const result = await changePassword({
       ten_dang_nhap: this.userName,
@@ -76,25 +61,15 @@ class ChangePassword extends Component {
     this.setState({ isLoading: false });
     if (result) {
       if (result.ErrorCode === "00")
-        return Alert.alert(
-          "Thông báo",
-          result.Message,
-          [{ text: "OK", onPress: () => this.props.navigation.goBack() }],
-          { cancelable: false }
-        );
-      return Alert.alert(
-        "Thông báo",
-        result.Message,
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+        return showAlert({
+          message: result && result.Message,
+          positive: {
+            action_positive: () => this.props.navigation.goBack()
+          }
+        });
+      return showAlert({ message: result && result.Message });
     } else {
-      return Alert.alert(
-        "Thông báo",
-        "Đổi mật khẩu thất bại",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.ChangePassFail });
     }
   };
 
@@ -106,9 +81,10 @@ class ChangePassword extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD().InputOldPass}
+          placeholder={this.TEXT_CHANGE_PASSWORD.InputOldPass}
           onChangeText={text => (this.oldPass = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           onSubmitEditing={event => {
             this.refs.newPass.focus();
           }}
@@ -119,9 +95,10 @@ class ChangePassword extends Component {
           returnKeyType="next"
           ref="newPass"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD().InputNewPass}
+          placeholder={this.TEXT_CHANGE_PASSWORD.InputNewPass}
           onChangeText={text => (this.newPass = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           onSubmitEditing={event => {
             this.refs.reNewPass.focus();
           }}
@@ -132,19 +109,20 @@ class ChangePassword extends Component {
           returnKeyType="done"
           ref="reNewPass"
           secureTextEntry={true}
-          placeholder={TEXT_CHANGE_PASSWORD().InputReNewPass}
+          placeholder={this.TEXT_CHANGE_PASSWORD.InputReNewPass}
           onChangeText={text => (this.reNewPass = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
+          placeholderTextColor={COLOR.COLOR_WHITE}
         />
         <View style={styles.wraper_btn}>
           <ButtonBorder
-            label={TEXT_COMMON().Confirm}
+            label={this.TEXT_CHANGE_PASSWORD.Confirm}
             onPress={this.onChangePass}
             my_style={styles.btn_left}
           />
           <ButtonBorder
-            label={TEXT_COMMON().Cancel}
-            my_style={styles.btn_right}
+            label={this.TEXT_CHANGE_PASSWORD.Cancel}
+            my_style={[style_common.btn_blue_radius, styles.btn_right]}
             onPress={() => this.props.navigation.goBack()}
           />
         </View>
@@ -162,14 +140,14 @@ class ChangePassword extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text style={style_common.text_color_base}>
-            {TEXT_COMMON().FanPage}
+          <Text style={style_common.text_color_White}>
+            {this.TEXT_CHANGE_PASSWORD.FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"
-              source={IMAGE.logo_fb}
+              source={IMAGE.icon_fanpage_white}
             />
           </TouchableOpacity>
         </View>
@@ -189,16 +167,19 @@ class ChangePassword extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={style_common.content_center}>
+          <BackgroundImage
+            style={style_common.content_center}
+            onBackPress={() => this.props.navigation.goBack()}
+          >
             <Image
               style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo}
+              source={IMAGE.logo_white}
             />
 
             {this._renderContent()}
             {this._renderFooter()}
-          </View>
+          </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>
@@ -211,17 +192,23 @@ export default ChangePassword;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100 * (354 / 379)
   },
   text_input: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.COLOR_WHITE,
+    padding: 5,
+    alignSelf: "stretch",
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    color: COLOR.COLOR_WHITE,
+    textAlign: "center"
   },
 
   img_fb: {
-    width: 50,
-    height: 50
+    marginLeft: 5,
+    width: 30,
+    height: 30
   },
   view_login: {
     justifyContent: "flex-start",
@@ -251,7 +238,11 @@ const styles = StyleSheet.create({
     margin: 10,
     color: COLOR.COLOR_BLACK
   },
-  btn_left: { flex: 1, marginRight: 10 },
-  btn_right: { flex: 1, marginRight: 10 },
-  wraper_btn: { marginHorizontal: 60, flexDirection: "row" }
+  btn_left: { flex: 1, marginRight: 5, minWidth: 100 },
+  btn_right: { flex: 1, marginLeft: 5, minWidth: 100 },
+  wraper_btn: {
+    marginHorizontal: 60,
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 });

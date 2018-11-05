@@ -12,7 +12,7 @@
     "login_fb": "Đăng nhập với ",
     "confirm": "Xác nhận",
     "cancel": "Hủy",
-    "profile_notfound":"Không tìm thấy profile"
+    "profile_notfound": "Không tìm thấy profile"
   },
 
   "register": {
@@ -30,7 +30,13 @@
   },
   "changePhone": {
     "btn_changePhone": "Đổi số điện thoại",
-    "newPhone": "Nhập số điện thoại mới"
+    "newPhone": "Nhập số điện thoại mới",
+    "require_pass": "Bạn chưa nhập đủ mật khẩu",
+    "pass_not_match": "Mật khẩu mới không trùng khớp nhau",
+    "change_pass_fail": "Đổi mật khẩu thất bại",
+    "info_sms": "Mã xác nhận gửi qua tin nhắn đến số điện thoại cũ của bạn",
+    "require_input": "Số điện thoại và code không được để trống",
+    "change_phone_fail": "Cập nhật không thành công"
   },
 
   "verify": {
@@ -111,16 +117,22 @@
     "name": "Họ tên",
     "contact_title": "Thông tin liên hệ khi cần",
     "contact_info": "Để được hỗ trợ vui lòng liên hệ qua Hotline {{phone}} hoặc fanpage.",
-    "required_type_business":"Bạn chưa chọn lĩnh vực hoạt động",
-    "required_modal_business":"Bạn chưa chọn mô hình hoạt động",
-    "required_rank":"Bạn chưa chọn Hạng hội viên",
-    "required_contact":"Thông tin liên hệ không được để trống",
-    "register_fail":"Đăng ký thất bại"
+    "required_type_business": "Bạn chưa chọn lĩnh vực hoạt động",
+    "required_modal_business": "Bạn chưa chọn mô hình hoạt động",
+    "required_rank": "Bạn chưa chọn Hạng hội viên",
+    "required_contact": "Thông tin liên hệ không được để trống",
+    "register_fail": "Đăng ký thất bại"
   },
   "alert": {
     "noti_title": "Thông báo",
     "noti_body_normal": "",
     "text_positive": "Đồng ý",
     "text_negative": "Trở lại"
+  },
+  "certificate": {
+    "certificate_title": "Chứng nhận hội viên"
+  },
+  "benifet":{
+    "benifet_title":"Quyền lợi & Chính sách"
   }
 }

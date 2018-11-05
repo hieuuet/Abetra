@@ -96,7 +96,7 @@ export default (style = StyleSheet.create({
     minHeight: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLOR.COLOR_BTN_BLUE,
+    backgroundColor: "#145C7A",
     borderWidth: 1,
     borderColor: COLOR.COLOR_WHITE,
     marginTop: 10

@@ -31,7 +31,13 @@
   },
   "changePhone": {
     "btn_changePhone": "Change phone",
-    "newPhone": "Input new number phone"
+    "newPhone": "Input new number phone",
+    "require_pass":"Required input password",
+    "pass_not_match":"Password not match",
+    "change_pass_fail":"Change password fail",
+    "info_sms":"Verify code has been send to your old phone number",
+    "require_input":"Input is required",
+    "change_phone_fail":"Update not success"
   },
 
   "verify": {
@@ -123,5 +129,11 @@
     "noti_body_normal":"",
     "text_positive": "OK",
     "text_negative": "Cancel"
+  },
+  "certificate": {
+    "certificate_title": "Certificate"
+  },
+  "benifet":{
+    "benifet_title":"Quyền lợi & Chính sách"
   }
 }

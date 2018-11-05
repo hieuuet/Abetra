@@ -8,29 +8,25 @@ import {
   Platform,
   ScrollView,
   Image,
-  TouchableOpacity,
-  Alert
+  TouchableOpacity
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
-import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
+import {
+  showAlert,
+  ButtonBorder,
+  ViewLoading
+} from "../../../components/CommonView";
 import { TEXT_CHANGE_PHONE } from "../../../language";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateUserProfile, loadUserProfile } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
+import BackgroundImage from "../../../components/BackgroundImage";
 
 class ChangePhone extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: TEXT_CHANGE_PHONE().ChangePhone,
-
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -44,23 +40,16 @@ class ChangePhone extends Component {
         : undefined;
     this.newPhone = "";
     this.code = "";
+    this.TEXT_CHANGE_PHONE = TEXT_CHANGE_PHONE();
   }
 
   onChangePhone = async () => {
     if (!this.userProfile)
-      return Alert.alert(
-        "Thông báo",
-        "Không tìm thấy UserID",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PHONE.ProfileNotFound });
+
     if (this.newPhone.trim().length === 0 || this.code.trim().length === 0)
-      return Alert.alert(
-        "Thông báo",
-        "Số điện thoại và code không được để trống",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_CHANGE_PHONE.RequiredInput });
+
     this.setState({ isLoading: true });
     const result = await updateUserProfile({
       profile_id: this.userProfile.ProfileID,
@@ -71,30 +60,24 @@ class ChangePhone extends Component {
     this.setState({ isLoading: false });
     //success
     if (result && result.ErrorCode === "00")
-      return Alert.alert(
-        "Thông báo",
-        result.Message,
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              this.props.loadUserProfile({
-                user_id: this.userProfile.UserID,
-                option: 100
-              });
-              this.props.navigation.goBack();
-            }
+      return showAlert({
+        message: result && result.Message,
+        positive: {
+          action_positive: () => {
+            this.props.loadUserProfile({
+              user_id: this.userProfile.UserID,
+              option: 100
+            });
+            this.props.navigation.goBack();
           }
-        ],
-        { cancelable: false }
-      );
+        }
+      });
+
     //error
-    return Alert.alert(
-      "Thông báo",
-      (result && result.Message) || "Cập nhật không thành công.",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
+    return showAlert({
+      message:
+        (result && result.Message) || this.TEXT_CHANGE_PHONE.ChangePhoneFail
+    });
   };
 
   _renderContent = () => {
@@ -105,9 +88,10 @@ class ChangePhone extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="numeric"
-          placeholder={TEXT_CHANGE_PHONE().NewPhone}
+          placeholder={this.TEXT_CHANGE_PHONE.NewPhone}
           onChangeText={text => (this.newPhone = text)}
-          style={[style_common.input_border, styles.text_input]}
+          placeholderTextColor={COLOR.COLOR_WHITE}
+          style={styles.text_input}
           onSubmitEditing={event => {
             this.refs.code.focus();
           }}
@@ -117,23 +101,22 @@ class ChangePhone extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           ref="code"
-          placeholder={TEXT_CHANGE_PHONE().InputCode}
+          placeholder={this.TEXT_CHANGE_PHONE.InputCode}
+          placeholderTextColor={COLOR.COLOR_WHITE}
           onChangeText={text => (this.code = text)}
-          style={[style_common.input_border, styles.text_input]}
+          style={styles.text_input}
         />
 
-        <Text style={styles.text_info}>
-          Mã xác nhận gửi qua tin nhắn đến số điện thoại cũ của bạn
-        </Text>
+        <Text style={styles.text_info}>{this.TEXT_CHANGE_PHONE.InfoSMS}</Text>
         <View style={styles.wraper_btn}>
           <ButtonBorder
-            label={TEXT_CHANGE_PHONE().Confirm}
+            label={this.TEXT_CHANGE_PHONE.Confirm}
             onPress={this.onChangePhone}
             my_style={styles.btn_left}
           />
           <ButtonBorder
-            label={TEXT_CHANGE_PHONE().Cancel}
-            my_style={styles.btn_right}
+            label={this.TEXT_CHANGE_PHONE.Cancel}
+            my_style={[style_common.btn_blue_radius, styles.btn_right]}
             onPress={() => this.props.navigation.goBack()}
           />
         </View>
@@ -151,14 +134,14 @@ class ChangePhone extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <Text style={style_common.text_color_base}>
-            {TEXT_CHANGE_PHONE().FanPage}
+          <Text style={style_common.text_color_White}>
+            {this.TEXT_CHANGE_PHONE.FanPage}
           </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"
-              source={IMAGE.logo_fb}
+              source={IMAGE.icon_fanpage_white}
             />
           </TouchableOpacity>
         </View>
@@ -178,16 +161,19 @@ class ChangePhone extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={style_common.content_center}>
+          <BackgroundImage
+            style={style_common.content_center}
+            onBackPress={() => this.props.navigation.goBack()}
+          >
             <Image
               style={styles.img_logo}
               resizeMode="cover"
-              source={IMAGE.logo}
+              source={IMAGE.logo_white}
             />
 
             {this._renderContent()}
             {this._renderFooter()}
-          </View>
+          </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
       </KeyboardAvoidingView>
@@ -215,18 +201,23 @@ export default ChangePhone;
 const styles = StyleSheet.create({
   img_logo: {
     width: 100,
-    height: 100
+    height: 100 * (354 / 379)
   },
   text_input: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.COLOR_WHITE,
+    padding: 5,
+    alignSelf: "stretch",
     marginHorizontal: 60,
     marginTop: 10,
-    padding: 5
+    color: COLOR.COLOR_WHITE,
+    textAlign: "center"
   },
-  wraper_btn: { marginHorizontal: 60, flexDirection: "row" },
 
   img_fb: {
-    width: 50,
-    height: 50
+    marginLeft: 5,
+    width: 30,
+    height: 30
   },
   view_login: {
     justifyContent: "flex-start",
@@ -253,10 +244,16 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   text_info: {
-    margin: 10,
-    color: COLOR.COLOR_BLACK,
+    marginHorizontal: 60,
+    marginTop: 10,
+    color: COLOR.COLOR_WHITE,
     textAlign: "center"
   },
-  btn_left: { flex: 1, marginRight: 10 },
-  btn_right: { flex: 1, marginRight: 10 }
+  btn_left: { flex: 1, marginRight: 5, minWidth: 100 },
+  btn_right: { flex: 1, marginLeft: 5, minWidth: 100 },
+  wraper_btn: {
+    marginHorizontal: 60,
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 });

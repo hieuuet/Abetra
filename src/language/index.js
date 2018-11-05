@@ -31,13 +31,20 @@ export const TEXT_VERIFY = () => ({
   Resend: strings("verify.btn_reSend"),
   ReInput: strings("verify.btn_reInput")
 });
+
 export const TEXT_CHANGE_PASSWORD = () => ({
   ChangePass: strings("changePass.btn_changePass"),
   InputOldPass: strings("changePass.oldPass"),
   InputNewPass: strings("changePass.newPass"),
   InputReNewPass: strings("changePass.reNewPass"),
   Guest: strings("common.btn_guest"),
-  FanPage: strings("common.txt_fanpage")
+  FanPage: strings("common.txt_fanpage"),
+  Confirm: strings("common.confirm"),
+  Cancel: strings("common.cancel"),
+  ProfileNotFound: strings("common.profile_notfound"),
+  RequirePass: strings("changePass.require_pass"),
+  PassNotMatch: strings("changePass.pass_not_match"),
+  ChangePassFail: strings("changePass.change_pass_fail")
 });
 
 export const TEXT_CHANGE_PHONE = () => ({
@@ -46,7 +53,11 @@ export const TEXT_CHANGE_PHONE = () => ({
   InputCode: TEXT_VERIFY().InputCode,
   Confirm: TEXT_COMMON().Confirm,
   Cancel: TEXT_COMMON().Cancel,
-  FanPage: TEXT_COMMON().FanPage
+  FanPage: TEXT_COMMON().FanPage,
+  InfoSMS: strings("changePhone.info_sms"),
+  ProfileNotFound: strings("common.profile_notfound"),
+  RequiredInput: strings("changePhone.require_input"),
+  ChangePhoneFail: strings("changePhone.change_phone_fail")
 });
 
 export const TEXT_INTRO = () => ({
@@ -133,9 +144,16 @@ export const TEXT_REGISTER_MEMBER = phone => ({
   ContactRequired: strings("register_member.required_contact"),
   RegisterFail: strings("register_member.register_fail")
 });
-export const TEXT_ALERT = ()=>({
+export const TEXT_ALERT = () => ({
   NotiTitle: strings("alert.noti_title"),
   NotiMessage: strings("alert.noti_body_normal"),
   TextPositive: strings("alert.text_positive"),
-  TextNegative: strings("alert.text_negative"),
+  TextNegative: strings("alert.text_negative")
+});
+
+export const TEXT_CERTIFICATE = () => ({
+  CertificateTitle: strings("certificate.certificate_title")
+});
+export const TEXT_BENIFET = () => ({
+  CertificateTitle: strings("benifet.benifet_title")
 });

@@ -42,21 +42,37 @@ import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
 
 const RootStack = createStackNavigator({
-  
   // Location: {
   //   screen: Location,
   //   navigationOptions: {
   //     header: null
   //   }
   // },
-
-  
   SplashScreen: {
     screen: SplashScreen,
     navigationOptions: {
       header: null
     }
   },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ChangePhone: {
+    screen: ChangePhone,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: {
+      header: null
+    }
+  },
+
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {
@@ -69,18 +85,11 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      header: null
-    }
-  },
 
   Home: {
     screen: Home
   },
 
- 
   Menu: {
     screen: Menu
   },
@@ -104,19 +113,16 @@ const RootStack = createStackNavigator({
   },
 
   CertificateMember: {
-    screen: CertificateMember
+    screen: CertificateMember,
+    navigationOptions: {
+      header: null
+    }
   },
   Intro: {
     screen: Intro,
     navigationOptions: {
       header: null
     }
-  },
-  ChangePassword: {
-    screen: ChangePassword
-  },
-  ChangePhone: {
-    screen: ChangePhone
   },
 
   Login: {
@@ -153,7 +159,10 @@ const RootStack = createStackNavigator({
     }
   },
   Benifet: {
-    screen: Benifet
+    screen: Benifet,
+    navigationOptions: {
+      header: null
+    }
   },
   TermServices: {
     screen: TermServices,

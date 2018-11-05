@@ -1,25 +1,12 @@
 /* Điều khoản dịch vụ */
 import React, { Component } from "react";
 import { View } from "react-native";
-import { COLOR } from "../constant/Color";
 import { getCertificate } from "../actions";
-import { ViewLoading } from "../components/CommonView";
+import { ViewLoading, CustomizeHeader } from "../components/CommonView";
 import ListImage from "../components/ListImage";
+import { TEXT_CERTIFICATE } from "../language";
 
 class CertificateMember extends Component {
-  static navigationOptions = ({ navigation }) => {
-    // console.log("state change redender");
-    return {
-      title: "Chứng nhận hội viên",
-      // headerStyle: {
-      //   // backgroundColor: "#23b34c",
-      //   alignSelf: "center",
-      // },
-      headerTitleStyle: { color: COLOR.COLOR_BLACK },
-      headerTintColor: COLOR.COLOR_BLACK
-    };
-  };
-
   constructor(props) {
     super(props);
 
@@ -27,6 +14,7 @@ class CertificateMember extends Component {
       isLoading: false,
       imageArr: []
     };
+    this.TEXT_CERTIFICATE = TEXT_CERTIFICATE();
   }
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -43,6 +31,10 @@ class CertificateMember extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <CustomizeHeader
+          label={this.TEXT_CERTIFICATE.CertificateTitle}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
         <ListImage
           imageArr={this.state.imageArr}
           navigation={this.props.navigation}
