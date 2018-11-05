@@ -43,7 +43,13 @@ import TabHome from "./TabHome";
 
 const RootStack = createStackNavigator({
   
- 
+  // Location: {
+  //   screen: Location,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+
   
   SplashScreen: {
     screen: SplashScreen,
@@ -74,10 +80,7 @@ const RootStack = createStackNavigator({
     screen: Home
   },
 
-  Location: {
-    screen: Location
-  },
-
+ 
   Menu: {
     screen: Menu
   },

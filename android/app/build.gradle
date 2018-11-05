@@ -160,7 +160,8 @@ dependencies {
     implementation project(':react-native-fcm')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:23.0.1"
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation 'com.android.support:support-v4:27.1.1'
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation project(':react-native-text-input-reset')

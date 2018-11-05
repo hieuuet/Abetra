@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   wrapper: {
-    flex: 1
+    flex: 1,
+    justifyContent:'flex-start',
+    alignItems:'flex-start'
   },
   backgroundImage: {
     top: 0,
