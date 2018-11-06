@@ -228,6 +228,7 @@ class StatusItems extends Component {
 
         }
         const {item} = this.props.dataItem;
+        console.log('isTab',  this.props.isTab)
         // console.log('item.cmt', item.Comments)
         // let PollVote = item.Poll ? item.Poll : null
         // PollVote =  JSON.parse(PollVote)
@@ -342,7 +343,7 @@ class StatusItems extends Component {
                         </View>
                     </View>
                     <FlatList
-                        style={{marginTop: 5}}
+                        style={{marginTop: 5, paddingBottom: 0, backgroundColor: "white"}}
                         data={this.state.ArrPoll}
                         renderItem={(item) => {
                             return (
@@ -357,7 +358,7 @@ class StatusItems extends Component {
                         keyExtractor={(item, index) => index.toString()}
 
                     />
-                    <View style={{marginHorizontal: 15}}>
+                    <View style={{marginHorizontal: 15, marginTop: 5}}>
                         {ArrImg ? (
                             <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
                         ) : null}
@@ -402,8 +403,10 @@ class StatusItems extends Component {
                                 </View>
                                 <Text style={{marginRight: 15, color: "#777777"}}> {this.state.countLike}</Text>
                             </View>
-                            <TouchableOpacity onPress={() =>
-                                this.props.screenProps.navigate("BinhLuan", {item})
+                            <TouchableOpacity onPress={() => {
+                                this.props.isTab == true ?  this.props.screenProps.navigate("BinhLuan", {item}) :  this.props.navigation.navigate("BinhLuan", {item})
+                            }
+
                             }>
                                 <View
                                     style={[styles.btn, {width: 65}]}

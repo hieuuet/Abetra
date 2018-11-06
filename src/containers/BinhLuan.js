@@ -37,7 +37,8 @@ class BinhLuan extends Component {
         super(props)
         this.state = {
             ArrCmt: [],
-            PostContent: []
+            PostContent: [],
+            ArrPoll: []
 
         }
         const {UserProfile} = this.props
@@ -74,6 +75,7 @@ class BinhLuan extends Component {
         console.log('itemStatus', itemStatus)
         this._searchCmt()
         let PostContent = itemStatus.PostContent
+
         if (itemStatus.Type == 2) {
             PostContent = JSON.parse(PostContent)
             this.setState({
@@ -82,6 +84,13 @@ class BinhLuan extends Component {
                 // () => console.log('PostContent', this.state.PostContent)
             )
         }
+        let dataPoll = (itemStatus.Poll) ? itemStatus.Poll : '[]'
+        let Poll = dataPoll ? JSON.parse(dataPoll) : [];
+        this.setState({
+            ArrPoll: Poll,
+            // countCheck:  Poll.TotalVote
+
+        })
     }
 
     _searchCmt = async () => {
@@ -270,22 +279,23 @@ class BinhLuan extends Component {
                             </ReadMore>
                         </View>
                     </View>
-                    {/*<FlatList*/}
-                        {/*style={{marginTop: 5}}*/}
-                        {/*data={this.state.ArrPoll}*/}
-                        {/*renderItem={(item) => {*/}
-                            {/*return (*/}
-                                {/*<PollVote*/}
-                                    {/*dataItem={item}*/}
-                                {/*/>*/}
 
-                            {/*)*/}
-                        {/*}}*/}
+                    <FlatList
+                        style={{marginTop: 5}}
+                        data={this.state.ArrPoll}
+                        renderItem={(item) => {
+                            return (
+                                <PollVote
+                                    dataItem={item}
+                                />
 
-                        {/*extraData={this.state}*/}
-                        {/*keyExtractor={(item, index) => index.toString()}*/}
+                            )
+                        }}
 
-                    {/*/>*/}
+                        extraData={this.state}
+                        keyExtractor={(item, index) => index.toString()}
+
+                    />
                     <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 5}}>
                         {ArrImg ? (
                             <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>

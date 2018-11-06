@@ -104,29 +104,32 @@ class PollVote extends Component {
             <View style={{
                 alignItems: 'center',
                 marginTop: 5,
+                marginHorizontal: 15,
                 flexDirection: 'row'
             }}>
+                <CheckBox
+                    onClick={() => {
+                        this.setState({
+                            isChecked: !this.state.isChecked
+                        });
+                    }}
+                    isChecked={this.state.isChecked}
+                />
                 <View style={{
-                    marginLeft: 15,
+                    height: 30,
                     flexDirection: 'row',
                     borderColor: '#E0E0E0',
                     borderWidth: 1, width: "80%",
                     backgroundColor: '#EEEEEE',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    borderRadius: 15
                 }}>
-                    <CheckBox
-                        onClick={() => {
-                            this.setState({
-                                isChecked: !this.state.isChecked
-                            });
-                        }}
-                        isChecked={this.state.isChecked}
-                    />
-                    <Text style={{marginLeft: 10}}>{item.OptionContent}</Text>
+
+                    <Text style={{marginLeft: 10}} numberOfLines={1}>{item.OptionContent}</Text>
 
                 </View>
 
-                <Text style={{marginLeft: 15, color: 'black'}}>99</Text>
+                <Text style={{marginLeft: 15}}>99</Text>
 
 
             </View>

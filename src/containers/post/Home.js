@@ -307,6 +307,7 @@ class Home extends Component {
               renderItem={item => {
                 return (
                   <StatusItems
+                      isTab = {true}
                     dataItem={item}
                     userID={this.userID}
                     screenProps={this.props.screenProps}
