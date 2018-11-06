@@ -12,7 +12,9 @@
     "login_fb": "Login with ",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "profile_notfound":"Profile not found"
+    "profile_notfound":"Profile not found",
+    "search":"Search"
+
 
   },
 
@@ -134,6 +136,16 @@
     "certificate_title": "Certificate"
   },
   "benifet":{
-    "benifet_title":"Quyền lợi & Chính sách"
+    "benifet_title":"Benifet"
+  },
+  "search":{
+    "post":"Post",
+    "business":"Business",
+    "message":"Message",
+    "account":"Account"
+  },
+  "message":{
+    "message":"Message",
+    "chanel":"Chanel"
   }
 }

@@ -382,7 +382,8 @@ export default class ModalDropdown extends Component {
               styles.rowText,
               dropdownTextStyle,
               highlighted && styles.highlightedRowText,
-              highlighted && dropdownTextHighlightStyle
+              highlighted && dropdownTextHighlightStyle,
+              { flex: 1 }
             ]}
           >
             {rowData}

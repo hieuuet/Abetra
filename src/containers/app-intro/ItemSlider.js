@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, Dimensions } from "react-native";
 import PropTypes from "prop-types";
-
+const { width, height } = Dimensions.get("window");
 export default class ItemSlider extends React.PureComponent {
   static propTypes = {
     backgroundColor: PropTypes.string.isRequired,
@@ -18,16 +18,8 @@ export default class ItemSlider extends React.PureComponent {
   };
 
   render() {
-    const style = {
-      //   backgroundColor: this.props.backgroundColor,
-      //   // paddingTop: this.props.topSpacer,
-      //   // paddingBottom: this.props.bottomSpacer,
-      width: this.props.width,
-      height: this.props.height
-    };
-
     return (
-      <View style={[styles.mainContent, style]}>
+      <View style={styles.mainContent}>
         {/* <Text style={[styles.title, this.props.titleStyle]}>
           {this.props.title}
         </Text> */}
@@ -35,8 +27,8 @@ export default class ItemSlider extends React.PureComponent {
           source={
             this.props.image.length === 0 ? "" : { uri: this.props.image }
           }
-          resizeMode="contain"
-          style={{ flex: 1 }}
+          resizeMode="cover"
+          style={{ flex: 1, width, height }}
         />
         {/* <Text style={[styles.text, this.props.textStyle]}>
           {this.props.text}
@@ -48,9 +40,10 @@ export default class ItemSlider extends React.PureComponent {
 
 const styles = StyleSheet.create({
   mainContent: {
-    justifyContent: "center"
+    justifyContent: "center",
+    flex: 1,
     // alignItems: "center"
-    // backgroundColor: "red"
+    backgroundColor: "red"
   },
   text: {
     color: "rgba(255, 255, 255, .7)",

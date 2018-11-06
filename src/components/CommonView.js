@@ -131,6 +131,35 @@ TabView.propTypes = {
 };
 
 /**
+ * Buton for each tab type 2
+ */
+export const TabView2 = ({
+  label = "",
+  onPress,
+  isActive = false,
+  style = {}
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{ flex: 1, justifyContent: "flex-end" }}
+    >
+      <Text
+        style={isActive ? styles.text_tab_active2 : styles.text_tab_inactive2}
+      >
+        {label.toUpperCase()}
+      </Text>
+      <View style={isActive ? styles.view_active2 : styles.view_inactive2} />
+    </TouchableOpacity>
+  );
+};
+TabView2.propTypes = {
+  label: PropTypes.string.isRequired,
+  onPress: PropTypes.func,
+  isActive: PropTypes.bool.isRequired,
+  style: PropTypes.number
+};
+/**
  * Header search view
  */
 export const SearchView = ({ onPress, style = {} }) => {
@@ -353,6 +382,30 @@ const styles = StyleSheet.create({
     color: COLOR.COLOR_WHITE,
     fontWeight: "bold",
     textAlign: "center"
+  },
+  text_tab_active2: {
+    color: COLOR.COLOR_TEXT_BLUE,
+    fontWeight: "bold",
+    marginBottom:10,
+    marginTop:10,
+    textAlign: "center"
+  },
+  text_tab_inactive2: {
+    color: COLOR.BORDER_INPUT,
+    fontWeight: "bold",
+    marginBottom:10,
+    marginTop:10,
+    textAlign: "center"
+  },
+  view_active2: {
+    backgroundColor: "#53A1CB",
+    height: 2,
+    alignContent: "flex-end"
+  },
+  view_inactive2: {
+    backgroundColor: "#9e9e9e",
+    height: 1,
+    alignContent: "flex-end"
   },
   btn_back: {
     alignSelf: "flex-start",

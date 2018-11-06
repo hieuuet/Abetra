@@ -157,3 +157,15 @@ export const TEXT_CERTIFICATE = () => ({
 export const TEXT_BENIFET = () => ({
   CertificateTitle: strings("benifet.benifet_title")
 });
+
+export const TEXT_SEARCH = () => ({
+  Search: strings("common.search"),
+  Post: strings("search.post"),
+  Business: strings("search.business"),
+  Message: strings("search.message"),
+  Account: strings("search.account")
+});
+export const TEXT_MESSAGE = () => ({
+  MessageTitle: strings("message.message"),
+  Chanel: strings("message.chanel")
+});

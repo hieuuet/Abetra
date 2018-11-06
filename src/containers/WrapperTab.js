@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  FlatList,
   ImageBackground,
   StyleSheet,
   StatusBar,
@@ -11,13 +10,23 @@ import {
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { IMAGE } from "../constant/assets";
 import TabHome from "../routers/TabHome";
 import { COLOR } from "../constant/Color";
 
+import { isEqual } from "lodash";
+import { TEXT_SEARCH } from "../language";
+
 class WrapperTab extends Component {
+  constructor(props) {
+    super(props);
+    this.TEXT_SEARCH = TEXT_SEARCH();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_SEARCH = TEXT_SEARCH();
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -41,7 +50,8 @@ class WrapperTab extends Component {
                   marginHorizontal: 10
                 }}
               >
-                <View
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate("Search")}
                   style={{
                     height: 25,
                     backgroundColor: "#2A9490",
@@ -64,9 +74,9 @@ class WrapperTab extends Component {
                       fontWeight: "500"
                     }}
                   >
-                    Tìm kiếm
+                    {this.TEXT_SEARCH.Search}
                   </Text>
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate("Message")}
@@ -93,7 +103,8 @@ class WrapperTab extends Component {
 
 const mapStateToProps = state => {
   return {
-    UserProfile: state.loadUserProfile
+    UserProfile: state.loadUserProfile,
+    currentLanguage: state.currentLanguage
   };
 };
 
