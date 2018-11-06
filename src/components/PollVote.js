@@ -9,92 +9,102 @@ import {
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import CheckBox from "./CheckBox ";
+import {API, URL_BASE} from "../constant/api";
 
 class PollVote extends Component {
     constructor(props){
         super(props)
+        this.countCheck = this.props.dataItem.item.TotalVote;
+        // console.log('TotalVote', this.props.dataItem)
         this.state = {
-            isChecked: true,
+            countCheck: this.countCheck,
+            a: 1
         }
     }
-    // youChecked = (PostID, PollID) => {
-    //     const {InfoUser} = this.props;
-    //     if (InfoUser.length <= 0) {
-    //         return null
-    //     }
-    //     fetch(URL + Vote, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             PostID: PostID,
-    //             PollID: PollID,
-    //             IntUser: InfoUser[0].IntUserID,
-    //             IsLike: 1,
-    //             isLog: 0,
-    //             lang_name: "vi_VN"
-    //
-    //
-    //         })
-    //     }).then(response => {
-    //         return response.json()
-    //     }).then(data => {
-    //         console.log('data', data)
-    //         if (data.ErrorCode === "00") {
-    //             let currentCheck = this.state.countCheck;
-    //             currentCheck++;
-    //
-    //             this.setState({countCheck: currentCheck});
-    //         }
-    //         else {
-    //             Alert.alert("Thông báo", "có lỗi sảy ra");
-    //         }
-    //     }).catch(e => {
-    //         console.log("exception", e);
-    //         Alert.alert("Thông báo", "Có lỗi khi like");
-    //     });
+    youChecked = (PostID, PollID) => {
+        const {UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null
+        }
+        fetch(API.POLL_VOTE, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                PostID: PostID,
+                PollID: PollID,
+                IntUser:UserProfile.Value[0].IntUserID,
+                IsLike: 1,
+                isLog: 0,
+                lang_name: "vi_VN"
+
+
+            })
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log('data', data)
+            if (data.ErrorCode === "00") {
+                let currentCheck = this.state.countCheck;
+                currentCheck++;
+
+                this.setState({countCheck: currentCheck});
+            }
+            else {
+                Alert.alert("Thông báo", "có lỗi sảy ra");
+            }
+        }).catch(e => {
+            console.log("exception", e);
+            Alert.alert("Thông báo", "Có lỗi khi like");
+        });
+    }
+    youUnChecked = (PostID, PollID) => {
+        const {UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null
+        }
+        fetch(API.POLL_VOTE, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                PostID: PostID,
+                PollID: PollID,
+                IntUser: UserProfile.Value[0].IntUserID,
+                IsLike: 0,
+                isLog: 0,
+                lang_name: "vi_VN"
+
+
+            })
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log('data', data)
+            if (data.ErrorCode === "00") {
+                let currentCheck = this.state.countCheck;
+                currentCheck--;
+
+                this.setState({countCheck: currentCheck});
+            }
+            else {
+                Alert.alert("Thông báo", "có lỗi sảy ra");
+            }
+        }).catch(e => {
+            console.log("exception", e);
+            Alert.alert("Thông báo", "Có lỗi khi like");
+        });
+    }
+    // onClick() {
+    //     console.log('aaaaaaaaaaaa')
     // }
-    // youUnChecked = (PostID, PollID) => {
-    //     const {InfoUser} = this.props;
-    //     if (InfoUser.length <= 0) {
-    //         return null
-    //     }
-    //     fetch(URL + Vote, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             PostID: PostID,
-    //             PollID: PollID,
-    //             IntUser: InfoUser[0].IntUserID,
-    //             IsLike: 0,
-    //             isLog: 0,
-    //             lang_name: "vi_VN"
-    //
-    //
-    //         })
-    //     }).then(response => {
-    //         return response.json()
-    //     }).then(data => {
-    //         console.log('data', data)
-    //         if (data.ErrorCode === "00") {
-    //             let currentCheck = this.state.countCheck;
-    //             currentCheck--;
-    //
-    //             this.setState({countCheck: currentCheck});
-    //         }
-    //         else {
-    //             Alert.alert("Thông báo", "có lỗi sảy ra");
-    //         }
-    //     }).catch(e => {
-    //         console.log("exception", e);
-    //         Alert.alert("Thông báo", "Có lỗi khi like");
-    //     });
-    // }
-    onClick() {
-        console.log('aaaaaaaaaaaa')
+    onClick = (PostID, PollID) => {
+        this.setState({
+            isChecked: !this.state.isChecked
+        }, () => this.state.isChecked? this.youChecked(PostID, PollID):this.youUnChecked(PostID, PollID));
+
     }
     render () {
 
@@ -108,11 +118,7 @@ class PollVote extends Component {
                 flexDirection: 'row'
             }}>
                 <CheckBox
-                    onClick={() => {
-                        this.setState({
-                            isChecked: !this.state.isChecked
-                        });
-                    }}
+                    onClick={() => this.onClick(item.PostID, item.OptionID)}
                     isChecked={this.state.isChecked}
                 />
                 <View style={{
@@ -129,7 +135,7 @@ class PollVote extends Component {
 
                 </View>
 
-                <Text style={{marginLeft: 15}}>99</Text>
+                <Text style={{marginLeft: 15}}>{this.state.countCheck}</Text>
 
 
             </View>

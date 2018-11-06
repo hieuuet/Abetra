@@ -509,7 +509,9 @@ class StatusItems extends Component {
 
 
                 </View>
-                <TouchableOpacity onPress={() => this.props.screenProps.navigate("BinhLuan", {item})
+                <TouchableOpacity onPress={() => {
+                    this.props.isTab == true ?  this.props.screenProps.navigate("BinhLuan", {item}) :  this.props.navigation.navigate("BinhLuan", {item})
+                }
                 }>
                     <View
                         style={{

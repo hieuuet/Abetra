@@ -17,6 +17,7 @@ export const API = {
   CREATE_POST: `${URL_BASE}/api/Post/CreatePost`,
   GET_TOP_POST: `${URL_BASE}/api/Post/GetTopPost`,
   SEARCH_POST: `${URL_BASE}/api/Post/SearchPost`,
+  POLL_VOTE: `${URL_BASE}/api/Post/PollVote`,
   LOAD_SAVE_POST: `${URL_REALTIME}/socket/loadsavepost`,
   SAVE_POST: `${URL_REALTIME}/socket/savepost`,
   UNSAVE_POST: `${URL_REALTIME}/socket/unloadsavepost`,
