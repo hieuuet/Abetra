@@ -150,6 +150,28 @@ class AppIntroSlider extends Component {
   render() {
     return (
       <BackgroundImage isIntro={true} showBackIcon={false}>
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
+          }}
+        >
+          <FlatList
+            ref={ref => (this.flatList = ref)}
+            data={this.slides}
+            extraData={this.state}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            extraData={this.state.width}
+            onMomentumScrollEnd={this._onMomentumScrollEnd}
+            renderItem={this._renderItem}
+            keyExtractor={(item, index) => item.id}
+            onLayout={this._onLayout}
+          />
+        </View>
         <View style={styles.header}>
           <Image
             source={IMAGE.logo}
@@ -172,18 +194,7 @@ class AppIntroSlider extends Component {
             />
           </View>
         </View>
-        <FlatList
-          ref={ref => (this.flatList = ref)}
-          data={this.slides}
-          extraData={this.state}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          extraData={this.state.width}
-          onMomentumScrollEnd={this._onMomentumScrollEnd}
-          renderItem={this._renderItem}
-          keyExtractor={(item, index) => item.id}
-          onLayout={this._onLayout}
-        />
+        <View style={{ flex: 1 }} />
         {this._renderPagination()}
       </BackgroundImage>
     );
@@ -237,7 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   language: {
-    width: 80,
+    width: 100,
     margin: 10
     // backgroundColor:'red'
   },
@@ -254,7 +265,8 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: "transparent",
     height: heightHeader,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    flexDirection: "row"
   },
   image: {
     width: 200,
@@ -281,7 +293,8 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flex: 1
   },
   dot: {
     width: 20,
@@ -296,7 +309,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE
   },
   dropdown: {
-    width: 80,
+    width: 100,
     borderColor: "gray"
   },
   text_dropdown: {

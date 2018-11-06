@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
-import {
-    View,
-    Text,
-    ScrollView
-} from 'react-native';
+import React, { Component } from "react";
+import { View, Text, ScrollView } from "react-native";
 import BackgroundImage from "../components/BackgroundImage";
-import style_common from '../style-common'
+import style_common from "../style-common";
 
 class Location extends Component {
-    render () {
-        return (
-            
-        <BackgroundImage
-            style={style_common.content_center}
-          >
-        </BackgroundImage>
-                
-        )
-    }
+  render() {
+    return (
+      <View>
+        <Text>Location</Text>
+      </View>
+      // <BackgroundImage
+      //     style={style_common.content_center}
+      //   >
+      // </BackgroundImage>
+    );
+  }
 }
-export default Location
+export default Location;

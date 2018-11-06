@@ -48,8 +48,17 @@ const RootStack = createStackNavigator({
   //     header: null
   //   }
   // },
+  
+
+
   SplashScreen: {
     screen: SplashScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Search: {
+    screen: Search,
     navigationOptions: {
       header: null
     }
@@ -133,13 +142,6 @@ const RootStack = createStackNavigator({
   },
   MemberProfile: {
     screen: MemberProfile,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  Search: {
-    screen: Search,
     navigationOptions: {
       header: null
     }

@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loadMsgGroup } from "../actions/loadMsgGroupActions";
 import { COLOR } from "../constant/Color";
 import style_common from "../style-common";
 import { FlatListCommon, TYPE } from "../components/FlatListCommon";
-import {ViewLoading, SearchView, TabView, CustomizeHeader} from "../components/CommonView";
-
+import {
+  ViewLoading,
+  TabView2,
+  CustomizeHeader
+} from "../components/CommonView";
+import { TEXT_MESSAGE } from "../language";
 class Message extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +21,7 @@ class Message extends Component {
       isLoading: false,
       tabIndex: 0
     };
+    this.TEXT_MESSAGE = TEXT_MESSAGE();
   }
 
   componentDidMount() {
@@ -39,7 +44,6 @@ class Message extends Component {
     let ArrSysTem = ArrMsg.ObjectResult.filter(ArrSys => {
       return ArrSys.IsSystem === 1;
     });
-
 
     let ArrUser = ArrMsg.ObjectResult.filter(ArrSys => {
       return ArrSys.IsSystem === 0;
@@ -64,25 +68,25 @@ class Message extends Component {
     return (
       <View style={style_common.container_white}>
         {/*<SearchView*/}
-          {/*onPress={() => {*/}
-            {/*this.props.navigation.navigate("Search");*/}
-          {/*}}*/}
+        {/*onPress={() => {*/}
+        {/*this.props.navigation.navigate("Search");*/}
+        {/*}}*/}
         {/*/>*/}
-          <CustomizeHeader
-              label={"Tin nhắn"}
-              onBackPress={() => this.props.navigation.goBack()}
-          />
+        <CustomizeHeader
+          label={this.TEXT_MESSAGE.MessageTitle}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
         <View style={styles.tab}>
-          <TabView
-            label="Tin nhắn"
+          <TabView2
+            label={this.TEXT_MESSAGE.MessageTitle}
             onPress={() => {
               this.setState({ tabIndex: 0 });
             }}
             isActive={this.state.tabIndex === 0}
             style={styles.btn_margin_right}
           />
-          <TabView
-            label="Kênh thảo luận"
+          <TabView2
+            label={this.TEXT_MESSAGE.Chanel}
             onPress={() => {
               this.setState({ tabIndex: 1 });
             }}
@@ -142,7 +146,7 @@ export default Message;
 const styles = StyleSheet.create({
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE
+    alignSelf: "stretch"
   },
 
   text_tab: {
@@ -158,9 +162,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE
   },
   btn_margin_left: {
-    marginLeft: 5
+    marginLeft: 5,
+    flex: 1
   },
   btn_margin_right: {
-    marginRight: 5
+    marginRight: 5,
+    flex: 1
   }
 });

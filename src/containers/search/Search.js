@@ -4,19 +4,20 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Platform,
   TextInput,
+  StatusBar,
   Keyboard
   // findNodeHandle
 } from "react-native";
 import style_common from "../../style-common";
 import { IMAGE } from "../../constant/assets";
-import Icon from "react-native-vector-icons/dist/Ionicons";
+import Icon5 from "react-native-vector-icons/FontAwesome5";
 import { COLOR } from "../../constant/Color";
-import { ViewLoading, TabView } from "../../components/CommonView";
+import { ViewLoading, TabView2 } from "../../components/CommonView";
 import { FlatListCommon, TYPE } from "../../components/FlatListCommon";
 import { searchAll } from "../../actions";
 // import TextInputReset from "react-native-text-input-reset";
+import {TEXT_SEARCH} from '../../language';
 
 export default class Search extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class Search extends Component {
     this.lastTextSearch = "";
     this.PageIndex = 1;
     this.PageSize = 5;
+    this.TEXT_SEARCH = TEXT_SEARCH();
   }
 
   doSearch = async () => {
@@ -123,46 +125,68 @@ export default class Search extends Component {
   _renderHeader = () => {
     const { goBack } = this.props.navigation;
     return (
-      <View style={[style_common.card_view, styles.header]}>
-        <TouchableOpacity
-          onPress={() => {
-            goBack();
+      <View style={styles.header_wrapper}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent={true}
+        />
+        <Image
+          style={styles.backgound_header}
+          source={require("../../../assets/wrappertab/bg_topbar.png")}
+          resizeMode="cover"
+        />
+        <View
+          style={{
+            marginTop: 15,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center"
           }}
         >
-          <Icon
-            style={styles.back}
-            name={
-              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
-            }
-            color="#000000"
-            size={30}
-          />
-        </TouchableOpacity>
-        <View style={styles.search_border}>
-          <TextInput
-            // underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            returnKeyType="done"
-            numberOfLines={1}
-            placeholder={"Tim kiem"}
-            onChangeText={text => {
-              this.textSearch = text;
-            }}
-            style={styles.text_input}
-            onSubmitEditing={event => {
-              this.doSearch();
-            }}
-            ref={input => {
-              this.textInput = input;
-            }}
-          />
-          <TouchableOpacity style={styles.btn_search} onPress={this.doSearch}>
+          <TouchableOpacity
+            style={styles.btn_back}
+            onPress={() => goBack()}
+          >
             <Image
-              source={IMAGE.search_icon}
-              style={styles.search_icon}
+              style={styles.img_back}
               resizeMode="cover"
+              source={IMAGE.icon_back}
             />
           </TouchableOpacity>
+          <View style={styles.search_border}>
+            <TextInput
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              returnKeyType="done"
+              numberOfLines={1}
+              placeholder={this.TEXT_SEARCH.Search}
+              placeholderTextColor={COLOR.COLOR_WHITE}
+              onChangeText={text => {
+                this.textSearch = text;
+              }}
+              style={styles.text_input}
+              onSubmitEditing={event => {
+                this.doSearch();
+              }}
+              ref={input => {
+                this.textInput = input;
+              }}
+            />
+            <TouchableOpacity style={styles.btn_search} onPress={this.doSearch}>
+              <Icon5
+                name="search"
+                size={20}
+                color={COLOR.COLOR_BACKGROUND}
+                style={{ marginLeft: 10, marginRight: 10 }}
+              />
+              {/* <Image
+                source={IMAGE.search_icon}
+                style={styles.search_icon}
+                resizeMode="cover"
+              /> */}
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -171,32 +195,32 @@ export default class Search extends Component {
   _renderTabButton = () => {
     return (
       <View style={styles.tab}>
-        <TabView
-          label="Bài viết"
+        <TabView2
+          label={this.TEXT_SEARCH.Post}
           onPress={() => {
             this.setState({ tabIndex: 0 });
           }}
           isActive={this.state.tabIndex === 0}
           style={styles.btn_margin_right}
         />
-        <TabView
-          label="Doanh nghiệp"
+        <TabView2
+          label={this.TEXT_SEARCH.Business}
           onPress={() => {
             this.setState({ tabIndex: 1 });
           }}
           isActive={this.state.tabIndex === 1}
           style={styles.btn_margin_lr}
         />
-        <TabView
-          label="Tin nhắn"
+        <TabView2
+          label={this.TEXT_SEARCH.Message}
           onPress={() => {
             this.setState({ tabIndex: 2 });
           }}
           isActive={this.state.tabIndex === 2}
           style={styles.btn_margin_lr}
         />
-        <TabView
-          label="Tài khoản"
+        <TabView2
+          label={this.TEXT_SEARCH.Account}
           onPress={() => {
             this.setState({ tabIndex: 3 });
           }}
@@ -291,20 +315,19 @@ const styles = StyleSheet.create({
     borderRadius: 0
   },
   search_border: {
-    borderRadius: 2,
+    backgroundColor: "#2A9490",
+    flex: 1,
+    height: 35,
+    borderRadius: 35 / 2,
+    marginRight: 10,
     flexDirection: "row",
-    flex: 1
+    alignItems: "center"
   },
   search_icon: {
     width: 30,
     height: 30,
     marginRight: 10,
     alignSelf: "center"
-  },
-  back: {
-    alignSelf: "center",
-    marginLeft: 10,
-    marginRight: 10
   },
   btn_search: {
     justifyContent: "center",
@@ -313,11 +336,12 @@ const styles = StyleSheet.create({
   text_input: {
     flex: 1,
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+    color: COLOR.COLOR_WHITE
   },
   tab: {
     flexDirection: "row",
-    backgroundColor: COLOR.COLOR_WHITE
+    alignSelf: "stretch"
   },
 
   text_tab: {
@@ -333,13 +357,50 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.COLOR_WHITE
   },
   btn_margin_left: {
-    marginLeft: 5
+    marginLeft: 5,
+    flex: 1
   },
   btn_margin_right: {
-    marginRight: 5
+    marginRight: 5,
+    flex: 1
   },
   btn_margin_lr: {
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
+    flex: 1
+  },
+
+  img_back: {
+    width: 30,
+    height: 30 * (53 / 82)
+  },
+  header_wrapper: {
+    height: 65,
+    // backgroundColor: COLOR.COLOR_HEADER,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  txt_header: {
+    color: COLOR.COLOR_BACKGROUND,
+    fontSize: 16,
+    flex: 1,
+    marginRight: 35 + 10,
+    textAlign: "center"
+  },
+  backgound_header: {
+    flex: 1,
+    height: 65,
+    position: "absolute"
+  },
+
+  btn_back: {
+    alignSelf: "flex-start",
+    padding: 10
+  },
+  back: {
+    alignSelf: "center",
+    marginLeft: 10,
+    marginRight: 10
   }
 });

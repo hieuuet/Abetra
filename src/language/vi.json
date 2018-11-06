@@ -12,7 +12,8 @@
     "login_fb": "Đăng nhập với ",
     "confirm": "Xác nhận",
     "cancel": "Hủy",
-    "profile_notfound": "Không tìm thấy profile"
+    "profile_notfound": "Không tìm thấy profile",
+    "search":"Tìm kiếm"
   },
 
   "register": {
@@ -134,5 +135,15 @@
   },
   "benifet":{
     "benifet_title":"Quyền lợi & Chính sách"
+  },
+  "search":{
+    "post":"Bài viết",
+    "business":"Doanh nghiệp",
+    "message":"Tin nhắn",
+    "account":"Tài khoản"
+  },
+  "message":{
+    "message":"Tin nhắn",
+    "chanel":"Kênh thảo luận"
   }
 }
