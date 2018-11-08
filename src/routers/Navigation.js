@@ -40,6 +40,7 @@ import Location from "../containers/Location";
 import EventJoin from "../containers/event/EventJoin";
 import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
+import App1 from "../../App1";
 
 const RootStack = createStackNavigator({
   // Location: {
@@ -48,11 +49,15 @@ const RootStack = createStackNavigator({
   //     header: null
   //   }
   // },
-  
-
 
   SplashScreen: {
     screen: SplashScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  RegisterMember: {
+    screen: RegisterMember,
     navigationOptions: {
       header: null
     }
@@ -84,12 +89,6 @@ const RootStack = createStackNavigator({
 
   VerifyAccount: {
     screen: VerifyAccount,
-    navigationOptions: {
-      header: null
-    }
-  },
-  RegisterMember: {
-    screen: RegisterMember,
     navigationOptions: {
       header: null
     }
@@ -223,6 +222,14 @@ const RootStack = createStackNavigator({
   },
   Message: {
     screen: Message,
+    navigationOptions: {
+      header: null
+    }
+  }
+});
+export const WrapperRoot = createStackNavigator({
+  App1: {
+    screen: App1,
     navigationOptions: {
       header: null
     }

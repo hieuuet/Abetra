@@ -13,7 +13,8 @@
     "confirm": "Xác nhận",
     "cancel": "Hủy",
     "profile_notfound": "Không tìm thấy profile",
-    "search":"Tìm kiếm"
+    "search":"Tìm kiếm",
+    "noti_title": "Thông báo",
   },
 
   "register": {

@@ -189,6 +189,7 @@ class RegisterMember extends Component {
 
   render() {
     this.initData();
+    // return <View />;
     return (
       <KeyboardAvoidingView
         style={style_common.container_white}
@@ -205,7 +206,9 @@ class RegisterMember extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={styles.container}>
-            <Text style={style_common.text_h1}>{this.TEXT_REGISTER_MEMBER.RankMember.toUpperCase()}</Text>
+            <Text style={style_common.text_h1}>
+              {this.TEXT_REGISTER_MEMBER.RankMember.toUpperCase()}
+            </Text>
             <RankSelect
               allRank={this.props.allRank || []}
               onRankSelect={this.onRankSelect}
@@ -286,9 +289,6 @@ class RegisterMember extends Component {
                 onPress={this.registerMember}
               />
             </View>
-            {/* <Text style={style_common.text_h1}>
-              {this.TEXT_REGISTER_MEMBER.ContactTitle.toUpperCase()}
-            </Text> */}
             <View
               style={{
                 justifyContent: "center",

@@ -13,7 +13,8 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "profile_notfound":"Profile not found",
-    "search":"Search"
+    "search":"Search",
+    "noti_title":"Notification"
 
 
   },

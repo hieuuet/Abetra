@@ -39,5 +39,7 @@ export const IMAGE = {
   btn_dangky: require("../../assets/profile/btn_dangky.png"),
   star: require("../../assets/profile/star.png"),
   icon_fanpage: require("../../assets/profile/icon_fanpage.png"),
-  icon_fanpage_white: require("../../assets/profile/icon_fanpage_white.png")
+  icon_fanpage_white: require("../../assets/profile/icon_fanpage_white.png"),
+  header_alert: require("../../assets/profile/header_alert.png")
+
 };

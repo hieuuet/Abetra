@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
   },
   btn_back: {
     alignSelf: "flex-start",
-    padding: 10
+    padding: 10,
+    marginTop: 16
   },
   back: {
     alignSelf: "center",

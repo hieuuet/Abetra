@@ -245,7 +245,8 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "transparent",
     height: heightHeader,
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop:16
   },
   language: {
     width: 100,

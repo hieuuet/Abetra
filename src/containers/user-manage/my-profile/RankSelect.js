@@ -105,7 +105,7 @@ class RankSelect extends Component {
         </View>
         <View style={styles.wrapper_rank}>
           {this._renderItemRank(3, this.state.allRank[1])}
-          {this._renderItemRank(4, this.state.allRank[0])}s
+          {this._renderItemRank(4, this.state.allRank[0])}
         </View>
       </View>
     );

@@ -50,3 +50,20 @@ export const allEmoji = (state = {}, action = {}) => {
       return state;
   }
 };
+
+export const dataAlert = (
+  state = {
+    title: undefined,
+    message: undefined,
+    positive: undefined,
+    negative: undefined
+  },
+  action = {}
+) => {
+  switch (action.type) {
+    case "SHOW_ALERT":
+      return action.payload;
+    default:
+      return state;
+  }
+};

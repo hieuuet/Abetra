@@ -12,8 +12,6 @@ class SplashScreen extends Component {
   }
 
   componentDidMount() {
-    
-
     this.checkLoginNavigate();
   }
   checkLoginNavigate = async () => {

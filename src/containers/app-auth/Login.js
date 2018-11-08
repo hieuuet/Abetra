@@ -18,7 +18,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
-import { ButtonBorder, ViewLoading } from "../../components/CommonView";
+import {
+  ButtonBorder,
+  ViewLoading,
+  showAlert2
+} from "../../components/CommonView";
 import { postLogin, loginGuest, loginFacebook } from "../../actions";
 import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
@@ -72,6 +76,7 @@ class Login extends Component {
   };
   //Call api login account
   _login = async () => {
+    // return showAlert2({ title: "", message: "", positive: "", negative: "" });
     const { userName, password } = this.dataUser;
 
     const { postLogin } = this.props;
