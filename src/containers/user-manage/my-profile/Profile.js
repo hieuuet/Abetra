@@ -20,6 +20,7 @@ import { NavigationActions, StackActions } from "react-navigation";
 import HeaderProfile from "./HeaderProfile";
 import { TEXT_PROFILE } from "../../../language";
 const ImagePicker = NativeModules.ImageCropPicker;
+import { showAlert, closeAlert } from "../../../constant/UtilsFunction";
 
 class Profile extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class Profile extends Component {
   componentDidMount() {
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      closeAlert();
       this.handleBackPress();
     });
   }

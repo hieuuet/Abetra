@@ -228,7 +228,7 @@ class StatusItems extends Component {
 
         }
         const {item} = this.props.dataItem;
-        console.log('isTab',  this.props.isTab)
+        // console.log('isTab',  this.props.isTab)
         // console.log('item.cmt', item.Comments)
         // let PollVote = item.Poll ? item.Poll : null
         // PollVote =  JSON.parse(PollVote)

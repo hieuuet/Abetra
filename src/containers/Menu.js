@@ -19,7 +19,7 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";
-import { getRank } from "../constant/UtilsFunction";
+import { getRank, showAlert } from "../constant/UtilsFunction";
 import { TEXT_MENU } from "../language";
 import { isEqual } from "lodash";
 
@@ -43,8 +43,7 @@ class Menu extends Component {
     const resetAction = StackActions.reset({
       index: 0,
       // actions: [NavigationActions.navigate({ routeName: "Login" })]
-      actions: this.props.screenProps.navigate("Login" )
-
+      actions: this.props.screenProps.navigate("Login")
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -56,7 +55,7 @@ class Menu extends Component {
         style={[style_common.card_view, styles.header_container]}
         onPress={() => {
           if (this.props.isGuest) return requestRegister(this.props.navigation);
-          this.props.screenProps.navigate("Profile", {isMenu: true});
+          this.props.screenProps.navigate("Profile", { isMenu: true });
         }}
       >
         <Image
@@ -74,9 +73,7 @@ class Menu extends Component {
               ? this.userProfile.FullName
               : ""}
           </Text>
-          <Text style={styles.text_rank}>
-            Quan tri vien
-          </Text>
+          <Text style={styles.text_rank}>Quan tri vien</Text>
         </View>
       </TouchableOpacity>
     );
@@ -106,7 +103,7 @@ class Menu extends Component {
           title={this.TEXT_MENU.Event}
           source={require("../../assets/menu/icon_sukien.png")}
           onPress={() => {
-            this.props.screenProps.navigate("Event", {isMenu: true});
+            this.props.screenProps.navigate("Event", { isMenu: true });
           }}
         />
 
@@ -119,9 +116,9 @@ class Menu extends Component {
           source={require("../../assets/menu/icon_khuyenmai.png")}
         />
         {/*<MenuItem*/}
-          {/*title={this.TEXT_MENU.Intro}*/}
-          {/*source={require("../../assets/menu/icon_huongdan.png")}*/}
-          {/*onPress={() => this.props.screenProps.navigate("About")}*/}
+        {/*title={this.TEXT_MENU.Intro}*/}
+        {/*source={require("../../assets/menu/icon_huongdan.png")}*/}
+        {/*onPress={() => this.props.screenProps.navigate("About")}*/}
         {/*/>*/}
 
         <MenuItem
@@ -147,13 +144,13 @@ class Menu extends Component {
           source={require("../../assets/menu/icon_theodoi.png")}
           style={styles.style_menu}
         />
-          <MenuItem
-              title={
-                  this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
-              }
-              source={require("../../assets/menu/icon_dangxuat.png")}
-              onPress={this.logout}
-          />
+        <MenuItem
+          title={
+            this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout
+          }
+          source={require("../../assets/menu/icon_dangxuat.png")}
+          onPress={this.logout}
+        />
         {/*<View style={{height: 1, backgroundColor: '#E0E0E0', marginTop:5, marginLeft: 55, marginBottom: 5}}/>*/}
       </ScrollView>
     );
@@ -185,8 +182,8 @@ const styles = StyleSheet.create({
   header_container: {
     flexDirection: "row",
     flex: 1,
-      paddingBottom: 10,
-      paddingTop: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
     margin: 0,
     justifyContent: "flex-start",
     alignItems: "center",
@@ -200,12 +197,12 @@ const styles = StyleSheet.create({
   },
   text_name: {
     // fontWeight: "bold",
-    color: 'black',
-      fontSize: 15
+    color: "black",
+    fontSize: 15
   },
   text_rank: {
     // fontWeight: "",
-      fontSize: 12
+    fontSize: 12
   },
   style_menu: {
     justifyContent: "center",
@@ -216,8 +213,8 @@ const styles = StyleSheet.create({
   avatar: {
     width: 50,
     height: 50,
-      marginLeft: 20,
-      borderRadius: 25
+    marginLeft: 20,
+    borderRadius: 25
   },
   canhbao: {
     width: DEVICE_WIDTH / 2,

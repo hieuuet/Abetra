@@ -6,6 +6,8 @@ import { getAllLanguage, getCurrentLanguage, getImagePanel } from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import BackgroundImage from "../components/BackgroundImage";
+import { LANGUAGE, DEFAULT_LANGUGE } from "../constant/KeyConstant";
+
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,13 @@ class SplashScreen extends Component {
     if (isFirstInstall === null) {
       routerName = "Intro";
       allLanguage = await getAllLanguage().then(data => data.Value || []);
+      await AsyncStorage.setItem(
+        LANGUAGE,
+        JSON.stringify(
+          (allLanguage.length > 0 && allLanguage[0]) || DEFAULT_LANGUGE
+        )
+      );
+      this.props.getCurrentLanguage();
       arrSlide = await getImagePanel().then(data => data.Value || []);
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);

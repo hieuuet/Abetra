@@ -18,11 +18,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
-import {
-  ButtonBorder,
-  ViewLoading,
-  showAlert2
-} from "../../components/CommonView";
+import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { postLogin, loginGuest, loginFacebook } from "../../actions";
 import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
@@ -31,7 +27,7 @@ import { web } from "../../components/Communications";
 import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
-
+import { closeAlert, showAlert } from "../../constant/UtilsFunction";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +45,7 @@ class Login extends Component {
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       async () => {
+        closeAlert();
         return await this.loginAsGuest();
       }
     );
@@ -76,7 +73,7 @@ class Login extends Component {
   };
   //Call api login account
   _login = async () => {
-    // return showAlert2({ title: "", message: "", positive: "", negative: "" });
+    // return showAlert();
     const { userName, password } = this.dataUser;
 
     const { postLogin } = this.props;

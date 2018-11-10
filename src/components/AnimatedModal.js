@@ -22,13 +22,10 @@ export default class AnimatedModal extends Component {
   }
 
   componentDidMount() {
-    // this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-    //   console.log("state", this.state);
-    //   if (this.state.isShowAlert) {
-    //     this.props.onClose();
-    //     return true;
-    //   }
-    // });
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      console.log("onbackpress=====", this.state);
+      this.props.onClose();
+    });
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.visible) {
@@ -49,7 +46,7 @@ export default class AnimatedModal extends Component {
   }
 
   componentWillUnmount() {
-    // this.backHandler.remove();
+    this.backHandler.remove();
   }
   render() {
     const { title, children, onClose, onSubmit } = this.props;

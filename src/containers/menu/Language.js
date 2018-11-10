@@ -19,20 +19,6 @@ import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
 
 class Language extends Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     headerStyle: {
-  //       position: "absolute",
-  //       top: 0,
-  //       left: 0
-  //     },
-  //     headerBackTitleStyle: {
-  //       opacity: 0
-  //     },
-  //     headerTintColor: "#fff"
-  //   };
-  // };
-
   constructor(props) {
     super(props);
 

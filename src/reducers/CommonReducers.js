@@ -51,17 +51,24 @@ export const allEmoji = (state = {}, action = {}) => {
   }
 };
 
-export const dataAlert = (
+export const showAlert = (
   state = {
-    title: undefined,
-    message: undefined,
-    positive: undefined,
-    negative: undefined
+    id: "0"
   },
   action = {}
 ) => {
   switch (action.type) {
     case "SHOW_ALERT":
+      return action.payload;
+
+    default:
+      return state;
+  }
+};
+
+export const closeAlert = (state = { id: "0" }, action = {}) => {
+  switch (action.type) {
+    case "CLOSE_ALERT":
       return action.payload;
     default:
       return state;

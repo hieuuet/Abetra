@@ -32,7 +32,7 @@ import { isEqual } from "lodash";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
 import { GENDER_STATE } from "../../../constant/KeyConstant";
-import { formatDate } from "../../../constant/UtilsFunction";
+import { formatDate,showAlert,closeAlert } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 const ImagePicker = NativeModules.ImageCropPicker;
 
@@ -63,6 +63,7 @@ class MyProfileTab1 extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      closeAlert();
       if (this.state.showEmoticons) {
         this.setState({ showEmoticons: false });
         return true;

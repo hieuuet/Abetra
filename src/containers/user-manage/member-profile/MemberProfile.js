@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import HeaderMember from "./HeaderMember";
 // import { isEqual } from "lodash";
 import { TEXT_PROFILE } from "../../../language";
+import { showAlert, closeAlert } from "../../../constant/UtilsFunction";
 
 class MemberProfile extends Component {
   constructor(props) {

@@ -50,6 +50,7 @@ const RootStack = createStackNavigator({
   //   }
   // },
 
+
   SplashScreen: {
     screen: SplashScreen,
     navigationOptions: {
@@ -58,6 +59,12 @@ const RootStack = createStackNavigator({
   },
   RegisterMember: {
     screen: RegisterMember,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Intro: {
+    screen: Intro,
     navigationOptions: {
       header: null
     }
@@ -122,12 +129,6 @@ const RootStack = createStackNavigator({
 
   CertificateMember: {
     screen: CertificateMember,
-    navigationOptions: {
-      header: null
-    }
-  },
-  Intro: {
-    screen: Intro,
     navigationOptions: {
       header: null
     }

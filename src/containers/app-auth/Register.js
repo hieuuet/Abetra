@@ -26,6 +26,7 @@ import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
+import {showAlert,closeAlert} from '../../constant/UtilsFunction'
 
 class Register extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class Register extends Component {
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       async () => {
+        closeAlert();
         return await this.loginAsGuest();
       }
     );
@@ -99,7 +101,18 @@ class Register extends Component {
       );
       return;
     }
-    if (password.length < 6 || password !== rePassword) {
+
+    if (password.length < 6 ) {
+      Alert.alert(
+        "Thông báo",
+        "Mật khẩu phải lớn hơn 6 ký tự",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+      return;
+    }
+
+    if ( password !== rePassword) {
       Alert.alert(
         "Thông báo",
         "Mật khẩu không trùng khớp",

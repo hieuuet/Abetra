@@ -6,6 +6,7 @@ import { getcommonSetting } from "../actions";
 import { ViewLoading, CustomizeHeader } from "../components/CommonView";
 import { TEXT_MENU } from "../language";
 import { isEqual } from "lodash";
+import {showAlert,closeAlert} from '../constant/UtilsFunction'
 
 class TermServices extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class TermServices extends Component {
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       async () => {
+        closeAlert();
         return this.props.navigation.goBack();
       }
     );

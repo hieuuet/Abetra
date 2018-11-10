@@ -5,33 +5,14 @@
  */
 
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  NetInfo,
-  YellowBox,
-  Text,
-  View,
-  Animated,
-  Easing,
-  Dimensions,
-  BackHandler,
-  TouchableOpacity
-} from "react-native";
-const { height, width } = Dimensions.get("window");
-import Icon from "react-native-vector-icons/Ionicons";
+import { NetInfo, YellowBox, Text, View, BackHandler } from "react-native";
 import RootStack from "./src/routers/Navigation";
-import { showAlert2 } from "./src/components/CommonView";
 import AnimatedModal from "./src/components/AnimatedModal";
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import store from "./src/store/index";
-export default class App1 extends Component {
+class App1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,33 +22,61 @@ export default class App1 extends Component {
   }
 
   componentDidMount() {
-    
-    this.unsubscribe = store.subscribe(listener => {
-      const previousValue = this.currentValue;
-      this.currentValue = store.getState().dataAlert;
-      if (
-        previousValue &&
-        this.currentValue &&
-        this.currentValue.id !== previousValue.id
-      ) {
-        console.log("show alert");
-        this.setState({ isShowAlert: true });
-      }
-    });
+    // this.backHandler = BackHandler.addEventListener(
+    //   "hardwareBackPress",
+    //   async () => {
+    //     // this.closeAlert();
+    //     console.log("onbackpresss=======");
+    //     return true;
+    //   }
+    // );
+
+    // this.unsubscribe = store.subscribe(listener => {
+    //   //show alert
+    //   const previousValue = this.currentValue;
+    //   this.currentValue = store.getState().dataAlert;
+    //   if (
+    //     previousValue &&
+    //     this.currentValue &&
+    //     this.currentValue.id !== previousValue.id
+    //   ) {
+    //     this.setState({ isShowAlert: true });
+    //   }
+    // });
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       this._handleConnectionChange
     );
   }
-
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.closeAlert.id !== nextProps.closeAlert.id) {
+      //close alert
+      this.closeAlert();
+      return false;
+    }
+    if (this.props.showAlert.id !== nextProps.showAlert.id) {
+      //show alert
+      this.setState({ isShowAlert: true });
+      return false;
+    }
+    return true;
+  }
   componentWillUnmount() {
-    console.log("state2", this.state);
     NetInfo.isConnected.removeEventListener(
       "connectionChange",
       this._handleConnectionChange
     );
-    this.unsubscribe();
+    // this.unsubscribe();
+    // this.backHandler.remove();
   }
+  closeAlert = () => {
+    if (this.state.isShowAlert) {
+      this.setState({ isShowAlert: false });
+      return true;
+    }
+    return false;
+  };
+
   _handleConnectionChange = isConnected => {
     store.dispatch({ type: "NETWORK_CHANGE", payload: { isConnected } });
   };
@@ -82,21 +91,44 @@ export default class App1 extends Component {
       <View style={{ flex: 1 }}>
         <Root />
         <AnimatedModal
+          title={this.props.showAlert.title}
           visible={this.state.isShowAlert}
           onClose={() => {
-            this.setState({ isShowAlert: false });
+            if (this.state.isShowAlert) {
+              this.setState({ isShowAlert: false });
+              this.props.showAlert.cancelFunc &&
+                this.props.showAlert.cancelFunc();
+            }
           }}
           onSubmit={() => {
             this.setState({ isShowAlert: false });
+            this.props.showAlert.submitFunc &&
+              this.props.showAlert.submitFunc();
           }}
         >
-          <Text style={{ color: "#000000" }}>noi dung</Text>
+          <Text style={{ color: "#000000" }}>
+            {this.props.showAlert.message || ""}
+          </Text>
         </AnimatedModal>
       </View>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    closeAlert: state.closeAlert,
+    showAlert: state.showAlert
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
+App1 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App1);
+export default App1;
 export class Root extends Component {
   shouldComponentUpdate() {
     return false;

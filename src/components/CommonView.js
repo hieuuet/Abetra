@@ -16,7 +16,6 @@ import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
 import PropTypes from "prop-types";
 import { TEXT_ALERT } from "../language";
-import store from "../../src/store/index";
 /**
  * Common alert:
  * Param:
@@ -43,26 +42,7 @@ export const showAlert = ({ title, message, positive, negative }) => {
   );
 };
 
-const randomString = length_ => {
-  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".split(
-    ""
-  );
-  if (typeof length_ !== "number") {
-    length_ = Math.floor(Math.random() * chars.length_);
-  }
-  let str = "";
-  for (let i = 0; i < length_; i++) {
-    str += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return str;
-};
-export const showAlert2 = ({ title, message, positive, negative }) => {
-  const id = randomString(10);
-  return store.dispatch({
-    type: "SHOW_ALERT",
-    payload: { id, title, message, positive, negative }
-  });
-};
+
 
 /**
  *

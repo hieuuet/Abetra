@@ -24,6 +24,7 @@ import IconMessage from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { createMsgGroup } from "../actions";
 import { COLOR } from "../constant/Color";
 import { USER_ID } from "../constant/KeyConstant";
+import{showAlert,closeAlert} from '../constant/UtilsFunction'
 
 class Enterprise extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Enterprise extends Component {
   componentDidMount() {
     this.loadData();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      closeAlert();
       if (this.refs.modal && this.refs.modal.state.isOpen) {
         this.refs.modal.close();
         return true;
@@ -255,12 +257,12 @@ class Enterprise extends Component {
         keyboardVerticalOffset={64}
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
-          <SearchView
+          {/* <SearchView
             onPress={() => {
               this.props.navigation.navigate("Search");
             }}
             style={styles.search}
-          />
+          /> */}
 
           {this.state.dataEnterprise.length === 0 && !this.state.isLoading ? (
             this._renderEmpty()

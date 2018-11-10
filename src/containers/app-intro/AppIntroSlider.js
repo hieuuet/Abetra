@@ -41,35 +41,17 @@ class AppIntroSlider extends Component {
       activeIndex: 0
     };
 
-    const arrSlide = this.props.navigation.getParam("arrSlide");
-    this.slides = [
-      {
-        id: "somethun",
-        title: "Title 1",
-        text: "Description.\nSay something cool",
-        image: arrSlide[0] || "",
-        imageStyle: styles.image,
-        backgroundColor: "#59b2ab"
-      },
-      {
-        id: "somethun-dos",
-        title: "Title 2",
-        text: "Other cool stuff",
-        image: arrSlide[1] || "",
-        imageStyle: styles.image,
-        backgroundColor: "#febe29"
-      },
-      {
-        id: "somethun1",
-        title: "Rocket guy",
-        text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
-        image: arrSlide[2] || "",
-        imageStyle: styles.image,
-        backgroundColor: "#22bcb5"
-      }
-    ];
+    const arrSlide = this.props.navigation.getParam("arrSlide") || [];
+    this.slides = arrSlide.map((item, index) => ({
+      id: index + "",
+      title: "Title" + index,
+      text: "Description.\nSay something cool",
+      image: item || "",
+      imageStyle: styles.image,
+      backgroundColor: "#59b2ab"
+    }));
 
-    this.allLanguage = this.props.navigation.getParam("allLanguage");
+    this.allLanguage = this.props.navigation.getParam("allLanguage") || [];
     this.language = this.allLanguage.map(item => item.ShortName);
     this.listIcon = this.allLanguage.map(item => item.Icon);
     this.heightDropdown =
@@ -173,16 +155,31 @@ class AppIntroSlider extends Component {
           />
         </View>
         <View style={styles.header}>
-          <Image
+          {/* <Image
             source={IMAGE.logo}
             resizeMode="cover"
             style={style_common.img_logo}
           />
           <View style={style_common.container}>
             <Text style={styles.text_title}>{TEXT_INTRO().IntroTitle}</Text>
-          </View>
-          <View style={styles.language}>
-            <ModalDropdown
+          </View> */}
+          <TouchableOpacity
+            style={styles.language}
+            onPress={() => this.props.navigation.navigate("Language")}
+          >
+            <Text
+              style={{ flex: 1, textAlign: "right",marginRight:5, color: COLOR.COLOR_WHITE }}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            >
+              {this.props.currentLanguage.ShortName || ""}
+            </Text>
+            <Image
+              source={{ uri: this.props.currentLanguage.Icon }}
+              resizeMode="cover"
+              style={{ width: 30, height: 30 }}
+            />
+            {/* <ModalDropdown
               options={this.language}
               defaultIndex={this.defaultLanguage}
               defaultValue={this.language[this.defaultLanguage]}
@@ -191,8 +188,8 @@ class AppIntroSlider extends Component {
               onSelect={this.selectLanguage}
               listIcon={this.listIcon}
               dropdownStyle={{ height: this.heightDropdown }}
-            />
-          </View>
+            /> */}
+          </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }} />
         {this._renderPagination()}
@@ -244,14 +241,16 @@ class AppIntroSlider extends Component {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "transparent",
-    height: heightHeader,
     flexDirection: "row",
-    marginTop:16
+    marginTop: 16,
+    alignSelf: "flex-end"
   },
   language: {
-    width: 100,
-    margin: 10
-    // backgroundColor:'red'
+    width: 120,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
   },
   text_title: {
     textAlign: "center",
@@ -319,6 +318,11 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    currentLanguage: state.currentLanguage
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
@@ -326,7 +330,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 AppIntroSlider = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AppIntroSlider);
 export default AppIntroSlider;
