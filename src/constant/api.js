@@ -68,5 +68,10 @@ export const API = {
   //search
   SEARCH_ALL: `${URL_BASE}/api/Users/SearchAll`,
   //enterprise
-  ALL_ENTERPRISE: `${URL_BASE}/Enterprise/Getall`
+  ALL_ENTERPRISE: `${URL_BASE}/Enterprise/Getall`,
+
+  UPDATE_PHONE_FB:`${URL_BASE}/api/Users/UpdatePhoneByFB`,
+  SEND_OTP:`${URL_BASE}/api/Users/SendOTP`,
+  VERIFY_OTP:`${URL_BASE}/api/Users/VetifyOTP`,
+
 };

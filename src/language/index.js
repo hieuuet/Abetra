@@ -20,7 +20,9 @@ export const TEXT_COMMON = () => ({
   Guest: strings("common.btn_guest"),
   FanPage: strings("common.txt_fanpage"),
   Confirm: strings("common.confirm"),
-  Cancel: strings("common.cancel")
+  Cancel: strings("common.cancel"),
+  Next: strings("common.next"),
+  InputPhone: strings("login.input_phone"),
 });
 export const TEXT_VERIFY = () => ({
   VerifyPhone: strings("verify.verify_phone"),

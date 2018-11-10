@@ -13,8 +13,9 @@
     "confirm": "Xác nhận",
     "cancel": "Hủy",
     "profile_notfound": "Không tìm thấy profile",
-    "search":"Tìm kiếm",
+    "search": "Tìm kiếm",
     "noti_title": "Thông báo",
+    "next": "Tiếp tục"
   },
 
   "register": {
@@ -134,17 +135,17 @@
   "certificate": {
     "certificate_title": "Chứng nhận hội viên"
   },
-  "benifet":{
-    "benifet_title":"Quyền lợi & Chính sách"
+  "benifet": {
+    "benifet_title": "Quyền lợi & Chính sách"
   },
-  "search":{
-    "post":"Bài viết",
-    "business":"Doanh nghiệp",
-    "message":"Tin nhắn",
-    "account":"Tài khoản"
+  "search": {
+    "post": "Bài viết",
+    "business": "Doanh nghiệp",
+    "message": "Tin nhắn",
+    "account": "Tài khoản"
   },
-  "message":{
-    "message":"Tin nhắn",
-    "chanel":"Kênh thảo luận"
+  "message": {
+    "message": "Tin nhắn",
+    "chanel": "Kênh thảo luận"
   }
 }

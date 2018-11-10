@@ -26,7 +26,7 @@ import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
-import {showAlert,closeAlert} from '../../constant/UtilsFunction'
+import { showAlert, closeAlert } from "../../constant/UtilsFunction";
 
 class Register extends Component {
   constructor(props) {
@@ -83,9 +83,10 @@ class Register extends Component {
     this.props.navigation.dispatch(resetAction);
   };
   gotToVerify = () => {
-    this.props.navigation.navigate("VerifyAccount", {
+    this.props.navigation.navigate("InputPhone", {
       userName: this.dataUser.userName,
-      password: this.dataUser.password
+      password: this.dataUser.password,
+      phone: this.dataUser.userName
     });
   };
   _register = async () => {
@@ -102,7 +103,7 @@ class Register extends Component {
       return;
     }
 
-    if (password.length < 6 ) {
+    if (password.length < 6) {
       Alert.alert(
         "Thông báo",
         "Mật khẩu phải lớn hơn 6 ký tự",
@@ -112,7 +113,7 @@ class Register extends Component {
       return;
     }
 
-    if ( password !== rePassword) {
+    if (password !== rePassword) {
       Alert.alert(
         "Thông báo",
         "Mật khẩu không trùng khớp",
@@ -187,6 +188,17 @@ class Register extends Component {
   //Handle result after login
   _handleLoginResult = async loginResult => {
     if (loginResult.ErrorCode === "00") {
+      if (
+        !loginResult.Value[0].Phone ||
+        loginResult.Value[0].Phone.length === 0
+      ) {
+        return this.props.navigation.navigate("InputPhone", {
+          userName: loginResult.Value[0].userName,
+          password: "",
+          phone: undefined,
+          isLoginFb:true
+        });
+      }
       const IntUserID = loginResult.Value[0].IntUserID.toString();
       const ProfileID = loginResult.Value[0].ProfileID.toString();
       if (
@@ -272,7 +284,10 @@ class Register extends Component {
           onChangeText={text => (this.dataUser.rePassword = text)}
           style={styles.text_input}
         />
-        <ButtonBorder label={TEXT_REGISTER().Register} onPress={this._register} />
+        <ButtonBorder
+          label={TEXT_REGISTER().Register}
+          onPress={this._register}
+        />
 
         <View style={styles.view_login}>
           <Text style={styles.text_fb1}>{TEXT_COMMON().LoginFB}</Text>
@@ -322,7 +337,9 @@ class Register extends Component {
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TermServices")}
           >
-            <Text style={styles.txt_underline}>{TEXT_REGISTER().AgreeTerm}</Text>
+            <Text style={styles.txt_underline}>
+              {TEXT_REGISTER().AgreeTerm}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -33,7 +33,10 @@ export {
   getcommonSetting,
   getAllCategory,
   deleteImage,
-  getAllEmoji
+  getAllEmoji,
+  updatePhoneFb,
+  sendOTP,
+  verifyOTP
 } from "./CommonActions";
 export {
   registerBusinessMember,

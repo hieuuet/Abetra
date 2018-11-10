@@ -38,7 +38,7 @@ export function strings(name, params = {}) {
   let currentLan = language.substring(0, 2);
 
   if (currentLan !== "vi" && currentLan !== "en") currentLan = "vi";
-  console.log("currentLan-name", name);
+  // console.log("currentLan-name", name);
 
   I18n.locale = currentLan;
 

@@ -41,6 +41,7 @@ import EventJoin from "../containers/event/EventJoin";
 import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
 import App1 from "../../App1";
+import InputPhone from "../containers/app-auth/InputPhone";
 
 const RootStack = createStackNavigator({
   // Location: {
@@ -50,9 +51,14 @@ const RootStack = createStackNavigator({
   //   }
   // },
 
-
   SplashScreen: {
     screen: SplashScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  InputPhone: {
+    screen: InputPhone,
     navigationOptions: {
       header: null
     }

@@ -147,3 +147,24 @@ export const getAllEmoji = () => {
     return result;
   };
 };
+
+/**
+ * update phone facebook
+ */
+export const updatePhoneFb = (data = {}) => {
+  return postRequestApi(API.UPDATE_PHONE_FB, data, true);
+};
+
+/**
+ * request send otp
+ */
+export const sendOTP = (data = {}) => {
+  return postRequestApi(API.SEND_OTP, data, true);
+};
+
+/**
+ * verify OTP
+ */
+export const verifyOTP = (data = {}) => {
+  return postRequestApi(API.VERIFY_OTP, data, true);
+};

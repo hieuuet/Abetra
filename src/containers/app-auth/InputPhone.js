@@ -20,12 +20,7 @@ import { TEXT_COMMON, TEXT_VERIFY } from "../../language";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {
-  postLogin,
-  loginGuest,
-  loadUserProfile,
-  verifyOTP
-} from "../../actions";
+import { updatePhoneFb, sendOTP } from "../../actions";
 import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
@@ -33,114 +28,55 @@ import BackgroundImage from "../../components/BackgroundImage";
 import { NavigationActions, StackActions } from "react-navigation";
 import { showAlert } from "../../constant/UtilsFunction";
 
-class VerifyAccount extends Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     title: TEXT_VERIFY.VerifyPhone,
-  //     headerTitleStyle: { color: COLOR.COLOR_BLACK },
-  //     headerTintColor: COLOR.COLOR_BLACK
-  //   };
-  // };
+class InputPhone extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false
     };
-    this.verifyCode = "";
+
+    this.userName = this.props.navigation.getParam("userName") || "";
+    this.password = this.props.navigation.getParam("password") || "";
+    this.phone = this.props.navigation.getParam("passphoneword") || "";
+    this.hasPhone = this.phone.length > 0;
   }
 
-  verify = async () => {
-    if (this.verifyCode.length === 0) {
-      return showAlert({ message: "chua nhap otp" });
+  updatePhoneAndNavigate = async () => {
+    if (this.phone.length <= 9) {
+      return showAlert({ message: "so dien thoai khong dung dinh dang" });
     }
-    const userName = this.props.navigation.getParam("userName");
     this.setState({ isLoading: true });
-    const verifyResult = await verifyOTP({
-      OTP: this.verifyCode,
-      UserName: userName
+    if (!this.hasPhone) {
+      const updatePhone = await updatePhoneFb({
+        Phone: this.phone,
+        UserName: this.userName,
+        LangID: 3
+      });
+      if (!updatePhone || updatePhone.ErrorCode !== "00") {
+        this.setState({ isLoading: false });
+        return showAlert({
+          message: (updatePhone && updatePhone.Message) || "update phone fail"
+        });
+      }
+    }
+    const requestSendOTP = await sendOTP({
+      Phone: this.phone,
+      UserName: this.userName
     });
-    this.setState({ isLoading: false });
-    if (!verifyResult || verifyResult.ErrorCode !== "00") {
+    if (!requestSendOTP || requestSendOTP.ErrorCode !== "00") {
       this.setState({ isLoading: false });
       return showAlert({
-        message: (verifyResult && verifyResult.Message) || "verify fail"
+        message:
+          (requestSendOTP && requestSendOTP.Message) || "requestSendOTP fail"
       });
     }
-    await this._login();
-  };
-  reSendCode = () => {
-    Alert.alert(
-      "Thông báo",
-      "Tính năng đang phát triển",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
-  };
-  loadUserProfile = async userID => {
-    const { loadUserProfile } = this.props;
-    const userProfile = await loadUserProfile({
-      user_id: userID,
-      option: 100
-    });
     this.setState({ isLoading: false });
-    if (!userProfile) {
-      return Alert.alert(
-        "Thông báo",
-        "Không thể tải trang cá nhân",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
-    }
-
-    this.goToProfile();
-  };
-  goToProfile = () => {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: "Profile",
-          params: { fromVerify: true }
-        })
-      ]
+    this.props.navigation.navigate("VerifyAccount", {
+      phone: this.phone,
+      userName: this.userName,
+      password: this.password,
+      isLoginFb: this.props.navigation.getParam("isLoginFb")
     });
-    this.props.navigation.dispatch(resetAction);
-    // this.props.navigation.navigate("Profile", { fromVerify: true });
-  };
-  _login = async () => {
-    const userName = this.props.navigation.getParam("userName");
-    const password = this.props.navigation.getParam("password");
-
-    const { postLogin } = this.props;
-    this.setState({ isLoading: true });
-    let login = await postLogin({
-      so_dien_thoai: userName,
-      mat_khau: password
-    });
-
-    if (login.ErrorCode === "00") {
-      if (login.Value && login.Value.length > 0 && login.Value[0].UserID) {
-        await AsyncStorage.setItem(USER_ID, login.Value[0].UserID);
-        this.props.loginGuest(false);
-        this.loadUserProfile(login.Value[0].UserID);
-      } else {
-        this.setState({ isLoading: false });
-        Alert.alert(
-          "Thông báo",
-          "Không tìm thấy UserID",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-          { cancelable: false }
-        );
-      }
-    } else {
-      this.setState({ isLoading: false });
-      Alert.alert(
-        "Thông báo",
-        login.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
-    }
   };
 
   _renderContent = () => {
@@ -150,20 +86,17 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={TEXT_VERIFY().InputCode}
+          placeholder={TEXT_COMMON().InputPhone}
           placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
-          onChangeText={text => (this.verifyCode = text)}
+          defaultValue={this.phone}
+          onChangeText={text => (this.phone = text)}
           style={styles.text_input}
+          editable={this.phone !== undefined && this.phone.length === 0}
         />
-        {/* <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text> */}
-        <ButtonBorder label={TEXT_COMMON().Confirm} onPress={this.verify} />
-
-        <Text style={styles.text_info}>{TEXT_VERIFY().NotRecevie}</Text>
         <ButtonBorder
-          label={TEXT_VERIFY().Resend}
-          onPress={this.reSendCode}
-          my_style={style_common.btn_blue_radius}
+          label={TEXT_COMMON().Next}
+          onPress={this.updatePhoneAndNavigate}
         />
       </View>
     );
@@ -220,18 +153,14 @@ class VerifyAccount extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    postLogin: bindActionCreators(postLogin, dispatch),
-    loginGuest: bindActionCreators(loginGuest, dispatch),
-    loadUserProfile: bindActionCreators(loadUserProfile, dispatch)
-  };
+  return {};
 };
 
-VerifyAccount = connect(
+InputPhone = connect(
   null,
   mapDispatchToProps
-)(VerifyAccount);
-export default VerifyAccount;
+)(InputPhone);
+export default InputPhone;
 
 const styles = StyleSheet.create({
   img_logo: {
