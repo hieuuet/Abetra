@@ -25,6 +25,7 @@ export default class AnimatedModal extends Component {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       console.log("onbackpress=====", this.state);
       this.props.onClose();
+      // return true;
     });
   }
   componentDidUpdate(prevProps, prevState) {

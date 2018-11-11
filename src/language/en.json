@@ -15,7 +15,8 @@
     "profile_notfound":"Profile not found",
     "search":"Search",
     "noti_title":"Notification",
-    "next":"Next"
+    "next":"Next",
+    "empty":"Empty data"
 
 
   },
@@ -149,5 +150,11 @@
   "message":{
     "message":"Message",
     "chanel":"Chanel"
+  },
+  "enterprise":{
+    "folow":"Folow",
+    "enable_noti":"Recevie notification about post, event, sale",
+    "message":"Message",
+    "create_room_fail":"create room chat fail"
   }
 }

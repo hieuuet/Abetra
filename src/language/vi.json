@@ -15,7 +15,8 @@
     "profile_notfound": "Không tìm thấy profile",
     "search": "Tìm kiếm",
     "noti_title": "Thông báo",
-    "next": "Tiếp tục"
+    "next": "Tiếp tục",
+    "empty":"Không có dữ liệu"
   },
 
   "register": {
@@ -147,5 +148,12 @@
   "message": {
     "message": "Tin nhắn",
     "chanel": "Kênh thảo luận"
+  },
+  "enterprise":{
+    "folow":"Theo dõi",
+    "enable_noti":"Nhận các thông báo về bài viết, sự kiện,CTKM",
+    "message":"Nhắn tin",
+    "message_desc":"Trao đổi với hội viên qua tin nhắn",
+    "create_room_fail":"Taọ phòng chat không thành công"
   }
 }

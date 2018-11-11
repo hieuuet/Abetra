@@ -15,6 +15,7 @@ export const IMAGE = {
   bg_gray: require("../../assets/bg_gray.png"),
   btn_active: require("../../assets/btn_active.png"),
   btn_normal: require("../../assets/btn_normal.png"),
+  avatar_default:require("../../assets/avatar.png"),
 
   //profile
   bg_head_profile: require("../../assets/profile/bg_head.png"),

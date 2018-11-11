@@ -58,7 +58,8 @@ class Profile extends Component {
   componentDidMount() {
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      closeAlert();
+      console.log("onbackpress2  ");
+      // closeAlert();
       this.handleBackPress();
     });
   }
@@ -95,6 +96,7 @@ class Profile extends Component {
         this.props.navigation.dispatch(resetAction);
         return true;
       }
+
       return false;
     }
   };

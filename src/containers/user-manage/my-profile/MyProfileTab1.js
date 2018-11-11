@@ -63,7 +63,7 @@ class MyProfileTab1 extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      closeAlert();
+      // closeAlert();
       if (this.state.showEmoticons) {
         this.setState({ showEmoticons: false });
         return true;

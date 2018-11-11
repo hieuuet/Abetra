@@ -17,10 +17,13 @@ import { IMAGE } from "../constant/assets";
 import { URL_BASE } from "../constant/api";
 import { COLOR } from "../constant/Color";
 import { getRank } from "../constant/UtilsFunction";
+import { TEXT_INTERPRISE } from "../language";
 
 class EnterpriseItem extends Component {
   constructor(props) {
     super(props);
+
+    this.TEXT_INTERPRISE = TEXT_INTERPRISE();
   }
   componentDidMount() {}
 
@@ -28,9 +31,9 @@ class EnterpriseItem extends Component {
     const { item } = this.props.dataItem;
     if (!item) return;
     if (this.props.userID && item.UserID === this.props.userID) {
-      return this.props.navigation.navigate("Profile");
+      return this.props.screenProps.navigate("Profile");
     }
-    this.props.navigation.navigate("MemberProfile", { item });
+    this.props.screenProps.navigate("MemberProfile", { item });
   };
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
@@ -59,16 +62,16 @@ class EnterpriseItem extends Component {
         <Image
           style={styles.image_circle}
           source={
-            item && item.Avatar ? { uri: URL_BASE + item.Avatar } : IMAGE.logo
+            item && item.Avatar
+              ? { uri: URL_BASE + item.Avatar }
+              : IMAGE.avatar_default
           }
           resizeMode="cover"
         />
 
         <View style={styles.wrapper_right}>
           <View style={styles.header}>
-            <Text style={styles.text_name}>
-              {item.NameEnterprise || "Beauty Spa"}
-            </Text>
+            <Text style={styles.text_name}>{item.NameEnterprise || "_"}</Text>
             <TouchableOpacity
               onPress={() => {
                 this.props.onClickShowModal(item);
@@ -82,17 +85,24 @@ class EnterpriseItem extends Component {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.text_rank}>
-            {rank && rank.RankName ||""}
+          <View style={styles.wrapper_rank}>
+            <Text style={styles.text_rank}>
+              {(rank && rank.RankName) || ""}
+            </Text>
+            <Image
+              source={{ uri: rank && rank.Icon2 }}
+              resizeMode="cover"
+              style={styles.img_rank_thumb}
+            />
+          </View>
+          <Text style={style_common.text_color_base}>
+            {item.Description || ""}
           </Text>
           <Text style={style_common.text_color_base}>
-            {item.Description || "Spa dep lam"}
-          </Text>
-          <Text style={style_common.text_color_base}>
-            DC: {item.Address || "Tran hung dao"}
+            {this.TEXT_INTERPRISE.Address}: {item.Address || ""}
           </Text>
           <Text style={styles.text_tag}>
-            {this.parseHashTag(item.HashTag) || "#tamthoi"}
+            {this.parseHashTag(item.HashTag) || ""}
           </Text>
         </View>
         <View style={styles.line_end} />
@@ -119,6 +129,7 @@ EnterpriseItem = connect(
 export default EnterpriseItem;
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+  wrapper_rank: { flexDirection: "row", alignItems: "center" },
   container: {
     flex: 1,
     flexDirection: "row"
@@ -145,13 +156,14 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   text_name: {
-    color: COLOR.COLOR_SKY,
+    color: COLOR.COLOR_BLACK,
     fontWeight: "800",
     flex: 1
   },
   text_rank: {
     fontWeight: "bold",
-    color: COLOR.COLOR_ORANGE
+    color: COLOR.COLOR_BLACK,
+    marginRight: 5
   },
   text_tag: {
     fontWeight: "bold",
@@ -169,5 +181,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 10,
     right: 10
+  },
+  img_rank_thumb: {
+    width: 15,
+    height: 15
   }
 });

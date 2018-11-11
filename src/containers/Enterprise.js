@@ -3,7 +3,6 @@ import {
   Platform,
   KeyboardAvoidingView,
   FlatList,
-  Alert,
   View,
   Text,
   StyleSheet,
@@ -14,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getAllEnterprise2 } from "../actions";
-import { SearchView, ViewLoading } from "../components/CommonView";
+import { ViewLoading } from "../components/CommonView";
 import style_common from "../style-common/index";
 import EnterpriseItem from "../components/EnterpriseItem";
 import { MyCoolScrollViewComponent } from "../components/CommonView";
@@ -24,7 +23,9 @@ import IconMessage from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { createMsgGroup } from "../actions";
 import { COLOR } from "../constant/Color";
 import { USER_ID } from "../constant/KeyConstant";
-import{showAlert,closeAlert} from '../constant/UtilsFunction'
+import { showAlert, closeAlert } from "../constant/UtilsFunction";
+import { TEXT_INTERPRISE } from "../language";
+import { isEqual } from "lodash";
 
 class Enterprise extends Component {
   constructor(props) {
@@ -38,12 +39,13 @@ class Enterprise extends Component {
     this.PageIndex = 1;
     this.itemModalShow = undefined;
     this.myUserID = AsyncStorage.getItem(USER_ID);
+    this.TEXT_INTERPRISE = TEXT_INTERPRISE();
   }
 
   componentDidMount() {
     this.loadData();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      closeAlert();
+      // closeAlert();
       if (this.refs.modal && this.refs.modal.state.isOpen) {
         this.refs.modal.close();
         return true;
@@ -51,6 +53,11 @@ class Enterprise extends Component {
         return false;
       }
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_INTERPRISE = TEXT_INTERPRISE();
+    }
   }
   componentWillUnmount() {
     this.backHandler.remove();
@@ -110,12 +117,7 @@ class Enterprise extends Component {
           "Tin Nhắn"
       });
     } else {
-      Alert.alert(
-        "Thông báo",
-        "Taọ phòng chat không thành công",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+      return showAlert({ message: this.TEXT_INTERPRISE.CreateRoomFail });
     }
   };
 
@@ -145,12 +147,7 @@ class Enterprise extends Component {
       this.setState({
         isLoading: false
       });
-      return Alert.alert(
-        "Thông báo",
-        result.Message || "Lỗi không xác định",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return showAlert({ message: result.Message || "Fail load data" });
     }
   };
 
@@ -195,7 +192,7 @@ class Enterprise extends Component {
   _renderEmpty = () => {
     return (
       <View style={style_common.content_center}>
-        <Text>Không có dữ liệu</Text>
+        <Text>{this.TEXT_INTERPRISE.Empty}</Text>
       </View>
     );
   };
@@ -221,9 +218,11 @@ class Enterprise extends Component {
           >
             <Icon name="user-plus" size={25} color={COLOR.COLOR_SKY} />
             <View style={styles.right_item}>
-              <Text style={styles.text_item_title}>Theo dõi</Text>
+              <Text style={styles.text_item_title}>
+                {this.TEXT_INTERPRISE.Folow}
+              </Text>
               <Text ellipsizeMode="tail" numberOfLines={1}>
-                Nhận các thông báo về bài viết, sự kiện,CTKM
+                {this.TEXT_INTERPRISE.EnableNoti}
               </Text>
             </View>
           </TouchableOpacity>
@@ -238,9 +237,11 @@ class Enterprise extends Component {
               color={COLOR.COLOR_SKY}
             />
             <View style={styles.right_item}>
-              <Text style={styles.text_item_title}>Nhắn tin</Text>
+              <Text style={styles.text_item_title}>
+                {this.TEXT_INTERPRISE.Message}
+              </Text>
               <Text ellipsizeMode="tail" numberOfLines={1}>
-                Trao đổi với hội viên qua tin nhắn
+                {this.TEXT_INTERPRISE.MessageDesc}
               </Text>
             </View>
           </TouchableOpacity>
@@ -257,13 +258,6 @@ class Enterprise extends Component {
         keyboardVerticalOffset={64}
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
-          {/* <SearchView
-            onPress={() => {
-              this.props.navigation.navigate("Search");
-            }}
-            style={styles.search}
-          /> */}
-
           {this.state.dataEnterprise.length === 0 && !this.state.isLoading ? (
             this._renderEmpty()
           ) : (
@@ -273,7 +267,7 @@ class Enterprise extends Component {
                 return (
                   <EnterpriseItem
                     dataItem={item}
-                    navigation={this.props.navigation}
+                    screenProps={this.props.screenProps}
                     onClickShowModal={this.onClickShowModal}
                     userID={this.myUserID}
                   />
@@ -292,7 +286,8 @@ class Enterprise extends Component {
 
 const mapStateToProps = state => {
   return {
-    UserProfile: state.loadUserProfile
+    UserProfile: state.loadUserProfile,
+    currentLanguage: state.currentLanguage
   };
 };
 

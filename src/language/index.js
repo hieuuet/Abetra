@@ -171,3 +171,12 @@ export const TEXT_MESSAGE = () => ({
   MessageTitle: strings("message.message"),
   Chanel: strings("message.chanel")
 });
+export const TEXT_INTERPRISE = ()=>({
+  Address: strings("profile.address"),
+  Folow:strings("enterprise.folow"),
+  EnableNoti:strings("enterprise.enable_noti"),
+  Message:strings("enterprise.message"),
+  MessageDesc:strings("enterprise.message_desc"),
+  Empty:strings("common.empty"),
+  CreateRoomFail: strings("enterprise.create_room_fail")
+});
