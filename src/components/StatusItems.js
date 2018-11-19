@@ -358,7 +358,7 @@ class StatusItems extends Component {
                         keyExtractor={(item, index) => index.toString()}
 
                     />
-                    <View style={{marginHorizontal: 15, marginTop: 5}}>
+                    <View style={{marginHorizontal: 15, marginTop: 5, backgroundColor:'white'}}>
                         {ArrImg ? (
                             <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
                         ) : null}

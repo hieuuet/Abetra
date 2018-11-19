@@ -265,7 +265,7 @@ class CreatePost extends Component {
             Target: "#FOOD",
             DisplayTime: DatePost,
             IsAdvs: "",
-            LangID: 129
+            Comments: []
         };
         console.log("dataSend", dataSend);
         this.socket.emit("POST", dataSend);
@@ -304,6 +304,7 @@ class CreatePost extends Component {
     };
 
     render() {
+        console.log('img-render', this.state.images)
         const {UserProfile} = this.props;
         if (UserProfile.length <=0)
             return null
@@ -364,13 +365,14 @@ class CreatePost extends Component {
                             />
                         </View>
                     </View>
-                    {this.state.images ? (
+                    {this.state.images ?
                         <FlatList
                             data={this.state.images}
                             // horizontal={true}
                             // style = {{marginLeft: 0}}
                             numColumns={5}
                             renderItem={({item}) => {
+                                console.log('item_image',item)
                                 return (
                                     <View
                                         style={{
@@ -390,7 +392,7 @@ class CreatePost extends Component {
                             extraData={this.state}
                             keyExtractor={(item, index) => index.toString()}
                         />
-                    ) : null}
+                    : null}
                     <View style={styles.view_bottom}>
                         {this.state.isVote ? (
                             <FlatList
