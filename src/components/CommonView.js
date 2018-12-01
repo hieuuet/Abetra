@@ -8,41 +8,12 @@ import {
   ActivityIndicator,
   Keyboard,
   ScrollView,
-  StatusBar,
-  Alert
+  StatusBar
 } from "react-native";
 import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
 import PropTypes from "prop-types";
-import { TEXT_ALERT } from "../language";
-/**
- * Common alert:
- * Param:
- *  title, message,
- * positive: { text_positive, action_positive },
-  negative: { text_negative, action_negative }
- */
-
-export const showAlert = ({ title, message, positive, negative }) => {
-  return Alert.alert(
-    title || TEXT_ALERT().NotiTitle,
-    message || TEXT_ALERT().NotiMessage,
-    [
-      {
-        text: (positive && positive.text_positive) || TEXT_ALERT().TextPositive,
-        onPress: (positive && positive.action_positive) || (() => {})
-      },
-      negative && {
-        text: negative.text_negative || TEXT_ALERT().TextNegative,
-        onPress: negative.action_negative || (() => {})
-      }
-    ],
-    { cancelable: false }
-  );
-};
-
-
 
 /**
  *

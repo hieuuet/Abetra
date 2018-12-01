@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  BackHandler
 } from "react-native";
 import { ViewLoading, CustomizeHeader } from "../../components/CommonView";
 import { bindActionCreators } from "redux";
@@ -17,6 +18,7 @@ import { IMAGE } from "../../constant/assets";
 import { LANGUAGE } from "../../constant/KeyConstant";
 import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
+import AppContext from "../../AppContext";
 
 class Language extends Component {
   constructor(props) {
@@ -32,11 +34,24 @@ class Language extends Component {
   }
   componentDidMount() {
     this.getLanguage();
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
+      this.props.navigation.goBack();
+      return true;
+    });
   }
+
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
       this.TEXT_TITLE = TEXT_MENU().Language;
     }
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   getLanguage = async () => {
@@ -101,6 +116,16 @@ class Language extends Component {
     );
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -115,6 +140,7 @@ class Language extends Component {
           keyExtractor={(item, index) => index.toString()}
         />
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </View>
     );
   }

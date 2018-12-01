@@ -13,11 +13,8 @@ import {
 
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
-import {
-  showAlert,
-  ButtonBorder,
-  ViewLoading
-} from "../../../components/CommonView";
+import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
+import AppContext from "../../../AppContext";
 
 import { changePassword } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
@@ -40,17 +37,23 @@ class ChangePassword extends Component {
 
   onChangePass = async () => {
     if (!this.userName)
-      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.ProfileNotFound });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PASSWORD.ProfileNotFound
+      });
 
     if (
       this.oldPass.trim().length === 0 ||
       this.newPass.trim().length === 0 ||
       this.reNewPass.trim().length === 0
     )
-      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.RequirePass });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PASSWORD.RequirePass
+      });
 
     if (this.newPass.trim() !== this.reNewPass.trim())
-      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.PassNotMatch });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PASSWORD.PassNotMatch
+      });
 
     this.setState({ isLoading: true });
     const result = await changePassword({
@@ -61,15 +64,18 @@ class ChangePassword extends Component {
     this.setState({ isLoading: false });
     if (result) {
       if (result.ErrorCode === "00")
-        return showAlert({
-          message: result && result.Message,
-          positive: {
-            action_positive: () => this.props.navigation.goBack()
-          }
+        return this.context.showAlert({
+          content: result && result.Message,
+          onSubmit: this.props.navigation.goBack()
         });
-      return showAlert({ message: result && result.Message });
+
+      return this.context.showAlert({
+        content: result && result.Message
+      });
     } else {
-      return showAlert({ message: this.TEXT_CHANGE_PASSWORD.ChangePassFail });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PASSWORD.ChangePassFail
+      });
     }
   };
 
@@ -155,6 +161,16 @@ class ChangePassword extends Component {
     );
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -182,6 +198,7 @@ class ChangePassword extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

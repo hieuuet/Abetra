@@ -26,8 +26,7 @@ import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
-import { showAlert, closeAlert } from "../../constant/UtilsFunction";
-
+import AppContext from "../../AppContext";
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -47,13 +46,12 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      async () => {
-        closeAlert();
-        return await this.loginAsGuest();
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (!this.context.isShowAlert) {
+        this.loginAsGuest();
+        return true;
       }
-    );
+    });
   }
 
   componentWillUnmount() {
@@ -94,33 +92,17 @@ class Register extends Component {
     console.log("data register", this.dataUser);
 
     if (password.length === 0 || rePassword.length === 0) {
-      Alert.alert(
-        "Thông báo",
-        "Bạn phải nhập mật khẩu",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-      return;
+      return this.context.showAlert({ content: "Bạn phải nhập mật khẩu" });
     }
 
     if (password.length < 6) {
-      Alert.alert(
-        "Thông báo",
-        "Mật khẩu phải lớn hơn 6 ký tự",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-      return;
+      return this.context.showAlert({
+        content: "Mật khẩu phải lớn hơn 6 ký tự"
+      });
     }
 
     if (password !== rePassword) {
-      Alert.alert(
-        "Thông báo",
-        "Mật khẩu không trùng khớp",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-      return;
+      return this.context.showAlert({ content: "Mật khẩu không trùng khớp" });
     }
 
     this.setState({ isLoading: true });
@@ -133,19 +115,14 @@ class Register extends Component {
     this.setState({ isLoading: false });
     console.log("register result", register);
     if (register.ErrorCode === "00") {
-      Alert.alert(
-        "Thông báo",
-        register.Message,
-        [{ text: "OK", onPress: this.gotToVerify }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({
+        content: register.Message,
+        onSubmit: this.gotToVerify
+      });
     } else {
-      Alert.alert(
-        "Thông báo",
-        register.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({
+        content: register.Message
+      });
     }
   };
   handleLoginFB = async () => {
@@ -177,12 +154,9 @@ class Register extends Component {
       this.setState({ isLoading: false });
       this._handleLoginResult(resultLogin);
     } else {
-      Alert.alert(
-        "Thông báo",
-        "Không lấy được dữ liệu từ Facebook",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({
+        content: "Không lấy được dữ liệu từ Facebook"
+      });
     }
   };
   //Handle result after login
@@ -196,7 +170,7 @@ class Register extends Component {
           userName: loginResult.Value[0].userName,
           password: "",
           phone: undefined,
-          isLoginFb:true
+          isLoginFb: true
         });
       }
       const IntUserID = loginResult.Value[0].IntUserID.toString();
@@ -212,21 +186,24 @@ class Register extends Component {
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
-        Alert.alert(
-          "Thông báo",
-          "Không tìm thấy UserID",
-          [{ text: "OK", onPress: () => {} }],
-          { cancelable: false }
-        );
+        return this.context.showAlert({
+          content: "Không tìm thấy UserID"
+        });
       }
     } else {
-      Alert.alert(
-        "Thông báo",
-        loginResult.Message,
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({
+        content: loginResult.Message
+      });
     }
+  };
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
   _renderContent = () => {
     return (
@@ -342,6 +319,7 @@ class Register extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+        {this._bindeGlobalContext()}
       </View>
     );
   };

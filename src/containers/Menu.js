@@ -19,7 +19,7 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";
-import { getRank, showAlert } from "../constant/UtilsFunction";
+import { getRank } from "../constant/UtilsFunction";
 import { TEXT_MENU } from "../language";
 import { isEqual } from "lodash";
 

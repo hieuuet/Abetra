@@ -5,14 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Alert,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
   TextInput,
   AsyncStorage,
-  BackHandler,
-  SafeAreaView
+  BackHandler
 } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -27,7 +25,7 @@ import { web } from "../../components/Communications";
 import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
-import { closeAlert, showAlert } from "../../constant/UtilsFunction";
+import AppContext from "../../AppContext";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -42,13 +40,12 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      async () => {
-        closeAlert();
-        return await this.loginAsGuest();
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (!this.context.isShowAlert) {
+        this.loginAsGuest();
+        return true;
       }
-    );
+    });
   }
 
   componentWillUnmount() {
@@ -73,7 +70,6 @@ class Login extends Component {
   };
   //Call api login account
   _login = async () => {
-    // return showAlert();
     const { userName, password } = this.dataUser;
 
     const { postLogin } = this.props;
@@ -105,12 +101,7 @@ class Login extends Component {
       this.setState({ isLoading: false });
       this._handleLoginResult(resultLogin);
     } else {
-      Alert.alert(
-        "Thông báo",
-        "Không lấy được dữ liệu từ Facebook",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      this.context.showAlert({ content: "Không lấy được dữ liệu từ Facebook" });
     }
   };
 
@@ -130,20 +121,10 @@ class Login extends Component {
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
-        Alert.alert(
-          "Thông báo",
-          "Không tìm thấy UserID",
-          [{ text: "OK", onPress: () => {} }],
-          { cancelable: false }
-        );
+        this.context.showAlert({ content: "Không tìm thấy UserID" });
       }
     } else {
-      Alert.alert(
-        "Thông báo",
-        loginResult.Message,
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      this.context.showAlert({ content: loginResult.Message });
     }
   };
 
@@ -214,6 +195,15 @@ class Login extends Component {
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
     ) : null;
   };
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
 
   render() {
     return (
@@ -243,6 +233,7 @@ class Login extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

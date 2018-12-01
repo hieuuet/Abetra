@@ -23,10 +23,9 @@ import IconMessage from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { createMsgGroup } from "../actions";
 import { COLOR } from "../constant/Color";
 import { USER_ID } from "../constant/KeyConstant";
-import { showAlert, closeAlert } from "../constant/UtilsFunction";
 import { TEXT_INTERPRISE } from "../language";
 import { isEqual } from "lodash";
-
+import AppContext from "../AppContext";
 class Enterprise extends Component {
   constructor(props) {
     super(props);
@@ -45,12 +44,13 @@ class Enterprise extends Component {
   componentDidMount() {
     this.loadData();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      // closeAlert();
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
       if (this.refs.modal && this.refs.modal.state.isOpen) {
         this.refs.modal.close();
         return true;
-      } else {
-        return false;
       }
     });
   }
@@ -117,7 +117,9 @@ class Enterprise extends Component {
           "Tin Nhắn"
       });
     } else {
-      return showAlert({ message: this.TEXT_INTERPRISE.CreateRoomFail });
+      return this.context.showAlert({
+        content: this.TEXT_INTERPRISE.CreateRoomFail
+      });
     }
   };
 
@@ -147,7 +149,9 @@ class Enterprise extends Component {
       this.setState({
         isLoading: false
       });
-      return showAlert({ message: result.Message || "Fail load data" });
+      return this.context.showAlert({
+        content: result.Message
+      });
     }
   };
 
@@ -250,6 +254,16 @@ class Enterprise extends Component {
     );
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -279,6 +293,7 @@ class Enterprise extends Component {
         </MyCoolScrollViewComponent>
         {this._renderBottomModal()}
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

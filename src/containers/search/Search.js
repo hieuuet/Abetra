@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   StatusBar,
-  Keyboard
+  Keyboard,
+  BackHandler
   // findNodeHandle
 } from "react-native";
 import style_common from "../../style-common";
@@ -17,7 +18,8 @@ import { ViewLoading, TabView2 } from "../../components/CommonView";
 import { FlatListCommon, TYPE } from "../../components/FlatListCommon";
 import { searchAll } from "../../actions";
 // import TextInputReset from "react-native-text-input-reset";
-import {TEXT_SEARCH} from '../../language';
+import { TEXT_SEARCH } from "../../language";
+import AppContext from "../../AppContext";
 
 export default class Search extends Component {
   constructor(props) {
@@ -36,6 +38,21 @@ export default class Search extends Component {
     this.PageIndex = 1;
     this.PageSize = 5;
     this.TEXT_SEARCH = TEXT_SEARCH();
+  }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
+      this.props.navigation.goBack();
+      return true;
+    });
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   doSearch = async () => {
@@ -144,10 +161,7 @@ export default class Search extends Component {
             alignItems: "center"
           }}
         >
-          <TouchableOpacity
-            style={styles.btn_back}
-            onPress={() => goBack()}
-          >
+          <TouchableOpacity style={styles.btn_back} onPress={() => goBack()}>
             <Image
               style={styles.img_back}
               resizeMode="cover"
@@ -294,6 +308,17 @@ export default class Search extends Component {
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
     ) : null;
   };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <View style={style_common.container_white}>
@@ -301,6 +326,7 @@ export default class Search extends Component {
         {this._renderTabButton()}
         {this._renderContent()}
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </View>
     );
   }

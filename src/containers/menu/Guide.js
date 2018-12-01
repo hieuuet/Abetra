@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View,  WebView, Platform } from "react-native";
+import { View, WebView, Platform, BackHandler } from "react-native";
 import { ViewLoading, CustomizeHeader } from "../../components/CommonView";
 import { connect } from "react-redux";
 import { getcommonSetting } from "../../actions";
+import AppContext from "../../AppContext";
 
 import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
@@ -18,13 +19,27 @@ class Guide extends Component {
 
     this.TEXT_TITLE = TEXT_MENU().Guide;
   }
+
   componentDidMount() {
     this.getdataGuide();
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
+      this.props.navigation.goBack();
+      return true;
+    });
   }
+
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
       this.TEXT_TITLE = TEXT_MENU().Guide;
     }
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   getdataGuide = async () => {
@@ -46,6 +61,16 @@ class Guide extends Component {
     return this.state.isLoading ? <ViewLoading MarginTop={75} /> : null;
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -62,6 +87,7 @@ class Guide extends Component {
           scalesPageToFit={Platform.OS === "ios" ? false : true}
         />
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </View>
     );
   }

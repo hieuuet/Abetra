@@ -51,35 +51,3 @@ export const getRank = (PackgeID, allRank = []) => {
   }
   return allRank.find(rank => rank.ID === PackgeID);
 };
-
-const randomString = length_ => {
-  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".split(
-    ""
-  );
-  if (typeof length_ !== "number") {
-    length_ = Math.floor(Math.random() * chars.length_);
-  }
-  let str = "";
-  for (let i = 0; i < length_; i++) {
-    str += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return str;
-};
-/**
- *
- * @param dataAlert= {title, message, submitFunc, cancelFunc}
- */
-export const showAlert = (dataAlert = {}) => {
-  const id = randomString(10);
-  return store.dispatch({
-    type: "SHOW_ALERT",
-    payload: { id, ...dataAlert }
-  });
-};
-export const closeAlert = () => {
-  const id = randomString(10);
-  return store.dispatch({
-    type: "CLOSE_ALERT",
-    payload: { id }
-  });
-};

@@ -9,8 +9,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
-  AsyncStorage
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
@@ -26,7 +24,7 @@ import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
 import { NavigationActions, StackActions } from "react-navigation";
-import { showAlert } from "../../constant/UtilsFunction";
+import AppContext from "../../AppContext";
 
 class InputPhone extends Component {
   constructor(props) {
@@ -41,9 +39,21 @@ class InputPhone extends Component {
     this.hasPhone = this.phone.length > 0;
   }
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   updatePhoneAndNavigate = async () => {
     if (this.phone.length <= 9) {
-      return showAlert({ message: "so dien thoai khong dung dinh dang" });
+      return this.context.showAlert({
+        content: "Số điện thoại không đúng định dạng"
+      });
     }
     this.setState({ isLoading: true });
     if (!this.hasPhone) {
@@ -54,8 +64,10 @@ class InputPhone extends Component {
       });
       if (!updatePhone || updatePhone.ErrorCode !== "00") {
         this.setState({ isLoading: false });
-        return showAlert({
-          message: (updatePhone && updatePhone.Message) || "update phone fail"
+        return this.context.showAlert({
+          content:
+            (updatePhone && updatePhone.Message) ||
+            "Cập nhật số điện thoại thất bại"
         });
       }
     }
@@ -65,9 +77,9 @@ class InputPhone extends Component {
     });
     if (!requestSendOTP || requestSendOTP.ErrorCode !== "00") {
       this.setState({ isLoading: false });
-      return showAlert({
-        message:
-          (requestSendOTP && requestSendOTP.Message) || "requestSendOTP fail"
+      return this.context.showAlert({
+        content:
+          (requestSendOTP && requestSendOTP.Message) || "Yêu cầu gửi mã OTP thất bại"
       });
     }
     this.setState({ isLoading: false });
@@ -147,6 +159,7 @@ class InputPhone extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

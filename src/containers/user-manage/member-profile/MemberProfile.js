@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, BackHandler } from "react-native";
 import style_common from "../../../style-common";
 import { ViewLoading, TabView } from "../../../components/CommonView";
 import { COLOR } from "../../../constant/Color";
@@ -8,9 +8,9 @@ import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
 import HeaderMember from "./HeaderMember";
+import AppContext from "../../../AppContext";
 // import { isEqual } from "lodash";
 import { TEXT_PROFILE } from "../../../language";
-import { showAlert, closeAlert } from "../../../constant/UtilsFunction";
 
 class MemberProfile extends Component {
   constructor(props) {
@@ -26,12 +26,20 @@ class MemberProfile extends Component {
 
   componentDidMount() {
     this._loadMemberProfile();
+
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
+      this.props.navigation.goBack();
+      return true;
+    });
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
-  //     this.TEXT_PROFILE = TEXT_PROFILE();
-  //   }
-  // }
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   _loadMemberProfile = async () => {
     const dataMember = this.props.navigation.getParam("item");
     if (!dataMember || !dataMember.UserID) return;
@@ -50,12 +58,9 @@ class MemberProfile extends Component {
     this.setState({
       isLoading: false
     });
-    return Alert.alert(
-      "Thông báo",
-      (dataProfile && dataProfile.Message) || "Lỗi không xác định",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
+    return this.context.showAlert({
+      content: dataProfile && dataProfile.Message
+    });
   };
 
   onLoading = isLoading => {
@@ -66,6 +71,16 @@ class MemberProfile extends Component {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
     ) : null;
+  };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
 
   render() {
@@ -128,6 +143,7 @@ class MemberProfile extends Component {
           </View>
         </View>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </View>
     );
   }

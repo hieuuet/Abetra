@@ -1,28 +1,32 @@
 import axios from "axios";
 import { DEFAULT_LANGUGE } from "../constant/KeyConstant";
 import store from "../store";
-import { Alert } from "react-native";
+const randomString = length_ => {
+  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".split(
+    ""
+  );
+  if (typeof length_ !== "number") {
+    length_ = Math.floor(Math.random() * chars.length_);
+  }
+  let str = "";
+  for (let i = 0; i < length_; i++) {
+    str += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return str;
+};
 
-let isOpen = false;
+let isOpen = undefined;
 export const getRequestApi = async (url, isShowLog = false) => {
   const isConnected = store.getState().currentNetWork.isConnected;
   // console.log("get request isConnected: ", isConnected);
   if (!isConnected) {
-    if (isOpen) return undefined;
-    isOpen = true;
-    return Alert.alert(
-      "Thông báo",
-      "Mất kết nối mạng",
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            isOpen = false;
-          }
-        }
-      ],
-      { cancelable: false }
-    );
+    return store.dispatch({
+      type: "SHOW_ALERT",
+      payload: {
+        id: randomString(10),
+        content: "Mất kết nối mạng"
+      }
+    });
   }
   let config = {
     headers: {
@@ -58,21 +62,13 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
   const isConnected = store.getState().currentNetWork.isConnected;
   // console.log("post request isConnected: ", isConnected);
   if (!isConnected) {
-    if (isOpen) return undefined;
-    isOpen = true;
-    return Alert.alert(
-      "Thông báo",
-      "Mất kết nối mạng",
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            isOpen = false;
-          }
-        }
-      ],
-      { cancelable: false }
-    );
+    return store.dispatch({
+      type: "SHOW_ALERT",
+      payload: {
+        id: randomString(10),
+        content: "Mất kết nối mạng"
+      }
+    });
   }
   //Config get set for all api
   let language = store.getState().currentLanguage;

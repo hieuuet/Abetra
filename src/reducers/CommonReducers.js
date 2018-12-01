@@ -65,12 +65,3 @@ export const showAlert = (
       return state;
   }
 };
-
-export const closeAlert = (state = { id: "0" }, action = {}) => {
-  switch (action.type) {
-    case "CLOSE_ALERT":
-      return action.payload;
-    default:
-      return state;
-  }
-};

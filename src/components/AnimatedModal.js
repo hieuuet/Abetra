@@ -3,12 +3,10 @@ import {
   Animated,
   Easing,
   StyleSheet,
-  TouchableOpacity,
   Text,
   View,
   Dimensions,
   ImageBackground,
-  BackHandler
 } from "react-native";
 import { IMAGE } from "../constant/assets";
 import { ButtonBorder } from "../components/CommonView";
@@ -21,13 +19,7 @@ export default class AnimatedModal extends Component {
     this.yTranslate = new Animated.Value(0);
   }
 
-  componentDidMount() {
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      console.log("onbackpress=====", this.state);
-      this.props.onClose();
-      // return true;
-    });
-  }
+  componentDidMount() {}
   componentDidUpdate(prevProps, prevState) {
     if (this.props.visible) {
       // animate the showing of the modal
@@ -46,9 +38,7 @@ export default class AnimatedModal extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.backHandler.remove();
-  }
+  componentWillUnmount() {}
   render() {
     const { title, children, onClose, onSubmit } = this.props;
 

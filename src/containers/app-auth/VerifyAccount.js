@@ -9,7 +9,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
   AsyncStorage
 } from "react-native";
 
@@ -31,16 +30,8 @@ import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
 import { NavigationActions, StackActions } from "react-navigation";
-import { showAlert } from "../../constant/UtilsFunction";
-
+import AppContext from "../../AppContext";
 class VerifyAccount extends Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     title: TEXT_VERIFY.VerifyPhone,
-  //     headerTitleStyle: { color: COLOR.COLOR_BLACK },
-  //     headerTintColor: COLOR.COLOR_BLACK
-  //   };
-  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +42,7 @@ class VerifyAccount extends Component {
 
   verify = async () => {
     if (this.verifyCode.length === 0) {
-      return showAlert({ message: "chua nhap otp" });
+      return this.context.showAlert({ content: "Chưa nhập OTP" });
     }
     const userName = this.props.navigation.getParam("userName");
     this.setState({ isLoading: true });
@@ -62,19 +53,14 @@ class VerifyAccount extends Component {
     this.setState({ isLoading: false });
     if (!verifyResult || verifyResult.ErrorCode !== "00") {
       this.setState({ isLoading: false });
-      return showAlert({
-        message: (verifyResult && verifyResult.Message) || "verify fail"
+      return this.context.showAlert({
+        content: (verifyResult && verifyResult.Message) || "Xác thực thất bại"
       });
     }
     await this._login();
   };
   reSendCode = () => {
-    Alert.alert(
-      "Thông báo",
-      "Tính năng đang phát triển",
-      [{ text: "OK", onPress: () => {} }],
-      { cancelable: false }
-    );
+    return this.context.showAlert({ content: "Tính năng đang phát triển" });
   };
   loadUserProfile = async userID => {
     const { loadUserProfile } = this.props;
@@ -84,12 +70,7 @@ class VerifyAccount extends Component {
     });
     this.setState({ isLoading: false });
     if (!userProfile) {
-      return Alert.alert(
-        "Thông báo",
-        "Không thể tải trang cá nhân",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({ content: "Không thể tải trang cá nhân" });
     }
 
     this.goToProfile();
@@ -125,21 +106,11 @@ class VerifyAccount extends Component {
         this.loadUserProfile(login.Value[0].UserID);
       } else {
         this.setState({ isLoading: false });
-        Alert.alert(
-          "Thông báo",
-          "Không tìm thấy UserID",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-          { cancelable: false }
-        );
+        return this.context.showAlert({ content: "Không tìm thấy UserID" });
       }
     } else {
       this.setState({ isLoading: false });
-      Alert.alert(
-        "Thông báo",
-        login.Message,
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({ content: login.Message });
     }
   };
 
@@ -187,6 +158,16 @@ class VerifyAccount extends Component {
     );
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -214,6 +195,7 @@ class VerifyAccount extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

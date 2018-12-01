@@ -17,11 +17,7 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
-import {
-  showAlert,
-  ViewLoading,
-  CustomizeHeader
-} from "../../../components/CommonView";
+import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
 import {
   getGuide,
   loadUserProfile,
@@ -40,6 +36,7 @@ import RankSelect from "./RankSelect";
 import { ButtonBackGround } from "../../../components/CommonView";
 import { IMAGE } from "../../../constant/assets";
 import { web } from "../../../components/Communications";
+import AppContext from "../../../AppContext";
 
 class RegisterMember extends Component {
   constructor(props) {
@@ -110,7 +107,9 @@ class RegisterMember extends Component {
 
   registerMember = async () => {
     if (!this.props.userProfile) {
-      return showAlert({ message: this.TEXT_REGISTER_MEMBER.ProfileNotFound });
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER_MEMBER.ProfileNotFound
+      });
     }
 
     const realTagSelect = this.tagSelected
@@ -118,16 +117,20 @@ class RegisterMember extends Component {
       .map(tag => tag.CatID);
 
     if (realTagSelect.length === 0) {
-      return showAlert({
-        message: this.TEXT_REGISTER_MEMBER.BusinessTypeRequired
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER_MEMBER.BusinessTypeRequired
       });
     }
     if (!this.rank) {
-      return showAlert({ message: this.TEXT_REGISTER_MEMBER.RankRequired });
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER_MEMBER.RankRequired
+      });
     }
 
     if (this.name.trim().length === 0 || this.phone.trim().length === 0) {
-      return showAlert({ message: this.TEXT_REGISTER_MEMBER.ContactRequired });
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER_MEMBER.ContactRequired
+      });
     }
     let dataRegister = {
       UserID: this.props.userProfile.UserID,
@@ -159,21 +162,19 @@ class RegisterMember extends Component {
     }
     this.setState({ isLoading: false });
     if (result && result.ErrorCode === "00") {
-      return showAlert({
-        message: result && result.Message,
-        positive: {
-          action_positive: () => {
-            this.props.loadUserProfile({
-              user_id: this.props.userProfile.UserID,
-              option: 100
-            });
-            this.props.navigation.goBack();
-          }
+      return this.context.showAlert({
+        content: result && result.Message,
+        onSubmit: () => {
+          this.props.loadUserProfile({
+            user_id: this.props.userProfile.UserID,
+            option: 100
+          });
+          this.props.navigation.goBack();
         }
       });
     } else {
-      return showAlert({
-        message:
+      return this.context.showAlert({
+        content:
           (result && result.Message) || this.TEXT_REGISTER_MEMBER.RegisterFail
       });
     }
@@ -185,6 +186,16 @@ class RegisterMember extends Component {
   };
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
+  };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
 
   render() {
@@ -312,6 +323,7 @@ class RegisterMember extends Component {
           </View>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

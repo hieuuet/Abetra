@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, BackHandler } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loadMsgGroup } from "../actions/loadMsgGroupActions";
@@ -11,6 +11,7 @@ import {
   TabView2,
   CustomizeHeader
 } from "../components/CommonView";
+import AppContext from "../AppContext";
 import { TEXT_MESSAGE } from "../language";
 class Message extends Component {
   constructor(props) {
@@ -26,8 +27,19 @@ class Message extends Component {
 
   componentDidMount() {
     this._loadMsgGroup();
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
+      this.props.navigation.goBack();
+      return true;
+    });
   }
 
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
   _loadMsgGroup = async () => {
     this.setState({
       isLoading: true
@@ -61,6 +73,16 @@ class Message extends Component {
 
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
+  };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
 
   render() {
@@ -121,6 +143,7 @@ class Message extends Component {
           </View>
         </View>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </View>
     );
   }

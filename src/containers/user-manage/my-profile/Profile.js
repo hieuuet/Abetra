@@ -13,6 +13,7 @@ import {
 } from "../../../actions";
 import MyProfileTab2 from "./MyProfileTab2";
 import { isEqual } from "lodash";
+import AppContext from "../../../AppContext";
 
 import HashTagEdit from "../../../components/hashtag/HashTagEdit";
 import ModalBox from "../../../components/ModalBox";
@@ -20,7 +21,6 @@ import { NavigationActions, StackActions } from "react-navigation";
 import HeaderProfile from "./HeaderProfile";
 import { TEXT_PROFILE } from "../../../language";
 const ImagePicker = NativeModules.ImageCropPicker;
-import { showAlert, closeAlert } from "../../../constant/UtilsFunction";
 
 class Profile extends Component {
   constructor(props) {
@@ -58,9 +58,7 @@ class Profile extends Component {
   componentDidMount() {
     this.tagSelected = this.state.allTag;
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      console.log("onbackpress2  ");
-      // closeAlert();
-      this.handleBackPress();
+      return this.handleBackPress();
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -82,8 +80,13 @@ class Profile extends Component {
   }
 
   handleBackPress = () => {
+    if (this.context.isShowAlert) {
+      this.context.hideAlert();
+      return true;
+    }
     if (this.refs.modal && this.refs.modal.state.isOpen) {
       this.refs.modal.close();
+
       return true;
     } else {
       //check if navigate from verify screen,navigate to home
@@ -96,7 +99,6 @@ class Profile extends Component {
         this.props.navigation.dispatch(resetAction);
         return true;
       }
-
       return false;
     }
   };
@@ -191,6 +193,16 @@ class Profile extends Component {
       .catch(e => console.log(e));
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     //get userProfile from Redux
     this.userProfile =
@@ -264,6 +276,7 @@ class Profile extends Component {
             />
           </View>
         </View>
+        {this._bindeGlobalContext()}
         {this._renderLoading()}
         <ModalBox
           position={"bottom"}

@@ -10,71 +10,78 @@ import RootStack from "./src/routers/Navigation";
 import AnimatedModal from "./src/components/AnimatedModal";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import AppContext from "./src/AppContext";
 
 import store from "./src/store/index";
+
 class App1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShowAlert: false
+      isShowAlert: false,
+      showAlert: this.showAlert,
+      hideAlert: this.hideAlert
     };
-    this.currentValue = undefined;
+    this.dataAlert = {
+      title: undefined,
+      content: undefined,
+      onClose: undefined,
+      onSubmit: undefined
+    };
   }
 
   componentDidMount() {
-    // this.backHandler = BackHandler.addEventListener(
-    //   "hardwareBackPress",
-    //   async () => {
-    //     // this.closeAlert();
-    //     console.log("onbackpresss=======");
-    //     return true;
-    //   }
-    // );
+    //listen backpress android and close alert
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.state.isShowAlert) {
+        this.hideAlert();
+        return true;
+      }
+      console.log("222222");
+      return false;
+    });
 
-    // this.unsubscribe = store.subscribe(listener => {
-    //   //show alert
-    //   const previousValue = this.currentValue;
-    //   this.currentValue = store.getState().dataAlert;
-    //   if (
-    //     previousValue &&
-    //     this.currentValue &&
-    //     this.currentValue.id !== previousValue.id
-    //   ) {
-    //     this.setState({ isShowAlert: true });
-    //   }
-    // });
+    //listen network change
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       this._handleConnectionChange
     );
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.closeAlert.id !== nextProps.closeAlert.id) {
-      //close alert
-      this.closeAlert();
-      return false;
-    }
+    //show alert from state change (message loss network when call api)
     if (this.props.showAlert.id !== nextProps.showAlert.id) {
-      //show alert
-      this.setState({ isShowAlert: true });
+      //prevent show loss network multiple time call api
+      if (
+        this.state.isShowAlert &&
+        nextProps.showAlert.content === this.dataAlert.content
+      ) {
+        return false;
+      }
+      console.log("1111111", nextProps.showAlert);
+      this.showAlert(nextProps.showAlert);
+
       return false;
     }
     return true;
   }
   componentWillUnmount() {
+    //remoce all listener
     NetInfo.isConnected.removeEventListener(
       "connectionChange",
       this._handleConnectionChange
     );
-    // this.unsubscribe();
-    // this.backHandler.remove();
+    this.backHandler.remove();
   }
-  closeAlert = () => {
-    if (this.state.isShowAlert) {
-      this.setState({ isShowAlert: false });
-      return true;
+
+  showAlert = data => {
+    if (data) {
+      this.dataAlert = data;
     }
-    return false;
+    this.setState({ isShowAlert: true });
+  };
+  hideAlert = () => {
+    this.dataAlert = undefined;
+    this.setState({ isShowAlert: false });
   };
 
   _handleConnectionChange = isConnected => {
@@ -89,34 +96,36 @@ class App1 extends Component {
     ]);
     return (
       <View style={{ flex: 1 }}>
-        <Root />
-        <AnimatedModal
-          title={this.props.showAlert.title}
-          visible={this.state.isShowAlert}
-          onClose={() => {
-            if (this.state.isShowAlert) {
+        <AppContext.Provider value={this.state}>
+          <Root />
+          <AnimatedModal
+            title={this.dataAlert && this.dataAlert.title}
+            visible={this.state.isShowAlert}
+            onClose={() => {
+              this.dataAlert &&
+                this.dataAlert.onClose &&
+                this.dataAlert.onClose();
               this.setState({ isShowAlert: false });
-              this.props.showAlert.cancelFunc &&
-                this.props.showAlert.cancelFunc();
-            }
-          }}
-          onSubmit={() => {
-            this.setState({ isShowAlert: false });
-            this.props.showAlert.submitFunc &&
-              this.props.showAlert.submitFunc();
-          }}
-        >
-          <Text style={{ color: "#000000" }}>
-            {this.props.showAlert.message || ""}
-          </Text>
-        </AnimatedModal>
+            }}
+            onSubmit={() => {
+              this.dataAlert &&
+                this.dataAlert.onSubmit &&
+                this.dataAlert.onSubmit();
+              this.setState({ isShowAlert: false });
+            }}
+            vi
+          >
+            <Text style={{ color: "#000000" }}>
+              {(this.dataAlert && this.dataAlert.content) || ""}
+            </Text>
+          </AnimatedModal>
+        </AppContext.Provider>
       </View>
     );
   }
 }
 const mapStateToProps = state => {
   return {
-    closeAlert: state.closeAlert,
     showAlert: state.showAlert
   };
 };
@@ -129,10 +138,22 @@ App1 = connect(
   mapDispatchToProps
 )(App1);
 export default App1;
+
 export class Root extends Component {
+  componentDidMount() {
+    //listen backpress android and close alert
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      console.log("77777777");
+    });
+  }
+
   shouldComponentUpdate() {
     return false;
   }
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   render() {
     console.log("render root stack");
     return <RootStack />;

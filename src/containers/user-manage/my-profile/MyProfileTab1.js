@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   Dimensions,
   NativeModules,
-  Alert,
   BackHandler
 } from "react-native";
 
@@ -23,6 +22,7 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MyDatePicker from "../../../components/DatePicker";
+import AppContext from "../../../AppContext";
 import {
   updateUserProfile,
   uploadMultipleImage,
@@ -32,7 +32,7 @@ import { isEqual } from "lodash";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
 import { GENDER_STATE } from "../../../constant/KeyConstant";
-import { formatDate,showAlert,closeAlert } from "../../../constant/UtilsFunction";
+import { formatDate } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 const ImagePicker = NativeModules.ImageCropPicker;
 
@@ -63,13 +63,19 @@ class MyProfileTab1 extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      // closeAlert();
+      if (this.context.isShowAlert) {
+        this.context.hideAlert();
+        return true;
+      }
       if (this.state.showEmoticons) {
         this.setState({ showEmoticons: false });
         return true;
       }
+      this.props.navigation.goBack();
+      return true;
     });
   }
+
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE)) {
       this.initRadioData();
@@ -81,6 +87,9 @@ class MyProfileTab1 extends Component {
       isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
       isEqual(nextState, this.state)
     );
+  }
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   callApiUpdateProfile = async ({ field, value }) => {
@@ -142,12 +151,7 @@ class MyProfileTab1 extends Component {
 
       //upload image error
       this.props.onLoading(false);
-      return Alert.alert(
-        "Thông báo",
-        "Upload ảnh không thành công",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      return this.context.showAlert({ content: "Upload ảnh không thành công" });
     } else {
       //Not select image to upload
       this.callApiUploadAddress(this.oldImage);
@@ -164,6 +168,9 @@ class MyProfileTab1 extends Component {
       allImage === this.oldImage
     )
       return this.props.onLoading(false);
+
+    //start call api
+    this.props.onLoading(true);
     const resultUpdate = await updateAddressDesscription({
       profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
@@ -177,14 +184,9 @@ class MyProfileTab1 extends Component {
       this.props.reLoadProfile();
       return this.props.onLoading(false);
     } else {
-      Alert.alert(
-        "Thông báo",
-        resultUpdate.Message,
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
+      this.props.onLoading(false);
+      return this.context.showAlert({ content: resultUpdate.Message });
     }
-    return this.props.onLoading(false);
   };
 
   pickMultipleImageToUpload = () => {
@@ -391,18 +393,13 @@ class MyProfileTab1 extends Component {
 
   _itemFooter = (title, sourcIcon, onPress) => {
     return (
-      <TouchableOpacity
-        style={styles.wrapper_footer}
-        onPress={onPress}
-      >
+      <TouchableOpacity style={styles.wrapper_footer} onPress={onPress}>
         <Image
           source={sourcIcon}
           style={styles.img_btn_footer}
           resizeMode="cover"
         />
-        <Text style={styles.text_footer}>
-          {title}
-        </Text>
+        <Text style={styles.text_footer}>{title}</Text>
       </TouchableOpacity>
     );
   };
@@ -436,6 +433,17 @@ class MyProfileTab1 extends Component {
     this.textDescription += emoji;
     this.setState({ textDescription: this.textDescription });
   };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     console.log("render tab 1");
     //get dataUser
@@ -459,9 +467,7 @@ class MyProfileTab1 extends Component {
         </ScrollView>
 
         {this.state.showEmoticons ? (
-          <View
-            style={styles.wrapper_emoji}
-          >
+          <View style={styles.wrapper_emoji}>
             <TouchableOpacity
               style={style_common.container}
               onPress={() => {
@@ -479,6 +485,7 @@ class MyProfileTab1 extends Component {
             />
           </View>
         ) : null}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -494,26 +501,26 @@ MyProfileTab1.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper_emoji:{
+  wrapper_emoji: {
     position: "absolute",
     top: 0,
     right: 0,
     left: 0,
     bottom: 0
   },
-  emoji:{
+  emoji: {
     backgroundColor: "gray",
     height: 200
   },
-  wrapper_edit:{ flexDirection: "row", alignItems: "center" },
-  wrapper_footer:{
+  wrapper_edit: { flexDirection: "row", alignItems: "center" },
+  wrapper_footer: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
     flex: 1
   },
-  img_btn_footer:{ width: 30, height: 30 * (84 / 92) },
-  text_footer:{ textAlign: "center", color: COLOR.COLOR_TEXT_BLUE },
+  img_btn_footer: { width: 30, height: 30 * (84 / 92) },
+  text_footer: { textAlign: "center", color: COLOR.COLOR_TEXT_BLUE },
   parent: {
     flex: 1,
     padding: 10

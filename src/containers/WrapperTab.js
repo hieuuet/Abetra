@@ -6,7 +6,8 @@ import {
   StyleSheet,
   StatusBar,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -22,11 +23,17 @@ class WrapperTab extends Component {
     super(props);
     this.TEXT_SEARCH = TEXT_SEARCH();
   }
+
+  componentDidMount() {
+    //listen backpress android and close alert
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
       this.TEXT_SEARCH = TEXT_SEARCH();
     }
   }
+
   render() {
     return (
       <View style={styles.container}>

@@ -13,11 +13,7 @@ import {
 
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
-import {
-  showAlert,
-  ButtonBorder,
-  ViewLoading
-} from "../../../components/CommonView";
+import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
 import { TEXT_CHANGE_PHONE } from "../../../language";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -25,6 +21,7 @@ import { updateUserProfile, loadUserProfile } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
 import BackgroundImage from "../../../components/BackgroundImage";
+import AppContext from "../../../AppContext";
 
 class ChangePhone extends Component {
   constructor(props) {
@@ -45,10 +42,14 @@ class ChangePhone extends Component {
 
   onChangePhone = async () => {
     if (!this.userProfile)
-      return showAlert({ message: this.TEXT_CHANGE_PHONE.ProfileNotFound });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PHONE.ProfileNotFound
+      });
 
     if (this.newPhone.trim().length === 0 || this.code.trim().length === 0)
-      return showAlert({ message: this.TEXT_CHANGE_PHONE.RequiredInput });
+      return this.context.showAlert({
+        content: this.TEXT_CHANGE_PHONE.RequiredInput
+      });
 
     this.setState({ isLoading: true });
     const result = await updateUserProfile({
@@ -60,22 +61,20 @@ class ChangePhone extends Component {
     this.setState({ isLoading: false });
     //success
     if (result && result.ErrorCode === "00")
-      return showAlert({
-        message: result && result.Message,
-        positive: {
-          action_positive: () => {
-            this.props.loadUserProfile({
-              user_id: this.userProfile.UserID,
-              option: 100
-            });
-            this.props.navigation.goBack();
-          }
+      return this.context.showAlert({
+        content: result && result.Message,
+        onSubmit: () => {
+          this.props.loadUserProfile({
+            user_id: this.userProfile.UserID,
+            option: 100
+          });
+          this.props.navigation.goBack();
         }
       });
 
     //error
-    return showAlert({
-      message:
+    return this.context.showAlert({
+      content:
         (result && result.Message) || this.TEXT_CHANGE_PHONE.ChangePhoneFail
     });
   };
@@ -149,6 +148,16 @@ class ChangePhone extends Component {
     );
   };
 
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -176,6 +185,7 @@ class ChangePhone extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
