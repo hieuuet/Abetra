@@ -38,11 +38,13 @@ class VerifyAccount extends Component {
       isLoading: false
     };
     this.verifyCode = "";
+    this.TEXT_COMMON = TEXT_COMMON();
+    this.TEXT_VERIFY = TEXT_VERIFY();
   }
 
   verify = async () => {
     if (this.verifyCode.length === 0) {
-      return this.context.showAlert({ content: "Chưa nhập OTP" });
+      return this.context.showAlert({ content: this.TEXT_VERIFY.RequiredOTP });
     }
     const userName = this.props.navigation.getParam("userName");
     this.setState({ isLoading: true });
@@ -54,13 +56,14 @@ class VerifyAccount extends Component {
     if (!verifyResult || verifyResult.ErrorCode !== "00") {
       this.setState({ isLoading: false });
       return this.context.showAlert({
-        content: (verifyResult && verifyResult.Message) || "Xác thực thất bại"
+        content:
+          (verifyResult && verifyResult.Message) || this.TEXT_VERIFY.VerifyFail
       });
     }
     await this._login();
   };
   reSendCode = () => {
-    return this.context.showAlert({ content: "Tính năng đang phát triển" });
+    return this.context.showAlert({ content: this.TEXT_COMMON.FeatureDev });
   };
   loadUserProfile = async userID => {
     const { loadUserProfile } = this.props;
@@ -70,7 +73,9 @@ class VerifyAccount extends Component {
     });
     this.setState({ isLoading: false });
     if (!userProfile) {
-      return this.context.showAlert({ content: "Không thể tải trang cá nhân" });
+      return this.context.showAlert({
+        content: this.TEXT_COMMON.LoadProfileFail
+      });
     }
 
     this.goToProfile();
@@ -106,7 +111,9 @@ class VerifyAccount extends Component {
         this.loadUserProfile(login.Value[0].UserID);
       } else {
         this.setState({ isLoading: false });
-        return this.context.showAlert({ content: "Không tìm thấy UserID" });
+        return this.context.showAlert({
+          content: this.TEXT_COMMON.NotFoundUserId
+        });
       }
     } else {
       this.setState({ isLoading: false });
@@ -121,18 +128,18 @@ class VerifyAccount extends Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="done"
-          placeholder={TEXT_VERIFY().InputCode}
+          placeholder={this.TEXT_VERIFY.InputCode}
           placeholderTextColor={COLOR.COLOR_WHITE}
           keyboardType="numeric"
           onChangeText={text => (this.verifyCode = text)}
           style={styles.text_input}
         />
         {/* <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text> */}
-        <ButtonBorder label={TEXT_COMMON().Confirm} onPress={this.verify} />
+        <ButtonBorder label={this.TEXT_COMMON.Confirm} onPress={this.verify} />
 
-        <Text style={styles.text_info}>{TEXT_VERIFY().NotRecevie}</Text>
+        <Text style={styles.text_info}>{this.TEXT_VERIFY.NotRecevie}</Text>
         <ButtonBorder
-          label={TEXT_VERIFY().Resend}
+          label={this.TEXT_VERIFY.Resend}
           onPress={this.reSendCode}
           my_style={style_common.btn_blue_radius}
         />
@@ -151,7 +158,7 @@ class VerifyAccount extends Component {
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Text style={styles.text_login}>{TEXT_COMMON().FanPage}</Text>
+            <Text style={styles.text_login}>{this.TEXT_COMMON.FanPage}</Text>
           </TouchableOpacity>
         </View>
       </View>

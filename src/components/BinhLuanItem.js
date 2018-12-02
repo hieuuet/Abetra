@@ -78,7 +78,7 @@ class BinhLuanItem extends Component {
 
 
           </View>
-          <Text style={{textAlign: "right", marginRight: 15, color: "#42A5F5"}}>Trả lời</Text>
+          {/* <Text style={{textAlign: "right", marginRight: 15, color: "#42A5F5"}}>Trả lời</Text> */}
       </View>
     );
   }

@@ -35,6 +35,7 @@ class Menu extends Component {
       this.TEXT_MENU = TEXT_MENU();
     }
   }
+
   logout = () => {
     AsyncStorage.removeItem(USER_ID);
     AsyncStorage.removeItem("IntUserID");
@@ -54,7 +55,10 @@ class Menu extends Component {
       <TouchableOpacity
         style={[style_common.card_view, styles.header_container]}
         onPress={() => {
-          if (this.props.isGuest) return requestRegister(this.props.navigation);
+          // return this.props.screenProps.navigate("Register");
+
+          if (this.props.isGuest)
+            return requestRegister(this.props.screenProps);
           this.props.screenProps.navigate("Profile", { isMenu: true });
         }}
       >
@@ -69,11 +73,13 @@ class Menu extends Component {
         />
         <View style={styles.name_container}>
           <Text style={styles.text_name}>
-            {this.userProfile && this.userProfile.FullName
-              ? this.userProfile.FullName
-              : ""}
+            {this.props.isGuest
+              ? "GUEST"
+              : this.userProfile && this.userProfile.FullName
+                ? this.userProfile.FullName
+                : ""}
           </Text>
-          <Text style={styles.text_rank}>Quan tri vien</Text>
+          <Text style={styles.text_rank}>{(rank && rank.RankName) || ""}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -185,6 +191,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     margin: 0,
+    marginBottom: 10,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#F5F5F5"

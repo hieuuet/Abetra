@@ -27,18 +27,18 @@ class Message extends Component {
 
   componentDidMount() {
     this._loadMsgGroup();
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
-        return true;
-      }
-      this.props.navigation.goBack();
-      return true;
-    });
+    // this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+    //   if (this.context.isShowAlert) {
+    //     this.context.hideAlert();
+    //     return true;
+    //   }
+    //   this.props.navigation.goBack();
+    //   return true;
+    // });
   }
 
   componentWillUnmount() {
-    this.backHandler.remove();
+    // this.backHandler.remove();
   }
   _loadMsgGroup = async () => {
     this.setState({
@@ -94,10 +94,10 @@ class Message extends Component {
         {/*this.props.navigation.navigate("Search");*/}
         {/*}}*/}
         {/*/>*/}
-        <CustomizeHeader
+        {/* <CustomizeHeader
           label={this.TEXT_MESSAGE.MessageTitle}
           onBackPress={() => this.props.navigation.goBack()}
-        />
+        /> */}
         <View style={styles.tab}>
           <TabView2
             label={this.TEXT_MESSAGE.MessageTitle}
@@ -126,7 +126,7 @@ class Message extends Component {
             <FlatListCommon
               data={this.state.ArrUser}
               type={TYPE.MESSAGE}
-              navigation={this.props.navigation}
+              navigation={this.props.screenProps}
             />
           </View>
           <View
@@ -138,7 +138,7 @@ class Message extends Component {
             <FlatListCommon
               data={this.state.ArrSysTem}
               type={TYPE.CHANNEL}
-              navigation={this.props.navigation}
+              navigation={this.props.screenProps}
             />
           </View>
         </View>

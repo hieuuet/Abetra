@@ -88,7 +88,7 @@ class Language extends Component {
         onPress={async () => await this.onClickLanguage(index)}
       >
         <Image
-          resizeMode="contain"
+          resizeMode="stretch"
           source={
             index === this.state.languageActive
               ? IMAGE.btn_active
@@ -166,8 +166,8 @@ export default Language;
 
 const styles = StyleSheet.create({
   icon: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30 * (112 / 79),
     marginRight: 10,
     alignContent: "flex-end"
   },

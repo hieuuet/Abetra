@@ -110,7 +110,6 @@ class CreatePost extends Component {
         let linkImage = await uploadImage({
             user_id: UserProfile.Value[0].UserID,
             base64Datas: arrImage,
-            LangID: 129
         });
         // console.log("linkImage", linkImage);
         // let Imgs = [];
@@ -179,7 +178,6 @@ class CreatePost extends Component {
             Target: this.nameTagSelected.toString(),
             DisplayTime: "2018-09-18T16:07:37.9781331+07:00",
             IsAdvs: "",
-            LangID: 129
         });
         if (post.ErrorCode == "00") {
             this._sendPost(post.Value.CreatedTime, Status);

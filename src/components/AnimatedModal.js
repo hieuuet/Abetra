@@ -6,7 +6,7 @@ import {
   Text,
   View,
   Dimensions,
-  ImageBackground,
+  ImageBackground
 } from "react-native";
 import { IMAGE } from "../constant/assets";
 import { ButtonBorder } from "../components/CommonView";
@@ -68,14 +68,14 @@ export default class AnimatedModal extends Component {
           <View style={styles.modalContent}>{children}</View>
           <View style={styles.wraper_btn}>
             <ButtonBorder
-              label={strings("common.confirm")}
-              onPress={onSubmit}
+              label={this.props.labelClose || strings("common.cancel")}
               my_style={styles.btn_left}
+              onPress={onClose}
             />
             <ButtonBorder
-              label={strings("common.cancel")}
+              label={this.props.labelSubmit || strings("common.confirm")}
+              onPress={onSubmit}
               my_style={[style_common.btn_blue_radius, styles.btn_right]}
-              onPress={onClose}
             />
           </View>
         </View>

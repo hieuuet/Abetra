@@ -15,7 +15,6 @@ const randomString = length_ => {
   return str;
 };
 
-let isOpen = undefined;
 export const getRequestApi = async (url, isShowLog = false) => {
   const isConnected = store.getState().currentNetWork.isConnected;
   // console.log("get request isConnected: ", isConnected);

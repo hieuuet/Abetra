@@ -64,7 +64,6 @@ class EventJoin extends Component {
             Status: 255,
             EnterpriseID: UserProfile.Value[0].IntUserID,
             EventID: 0,
-            LangID: 129
         });
         console.log('event', Event)
 

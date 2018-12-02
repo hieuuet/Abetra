@@ -1,10 +1,15 @@
 import { strings } from "./i18n";
+
 export const TEXT_REGISTER = () => ({
   Register: strings("register.btn_register"),
   InputRePass: strings("register.input_rePass"),
   InputName: strings("register.input_fullname"),
   AgreeTerm: strings("register.agree_term"),
-  HasAccount: strings("register.has_account")
+  HasAccount: strings("register.has_account"),
+  PassRequired: strings("register.pass_required"),
+  PassNotMatch: strings("register.pass_not_match"),
+  PassLenght: strings("register.pass_lenght"),
+  RequiredTerm: strings("register.required_term")
 });
 export const TEXT_LOGIN = () => ({
   InputPhone: strings("login.input_phone"),
@@ -13,7 +18,6 @@ export const TEXT_LOGIN = () => ({
   LoginGuest: strings("login.login_guest"),
   Register: TEXT_REGISTER().Register
 });
-
 export const TEXT_COMMON = () => ({
   LoginFB: strings("common.login_fb"),
   Login: strings("common.btn_login"),
@@ -23,6 +27,11 @@ export const TEXT_COMMON = () => ({
   Cancel: strings("common.cancel"),
   Next: strings("common.next"),
   InputPhone: strings("login.input_phone"),
+  NotFoundUserId: strings("common.not_found_userId"),
+  GetDataFBFail: strings("common.get_data_FB_fail"),
+  FeatureDev: strings("common.feature_develop"),
+  LoadProfileFail: strings("common.load_profile_fail"),
+  UploadImageFail: strings("common.upload_image_fail")
 });
 export const TEXT_VERIFY = () => ({
   VerifyPhone: strings("verify.verify_phone"),
@@ -31,9 +40,10 @@ export const TEXT_VERIFY = () => ({
   NotRecevie: strings("verify.txt_notReceive"),
   PhoneIncorrect: strings("verify.txt_phoneIncorrect"),
   Resend: strings("verify.btn_reSend"),
-  ReInput: strings("verify.btn_reInput")
+  ReInput: strings("verify.btn_reInput"),
+  RequiredOTP: strings("verify.required_otp"),
+  VerifyFail: strings("verify.verify_fail")
 });
-
 export const TEXT_CHANGE_PASSWORD = () => ({
   ChangePass: strings("changePass.btn_changePass"),
   InputOldPass: strings("changePass.oldPass"),
@@ -171,12 +181,24 @@ export const TEXT_MESSAGE = () => ({
   MessageTitle: strings("message.message"),
   Chanel: strings("message.chanel")
 });
-export const TEXT_INTERPRISE = ()=>({
+export const TEXT_INTERPRISE = () => ({
   Address: strings("profile.address"),
-  Folow:strings("enterprise.folow"),
-  EnableNoti:strings("enterprise.enable_noti"),
-  Message:strings("enterprise.message"),
-  MessageDesc:strings("enterprise.message_desc"),
-  Empty:strings("common.empty"),
+  Folow: strings("enterprise.folow"),
+  EnableNoti: strings("enterprise.enable_noti"),
+  Message: strings("enterprise.message"),
+  MessageDesc: strings("enterprise.message_desc"),
+  Empty: strings("common.empty"),
   CreateRoomFail: strings("enterprise.create_room_fail")
+});
+
+export const TEXT_INPUTPHONE = () => ({
+  PhoneInvalid: strings("inputPhone.phoneInvalid"),
+  UpdatePhoneFail: strings("inputPhone.updatePhoneFail"),
+  RequestOTPFail: strings("inputPhone.requestOTPFail")
+});
+
+export const TEXT_POPUP_GUEST = () => ({
+  GuestToRegister: strings("popup_guest.guest_to_register"),
+  Later: strings("popup_guest.later"),
+  RegisterNow: strings("popup_guest.register_now")
 });

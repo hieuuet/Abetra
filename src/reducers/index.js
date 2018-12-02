@@ -64,7 +64,8 @@ const appReducer = combineReducers({
 
 export const rootReducer = (state, action) => {
   if (action.type === "RESET_STORE") {
-    state = undefined;
+    const { currentLanguage, currentNetWork } = state;
+    state = { currentLanguage, currentNetWork };
   }
 
   return appReducer(state, action);

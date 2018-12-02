@@ -12,7 +12,10 @@ import {
   Alert
 } from "react-native";
 import SocketIOClient from "socket.io-client";
-import { registerKilledListener, registerAppListener } from "../../components/Listeners";
+import {
+  registerKilledListener,
+  registerAppListener
+} from "../../components/Listeners";
 
 import StatusItems from "../../components/StatusItems";
 import Icon1 from "react-native-vector-icons/dist/Entypo";
@@ -34,7 +37,7 @@ import { SearchView, ViewLoading } from "../../components/CommonView";
 import style_common from "../../style-common/index";
 import { USER_ID, TYPE_ACCOUNT } from "../../constant/KeyConstant";
 import { default as FCM, FCMEvent } from "react-native-fcm";
-import {COLOR} from "../../constant/Color";
+import { COLOR } from "../../constant/Color";
 
 registerKilledListener();
 class Home extends Component {
@@ -92,93 +95,88 @@ class Home extends Component {
       this.props.getAllEmoji();
     }
 
-
-      // iOS: show permission prompt for the first call. later just check permission in user settings
-      // Android: check permission in user settings
-      FCM.createNotificationChannel({
-          id: 'default',
-          name: 'Default',
-          description: 'used for example',
-          priority: 'high',
-      })
-      registerAppListener(this.props.navigation);
-      // FCM.getInitialNotification().then(notif => {
-      //     console.log('notif', notif)
-      //     this.setState({
-      //         initNotif: notif
-      //     });
-      //     // if (notif && notif.targetScreen === "detail") {
-      //     //     setTimeout(() => {
-      //     //         this.props.navigation.navigate("Detail");
-      //     //     }, 500);
-      //     // }
-      // });
-      this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
-
-          console.log("receive noti listent", notif);
-          // optional, do some component related stuff
-          if (notif && notif.opened_from_tray && notif.opened_from_tray === 1) {
-
-              return ;
-          }
-          if(Platform.OS === 'ios' && notif._notificationType === "remote_notification"){
-              let data = notif.aps.alert;
-              console.log('ios-noti',data);
-              FCM.presentLocalNotification({
-                  vibrate: 500,
-                  title: data.title,
-                  body: data.body,
-                  priority: "high",
-                  sound: "default",
-                  icon: "logo.png",
-                  wake_screen: true,
-                  show_in_foreground: true,
-                  // click_action: notif.fcm.action,
-
-              });
-          }else if(Platform.OS === 'android'){
-              FCM.presentLocalNotification({
-                  vibrate: 500,
-                  title: notif.fcm.title,
-                  body: notif.fcm.body,
-                  priority: "high",
-                  // sound: "phiasaumotcogai.mp3",
-                  icon: "ic_launcher",
-                  wake_screen: true,
-                  show_in_foreground: true,
-                  // click_action: notif.fcm.action,
-
-              });
-          }
-
-
-
-      });
-
-      try {
-          let result = await FCM.requestPermissions({
-              badge: false,
-              sound: true,
-              alert: true
-          });
-      } catch (e) {
-          console.error(e);
+    // iOS: show permission prompt for the first call. later just check permission in user settings
+    // Android: check permission in user settings
+    FCM.createNotificationChannel({
+      id: "default",
+      name: "Default",
+      description: "used for example",
+      priority: "high"
+    });
+    registerAppListener(this.props.navigation);
+    // FCM.getInitialNotification().then(notif => {
+    //     console.log('notif', notif)
+    //     this.setState({
+    //         initNotif: notif
+    //     });
+    //     // if (notif && notif.targetScreen === "detail") {
+    //     //     setTimeout(() => {
+    //     //         this.props.navigation.navigate("Detail");
+    //     //     }, 500);
+    //     // }
+    // });
+    this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
+      console.log("receive noti listent", notif);
+      // optional, do some component related stuff
+      if (notif && notif.opened_from_tray && notif.opened_from_tray === 1) {
+        return;
       }
-
-      FCM.getFCMToken().then(token => {
-          console.log("TOKEN (getFCMToken)", token);
-          this.pushDeviceToken(ProfileID, this.userID, token);
-      });
-
-      if (Platform.OS === "ios") {
-          FCM.getAPNSToken().then(token => {
-              console.log("APNS TOKEN (getFCMToken)", token);
-          });
+      if (
+        Platform.OS === "ios" &&
+        notif._notificationType === "remote_notification"
+      ) {
+        let data = notif.aps.alert;
+        console.log("ios-noti", data);
+        FCM.presentLocalNotification({
+          vibrate: 500,
+          title: data.title,
+          body: data.body,
+          priority: "high",
+          sound: "default",
+          icon: "logo.png",
+          wake_screen: true,
+          show_in_foreground: true
+          // click_action: notif.fcm.action,
+        });
+      } else if (Platform.OS === "android") {
+        FCM.presentLocalNotification({
+          vibrate: 500,
+          title: notif.fcm.title,
+          body: notif.fcm.body,
+          priority: "high",
+          // sound: "phiasaumotcogai.mp3",
+          icon: "ic_launcher",
+          wake_screen: true,
+          show_in_foreground: true
+          // click_action: notif.fcm.action,
+        });
       }
+    });
+
+    try {
+      let result = await FCM.requestPermissions({
+        badge: false,
+        sound: true,
+        alert: true
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    FCM.getFCMToken().then(token => {
+      console.log("TOKEN (getFCMToken)", token);
+      this.pushDeviceToken(ProfileID, this.userID, token);
+    });
+
+    if (Platform.OS === "ios") {
+      FCM.getAPNSToken().then(token => {
+        console.log("APNS TOKEN (getFCMToken)", token);
+      });
+    }
   }
 
   _searchPost = async () => {
-      const IntUserID = await AsyncStorage.getItem("IntUserID");
+    const IntUserID = await AsyncStorage.getItem("IntUserID");
     this.setState({
       refreshing: true,
       isLoading: true
@@ -196,10 +194,9 @@ class Home extends Component {
       Profile_id: "",
       User_type: 255,
       Pin: 255,
-        IntUserID: IntUserID,
+      IntUserID: IntUserID,
       Option: 0
     });
-
     if (listPost && listPost.ErrorCode === "00") {
       this.setState(
         {
@@ -249,51 +246,51 @@ class Home extends Component {
           }
         >
           {/*<View*/}
-            {/*style={{*/}
-              {/*flexDirection: "row",*/}
-              {/*alignSelf: "stretch"*/}
-            {/*}}*/}
+          {/*style={{*/}
+          {/*flexDirection: "row",*/}
+          {/*alignSelf: "stretch"*/}
+          {/*}}*/}
           {/*>*/}
-            {/*<SearchView*/}
-              {/*onPress={() => {*/}
-                {/*this.props.navigation.navigate("Search");*/}
-              {/*}}*/}
-              {/*style={style_common.container}*/}
-            {/*/>*/}
-            {/*{this.props.UserProfile &&*/}
-            {/*this.props.UserProfile.Value &&*/}
-            {/*this.props.UserProfile.Value[0] &&*/}
-            {/*this.props.UserProfile.Value[0].Type ===*/}
-              {/*TYPE_ACCOUNT.TEMP ? null : (*/}
-                {/*<TouchableOpacity*/}
-                  {/*style={{*/}
-                    {/*width: 30,*/}
-                    {/*alignItems: "center",*/}
-                    {/*justifyContent: "center",*/}
-                    {/*marginRight: 10*/}
-                  {/*}}*/}
-                  {/*onPress={() => {*/}
-                    {/*if (this.props.isGuest) return requestRegister(navigation);*/}
+          {/*<SearchView*/}
+          {/*onPress={() => {*/}
+          {/*this.props.navigation.navigate("Search");*/}
+          {/*}}*/}
+          {/*style={style_common.container}*/}
+          {/*/>*/}
+          {/*{this.props.UserProfile &&*/}
+          {/*this.props.UserProfile.Value &&*/}
+          {/*this.props.UserProfile.Value[0] &&*/}
+          {/*this.props.UserProfile.Value[0].Type ===*/}
+          {/*TYPE_ACCOUNT.TEMP ? null : (*/}
+          {/*<TouchableOpacity*/}
+          {/*style={{*/}
+          {/*width: 30,*/}
+          {/*alignItems: "center",*/}
+          {/*justifyContent: "center",*/}
+          {/*marginRight: 10*/}
+          {/*}}*/}
+          {/*onPress={() => {*/}
+          {/*if (this.props.isGuest) return requestRegister(navigation);*/}
 
-                    {/*this.props.navigation.navigate("CreatePost");*/}
-                  {/*}}*/}
-                {/*>*/}
-                  {/*<View*/}
-                    {/*style={{*/}
-                      {/*alignItems: "center",*/}
-                      {/*justifyContent: "center",*/}
-                      {/*borderWidth: 1,*/}
-                      {/*backgroundColor: "#0277BD",*/}
-                      {/*height: 30,*/}
-                      {/*width: 30,*/}
-                      {/*borderRadius: 30 / 2,*/}
-                      {/*borderColor: "#BDBDBD"*/}
-                    {/*}}*/}
-                  {/*>*/}
-                    {/*<Icon1 name="plus" size={30} color="white" />*/}
-                  {/*</View>*/}
-                {/*</TouchableOpacity>*/}
-              {/*)}*/}
+          {/*this.props.navigation.navigate("CreatePost");*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*<View*/}
+          {/*style={{*/}
+          {/*alignItems: "center",*/}
+          {/*justifyContent: "center",*/}
+          {/*borderWidth: 1,*/}
+          {/*backgroundColor: "#0277BD",*/}
+          {/*height: 30,*/}
+          {/*width: 30,*/}
+          {/*borderRadius: 30 / 2,*/}
+          {/*borderColor: "#BDBDBD"*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*<Icon1 name="plus" size={30} color="white" />*/}
+          {/*</View>*/}
+          {/*</TouchableOpacity>*/}
+          {/*)}*/}
           {/*</View>*/}
           {this.state.ArrPost.length === 0 && !this.state.isLoading ? (
             this._renderEmpty()
@@ -305,9 +302,10 @@ class Home extends Component {
               // }}
               data={this.state.ArrPost}
               renderItem={item => {
+
                 return (
                   <StatusItems
-                      isTab = {true}
+                    isTab={true}
                     dataItem={item}
                     userID={this.userID}
                     screenProps={this.props.screenProps}

@@ -16,7 +16,12 @@
     "search": "Tìm kiếm",
     "noti_title": "Thông báo",
     "next": "Tiếp tục",
-    "empty":"Không có dữ liệu"
+    "empty": "Không có dữ liệu",
+    "not_found_userId": "Không tìm thấy UserID",
+    "get_data_FB_fail": "Không lấy được dữ liệu từ Facebook",
+    "feature_develop": "Tính năng đang phát triển",
+    "load_profile_fail": "Không thể tải trang cá nhân",
+    "upload_image_fail": "Upload ảnh không thành công"
   },
 
   "register": {
@@ -24,7 +29,11 @@
     "has_account": "Đã có tài khoản",
     "input_rePass": "Nhập lại mật khẩu",
     "input_fullname": "Nhập họ tên",
-    "agree_term": "Tôi đã đọc và đồng ý các điều khoản dịch vụ"
+    "agree_term": "Tôi đã đọc và đồng ý các điều khoản dịch vụ",
+    "pass_required": "Bạn chưa nhập mật khẩu",
+    "pass_not_match": "Mật khẩu không trùng khớp",
+    "pass_lenght": "Mật khẩu phải lớn hơn 6 ký tự",
+    "required_term":"Bạn cần đọc và đồng ý với các điều khoản dịch vụ của ứng dụng"
   },
   "changePass": {
     "btn_changePass": "Đổi mật khẩu",
@@ -50,7 +59,9 @@
     "txt_notReceive": "Không nhận được mã xác nhận",
     "txt_phoneIncorrect": "Nhập sai số điện thoại",
     "btn_reSend": "Gửi lại mã",
-    "btn_reInput": "Nhập lại"
+    "btn_reInput": "Nhập lại",
+    "required_otp": "Chưa nhập OTP",
+    "verify_fail": "Xác thực thất bại"
   },
   "intro": {
     "intro_title": "AIBETRA là gì?",
@@ -75,7 +86,7 @@
   },
 
   "profile": {
-    "account": "Tài khoản",
+    "account": "Thông tin",
     "member": "Hội viên",
     "change_pass": "Đổi mật khẩu",
     "birth_day": "Ngày sinh",
@@ -149,11 +160,21 @@
     "message": "Tin nhắn",
     "chanel": "Kênh thảo luận"
   },
-  "enterprise":{
-    "folow":"Theo dõi",
-    "enable_noti":"Nhận các thông báo về bài viết, sự kiện,CTKM",
-    "message":"Nhắn tin",
-    "message_desc":"Trao đổi với hội viên qua tin nhắn",
-    "create_room_fail":"Taọ phòng chat không thành công"
+  "enterprise": {
+    "folow": "Theo dõi",
+    "enable_noti": "Nhận các thông báo về bài viết, sự kiện,CTKM",
+    "message": "Nhắn tin",
+    "message_desc": "Trao đổi với hội viên qua tin nhắn",
+    "create_room_fail": "Taọ phòng chat không thành công"
+  },
+  "inputPhone": {
+    "phoneInvalid": "Số điện thoại không đúng định dạng",
+    "updatePhoneFail": "Cập nhật số điện thoại thất bại",
+    "requestOTPFail": "Yêu cầu gửi mã OTP thất bại"
+  },
+  "popup_guest": {
+    "guest_to_register": "Để sử dụng tính năng bạn cần đăng ký tải khoản. Đăng ký ngay ?",
+    "later": "Để sau",
+    "register_now": "Đăng ký"
   }
 }

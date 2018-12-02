@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from "react-redux";
 import TabHome from "../routers/TabHome";
 import { COLOR } from "../constant/Color";
+import { requestRegister } from "../actions";
 
 import { isEqual } from "lodash";
 import { TEXT_SEARCH } from "../language";
@@ -85,8 +86,12 @@ class WrapperTab extends Component {
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate("Message")}
+                {/* <TouchableOpacity
+                  onPress={() => {
+                    if (this.props.isGuest)
+                      return requestRegister(this.props.navigation);
+                    this.props.navigation.navigate("Message");
+                  }}
                 >
                   <Image
                     style={{
@@ -97,7 +102,7 @@ class WrapperTab extends Component {
                     source={require("../../assets/wrappertab/icon_mail.png")}
                     resizeMode="cover"
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </ImageBackground>
@@ -111,7 +116,8 @@ class WrapperTab extends Component {
 const mapStateToProps = state => {
   return {
     UserProfile: state.loadUserProfile,
-    currentLanguage: state.currentLanguage
+    currentLanguage: state.currentLanguage,
+    isGuest: state.loginGuest.isGuest
   };
 };
 

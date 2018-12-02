@@ -73,23 +73,23 @@ const TabHome = createMaterialTopTabNavigator(
         )
       }
     },
-    // Profile: {
-    //   screen: Profile,
-    //   navigationOptions: {
-    //     // headerBackTitle: 'Back',
-    //     tabBarIcon: ({ tintColor, focused }) => (
-    //       <Image
-    //         style={styles.btn}
-    //         source={
-    //           focused
-    //             ? require("../../assets/tab/icon_myfeeds_active.png")
-    //             : require("../../assets/tab/icon_myfeeds.png")
-    //         }
-    //         resizeMode="cover"
-    //       />
-    //     )
-    //   }
-    // },
+    Message: {
+      screen: Message,
+      navigationOptions: {
+        // headerBackTitle: 'Back',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image
+            style={styles.btn}
+            source={
+              focused
+                ? require("../../assets/tab/icon_myfeeds_active.png")
+                : require("../../assets/tab/icon_myfeeds.png")
+            }
+            resizeMode="cover"
+          />
+        )
+      }
+    },
 
     Menu: {
       screen: Menu,

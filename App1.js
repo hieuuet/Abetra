@@ -26,7 +26,9 @@ class App1 extends Component {
       title: undefined,
       content: undefined,
       onClose: undefined,
-      onSubmit: undefined
+      onSubmit: undefined,
+      labelSubmit: undefined,
+      labelClose: undefined
     };
   }
 
@@ -100,6 +102,8 @@ class App1 extends Component {
           <Root />
           <AnimatedModal
             title={this.dataAlert && this.dataAlert.title}
+            labelSubmit={this.dataAlert && this.dataAlert.labelSubmit}
+            labelClose={this.dataAlert && this.dataAlert.labelClose}
             visible={this.state.isShowAlert}
             onClose={() => {
               this.dataAlert &&
@@ -115,7 +119,7 @@ class App1 extends Component {
             }}
             vi
           >
-            <Text style={{ color: "#000000" }}>
+            <Text style={{ color: "#000000", textAlign: "center",padding:10 }}>
               {(this.dataAlert && this.dataAlert.content) || ""}
             </Text>
           </AnimatedModal>

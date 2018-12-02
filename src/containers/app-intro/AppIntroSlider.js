@@ -19,7 +19,7 @@ import ModalDropdown from "../../components/ModalDropdown";
 const { width, height } = Dimensions.get("window");
 import { FIRST_INSTALL } from "../../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { getCurrentLanguage } from "../../actions";
+import { getCurrentLanguage, getImagePanel } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { LANGUAGE, DEFAULT_LANGUGE } from "../../constant/KeyConstant";
@@ -35,21 +35,13 @@ const isIphoneX =
 class AppIntroSlider extends Component {
   constructor(props) {
     super(props);
+    const dataSlide = this.props.navigation.getParam("arrSlide") || [];
     this.state = {
       width,
       height,
-      activeIndex: 0
+      activeIndex: 0,
+      arrSlide: this.initSilde(dataSlide)
     };
-
-    const arrSlide = this.props.navigation.getParam("arrSlide") || [];
-    this.slides = arrSlide.map((item, index) => ({
-      id: index + "",
-      title: "Title" + index,
-      text: "Description.\nSay something cool",
-      image: item || "",
-      imageStyle: styles.image,
-      backgroundColor: "#59b2ab"
-    }));
 
     this.allLanguage = this.props.navigation.getParam("allLanguage") || [];
     this.language = this.allLanguage.map(item => item.ShortName);
@@ -60,6 +52,30 @@ class AppIntroSlider extends Component {
     this.defaultLanguage =
       this.defaultLanguage !== -1 ? this.defaultLanguage : 0;
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.currentLanguage.LangID !== nextProps.currentLanguage.LangID
+    ) {
+      this.getSlideAgain();
+    }
+  }
+
+  initSilde = data => {
+    return data.map((item, index) => ({
+      id: index + "",
+      title: "Title" + index,
+      text: "Description.\nSay something cool",
+      image: item || "",
+      imageStyle: styles.image,
+      backgroundColor: "#59b2ab"
+    }));
+  };
+
+  getSlideAgain = async () => {
+    const arrSlide = await getImagePanel().then(data => data.Value || []);
+    this.setState({ arrSlide: this.initSilde(arrSlide) });
+  };
 
   selectLanguage = async (rowID, rowData) => {
     const lanSelected = this.allLanguage.find(
@@ -143,7 +159,7 @@ class AppIntroSlider extends Component {
         >
           <FlatList
             ref={ref => (this.flatList = ref)}
-            data={this.slides}
+            data={this.state.arrSlide}
             extraData={this.state}
             showsHorizontalScrollIndicator={false}
             horizontal
@@ -168,7 +184,12 @@ class AppIntroSlider extends Component {
             onPress={() => this.props.navigation.navigate("Language")}
           >
             <Text
-              style={{ flex: 1, textAlign: "right",marginRight:5, color: COLOR.COLOR_WHITE }}
+              style={{
+                flex: 1,
+                textAlign: "right",
+                marginRight: 5,
+                color: COLOR.COLOR_WHITE
+              }}
               ellipsizeMode="tail"
               numberOfLines={1}
             >
@@ -177,7 +198,7 @@ class AppIntroSlider extends Component {
             <Image
               source={{ uri: this.props.currentLanguage.Icon }}
               resizeMode="cover"
-              style={{ width: 30, height: 30 }}
+              style={{ width: 30, height: 30 * (112 / 79) }}
             />
             {/* <ModalDropdown
               options={this.language}
@@ -211,7 +232,8 @@ class AppIntroSlider extends Component {
   _renderDoneButton = () =>
     this._renderButton(TEXT_INTRO().Continue, this.onDone);
   _renderPagination = () => {
-    const isLastSlide = this.state.activeIndex === this.slides.length - 1;
+    const isLastSlide =
+      this.state.activeIndex === this.state.arrSlide.length - 1;
     const isFirstSlide = this.state.activeIndex === 0;
     const btn = isLastSlide
       ? this._renderDoneButton()
@@ -220,8 +242,8 @@ class AppIntroSlider extends Component {
     return (
       <View style={styles.footer}>
         <View style={styles.paginationDots}>
-          {this.slides.length > 1 &&
-            this.slides.map((_, i) => (
+          {this.state.arrSlide.length > 1 &&
+            this.state.arrSlide.map((_, i) => (
               <View
                 key={i}
                 style={[

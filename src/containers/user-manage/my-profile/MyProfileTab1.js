@@ -34,6 +34,7 @@ import { URL_BASE } from "../../../constant/api";
 import { GENDER_STATE } from "../../../constant/KeyConstant";
 import { formatDate } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import { TEXT_COMMON } from "../../../language";
 const ImagePicker = NativeModules.ImageCropPicker;
 
 import PropTypes from "prop-types";
@@ -59,6 +60,7 @@ class MyProfileTab1 extends Component {
     this.initRadioData();
     this.arrBase64 = [];
     this.arrPath = [];
+    this.TEXT_COMMON = TEXT_COMMON();
   }
 
   componentDidMount() {
@@ -151,7 +153,9 @@ class MyProfileTab1 extends Component {
 
       //upload image error
       this.props.onLoading(false);
-      return this.context.showAlert({ content: "Upload ảnh không thành công" });
+      return this.context.showAlert({
+        content: this.TEXT_COMMON.UploadImageFail
+      });
     } else {
       //Not select image to upload
       this.callApiUploadAddress(this.oldImage);
@@ -462,9 +466,9 @@ class MyProfileTab1 extends Component {
           <View style={styles.parent}>
             {this._renderEdit()}
             {this._renderContent()}
-            {this._renderFooter()}
           </View>
         </ScrollView>
+        {this._renderFooter()}
 
         {this.state.showEmoticons ? (
           <View style={styles.wrapper_emoji}>
@@ -551,7 +555,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     marginTop: 10,
-    flex: 1
   },
 
   change_pass: { flexDirection: "row", alignItems: "center" },

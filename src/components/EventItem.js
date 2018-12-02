@@ -131,7 +131,6 @@ class EventItem extends Component {
             UserName: UserProfile.Value[0].FullName,
             Phone: UserProfile.Value[0].Phone,
             Email: UserProfile.Value[0].Email ? UserProfile.Value[0].Email : "",
-            LangID: 129
 
         })
         console.log('eventJoin', eventJoin)

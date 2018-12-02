@@ -62,8 +62,8 @@ class Event extends Component {
     });
     const { getEvent, UserProfile } = this.props;
 
-    let Event = await getEvent({
-      IntUserID: UserProfile.Value[0].IntUserID,
+    //baseParamsEvent using guest
+    let baseParamsEvent = {
       PageSize: 100,
       PageIndex: 1,
       Keyword: "",
@@ -71,9 +71,16 @@ class Event extends Component {
       ToDate: "",
       Status: 1,
       EnterpriseID: 0,
-      intUserLog: UserProfile.Value[0].IntUserID,
       Type: 0
-    });
+    };
+
+    //paramsEvent after login
+    if (UserProfile && UserProfile.Value && UserProfile.Value[0]) {
+      baseParamsEvent.IntUserID = UserProfile.Value[0].IntUserID;
+      baseParamsEvent.intUserLog = UserProfile.Value[0].IntUserID;
+    }
+
+    let Event = await getEvent(baseParamsEvent);
     console.log("Event", Event);
 
     if (Event && Event.ErrorCode === null) {

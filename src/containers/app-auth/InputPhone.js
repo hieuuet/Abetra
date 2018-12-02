@@ -8,22 +8,22 @@ import {
   Platform,
   ScrollView,
   Image,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
-import { TEXT_COMMON, TEXT_VERIFY } from "../../language";
+import { TEXT_COMMON, TEXT_INPUTPHONE } from "../../language";
 
-import { bindActionCreators } from "redux";
+// import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updatePhoneFb, sendOTP } from "../../actions";
-import { USER_ID } from "../../constant/KeyConstant";
+// import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
-import { NavigationActions, StackActions } from "react-navigation";
+// import { NavigationActions, StackActions } from "react-navigation";
 import AppContext from "../../AppContext";
 
 class InputPhone extends Component {
@@ -37,6 +37,7 @@ class InputPhone extends Component {
     this.password = this.props.navigation.getParam("password") || "";
     this.phone = this.props.navigation.getParam("passphoneword") || "";
     this.hasPhone = this.phone.length > 0;
+    this.TEXT_INPUTPHONE = TEXT_INPUTPHONE();
   }
 
   _bindeGlobalContext = () => {
@@ -52,7 +53,7 @@ class InputPhone extends Component {
   updatePhoneAndNavigate = async () => {
     if (this.phone.length <= 9) {
       return this.context.showAlert({
-        content: "Số điện thoại không đúng định dạng"
+        content: this.TEXT_INPUTPHONE.PhoneInvalid
       });
     }
     this.setState({ isLoading: true });
@@ -60,14 +61,13 @@ class InputPhone extends Component {
       const updatePhone = await updatePhoneFb({
         Phone: this.phone,
         UserName: this.userName,
-        LangID: 3
       });
       if (!updatePhone || updatePhone.ErrorCode !== "00") {
         this.setState({ isLoading: false });
         return this.context.showAlert({
           content:
             (updatePhone && updatePhone.Message) ||
-            "Cập nhật số điện thoại thất bại"
+            this.TEXT_INPUTPHONE.UpdatePhoneFail
         });
       }
     }
@@ -79,7 +79,8 @@ class InputPhone extends Component {
       this.setState({ isLoading: false });
       return this.context.showAlert({
         content:
-          (requestSendOTP && requestSendOTP.Message) || "Yêu cầu gửi mã OTP thất bại"
+          (requestSendOTP && requestSendOTP.Message) ||
+          this.TEXT_INPUTPHONE.RequestOTPFail
       });
     }
     this.setState({ isLoading: false });

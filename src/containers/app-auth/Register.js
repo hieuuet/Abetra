@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
   AsyncStorage,
   BackHandler
 } from "react-native";
@@ -31,7 +30,7 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: true,
+      isChecked: false,
       isLoading: false,
       isLoadingIndicator: true
     };
@@ -43,6 +42,10 @@ class Register extends Component {
       rePassword: "",
       email: ""
     };
+
+    this.TEXT_COMMON = TEXT_COMMON();
+    this.TEXT_REGISTER = TEXT_REGISTER();
+    this.TEXT_LOGIN = TEXT_LOGIN();
   }
 
   componentDidMount() {
@@ -91,18 +94,28 @@ class Register extends Component {
     const { userName, fullName, password, rePassword } = this.dataUser;
     console.log("data register", this.dataUser);
 
+    if (!this.state.isChecked) {
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER.RequiredTerm
+      });
+    }
+
     if (password.length === 0 || rePassword.length === 0) {
-      return this.context.showAlert({ content: "Bạn phải nhập mật khẩu" });
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER.PassRequired
+      });
     }
 
     if (password.length < 6) {
       return this.context.showAlert({
-        content: "Mật khẩu phải lớn hơn 6 ký tự"
+        content: this.TEXT_REGISTER.PassLenght
       });
     }
 
     if (password !== rePassword) {
-      return this.context.showAlert({ content: "Mật khẩu không trùng khớp" });
+      return this.context.showAlert({
+        content: this.TEXT_REGISTER.PassNotMatch
+      });
     }
 
     this.setState({ isLoading: true });
@@ -155,7 +168,7 @@ class Register extends Component {
       this._handleLoginResult(resultLogin);
     } else {
       return this.context.showAlert({
-        content: "Không lấy được dữ liệu từ Facebook"
+        content: this.TEXT_COMMON.GetDataFBFail
       });
     }
   };
@@ -187,7 +200,7 @@ class Register extends Component {
         this.goToHomeTab();
       } else {
         return this.context.showAlert({
-          content: "Không tìm thấy UserID"
+          content: this.TEXT_COMMON.NotFoundUserId
         });
       }
     } else {
@@ -213,7 +226,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_REGISTER().InputName}
+          placeholder={this.TEXT_REGISTER.InputName}
           onChangeText={text => (this.dataUser.fullName = text)}
           style={styles.text_input}
           onSubmitEditing={event => {
@@ -226,7 +239,7 @@ class Register extends Component {
           autoCapitalize="none"
           returnKeyType="next"
           ref="phone"
-          placeholder={TEXT_LOGIN().InputPhone}
+          placeholder={this.TEXT_LOGIN.InputPhone}
           keyboardType="numeric"
           placeholderTextColor={COLOR.COLOR_WHITE}
           onChangeText={text => (this.dataUser.userName = text)}
@@ -242,7 +255,7 @@ class Register extends Component {
           returnKeyType="next"
           secureTextEntry={true}
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_LOGIN().InputPass}
+          placeholder={this.TEXT_LOGIN.InputPass}
           ref="pass"
           onChangeText={text => (this.dataUser.password = text)}
           style={styles.text_input}
@@ -256,25 +269,25 @@ class Register extends Component {
           returnKeyType="done"
           secureTextEntry={true}
           placeholderTextColor={COLOR.COLOR_WHITE}
-          placeholder={TEXT_REGISTER().InputRePass}
+          placeholder={this.TEXT_REGISTER.InputRePass}
           ref="rePass"
           onChangeText={text => (this.dataUser.rePassword = text)}
           style={styles.text_input}
         />
         <ButtonBorder
-          label={TEXT_REGISTER().Register}
+          label={this.TEXT_REGISTER.Register}
           onPress={this._register}
         />
 
         <View style={styles.view_login}>
-          <Text style={styles.text_fb1}>{TEXT_COMMON().LoginFB}</Text>
+          <Text style={styles.text_fb1}>{this.TEXT_COMMON.LoginFB}</Text>
           <TouchableOpacity onPress={this.handleLoginFB}>
             <Text style={styles.text_fb2}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.text_hasacc}>{TEXT_REGISTER().HasAccount}</Text>
+        <Text style={styles.text_hasacc}>{this.TEXT_REGISTER.HasAccount}</Text>
         <ButtonBorder
-          label={TEXT_COMMON().Login}
+          label={this.TEXT_COMMON.Login}
           onPress={() => {
             this.props.navigation.navigate("Login");
           }}
@@ -287,14 +300,14 @@ class Register extends Component {
     const iconCheck = (
       <Image
         source={IMAGE.checked}
-        style={{ width: 25, height: 25 }}
+        style={{ width: 15, height: 15 * (56 / 38) }}
         resizeMode="contain"
       />
     );
     const iconUnCheck = (
       <Image
         source={IMAGE.unchecked}
-        style={{ width: 25, height: 25 }}
+        style={{ width: 15, height: 15 * (56 / 38) }}
         resizeMode="contain"
       />
     );
@@ -315,11 +328,10 @@ class Register extends Component {
             onPress={() => this.props.navigation.navigate("TermServices")}
           >
             <Text style={styles.txt_underline}>
-              {TEXT_REGISTER().AgreeTerm}
+              {this.TEXT_REGISTER.AgreeTerm}
             </Text>
           </TouchableOpacity>
         </View>
-        {this._bindeGlobalContext()}
       </View>
     );
   };
@@ -357,6 +369,7 @@ class Register extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
