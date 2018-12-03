@@ -21,7 +21,8 @@
     "get_data_FB_fail": "Can't get data from Facebook",
     "feature_develop": "Feature during development",
     "load_profile_fail": "Can't load profile",
-    "upload_image_fail": "Upload image fail"
+    "upload_image_fail": "Upload image fail",
+    "feature_request_login": "Để sử dụng tính năng này vui lòng đăng nhập tài khoản"
   },
 
   "register": {
@@ -33,7 +34,7 @@
     "pass_required": "Password is required",
     "pass_not_match": "Password not matched",
     "pass_lenght": "Password must be  greater 6 characters",
-    "required_term":"You need to read and agree to the terms of service of the app"
+    "required_term": "You need to read and agree to the terms of service of the app"
   },
   "changePass": {
     "btn_changePass": "Change Password",
@@ -69,9 +70,6 @@
   },
   "language": {
     "language_title": "Language"
-  },
-  "event": {
-    "event_title": "Event"
   },
 
   "menu": {
@@ -175,5 +173,53 @@
     "guest_to_register": "To use this feature, you need to register an account. Register now ?",
     "later": "Later",
     "register_now": "Register"
+  },
+  "event": {
+    "event_title": "Event",
+    "has_join_event": "You has been joined before",
+    "join_event_succes": "Join event success",
+    "join_event_fail": "Join event fail",
+    "join": "join",
+    "more": "More",
+    "less": "Less"
+  },
+
+  "menu_post": {
+    "save": "Save post",
+    "unsave": "Unsave post",
+    "report": "Report",
+    "save_post_success": "Save post success",
+    "save_post_fail": "Save post fail",
+    "unsave_post_success": "Unsave post success",
+    "unsave_post_fail": "Unsave post fail"
+  },
+  "poll_vote": {
+    "error_occurred": "Have error occured",
+    "error_like": "Like error"
+  },
+  "create_post": {
+    "create_post": "Create post",
+    "content_post": "Content of post",
+    "title_event": "Title event",
+    "time_start": "Time start",
+    "address": "Address",
+    "add_to_post": "Add to post",
+    "poll_vote": "#PollVote",
+    "event": "#Event",
+    "post": "POST",
+    "option":"Option",
+    "create_post_fail": "Create post fail",
+    "invalid_time": "Start time invalid",
+    "create_event_success": "Create event fail"
+  },
+
+  "chat": {
+    "create_chat_fail": "Create chat room fail"
+  },
+  "type_account": {
+    "admin": "Admin",
+    "personal": "Personal member",
+    "enterprise": "Enterprise member",
+    "guest": "Guest member"
   }
 }

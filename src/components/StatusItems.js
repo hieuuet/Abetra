@@ -5,16 +5,11 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Alert,
   Dimensions,
-  Button,
   FlatList
 } from "react-native";
 
 import moment from "moment";
-import Icon1 from "react-native-vector-icons/EvilIcons";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import IconMore from "react-native-vector-icons/Ionicons";
 import ReadMore from "react-native-read-more-text";
 import PhotoGrid from "./PhotoGrid";
 import MenuPost from "./menu_post/MenuPost";
@@ -24,13 +19,20 @@ import { connect } from "react-redux";
 import PollVote from "./PollVote";
 import { likePost } from "../actions/likePostActions";
 import { URL_BASE } from "../constant/api";
-import IconAdd from "react-native-vector-icons/Entypo";
 import { joinEvent } from "../actions/joinEventActions";
 import { COLOR } from "../constant/Color";
 import { requestRegister } from "../actions";
 import { IMAGE } from "../constant/assets";
 
+import { TEXT_EVENT } from "../language";
+import { isEqual } from "lodash";
+import PropTypes from "prop-types";
+import { typeAccount } from "../constant/UtilsFunction";
+
 class StatusItems extends Component {
+  static propTypes = {
+    context: PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
     this.countliked = this.props.dataItem.item.TotalLike;
@@ -42,6 +44,8 @@ class StatusItems extends Component {
       liked: false,
       PostContent: ""
     };
+
+    this.TEXT_EVENT = TEXT_EVENT();
   }
 
   componentDidMount() {
@@ -86,6 +90,12 @@ class StatusItems extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_EVENT = TEXT_EVENT();
+    }
+  }
+
   _joinEvent = async EventID => {
     //prevent action with GUEST
     if (this.props.isGuest)
@@ -111,37 +121,22 @@ class StatusItems extends Component {
       this.setState({
         isJoin: true
       });
+      return this.props.context.showAlert({
+        content: this.TEXT_EVENT.JoinSuccess
+      });
     } else if (eventJoin.ErrorCode == "04") {
-      Alert.alert(
-        "Thông báo",
-        "Bạn đã tham gia trước đó",
-        [
-          {
-            text: "OK",
-            onPress: () => {}
-          }
-        ],
-        { cancelable: false }
-      );
+      return this.props.context.showAlert({ content: this.TEXT_EVENT.HasJoin });
     } else {
-      Alert.alert(
-        "Thông báo",
-        "Tham gia sự kiện không thành công",
-        [
-          {
-            text: "OK",
-            onPress: () => {}
-          }
-        ],
-        { cancelable: false }
-      );
+      return this.props.context.showAlert({
+        content: this.TEXT_EVENT.JoinFail
+      });
     }
   };
 
   _renderTruncatedFooter = handlePress => {
     return (
       <Text style={{ color: "#C3E3D7", fontSize: 12 }} onPress={handlePress}>
-        Xem thêm
+        {this.TEXT_EVENT.More}
       </Text>
     );
   };
@@ -149,7 +144,7 @@ class StatusItems extends Component {
   _renderRevealedFooter = handlePress => {
     return (
       <Text style={{ color: "#C3E3D7", fontSize: 12 }} onPress={handlePress}>
-        Thu gọn
+        {this.TEXT_EVENT.Less}
       </Text>
     );
   };
@@ -238,7 +233,6 @@ class StatusItems extends Component {
     // let PollVote = item.Poll ? item.Poll : null
     // PollVote =  JSON.parse(PollVote)
     // console.log('PollVote', PollVote)
-    const { setModalVisible } = this.props;
     let ArrImg = item.Images ? item.Images : "[]";
     try {
       ArrImg = JSON.parse(ArrImg);
@@ -292,17 +286,7 @@ class StatusItems extends Component {
                   </Text>
                 </TouchableOpacity>
                 <Text style={{ fontSize: 12 }}>
-                  {item.UserType == 1
-                    ? "Quản trị viên"
-                    : item.UserType == 2
-                    ? "Hội viên cá nhân"
-                    : item.UserType == 3
-                    ? "Hội viên doanh nghiệp"
-                    : item.UserType == 4
-                    ? "Hội viên vãng lai"
-                    : item.UserType == 5
-                    ? "Aibetra Admin"
-                    : "Aibetra"}
+                  {typeAccount(item.UserType)}
                 </Text>
               </View>
               <View
@@ -505,7 +489,7 @@ class StatusItems extends Component {
                   </TouchableOpacity>
                 </View>
                 <Text style={{ marginRight: 10, color: "#777777" }}>
-                  Tham gia
+                  {this.TEXT_EVENT.Join}
                 </Text>
               </View>
             ) : null}
@@ -647,7 +631,8 @@ class StatusItems extends Component {
 const mapStateToProps = state => {
   return {
     UserProfile: state.loadUserProfile,
-    isGuest: state.loginGuest.isGuest
+    isGuest: state.loginGuest.isGuest,
+    currentLanguage: state.currentLanguage
   };
 };
 

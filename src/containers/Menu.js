@@ -15,7 +15,7 @@ import { COLOR } from "../constant/Color";
 import { IMAGE } from "../constant/assets";
 import style_common from "../style-common";
 import { USER_ID } from "../constant/KeyConstant";
-import { NavigationActions, StackActions } from "react-navigation";
+import { StackActions } from "react-navigation";
 import { resetStore, requestRegister } from "../actions";
 import { bindActionCreators } from "redux";
 import { URL_BASE } from "../constant/api";

@@ -6,7 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   FlatList,
-  Dimensions,
+  Dimensions
 } from "react-native";
 
 export default class HashTagModal extends Component {
@@ -15,42 +15,42 @@ export default class HashTagModal extends Component {
     this.state = {
       ArrHashTag: [
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
+          hashtag: "#FoodMessage"
         },
         {
-          hashtag: "#FoodMessage",
-        },
-      ],
+          hashtag: "#FoodMessage"
+        }
+      ]
     };
   }
 
@@ -61,16 +61,14 @@ export default class HashTagModal extends Component {
         animationType="slide"
         transparent={false}
         visible={changeModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
+        onRequestClose={() => {}}
       >
         <View
           style={{
             flex: 1,
             backgroundColor: "rgba(0,0,0,0.5)",
             // alignItems: 'center',
-            justifyContent: "flex-end",
+            justifyContent: "flex-end"
           }}
         >
           <TouchableOpacity
@@ -98,7 +96,7 @@ export default class HashTagModal extends Component {
                         height: 30,
                         width: DEVICE_WIDTH / 3 - 10,
                         marginLeft: 5,
-                        marginTop: 10,
+                        marginTop: 10
                       }}
                     >
                       <Text>{item.hashtag}</Text>

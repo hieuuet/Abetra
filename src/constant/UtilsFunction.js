@@ -1,8 +1,7 @@
 import { strings } from "../language/i18n";
 import { GENDER_STATE } from "./KeyConstant";
 import moment from "moment";
-import store from "../../src/store/index";
-
+import { TEXT_TYPE_ACCOUNT } from "../language";
 /**
  * get string gender from state
  * @param {*0/1/2} state
@@ -50,4 +49,24 @@ export const getRank = (PackgeID, allRank = []) => {
     return undefined;
   }
   return allRank.find(rank => rank.ID === PackgeID);
+};
+
+/**
+ * Get text of type account
+ */
+
+export const typeAccount = type => {
+  const TYPE = TEXT_TYPE_ACCOUNT();
+  switch (type) {
+    case 1:
+      return TYPE.Admin;
+    case 2:
+      return TYPE.Personal;
+    case 3:
+      return TYPE.Enterprise;
+    case 4:
+      return TYPE.Guest;
+    default:
+      "";
+  }
 };

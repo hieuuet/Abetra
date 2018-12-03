@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, BackHandler } from "react-native";
+import { View, StyleSheet, BackHandler, Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loadMsgGroup } from "../actions/loadMsgGroupActions";
@@ -12,7 +12,8 @@ import {
   CustomizeHeader
 } from "../components/CommonView";
 import AppContext from "../AppContext";
-import { TEXT_MESSAGE } from "../language";
+import { TEXT_MESSAGE, TEXT_COMMON } from "../language";
+import { isEqual } from "lodash";
 class Message extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,7 @@ class Message extends Component {
       tabIndex: 0
     };
     this.TEXT_MESSAGE = TEXT_MESSAGE();
+    this.TEXT_COMMON = TEXT_COMMON();
   }
 
   componentDidMount() {
@@ -35,6 +37,13 @@ class Message extends Component {
     //   this.props.navigation.goBack();
     //   return true;
     // });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
+      this.TEXT_MESSAGE = TEXT_MESSAGE();
+      this.TEXT_COMMON = TEXT_COMMON();
+    }
   }
 
   componentWillUnmount() {
@@ -87,17 +96,14 @@ class Message extends Component {
 
   render() {
     // console.log("render message");
+    if (this.props.isGuest)
+      return (
+        <View style={styles.content_guest}>
+          <Text>{this.TEXT_COMMON.FeatureRequestLogin}</Text>
+        </View>
+      );
     return (
       <View style={style_common.container_white}>
-        {/*<SearchView*/}
-        {/*onPress={() => {*/}
-        {/*this.props.navigation.navigate("Search");*/}
-        {/*}}*/}
-        {/*/>*/}
-        {/* <CustomizeHeader
-          label={this.TEXT_MESSAGE.MessageTitle}
-          onBackPress={() => this.props.navigation.goBack()}
-        /> */}
         <View style={styles.tab}>
           <TabView2
             label={this.TEXT_MESSAGE.MessageTitle}
@@ -151,7 +157,8 @@ class Message extends Component {
 
 const mapStateToProps = state => {
   return {
-    UserProfile: state.loadUserProfile
+    UserProfile: state.loadUserProfile,
+    isGuest: state.loginGuest.isGuest
   };
 };
 
@@ -167,6 +174,10 @@ Message = connect(
 )(Message);
 export default Message;
 const styles = StyleSheet.create({
+  content_guest: {
+    marginTop: 20,
+    alignItems: "center"
+  },
   tab: {
     flexDirection: "row",
     alignSelf: "stretch"

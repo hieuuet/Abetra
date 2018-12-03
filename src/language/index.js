@@ -31,7 +31,8 @@ export const TEXT_COMMON = () => ({
   GetDataFBFail: strings("common.get_data_FB_fail"),
   FeatureDev: strings("common.feature_develop"),
   LoadProfileFail: strings("common.load_profile_fail"),
-  UploadImageFail: strings("common.upload_image_fail")
+  UploadImageFail: strings("common.upload_image_fail"),
+  FeatureRequestLogin: strings("common.feature_request_login")
 });
 export const TEXT_VERIFY = () => ({
   VerifyPhone: strings("verify.verify_phone"),
@@ -78,9 +79,6 @@ export const TEXT_INTRO = () => ({
 });
 export const TEXT_LANGUAGE = () => ({
   LanguageTitle: strings("language.language_title")
-});
-export const TEXT_EVENT = () => ({
-  EventTitle: strings("event.event_title")
 });
 
 export const TEXT_MENU = () => {
@@ -201,4 +199,55 @@ export const TEXT_POPUP_GUEST = () => ({
   GuestToRegister: strings("popup_guest.guest_to_register"),
   Later: strings("popup_guest.later"),
   RegisterNow: strings("popup_guest.register_now")
+});
+
+export const TEXT_EVENT = () => ({
+  EventTitle: strings("event.event_title"),
+  HasJoin: strings("event.has_join_event"),
+  JoinSuccess: strings("event.join_event_succes"),
+  JoinFail: strings("event.join_event_fail"),
+  Join: strings("event.join"),
+  More: strings("event.more"),
+  Less: strings("event.less")
+});
+export const TEXT_MENU_POST = () => ({
+  SavePost: strings("menu_post.save"),
+  UnsavePost: strings("menu_post.save"),
+  Report: strings("menu_post.report"),
+  SavePostSuccess: strings("menu_post.save_post_success"),
+  SavePostFail: strings("menu_post.save_post_fail"),
+  UnsavePostSuccess: strings("menu_post.unsave_post_success"),
+  UnsavePostFail: strings("menu_post.unsave_post_fail")
+});
+
+export const TEXT_POLL_VOTE = () => ({
+  ErrorOccurred: strings("poll_vote.error_occurred"),
+  ErrorLike: strings("poll_vote.error_like")
+});
+
+export const TEXT_CREATE_POST = () => ({
+  CreatePost: strings("create_post.create_post"),
+  ContentPost: strings("create_post.content_post"),
+  TitleEvent: strings("create_post.title_event"),
+  TimeStart: strings("create_post.time_start"),
+  Address: strings("create_post.address"),
+  AddToPost: strings("create_post.add_to_post"),
+  PollVote: strings("create_post.poll_vote"),
+  Event: strings("create_post.event"),
+  Post: strings("create_post.post"),
+  Option: strings("create_post.option"),
+  CreatePostFail: strings("create_post.create_post_fail"),
+  InvalidTime: strings("create_post.invalid_time"),
+  CreatePostSuccess: strings("create_post.create_event_success")
+});
+
+export const TEXT_CHAT = () => ({
+  CreateChatFail: strings("chat.create_chat_fail")
+});
+
+export const TEXT_TYPE_ACCOUNT = () => ({
+  Admin: strings("type_account.admin"),
+  Personal: strings("type_account.personal"),
+  Enterprise: strings("type_account.enterprise"),
+  Guest: strings("type_account.guest")
 });

@@ -21,7 +21,8 @@
     "get_data_FB_fail": "Không lấy được dữ liệu từ Facebook",
     "feature_develop": "Tính năng đang phát triển",
     "load_profile_fail": "Không thể tải trang cá nhân",
-    "upload_image_fail": "Upload ảnh không thành công"
+    "upload_image_fail": "Upload ảnh không thành công",
+    "feature_request_login": "Để sử dụng tính năng này vui lòng đăng nhập tài khoản"
   },
 
   "register": {
@@ -33,7 +34,7 @@
     "pass_required": "Bạn chưa nhập mật khẩu",
     "pass_not_match": "Mật khẩu không trùng khớp",
     "pass_lenght": "Mật khẩu phải lớn hơn 6 ký tự",
-    "required_term":"Bạn cần đọc và đồng ý với các điều khoản dịch vụ của ứng dụng"
+    "required_term": "Bạn cần đọc và đồng ý với các điều khoản dịch vụ của ứng dụng"
   },
   "changePass": {
     "btn_changePass": "Đổi mật khẩu",
@@ -69,9 +70,6 @@
   },
   "language": {
     "language_title": "Ngôn ngữ"
-  },
-  "event": {
-    "event_title": "Sự kiện"
   },
 
   "menu": {
@@ -176,5 +174,54 @@
     "guest_to_register": "Để sử dụng tính năng bạn cần đăng ký tải khoản. Đăng ký ngay ?",
     "later": "Để sau",
     "register_now": "Đăng ký"
+  },
+
+  "event": {
+    "event_title": "Sự kiện",
+    "has_join_event": "Bạn đã tham gia trước đó",
+    "join_event_succes": "Tham gia sự kiện thành công",
+    "join_event_fail": "Tham gia sự kiện không thành công",
+    "join": "Tham gia",
+    "more": "Xem thêm",
+    "less": "Thu gọn"
+  },
+
+  "menu_post": {
+    "save": "Lưu bài viết",
+    "unsave": "Bỏ lưu bài viết",
+    "report": "Báo cáo sai phạm",
+    "save_post_success": "Lưu bài viết thành công",
+    "save_post_fail": "Lưu bài viết không thành công",
+    "unsave_post_success": "Bỏ lưu bài viết thành công",
+    "unsave_post_fail": "Bỏ lưu bài viết không thành công"
+  },
+  "poll_vote": {
+    "error_occurred": "Có lỗi sảy ra",
+    "error_like": "Có lỗi khi like"
+  },
+  "create_post": {
+    "create_post": "Tạo bài viết",
+    "content_post": "Nội dung bài viết",
+    "title_event": "Tiêu đề sự kiện",
+    "time_start": "Thời gian bắt đầu",
+    "address": "Địa điểm",
+    "add_to_post": "Thêm vào bài viết",
+    "poll_vote": "#thămdòýkiến",
+    "event": "#sựkiện",
+    "post": "ĐĂNG",
+    "option":"Lựa chọn",
+    "create_post_fail": "Tao bài viết không thành công",
+    "invalid_time": "Thời gian bắt đầu không hợp lệ",
+    "create_event_success": "Tao sự kiện không thành công"
+  },
+
+  "chat": {
+    "create_chat_fail": "Taọ phòng chat không thành công"
+  },
+  "type_account": {
+    "admin": "Quản trị viên",
+    "personal": "Hội viên cá nhân",
+    "enterprise": "Hội viên doanh nghiệp",
+    "guest": "Hội viên vãng lai"
   }
 }

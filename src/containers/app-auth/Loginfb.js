@@ -1,10 +1,11 @@
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 import {
   LoginManager,
   AccessToken,
   GraphRequest,
-  GraphRequestManager,
-} from 'react-native-fbsdk';
+  GraphRequestManager
+} from "react-native-fbsdk";
+import store from "../../store";
 /**
  * Login with FB
  */
@@ -13,14 +14,14 @@ const fbGraphRequest = async (fields, callback) => {
   const accessData = await AccessToken.getCurrentAccessToken();
   // Create a graph request asking for user information
   const infoRequest = new GraphRequest(
-    '/me',
+    "/me",
     {
       accessToken: accessData.accessToken,
       parameters: {
         fields: {
-          string: fields,
-        },
-      },
+          string: fields
+        }
+      }
     },
     callback
   );
@@ -33,22 +34,26 @@ export const facebookLogin = async () => {
   // need to go for webview.
   let result;
   try {
-    LoginManager.setLoginBehavior('native');
+    LoginManager.setLoginBehavior("native");
     result = await LoginManager.logInWithReadPermissions([
-      'public_profile',
-      'email',
+      "public_profile",
+      "email"
     ]);
   } catch (nativeError) {
     try {
-      LoginManager.setLoginBehavior('web');
+      LoginManager.setLoginBehavior("web");
       result = await LoginManager.logInWithReadPermissions([
-        'public_profile',
-        'email',
+        "public_profile",
+        "email"
       ]);
     } catch (webError) {
       // show error message to the user if none of the FB screens
-      Alert.alert('Thông báo', 'Lỗi đăng nhập', [{ text: 'OK' }], {
-        cancelable: false,
+      store.dispatch({
+        type: "SHOW_ALERT",
+        payload: {
+          // id: randomString(10),
+          content: "Login Facebook error"
+        }
       });
 
       return undefined;
@@ -61,24 +66,24 @@ export const facebookLogin = async () => {
   // Create a graph request asking for user information
   return new Promise((resolve, reject) => {
     fbGraphRequest(
-      'email,name,first_name,middle_name,last_name,picture.type(large)',
+      "email,name,first_name,middle_name,last_name,picture.type(large)",
       (error, result) => {
         if (error) {
-          Alert.alert(
-            'Thông báo',
-            'Không lấy được thông tin facebook',
-            [{ text: 'OK' }],
-            {
-              cancelable: false,
+          store.dispatch({
+            type: "SHOW_ALERT",
+            payload: {
+              // id: randomString(10),
+              content: "Can't get data from Facebook"
             }
-          );
+          });
+
           reject(undefined);
         } else {
           resolve({
             fullName: result.name,
             urlImg: result.picture.data.url,
             email: result.email,
-            id: result.id,
+            id: result.id
           });
         }
       }

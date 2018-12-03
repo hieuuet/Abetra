@@ -66,12 +66,10 @@ class MemberProfileTab1 extends Component {
         title: this.props.dataUser.FullName
       });
     } else {
-      Alert.alert(
-        "Thông báo",
-        "Taọ phòng chat không thành công",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        { cancelable: false }
-      );
+      this.props.context.showAlert({
+        content: this.props.TEXT_MEMBER_PROFILE.CreateChatFail
+      });
+      
     }
   };
 
@@ -194,7 +192,9 @@ export default MemberProfileTab1;
 
 MemberProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  context: PropTypes.object.isRequired,
+  TEXT_MEMBER_PROFILE: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
