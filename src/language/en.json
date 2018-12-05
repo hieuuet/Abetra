@@ -179,7 +179,8 @@
     "has_join_event": "You has been joined before",
     "join_event_succes": "Join event success",
     "join_event_fail": "Join event fail",
-    "join": "join",
+    "join_event": "Join event",
+    "join": "Join",
     "more": "More",
     "less": "Less"
   },
@@ -207,7 +208,7 @@
     "poll_vote": "#PollVote",
     "event": "#Event",
     "post": "POST",
-    "option":"Option",
+    "option": "Option",
     "create_post_fail": "Create post fail",
     "invalid_time": "Start time invalid",
     "create_event_success": "Create event fail"
@@ -221,5 +222,9 @@
     "personal": "Personal member",
     "enterprise": "Enterprise member",
     "guest": "Guest member"
+  },
+  "post": {
+    "detail_post": "Detail post",
+    "join": "Join",
   }
 }

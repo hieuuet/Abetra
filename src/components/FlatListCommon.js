@@ -43,7 +43,7 @@ export class FlatListCommon extends Component {
     if (type === TYPE.BUSINESS)
       return <BusinessItem dataItem={item} navigation={navigation} />;
 
-    if (type === TYPE.POST)
+    if (type === TYPE.POST) {
       return (
         <StatusItems
           dataItem={item}
@@ -51,6 +51,7 @@ export class FlatListCommon extends Component {
           userID={this.userID}
         />
       );
+    }
 
     if (type === TYPE.ACCOUNT)
       return <AccountItem dataItem={item} navigation={navigation} />;
@@ -66,7 +67,7 @@ export class FlatListCommon extends Component {
         keyExtractor={(item, index) => index.toString()}
         onEndReached={() => {
           console.log("onEndtab", this.props.type);
-          if(!this.canAction) return;
+          if (!this.canAction) return;
           this.props.onEndReached();
         }}
         onEndReachedThreshold={0.6}

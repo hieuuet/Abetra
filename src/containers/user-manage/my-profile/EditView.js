@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   iconedit: {
     width: 20,
-    height: 20 * (70 / 54),
+    height: 20 ,
     marginTop:5
   },
   wrapper: {

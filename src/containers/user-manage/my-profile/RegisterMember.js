@@ -19,7 +19,8 @@ import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
 import {
-  getGuide,
+  // getGuide,
+  getcommonSetting,
   loadUserProfile,
   getAllRank,
   getAllHashTag,
@@ -67,7 +68,8 @@ class RegisterMember extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    getGuide()
+    // getGuide()
+    getcommonSetting({ Option: 2 }, false)
       .then(data => {
         this.imageArr = data.Value || [];
         this.setState({ isLoading: false });
@@ -389,8 +391,8 @@ const styles = StyleSheet.create({
   },
   container_register: { flex: 1, alignItems: "center", margin: 10 },
   icon_fb: {
-    width: 30,
-    height: 30
+    width: 20*(223/74),
+    height: 20
   },
   text_fanpage: {
     color: COLOR.COLOR_BLACK,

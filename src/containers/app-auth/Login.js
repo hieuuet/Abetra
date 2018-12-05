@@ -163,8 +163,12 @@ class Login extends Component {
         <ButtonBorder label={this.TEXT_COMMON.Login} onPress={this._login} />
         <View style={styles.view_login}>
           <Text style={styles.text_fb1}>{this.TEXT_COMMON.LoginFB}</Text>
-          <TouchableOpacity onPress={this.handleLoginFB}>
+          <TouchableOpacity
+            onPress={this.handleLoginFB}
+            style={styles.wrapper_fb}
+          >
             <Text style={styles.text_fb2}>FACEBOOK</Text>
+            <Image source={IMAGE.logo_fb} style={styles.logo_fb} />
           </TouchableOpacity>
         </View>
 
@@ -262,6 +266,11 @@ Login = connect(
 )(Login);
 export default Login;
 const styles = StyleSheet.create({
+  logo_fb: { width: 30, height: 30, marginLeft: 5 },
+  wrapper_fb: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   img_logo: {
     width: 100,
     height: 100 * (354 / 379)
@@ -287,7 +296,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 10
+    marginTop: 10,
+    alignItems: "center"
   },
   view_fanpage: {
     justifyContent: "center",

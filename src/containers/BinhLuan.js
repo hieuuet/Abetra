@@ -3,23 +3,16 @@ import {
   View,
   Text,
   FlatList,
-  TextInput,
   TouchableOpacity,
   Image,
-  AsyncStorage,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  BackHandler,
-  Alert,
   StyleSheet,
   Dimensions
 } from "react-native";
 
 import moment from "moment";
-import Icon1 from "react-native-vector-icons/EvilIcons";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import IconMore from "react-native-vector-icons/Ionicons";
 import BinhLuanItem from "../components/BinhLuanItem";
 import TextInputChat from "../components/TextInputChat";
 import { bindActionCreators } from "redux";
@@ -34,6 +27,10 @@ import { COLOR } from "../constant/Color";
 import ReadMore from "react-native-read-more-text";
 import PollVote from "../components/PollVote";
 import Share from "react-native-share";
+import PropTypes from "prop-types";
+import AppContext from "../AppContext";
+import { typeAccount } from "../constant/UtilsFunction";
+import { TEXT_POST } from "../language";
 
 class BinhLuan extends Component {
   constructor(props) {
@@ -43,6 +40,8 @@ class BinhLuan extends Component {
       PostContent: [],
       ArrPoll: []
     };
+
+    this.TEXT_POST = TEXT_POST();
     const { UserProfile } = this.props;
     if (UserProfile.length <= 0) {
       return null;
@@ -79,7 +78,7 @@ class BinhLuan extends Component {
       PostContent = JSON.parse(PostContent);
       this.setState(
         {
-          PostContent: PostContent
+          PostContent
         }
         // () => console.log('PostContent', this.state.PostContent)
       );
@@ -138,14 +137,13 @@ class BinhLuan extends Component {
       IntUserID: UserProfile.Value[0].IntUserID,
       PostID: itemStatus.PostID,
       FullName: UserProfile.Value[0].FullName,
-      DatePost: DatePost,
-      Content: Content,
+      DatePost,
+      Content,
       Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
       IntUserIDPost: itemStatus.IntUserID
     };
     console.log("dataSend", dataSend);
     this.socket.emit("COMMENT", dataSend);
-    // console.log('send ok')
   };
 
   onReceiveTextInputClick = text => {
@@ -160,6 +158,16 @@ class BinhLuan extends Component {
         "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2264_ZING.jpg"
     };
     return Share.open(shareOptions);
+  };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
 
   render() {
@@ -180,7 +188,7 @@ class BinhLuan extends Component {
       >
         <ScrollView>
           <CustomizeHeader
-            label={"Chi tiết bài viết"}
+            label={this.TEXT_POST.DetailPost}
             onBackPress={() => this.props.navigation.goBack()}
           />
           <View
@@ -226,13 +234,7 @@ class BinhLuan extends Component {
                   </Text>
                 </TouchableOpacity>
                 <Text style={{ fontSize: 12 }}>
-                  {itemStatus.UserType == 2
-                    ? "Hội viên cá nhân"
-                    : itemStatus.UserType == 3
-                    ? "Hội viên doanh nghiệp"
-                    : itemStatus.UserType == 4
-                    ? "Hội viên vãng lai"
-                    : null}
+                  {typeAccount(itemStatus.UserType)}
                 </Text>
               </View>
               <View
@@ -248,7 +250,7 @@ class BinhLuan extends Component {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    this.setModalVisible(true);
+                    // this.setModalVisible(true);
                   }}
                 >
                   <Image
@@ -312,7 +314,7 @@ class BinhLuan extends Component {
             style={{ marginTop: 5 }}
             data={this.state.ArrPoll}
             renderItem={item => {
-              return <PollVote dataItem={item} />;
+              return <PollVote dataItem={item} context={this.context} />;
             }}
             extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
@@ -465,7 +467,7 @@ class BinhLuan extends Component {
                   </TouchableOpacity>
                 </View>
                 <Text style={{ marginRight: 10, color: "#777777" }}>
-                  Tham gia
+                  {this.TEXT_POST.Join}
                 </Text>
               </View>
             ) : null}
@@ -494,6 +496,7 @@ class BinhLuan extends Component {
           style={{ marginTop: 5 }}
           onReceiveTextInputClick={this.onReceiveTextInputClick}
         />
+        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

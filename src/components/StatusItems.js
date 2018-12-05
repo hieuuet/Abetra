@@ -28,11 +28,9 @@ import { TEXT_EVENT } from "../language";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { typeAccount } from "../constant/UtilsFunction";
+import AppContext from "../AppContext";
 
 class StatusItems extends Component {
-  static propTypes = {
-    context: PropTypes.object.isRequired
-  };
   constructor(props) {
     super(props);
     this.countliked = this.props.dataItem.item.TotalLike;
@@ -56,7 +54,7 @@ class StatusItems extends Component {
     let dataLike = item.LikePost ? item.LikePost : "[]";
     let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
     //Get Arr IntUserID
-    var ArrIntUserID = ArrUserLiked.map(function(o) {
+    let ArrIntUserID = ArrUserLiked.map(function(o) {
       return o.IntUserID;
     });
     // console.log('ArrIntUserID', ArrIntUserID)
@@ -83,7 +81,7 @@ class StatusItems extends Component {
       PostContent = JSON.parse(PostContent);
       this.setState(
         {
-          PostContent: PostContent
+          PostContent
         }
         // () => console.log('PostContent', this.state.PostContent)
       );
@@ -108,7 +106,7 @@ class StatusItems extends Component {
       return null;
     }
     let eventJoin = await joinEvent({
-      EventID: EventID,
+      EventID,
       ProfileID: UserProfile.Value[0].IntUserID, //api yeu cau interuserid
       Type: 0,
       UserName: UserProfile.Value[0].FullName,
@@ -121,13 +119,13 @@ class StatusItems extends Component {
       this.setState({
         isJoin: true
       });
-      return this.props.context.showAlert({
+      return this.context.showAlert({
         content: this.TEXT_EVENT.JoinSuccess
       });
     } else if (eventJoin.ErrorCode == "04") {
-      return this.props.context.showAlert({ content: this.TEXT_EVENT.HasJoin });
+      return this.context.showAlert({ content: this.TEXT_EVENT.HasJoin });
     } else {
-      return this.props.context.showAlert({
+      return this.context.showAlert({
         content: this.TEXT_EVENT.JoinFail
       });
     }
@@ -222,6 +220,16 @@ class StatusItems extends Component {
       currentLike--;
       this.setState({ liked: false, countLike: currentLike });
     }
+  };
+
+  _bindeGlobalContext = () => {
+    return (
+      <AppContext.Consumer>
+        {context => {
+          this.context = context;
+        }}
+      </AppContext.Consumer>
+    );
   };
 
   render() {
@@ -367,7 +375,7 @@ class StatusItems extends Component {
             style={{ marginTop: 5, paddingBottom: 0, backgroundColor: "white" }}
             data={this.state.ArrPoll}
             renderItem={item => {
-              return <PollVote dataItem={item} />;
+              return <PollVote dataItem={item} context={this.context} />;
             }}
             extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
@@ -495,12 +503,12 @@ class StatusItems extends Component {
             ) : null}
           </View>
 
-          {item.Comments.length > 0 ? (
+          {item.Comments && item.Comments.length > 0 ? (
             <View
               style={{ height: 1, marginTop: 5, backgroundColor: "#cccccc" }}
             />
           ) : null}
-          {item.Comments.length > 0 ? (
+          {item.Comments && item.Comments.length > 0 ? (
             <View>
               <View
                 style={{
@@ -621,8 +629,10 @@ class StatusItems extends Component {
         <MenuPost
           item={item}
           changeModalVisible={this.state.modalVisible}
+          context={this.context}
           onChangeModalVisible={this.setModalVisible}
         />
+        {this._bindeGlobalContext()}
       </View>
     );
   }

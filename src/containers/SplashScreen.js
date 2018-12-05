@@ -2,19 +2,36 @@ import React, { Component } from "react";
 import { AsyncStorage, StatusBar } from "react-native";
 import { USER_ID, FIRST_INSTALL } from "../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { getAllLanguage, getCurrentLanguage, getImagePanel } from "../actions";
+import {
+  getAllLanguage,
+  getCurrentLanguage,
+  getcommonSetting
+} from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import BackgroundImage from "../components/BackgroundImage";
 import { LANGUAGE, DEFAULT_LANGUGE } from "../constant/KeyConstant";
+import { IMAGE } from "../constant/assets";
 
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.img_bg =
+      this.props.currentLanguage.Code === "vi-VN"
+        ? IMAGE.intro_vi
+        : IMAGE.intro_en;
   }
 
   componentDidMount() {
     this.checkLoginNavigate();
+  }
+  shouldComponentUpdate() {
+    this.img_bg =
+      this.props.currentLanguage.Code === "vi-VN"
+        ? IMAGE.intro_vi
+        : IMAGE.intro_en;
+    return true;
   }
   checkLoginNavigate = async () => {
     await this.props.getCurrentLanguage();
@@ -32,7 +49,15 @@ class SplashScreen extends Component {
         )
       );
       this.props.getCurrentLanguage();
-      arrSlide = await getImagePanel().then(data => data.Value || []);
+      arrSlide = await getcommonSetting({ Option: 6 }, false).then(
+        data =>
+          (data &&
+            data.Value &&
+            data.Value[0] &&
+            data.Value[0].SlideImage &&
+            data.Value[0].SlideImage.split(",")) ||
+          []
+      );
     } else {
       const userID = await AsyncStorage.getItem(USER_ID);
       if (userID) routerName = "WrapperTab";
@@ -51,7 +76,11 @@ class SplashScreen extends Component {
   };
   render() {
     return (
-      <BackgroundImage isIntro={true} showBackIcon={false}>
+      <BackgroundImage
+        isIntro={true}
+        showBackIcon={false}
+        source_img={this.img_bg}
+      >
         <StatusBar hidden={true} />
       </BackgroundImage>
     );
@@ -59,7 +88,9 @@ class SplashScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    currentLanguage: state.currentLanguage
+  };
 };
 
 const mapDispatchToProps = dispatch => {

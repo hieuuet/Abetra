@@ -483,6 +483,7 @@ class EventItem extends Component {
         <MenuPost
           item={item}
           changeModalVisible={this.state.modalVisible}
+          context={this.props.context}
           onChangeModalVisible={this.setModalVisible}
         />
       </View>

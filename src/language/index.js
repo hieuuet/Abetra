@@ -22,6 +22,7 @@ export const TEXT_COMMON = () => ({
   LoginFB: strings("common.login_fb"),
   Login: strings("common.btn_login"),
   Guest: strings("common.btn_guest"),
+  Empty: strings("common.empty"),
   FanPage: strings("common.txt_fanpage"),
   Confirm: strings("common.confirm"),
   Cancel: strings("common.cancel"),
@@ -128,7 +129,8 @@ export const TEXT_PROFILE = () => ({
   RegisterNow: strings("profile.register_now"),
   WaitingAccept: strings("profile.waiting_accept"),
   Message: strings("profile.message"),
-  FollowAction: strings("profile.follow_action")
+  FollowAction: strings("profile.follow_action"),
+  CreateChatFail: strings("chat.create_chat_fail")
 });
 
 export const TEXT_REGISTER_MEMBER = phone => ({
@@ -206,6 +208,7 @@ export const TEXT_EVENT = () => ({
   HasJoin: strings("event.has_join_event"),
   JoinSuccess: strings("event.join_event_succes"),
   JoinFail: strings("event.join_event_fail"),
+  JoinEvent: strings("event.join_event"),
   Join: strings("event.join"),
   More: strings("event.more"),
   Less: strings("event.less")
@@ -250,4 +253,8 @@ export const TEXT_TYPE_ACCOUNT = () => ({
   Personal: strings("type_account.personal"),
   Enterprise: strings("type_account.enterprise"),
   Guest: strings("type_account.guest")
+});
+export const TEXT_POST = () => ({
+  DetailPost: strings("post.detail_post"),
+  Join: strings("post.join")
 });

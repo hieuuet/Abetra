@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 30,
-    height: 30 * (53 / 82)
+    height: 30 * (53/64)
   },
   header_wrapper: {
     height: 65,

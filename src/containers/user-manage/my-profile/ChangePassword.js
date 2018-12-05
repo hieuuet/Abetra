@@ -224,8 +224,8 @@ const styles = StyleSheet.create({
 
   img_fb: {
     marginLeft: 5,
-    width: 30,
-    height: 30
+    width: 20*(223/74),
+    height: 20
   },
   view_login: {
     justifyContent: "flex-start",

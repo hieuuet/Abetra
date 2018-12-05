@@ -125,6 +125,7 @@ class MemberProfile extends Component {
               navigation={this.props.navigation}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
+              context={this.context}
             />
           </View>
           <View
@@ -139,6 +140,7 @@ class MemberProfile extends Component {
               dataUser={this.state.memberProfile}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
+              context={this.context}
             />
           </View>
         </View>

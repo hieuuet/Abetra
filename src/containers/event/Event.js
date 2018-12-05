@@ -4,9 +4,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   FlatList,
-  TouchableOpacity,
   ScrollView,
-  AsyncStorage,
   BackHandler,
   Text
 } from "react-native";
@@ -20,24 +18,17 @@ import { CustomizeHeader, ViewLoading } from "../../components/CommonView";
 import { getEvent } from "../../actions/getEventActions";
 import { COLOR } from "../../constant/Color";
 import AppContext from "../../AppContext";
+import { TEXT_COMMON } from "../../language";
 
 class Event extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-
-    return {
-      title: "Sự kiện",
-      headerStyle: { backgroundColor: COLOR.BACKGROUND_HEADER },
-      headerTitleStyle: { color: COLOR.TITLE_HEADER },
-      headerTintColor: "white"
-    };
-  };
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       ArrEvent: []
     };
+
+    this.TEXT_COMMON = TEXT_COMMON();
   }
 
   componentDidMount() {
@@ -101,7 +92,7 @@ class Event extends Component {
   _renderEmpty = () => {
     return (
       <View style={style_common.content_center}>
-        <Text>Không có dữ liệu</Text>
+        <Text>{this.TEXT_COMMON.Empty}</Text>
       </View>
     );
   };
@@ -152,6 +143,7 @@ class Event extends Component {
                     dataItem={item}
                     userID={this.userID}
                     // onReloadBack ={this.onReloadBack}
+                    context={this.context}
                     navigation={navigation}
                     fromEvent={false}
                   />

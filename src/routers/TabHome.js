@@ -79,11 +79,18 @@ const TabHome = createMaterialTopTabNavigator(
         // headerBackTitle: 'Back',
         tabBarIcon: ({ tintColor, focused }) => (
           <Image
-            style={styles.btn}
+            style={{
+              height: 25,
+              marginBottom: 3,
+              marginTop: 3,
+              marginLeft: 3,
+              marginRight: 3,
+              width: 25 * (71 / 59)
+            }}
             source={
               focused
-                ? require("../../assets/tab/icon_myfeeds_active.png")
-                : require("../../assets/tab/icon_myfeeds.png")
+                ? require("../../assets/tab/sms_active.png")
+                : require("../../assets/tab/sms.png")
             }
             resizeMode="cover"
           />
@@ -128,7 +135,7 @@ const TabHome = createMaterialTopTabNavigator(
         backgroundColor: "transparent"
       },
       tabStyle: {
-        height: 35
+        height: 45
         // backgroundColor:'white'
       },
       style: {
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: 3,
     marginRight: 3,
-    width: 25 * (77 / 73)
+    width: 25 * (77 / 73),
   }
 });
 export default TabHome;

@@ -181,6 +181,7 @@
     "has_join_event": "Bạn đã tham gia trước đó",
     "join_event_succes": "Tham gia sự kiện thành công",
     "join_event_fail": "Tham gia sự kiện không thành công",
+    "join_event": "Tham gia sự kiện",
     "join": "Tham gia",
     "more": "Xem thêm",
     "less": "Thu gọn"
@@ -209,7 +210,7 @@
     "poll_vote": "#thămdòýkiến",
     "event": "#sựkiện",
     "post": "ĐĂNG",
-    "option":"Lựa chọn",
+    "option": "Lựa chọn",
     "create_post_fail": "Tao bài viết không thành công",
     "invalid_time": "Thời gian bắt đầu không hợp lệ",
     "create_event_success": "Tao sự kiện không thành công"
@@ -223,5 +224,9 @@
     "personal": "Hội viên cá nhân",
     "enterprise": "Hội viên doanh nghiệp",
     "guest": "Hội viên vãng lai"
+  },
+  "post": {
+    "detail_post": "Chi tiết bài viết",
+    "join": "Tham gia",
   }
 }

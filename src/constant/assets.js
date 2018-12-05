@@ -15,7 +15,9 @@ export const IMAGE = {
   bg_gray: require("../../assets/bg_gray.png"),
   btn_active: require("../../assets/btn_active.png"),
   btn_normal: require("../../assets/btn_normal.png"),
-  avatar_default:require("../../assets/avatar.png"),
+  avatar_default: require("../../assets/avatar.png"),
+  intro_vi: require("../../assets/intro_vi.png"),
+  intro_en: require("../../assets/intro_en.png"),
 
   //profile
   bg_head_profile: require("../../assets/profile/bg_head.png"),
@@ -42,5 +44,4 @@ export const IMAGE = {
   icon_fanpage: require("../../assets/profile/icon_fanpage.png"),
   icon_fanpage_white: require("../../assets/profile/icon_fanpage_white.png"),
   header_alert: require("../../assets/profile/header_alert.png")
-
 };

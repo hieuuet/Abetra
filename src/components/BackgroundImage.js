@@ -18,7 +18,7 @@ class BackgroundImage extends Component {
           translucent={true}
         />
         <Image
-          source={this.props.isIntro ? IMAGE.background : IMAGE.background2}
+          source={this.props.source_img || IMAGE.background2}
           style={styles.backgroundImage}
         />
 
@@ -48,7 +48,8 @@ class BackgroundImage extends Component {
 BackgroundImage.propTypes = {
   onBackPress: PropTypes.func,
   showBackIcon: PropTypes.bool,
-  style: PropTypes.number
+  style: PropTypes.number,
+  source_img: PropTypes.number
 };
 
 BackgroundImage.defaultProps = {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 35,
-    height: 35 * (53 / 82)
+    height: 35 * (53/64)
   },
   btn_back: {
     alignSelf: "flex-start",

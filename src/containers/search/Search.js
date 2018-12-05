@@ -109,12 +109,13 @@ export default class Search extends Component {
         (dataSearch.Value && dataSearch.Value.Enterprise) || [];
       const newMessage = (dataSearch.Value && dataSearch.Value.Message) || [];
       const newAccount = (dataSearch.Value && dataSearch.Value.Profile) || [];
+
       //check if current tab data is empty
       if (
         (this.state.tabIndex === 0 && newPost.length === 0) ||
         (this.state.tabIndex === 1 && newEnterprise.length === 0) ||
-        (this.state.tabIndex === 2 && newMessage.length === 0) ||
-        (this.state.tabIndex === 3 && newAccount.length === 0)
+        (this.state.tabIndex === 2 && newEnterprise.length === 0) ||
+        (this.state.tabIndex === 3 && newEnterprise.length === 0)
       ) {
         this.PageIndex--;
         return this.setState({
@@ -343,8 +344,8 @@ const styles = StyleSheet.create({
   search_border: {
     backgroundColor: "#2A9490",
     flex: 1,
-    height: 35,
-    borderRadius: 35 / 2,
+    height: 38,
+    borderRadius: 38 / 2,
     marginRight: 10,
     flexDirection: "row",
     alignItems: "center"
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
 
   img_back: {
     width: 30,
-    height: 30 * (53 / 82)
+    height: 30 * (53 / 64)
   },
   header_wrapper: {
     height: 65,

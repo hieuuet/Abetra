@@ -19,7 +19,7 @@ import ModalDropdown from "../../components/ModalDropdown";
 const { width, height } = Dimensions.get("window");
 import { FIRST_INSTALL } from "../../constant/KeyConstant";
 import { NavigationActions, StackActions } from "react-navigation";
-import { getCurrentLanguage, getImagePanel } from "../../actions";
+import { getCurrentLanguage, getcommonSetting } from "../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { LANGUAGE, DEFAULT_LANGUGE } from "../../constant/KeyConstant";
@@ -73,7 +73,9 @@ class AppIntroSlider extends Component {
   };
 
   getSlideAgain = async () => {
-    const arrSlide = await getImagePanel().then(data => data.Value || []);
+    const arrSlide = await getcommonSetting({ Option: 6 }, false).then(
+      data =>data && data.Value && data.Value[0] && data.Value[0].SlideImage&& (data.Value[0].SlideImage).split(",") || []
+    );
     this.setState({ arrSlide: this.initSilde(arrSlide) });
   };
 

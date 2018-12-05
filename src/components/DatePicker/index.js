@@ -29,7 +29,7 @@ export default class MyDatePicker extends Component {
             right: 0,
             top: 4,
             width: 20,
-            height: 20 * (70 / 54),
+            height: 20 ,
             marginRight: 0,
             marginLeft: 0
           },

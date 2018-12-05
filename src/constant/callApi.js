@@ -15,6 +15,14 @@ const randomString = length_ => {
   return str;
 };
 
+export const getCurrentLanguageID = () => {
+  //Config get set for all api
+  let language = store.getState().currentLanguage;
+  if (language === null || language === undefined || !language.LangID)
+    language = DEFAULT_LANGUGE;
+  return language.LangID;
+};
+
 export const getRequestApi = async (url, isShowLog = false) => {
   const isConnected = store.getState().currentNetWork.isConnected;
   // console.log("get request isConnected: ", isConnected);
@@ -69,11 +77,9 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
       }
     });
   }
-  //Config get set for all api
-  let language = store.getState().currentLanguage;
-  if (language === null || language === undefined || !language.LangID)
-    language = DEFAULT_LANGUGE;
-  data = { ...data, LangID: language.LangID };
+
+  const langID = getCurrentLanguageID();
+  data = { ...data, LangID: langID };
 
   let config = {
     headers: {

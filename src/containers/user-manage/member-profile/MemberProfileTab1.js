@@ -67,9 +67,8 @@ class MemberProfileTab1 extends Component {
       });
     } else {
       this.props.context.showAlert({
-        content: this.props.TEXT_MEMBER_PROFILE.CreateChatFail
+        content: this.props.TEXT_PROFILE.CreateChatFail
       });
-      
     }
   };
 
@@ -161,11 +160,9 @@ class MemberProfileTab1 extends Component {
           style={style_common.container}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={styles.parent}>
-            {this._renderContent()}
-            {this._renderBottom()}
-          </View>
+          <View style={styles.parent}>{this._renderContent()}</View>
         </ScrollView>
+        {this._renderBottom()}
       </KeyboardAvoidingView>
     );
   }
@@ -194,14 +191,16 @@ MemberProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,
-  TEXT_MEMBER_PROFILE: PropTypes.object.isRequired
+  TEXT_PROFILE: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
   wrapper_bottom: {
     flexDirection: "row",
     alignSelf: "center",
-    alignContent: "center"
+    alignContent: "center",
+    marginBottom:10,
+    marginTop:5
   },
   wrap_btn_bottom: { width: 120, minHeight: 40 },
   icon_bottom1: {
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
   },
   parent: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   avatar: {
     width: 100,

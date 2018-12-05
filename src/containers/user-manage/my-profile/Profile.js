@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 35,
-    height: 35 * (53 / 82)
+    height: 35 * (53 / 64)
   },
   tab: {
     flexDirection: "row",

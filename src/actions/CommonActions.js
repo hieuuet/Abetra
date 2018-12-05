@@ -1,5 +1,6 @@
 import { postRequestApi, getRequestApi } from "../constant/callApi";
 import { API } from "../constant/api";
+import { getCurrentLanguageID } from "../constant/callApi";
 
 /**
  * get all rank
@@ -69,7 +70,8 @@ export const getCertificate = () => {
  * get benifet
  */
 export const getBenifet = () => {
-  return getRequestApi(API.GET_BENIFET, true);
+  const langID = getCurrentLanguageID();
+  return getRequestApi(`${API.GET_BENIFET}?langid=${langID}`, true);
 };
 
 /**
