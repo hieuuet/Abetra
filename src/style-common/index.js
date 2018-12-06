@@ -29,7 +29,7 @@ export default (style = StyleSheet.create({
   },
   img_logo: {
     width: 50,
-    height: 50 * (354 / 379),
+    height: 50 * (437 / 488),
     margin: 10
   },
   content_center: {

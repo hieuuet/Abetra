@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   },
   img_logo: {
     width: 100,
-    height: 100 * (354 / 379)
+    height: 100 * (437 / 488)
   },
   text_input: {
     borderBottomWidth: 1,
