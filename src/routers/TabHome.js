@@ -80,12 +80,12 @@ const TabHome = createMaterialTopTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image
             style={{
-              height: 25,
-              marginBottom: 3,
-              marginTop: 3,
-              marginLeft: 3,
-              marginRight: 3,
-              width: 25 * (71 / 59)
+              height: 18,
+              marginBottom: 5,
+              marginTop: 5,
+              marginLeft: 5,
+              marginRight: 5,
+              width: 18 * (71 / 59)
             }}
             source={
               focused
@@ -147,10 +147,10 @@ const TabHome = createMaterialTopTabNavigator(
 const styles = StyleSheet.create({
   btn: {
     height: 25,
-    marginBottom: 3,
-    marginTop: 3,
-    marginLeft: 3,
-    marginRight: 3,
+    marginBottom: 5,
+    marginTop: 5,
+    marginLeft: 5,
+    marginRight: 5,
     width: 25 * (77 / 73),
   }
 });

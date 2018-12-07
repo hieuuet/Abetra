@@ -228,5 +228,8 @@
   "post": {
     "detail_post": "Chi tiết bài viết",
     "join": "Tham gia",
+    "like": "Thích",
+    "cmt": "Bình luận",
+    "share": "Chia sẻ"
   }
 }

@@ -319,11 +319,11 @@ class BinhLuan extends Component {
             extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
           />
-          <View style={{ paddingLeft: 15, paddingRight: 15, marginTop: 5 }}>
+          {/*<View style={{ paddingLeft: 15, paddingRight: 15, marginTop: 5 }}>*/}
             {ArrImg ? (
               <PhotoGrid source={ArrImg} navigation={this.props.navigation} />
             ) : null}
-          </View>
+          {/*</View>*/}
 
           <View
             style={{
@@ -335,18 +335,7 @@ class BinhLuan extends Component {
           >
             <View style={{ flexDirection: "row" }}>
               <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 10,
-                  alignItems: "center",
-                  backgroundColor: "#C7C7C7",
-                  height: 30,
-                  width: 65,
-                  borderRadius: 15,
-                  borderWidth: 1,
-                  borderColor: "#C7C7C7",
-                  justifyContent: "space-between"
-                }}
+                style={styles.view_border}
               >
                 <View style={{ width: 15, height: 15, marginLeft: 10 }}>
                   {this.state.liked ? (
@@ -373,25 +362,13 @@ class BinhLuan extends Component {
                     </TouchableOpacity>
                   )}
                 </View>
-                <Text style={{ marginRight: 15, color: "#777777" }}>
-                  {" "}
-                  {itemStatus.TotalLike}
+                <Text style={styles.text_action}>
+                  Thích
                 </Text>
               </View>
 
               <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 10,
-                  alignItems: "center",
-                  backgroundColor: "#C7C7C7",
-                  height: 30,
-                  width: 65,
-                  borderRadius: 15,
-                  borderWidth: 1,
-                  borderColor: "#C7C7C7",
-                  justifyContent: "space-between"
-                }}
+                style={styles.view_border}
               >
                 <View style={{ width: 15, height: 15, marginLeft: 10 }}>
                   <Image
@@ -400,25 +377,13 @@ class BinhLuan extends Component {
                     resizeMode="contain"
                   />
                 </View>
-                <Text style={{ marginRight: 15, color: "#777777" }}>
-                  {" "}
-                  {itemStatus.TotalComment}
+                <Text style={styles.text_action}>
+                  Bình luận
                 </Text>
               </View>
               <TouchableOpacity onPress={() => this.onShare()}>
                 <View
-                  style={{
-                    flexDirection: "row",
-                    marginLeft: 10,
-                    alignItems: "center",
-                    backgroundColor: "#C7C7C7",
-                    height: 30,
-                    width: 65,
-                    borderRadius: 15,
-                    borderWidth: 1,
-                    borderColor: "#C7C7C7",
-                    justifyContent: "space-between"
-                  }}
+                  style={styles.view_border}
                 >
                   <View style={{ width: 15, height: 15, marginLeft: 10 }}>
                     <Image
@@ -427,9 +392,8 @@ class BinhLuan extends Component {
                       resizeMode="contain"
                     />
                   </View>
-                  <Text style={{ marginRight: 15, color: "#777777" }}>
-                    {" "}
-                    {itemStatus.TotalShare}
+                  <Text style={styles.text_action}>
+                    Chia sẻ
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -441,13 +405,6 @@ class BinhLuan extends Component {
                   flexDirection: "row",
                   marginRight: 10,
                   alignItems: "center",
-                  backgroundColor: "#C7C7C7",
-                  height: 30,
-                  width: 100,
-                  borderRadius: 15,
-                  borderWidth: 1,
-                  borderColor: "#C7C7C7",
-                  justifyContent: "space-between"
                 }}
               >
                 <View style={{ width: 15, height: 15, marginLeft: 10 }}>
@@ -533,5 +490,14 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH,
     height: 250,
     marginTop: 10
-  }
+  },
+    view_border: {
+        flexDirection: "row",
+        marginLeft: 10,
+        alignItems: "center",
+
+    },
+    text_action: {
+      marginLeft: 3, color: "#777777"
+    }
 });

@@ -256,5 +256,8 @@ export const TEXT_TYPE_ACCOUNT = () => ({
 });
 export const TEXT_POST = () => ({
   DetailPost: strings("post.detail_post"),
-  Join: strings("post.join")
+  Join: strings("post.join"),
+    Like: strings("post.like"),
+    Share: strings("post.share"),
+    Cmt: strings("post.cmt"),
 });

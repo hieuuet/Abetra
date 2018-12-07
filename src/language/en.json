@@ -226,5 +226,8 @@
   "post": {
     "detail_post": "Detail post",
     "join": "Join",
+    "like": "Like",
+    "cmt": "Comment",
+    "share": "Share"
   }
 }
