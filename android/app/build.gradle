@@ -102,6 +102,7 @@ android {
         applicationId "com.pateco.aibetra"
         minSdkVersion 16
         targetSdkVersion 27
+		 multiDexEnabled true
         versionCode 1
         versionName "1.0"
         ndk {
@@ -168,6 +169,10 @@ dependencies {
     implementation project(path: ':react-native-fbsdk')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-share')
+    implementation (project(':react-native-facebook-account-kit'))
+    {
+       exclude group: "com.google.android.gms"
+   }
     implementation (project(':react-native-fast-image')) {
         exclude group: "com.android.support"
     }

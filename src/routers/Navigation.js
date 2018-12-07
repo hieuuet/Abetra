@@ -36,7 +36,7 @@ import {
   RegisterMember
 } from "../containers/user-manage";
 import SavePost from "../containers/post/SavePost";
-import Location from "../containers/Location";
+import AccountKitSample from "../containers/AccountKitSample";
 import EventJoin from "../containers/event/EventJoin";
 import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
@@ -44,8 +44,8 @@ import App1 from "../../App1";
 import InputPhone from "../containers/app-auth/InputPhone";
 
 const RootStack = createStackNavigator({
-  // Location: {
-  //   screen: Location,
+  // AccountKitSample: {
+  //   screen: AccountKitSample,
   //   navigationOptions: {
   //     header: null
   //   }

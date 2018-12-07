@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -51,6 +50,7 @@
 		EB9AABEC218EDB7A00E4541B /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6AD8E0218E8DDC00835D4C /* libRNFIRMessaging.a */; };
 		EB9AABEF218EE06400E4541B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB9AABEE218EE06400E4541B /* GoogleService-Info.plist */; };
 		FEF508A7607D48CA990CE781 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66182E2174234FC287073257 /* FontAwesome5_Solid.ttf */; };
+		69A36E055A694AE7B745E8F8 /* libRNAccountKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C20099DE41C4D7C88A3DE21 /* libRNAccountKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -426,6 +426,8 @@
 		EB9AABEE218EE06400E4541B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EC173FDCD0AA76AA6A049080 /* Pods-StarterKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StarterKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-StarterKit/Pods-StarterKit.release.xcconfig"; sourceTree = "<group>"; };
 		F65E85ECFDC8499B8121E98D /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		2F33BD0FA7514B1480908290 /* RNAccountKit.xcodeproj */ = {isa = PBXFileReference; name = "RNAccountKit.xcodeproj"; path = "../node_modules/react-native-facebook-account-kit/ios/RNAccountKit.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2C20099DE41C4D7C88A3DE21 /* libRNAccountKit.a */ = {isa = PBXFileReference; name = "libRNAccountKit.a"; path = "libRNAccountKit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -459,6 +461,7 @@
 				866876B662154D929D274CF9 /* libFastImage.a in Frameworks */,
 				C3F761E758F941128F5727AF /* libRNI18n.a in Frameworks */,
 				C9D0913C829A70D130A4E677 /* libPods-StarterKit.a in Frameworks */,
+				69A36E055A694AE7B745E8F8 /* libRNAccountKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +660,7 @@
 				1351AC37C8EF41EEB174A71C /* RNShare.xcodeproj */,
 				91C448D157D84B4CA94CBD24 /* FastImage.xcodeproj */,
 				32AC480FC477411D8EDE3337 /* RNI18n.xcodeproj */,
+				2F33BD0FA7514B1480908290 /* RNAccountKit.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1365,6 +1369,7 @@
 					"eact-native-fast-imageiosFastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-facebook-account-kit\ios/**",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1376,6 +1381,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pateco.aibetra;
 				PRODUCT_NAME = Aibetra;
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Aibetra\"",
+				);
 			};
 			name = Debug;
 		};
@@ -1409,6 +1418,7 @@
 					"eact-native-fast-imageiosFastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-facebook-account-kit\ios/**",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1420,6 +1430,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pateco.aibetra;
 				PRODUCT_NAME = Aibetra;
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Aibetra\"",
+				);
 			};
 			name = Release;
 		};
