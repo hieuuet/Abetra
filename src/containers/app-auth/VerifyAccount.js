@@ -17,7 +17,7 @@ import style_common from "../../style-common";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { TEXT_COMMON, TEXT_VERIFY } from "../../language";
 
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
 import {
   postLogin,
@@ -30,7 +30,6 @@ import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
 import { NavigationActions, StackActions } from "react-navigation";
-import AppContext from "../../AppContext";
 class VerifyAccount extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +43,7 @@ class VerifyAccount extends Component {
 
   verify = async () => {
     if (this.verifyCode.length === 0) {
-      return this.context.showAlert({ content: this.TEXT_VERIFY.RequiredOTP });
+      return this.props.showAlert({ content: this.TEXT_VERIFY.RequiredOTP });
     }
     const userName = this.props.navigation.getParam("userName");
     this.setState({ isLoading: true });
@@ -55,7 +54,7 @@ class VerifyAccount extends Component {
     this.setState({ isLoading: false });
     if (!verifyResult || verifyResult.ErrorCode !== "00") {
       this.setState({ isLoading: false });
-      return this.context.showAlert({
+      return this.props.showAlert({
         content:
           (verifyResult && verifyResult.Message) || this.TEXT_VERIFY.VerifyFail
       });
@@ -63,7 +62,7 @@ class VerifyAccount extends Component {
     await this._login();
   };
   reSendCode = () => {
-    return this.context.showAlert({ content: this.TEXT_COMMON.FeatureDev });
+    return this.props.showAlert({ content: this.TEXT_COMMON.FeatureDev });
   };
   loadUserProfile = async userID => {
     const { loadUserProfile } = this.props;
@@ -73,7 +72,7 @@ class VerifyAccount extends Component {
     });
     this.setState({ isLoading: false });
     if (!userProfile) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_COMMON.LoadProfileFail
       });
     }
@@ -111,13 +110,13 @@ class VerifyAccount extends Component {
         this.loadUserProfile(login.Value[0].UserID);
       } else {
         this.setState({ isLoading: false });
-        return this.context.showAlert({
+        return this.props.showAlert({
           content: this.TEXT_COMMON.NotFoundUserId
         });
       }
     } else {
       this.setState({ isLoading: false });
-      return this.context.showAlert({ content: login.Message });
+      return this.props.showAlert({ content: login.Message });
     }
   };
 
@@ -165,16 +164,6 @@ class VerifyAccount extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <KeyboardAvoidingView
@@ -202,7 +191,6 @@ class VerifyAccount extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

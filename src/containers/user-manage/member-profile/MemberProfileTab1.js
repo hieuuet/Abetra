@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
-  Alert
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -23,8 +22,8 @@ const { width } = Dimensions.get("window");
 import PropTypes from "prop-types";
 import { createMsgGroup } from "../../../actions";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../../../constant/injectShowAlert";
 class MemberProfileTab1 extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +65,7 @@ class MemberProfileTab1 extends Component {
         title: this.props.dataUser.FullName
       });
     } else {
-      this.props.context.showAlert({
+      this.props.showAlert({
         content: this.props.TEXT_PROFILE.CreateChatFail
       });
     }
@@ -185,12 +184,11 @@ MemberProfileTab1 = connect(
   mapDispatchToProps
 )(MemberProfileTab1);
 
-export default MemberProfileTab1;
+export default compose(injectShowAlert)( MemberProfileTab1);
 
 MemberProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
-  context: PropTypes.object.isRequired,
   TEXT_PROFILE: PropTypes.object.isRequired
 };
 

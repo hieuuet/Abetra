@@ -2,36 +2,43 @@ import React, { Component } from "react";
 import { View, Text, Modal, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon1 from "react-native-vector-icons/Feather";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 import { savePost, unsavePost } from "../../actions/loadSavePostActions";
-import { TEXT_MENU_POST } from "../../language";
+import { TEXT_MENU_POST, TEXT_COMMON } from "../../language";
 
 class MenuPost extends Component {
-  static propTypes = {
-    context: PropTypes.object.isRequired
-  };
   constructor(props) {
     super(props);
     this.isSave = this.props.item.LikeSave;
     this.state = {
       isSave: this.isSave
     };
-    console.log("1111111", this.props.context);
 
     this.TEXT_MENU_POST = TEXT_MENU_POST();
+    this.TEXT_COMMON = TEXT_COMMON();
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
       this.TEXT_MENU_POST = TEXT_MENU_POST();
+      this.TEXT_COMMON = TEXT_COMMON();
     }
   }
 
   _savePost = async PostID => {
     const { UserProfile, savePost } = this.props;
+    if (
+      !UserProfile ||
+      !UserProfile.Value ||
+      !UserProfile.Value[0] ||
+      !UserProfile.Value[0].IntUserID
+    ) {
+      return this.props.showAlert({ content: this.TEXT_COMMON.NotFoundUserId });
+    }
     let save = await savePost({
       IntUserID: UserProfile.Value[0].IntUserID,
       PostID
@@ -40,11 +47,11 @@ class MenuPost extends Component {
       this.setState({
         isSave: !this.state.isSave
       });
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_MENU_POST.SavePostSuccess
       });
     } else {
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_MENU_POST.SavePostFail
       });
     }
@@ -52,6 +59,14 @@ class MenuPost extends Component {
 
   _unsavePost = async PostID => {
     const { UserProfile, unsavePost } = this.props;
+    if (
+      !UserProfile ||
+      !UserProfile.Value ||
+      !UserProfile.Value[0] ||
+      !UserProfile.Value[0].IntUserID
+    ) {
+      return this.props.showAlert({ content: this.TEXT_COMMON.NotFoundUserId });
+    }
     let save = await unsavePost({
       IntUserID: UserProfile.Value[0].IntUserID,
       PostID
@@ -60,11 +75,11 @@ class MenuPost extends Component {
       this.setState({
         isSave: !this.state.isSave
       });
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_MENU_POST.UnsavePostSuccess
       });
     } else {
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_MENU_POST.UnsavePostFail
       });
     }
@@ -181,4 +196,4 @@ MenuPost = connect(
   mapStateToProps,
   mapDispatchToProps
 )(MenuPost);
-export default MenuPost;
+export default compose(injectShowAlert)(MenuPost);

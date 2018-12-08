@@ -7,8 +7,9 @@ import MemberProfileTab1 from "./MemberProfileTab1";
 import MemberProfileTab2 from "./MemberProfileTab2";
 import { loadProfileMember } from "../../../actions";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import injectShowAlert from "../../../constant/injectShowAlert";
 import HeaderMember from "./HeaderMember";
-import AppContext from "../../../AppContext";
 // import { isEqual } from "lodash";
 import { TEXT_PROFILE } from "../../../language";
 
@@ -28,8 +29,8 @@ class MemberProfile extends Component {
     this._loadMemberProfile();
 
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -58,7 +59,7 @@ class MemberProfile extends Component {
     this.setState({
       isLoading: false
     });
-    return this.context.showAlert({
+    return this.props.showAlert({
       content: dataProfile && dataProfile.Message
     });
   };
@@ -71,16 +72,6 @@ class MemberProfile extends Component {
     return this.state.isLoading ? (
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
     ) : null;
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
   };
 
   render() {
@@ -125,7 +116,6 @@ class MemberProfile extends Component {
               navigation={this.props.navigation}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
-              context={this.context}
             />
           </View>
           <View
@@ -140,12 +130,10 @@ class MemberProfile extends Component {
               dataUser={this.state.memberProfile}
               onLoading={this.onLoading}
               TEXT_PROFILE={this.TEXT_PROFILE}
-              context={this.context}
             />
           </View>
         </View>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </View>
     );
   }
@@ -158,7 +146,7 @@ const mapStateToProps = state => {
 };
 
 MemberProfile = connect(mapStateToProps)(MemberProfile);
-export default MemberProfile;
+export default compose(injectShowAlert)(MemberProfile);
 
 const styles = StyleSheet.create({
   tab: {

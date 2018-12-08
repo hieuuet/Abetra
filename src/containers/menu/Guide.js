@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { View, WebView, Platform, BackHandler } from "react-native";
 import { ViewLoading, CustomizeHeader } from "../../components/CommonView";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { getcommonSetting } from "../../actions";
-import AppContext from "../../AppContext";
 
 import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
@@ -23,8 +24,8 @@ class Guide extends Component {
   componentDidMount() {
     this.getdataGuide();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -61,16 +62,6 @@ class Guide extends Component {
     return this.state.isLoading ? <ViewLoading MarginTop={75} /> : null;
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -87,7 +78,6 @@ class Guide extends Component {
           scalesPageToFit={Platform.OS === "ios" ? false : true}
         />
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </View>
     );
   }
@@ -106,4 +96,4 @@ Guide = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Guide);
-export default Guide;
+export default compose(injectShowAlert)(Guide);

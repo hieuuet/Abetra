@@ -100,7 +100,7 @@ class Menu extends Component {
           source={require("../../assets/menu/icon_baivietdaluu.png")}
           onPress={() => {
             if (this.props.isGuest)
-              return requestRegister(this.props.navigation);
+              return requestRegister(this.props.screenProps);
             this.props.screenProps.navigate("SavePost");
           }}
         />
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     width: 50,
-    height: 50*(437/488),
+    height: 50 * (437 / 488),
     marginLeft: 20,
     borderRadius: 25
   },

@@ -22,9 +22,9 @@ const randomString = length_ => {
   return str;
 };
 
-function injectQueries(WrappedComponent) {
+function injectShowAlert(WrappedComponent) {
   return class extends React.PureComponent {
-    static displayName = `injectQueries(${WrappedComponent.displayName ||
+    static displayName = `injectShowAlert(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       "Component"})`;
 
@@ -68,4 +68,4 @@ function injectQueries(WrappedComponent) {
   };
 }
 
-export default injectQueries;
+export default injectShowAlert;

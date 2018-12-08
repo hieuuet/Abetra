@@ -16,7 +16,8 @@ import {
   ScrollView
 } from "react-native";
 import { COLOR } from "../../constant/Color";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { connect } from "react-redux";
 import { uploadImage } from "../../actions/UploadImageActions";
 import { createPost } from "../../actions/createPostActions";
@@ -30,7 +31,6 @@ import DatePicker from "react-native-datepicker";
 import { CustomizeHeader } from "../../components/CommonView";
 import { isEqual } from "lodash";
 import { TEXT_CREATE_POST } from "../../language";
-import AppContext from "../../AppContext";
 import { typeAccount } from "../../constant/UtilsFunction";
 
 let ImagePicker = NativeModules.ImageCropPicker;
@@ -192,7 +192,7 @@ class CreatePost extends Component {
       this._sendPost(post.Value.CreatedTime, Status);
       this.props.navigation.goBack();
     } else {
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_CREATE_POST.CreatePostFail
       });
     }
@@ -229,11 +229,11 @@ class CreatePost extends Component {
     if (Event.ErrorCode == "00") {
       this.props.navigation.goBack();
     } else if (Event.ErrorCode == "05") {
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_CREATE_POST.InvalidTime
       });
     } else {
-      return this.props.context.showAlert({
+      return this.props.props.showAlert({
         content: this.TEXT_CREATE_POST.CreatePostFail
       });
     }
@@ -299,16 +299,6 @@ class CreatePost extends Component {
     this.setState({
       ArrOptions: ArrMoi
     });
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
   };
 
   render() {
@@ -656,7 +646,6 @@ class CreatePost extends Component {
           onChangeModalVisible={this.setModalVisible}
         /> */}
         </View>
-        {this._bindeGlobalContext()}
         <ModalBox
           position={"bottom"}
           ref={"modal"}
@@ -697,7 +686,7 @@ CreatePost = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreatePost);
-export default CreatePost;
+export default compose(injectShowAlert)(CreatePost);
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   view_container: {

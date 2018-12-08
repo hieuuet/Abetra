@@ -15,7 +15,6 @@ import EventItem from "../../components/EventItem";
 import { CustomizeHeader, ViewLoading } from "../../components/CommonView";
 
 import { getEventJoin } from "../../actions/getEventActions";
-import AppContext from "../../AppContext";
 import { TEXT_EVENT, TEXT_COMMON } from "../../language";
 
 class EventJoin extends Component {
@@ -78,16 +77,6 @@ class EventJoin extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     const { navigation } = this.props;
 
@@ -118,7 +107,6 @@ class EventJoin extends Component {
                     userID={this.userID}
                     // onReloadBack ={this.onReloadBack}
                     navigation={navigation}
-                    context={this.context}
                     fromEventJoin={false}
                   />
                 );
@@ -129,7 +117,6 @@ class EventJoin extends Component {
           )}
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

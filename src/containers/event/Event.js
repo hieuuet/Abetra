@@ -9,7 +9,8 @@ import {
   Text
 } from "react-native";
 
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { connect } from "react-redux";
 import style_common from "../../style-common/index";
 import EventItem from "../../components/EventItem";
@@ -17,7 +18,6 @@ import { searchPost } from "../../actions/index";
 import { CustomizeHeader, ViewLoading } from "../../components/CommonView";
 import { getEvent } from "../../actions/getEventActions";
 import { COLOR } from "../../constant/Color";
-import AppContext from "../../AppContext";
 import { TEXT_COMMON } from "../../language";
 
 class Event extends Component {
@@ -34,8 +34,8 @@ class Event extends Component {
   componentDidMount() {
     this._getEvent();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -97,16 +97,6 @@ class Event extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     const { navigation } = this.props;
     const { params } = this.props.navigation.state;
@@ -143,7 +133,6 @@ class Event extends Component {
                     dataItem={item}
                     userID={this.userID}
                     // onReloadBack ={this.onReloadBack}
-                    context={this.context}
                     navigation={navigation}
                     fromEvent={false}
                   />
@@ -155,7 +144,6 @@ class Event extends Component {
           )}
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -178,4 +166,4 @@ Event = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Event);
-export default Event;
+export default compose(injectShowAlert)(Event);

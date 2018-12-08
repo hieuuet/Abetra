@@ -11,7 +11,9 @@ import {
   AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import {} from "redux";
+import injectShowAlert from "../constant/injectShowAlert";
 import { getAllEnterprise2 } from "../actions";
 import { ViewLoading } from "../components/CommonView";
 import style_common from "../style-common/index";
@@ -25,7 +27,6 @@ import { COLOR } from "../constant/Color";
 import { USER_ID } from "../constant/KeyConstant";
 import { TEXT_INTERPRISE } from "../language";
 import { isEqual } from "lodash";
-import AppContext from "../AppContext";
 class Enterprise extends Component {
   constructor(props) {
     super(props);
@@ -44,8 +45,9 @@ class Enterprise extends Component {
   componentDidMount() {
     this.loadData();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+
+      if (isAlertShow) {
         return true;
       }
       if (this.refs.modal && this.refs.modal.state.isOpen) {
@@ -117,7 +119,7 @@ class Enterprise extends Component {
           "Tin Nhắn"
       });
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_INTERPRISE.CreateRoomFail
       });
     }
@@ -149,7 +151,7 @@ class Enterprise extends Component {
       this.setState({
         isLoading: false
       });
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: result.Message
       });
     }
@@ -254,16 +256,6 @@ class Enterprise extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <KeyboardAvoidingView
@@ -293,7 +285,6 @@ class Enterprise extends Component {
         </MyCoolScrollViewComponent>
         {this._renderBottomModal()}
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -316,7 +307,7 @@ Enterprise = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Enterprise);
-export default Enterprise;
+export default compose(injectShowAlert)(Enterprise);
 const styles = StyleSheet.create({
   search: { alignSelf: "stretch" },
   modal: { height: 91 },

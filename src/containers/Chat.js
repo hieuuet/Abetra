@@ -11,25 +11,13 @@ import ChatItem from "../components/ChatItem";
 import TextInputChat from "../components/TextInputChat";
 import { SOCKET, URL_SOCKET } from "../constant/api";
 import SocketIOClient from "socket.io-client";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../constant/injectShowAlert";
 import { connect } from "react-redux";
 import { loadDetailMsg } from "../actions/detailMsgActions";
-import { COLOR } from "../constant/Color";
 import { CustomizeHeader } from "../components/CommonView";
-import AppContext from "../AppContext";
 
 class Chat extends Component {
-  // static navigationOptions = ({navigation}) => {
-  //     const {params = {}} = navigation.state
-  //
-  //     return {
-  //         title: `${navigation.getParam('title')}`,
-  //         headerStyle: {backgroundColor: COLOR.BACKGROUND_HEADER},
-  //         headerTitleStyle: {color: COLOR.TITLE_HEADER},
-  //         headerTintColor: 'white',
-  //
-  //     }
-  // }
   constructor(props) {
     super(props);
     this.state = {
@@ -52,7 +40,7 @@ class Chat extends Component {
     console.log("socket", this.socket);
     this.socket.emit("LOGINMSG", {
       IntUserID: UserProfile.Value[0].IntUserID,
-      MsgGroupID: MsgGroupID
+      MsgGroupID
     });
     this.socket.on("RECEIVERMSG", dataRes => {
       console.log("receiveMSG", dataRes.ChatTo);
@@ -68,8 +56,8 @@ class Chat extends Component {
   componentDidMount() {
     this._loadMsgDetail();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -94,7 +82,7 @@ class Chat extends Component {
 
     this.socket.emit("LOGOUTMSG", {
       IntUserID: UserProfile.Value[0].IntUserID,
-      MsgGroupID: MsgGroupID
+      MsgGroupID
     });
   }
 
@@ -106,7 +94,7 @@ class Chat extends Component {
       return null;
     }
     let msgDetail = await loadDetailMsg({
-      MsgGroupID: MsgGroupID,
+      MsgGroupID,
       IntUserID: UserProfile.Value[0].IntUserID,
       Index: 1,
       Today: 1
@@ -133,7 +121,7 @@ class Chat extends Component {
 
     //object need send to server
     let dataSend = {
-      MsgGroupID: MsgGroupID,
+      MsgGroupID,
       IntUserID: UserProfile.Value[0].IntUserID,
       FullName: UserProfile.Value[0].FullName,
       Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
@@ -155,16 +143,6 @@ class Chat extends Component {
     this.setState({ ArrMess: newMsg }, () => {
       console.log("ArrMess", this.state.ArrMess);
     });
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
   };
 
   render() {
@@ -215,7 +193,6 @@ class Chat extends Component {
           style={{ marginTop: 5 }}
           onReceiveTextInputClick={this.onReceiveTextInputClick}
         />
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -237,4 +214,4 @@ Chat = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Chat);
-export default Chat;
+export default compose(injectShowAlert)(Chat);

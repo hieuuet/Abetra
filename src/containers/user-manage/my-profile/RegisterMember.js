@@ -37,8 +37,8 @@ import RankSelect from "./RankSelect";
 import { ButtonBackGround } from "../../../components/CommonView";
 import { IMAGE } from "../../../constant/assets";
 import { web } from "../../../components/Communications";
-import AppContext from "../../../AppContext";
-
+import { compose } from "redux";
+import injectShowAlert from "../../../constant/injectShowAlert";
 class RegisterMember extends Component {
   constructor(props) {
     super(props);
@@ -109,7 +109,7 @@ class RegisterMember extends Component {
 
   registerMember = async () => {
     if (!this.props.userProfile) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER_MEMBER.ProfileNotFound
       });
     }
@@ -119,18 +119,18 @@ class RegisterMember extends Component {
       .map(tag => tag.CatID);
 
     if (realTagSelect.length === 0) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER_MEMBER.BusinessTypeRequired
       });
     }
     if (!this.rank) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER_MEMBER.RankRequired
       });
     }
 
     if (this.name.trim().length === 0 || this.phone.trim().length === 0) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER_MEMBER.ContactRequired
       });
     }
@@ -164,7 +164,7 @@ class RegisterMember extends Component {
     }
     this.setState({ isLoading: false });
     if (result && result.ErrorCode === "00") {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: result && result.Message,
         onSubmit: () => {
           this.props.loadUserProfile({
@@ -175,7 +175,7 @@ class RegisterMember extends Component {
         }
       });
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content:
           (result && result.Message) || this.TEXT_REGISTER_MEMBER.RegisterFail
       });
@@ -188,16 +188,6 @@ class RegisterMember extends Component {
   };
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
   };
 
   render() {
@@ -325,7 +315,6 @@ class RegisterMember extends Component {
           </View>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -356,7 +345,7 @@ RegisterMember = connect(
   mapStateToProps,
   mapDispatchToProps
 )(RegisterMember);
-export default RegisterMember;
+export default compose(injectShowAlert)(RegisterMember);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -391,7 +380,7 @@ const styles = StyleSheet.create({
   },
   container_register: { flex: 1, alignItems: "center", margin: 10 },
   icon_fb: {
-    width: 20*(223/74),
+    width: 20 * (223 / 74),
     height: 20
   },
   text_fanpage: {

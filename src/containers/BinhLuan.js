@@ -28,7 +28,6 @@ import ReadMore from "react-native-read-more-text";
 import PollVote from "../components/PollVote";
 import Share from "react-native-share";
 import PropTypes from "prop-types";
-import AppContext from "../AppContext";
 import { typeAccount } from "../constant/UtilsFunction";
 import { TEXT_POST } from "../language";
 
@@ -160,15 +159,6 @@ class BinhLuan extends Component {
     return Share.open(shareOptions);
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
 
   render() {
     const { navigation } = this.props;
@@ -314,7 +304,7 @@ class BinhLuan extends Component {
             style={{ marginTop: 5 }}
             data={this.state.ArrPoll}
             renderItem={item => {
-              return <PollVote dataItem={item} context={this.context} />;
+              return <PollVote dataItem={item} />;
             }}
             extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
@@ -453,7 +443,6 @@ class BinhLuan extends Component {
           style={{ marginTop: 5 }}
           onReceiveTextInputClick={this.onReceiveTextInputClick}
         />
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }

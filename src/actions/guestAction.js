@@ -38,6 +38,7 @@ export const requestRegister = navigation => {
     type: "SHOW_ALERT",
     payload: {
       id: randomString(10),
+      isShow:true,
       labelSubmit: TEXT_POPUP.RegisterNow,
       labelClose: TEXT_POPUP.Later,
       content: TEXT_POPUP.GuestToRegister,

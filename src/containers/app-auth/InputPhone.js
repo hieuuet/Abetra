@@ -18,13 +18,14 @@ import { TEXT_COMMON, TEXT_INPUTPHONE } from "../../language";
 
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { updatePhoneFb, sendOTP } from "../../actions";
 // import { USER_ID } from "../../constant/KeyConstant";
 import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
 // import { NavigationActions, StackActions } from "react-navigation";
-import AppContext from "../../AppContext";
 
 class InputPhone extends Component {
   constructor(props) {
@@ -40,19 +41,9 @@ class InputPhone extends Component {
     this.TEXT_INPUTPHONE = TEXT_INPUTPHONE();
   }
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   updatePhoneAndNavigate = async () => {
     if (this.phone.length <= 9) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_INPUTPHONE.PhoneInvalid
       });
     }
@@ -60,11 +51,11 @@ class InputPhone extends Component {
     if (!this.hasPhone) {
       const updatePhone = await updatePhoneFb({
         Phone: this.phone,
-        UserName: this.userName,
+        UserName: this.userName
       });
       if (!updatePhone || updatePhone.ErrorCode !== "00") {
         this.setState({ isLoading: false });
-        return this.context.showAlert({
+        return this.props.showAlert({
           content:
             (updatePhone && updatePhone.Message) ||
             this.TEXT_INPUTPHONE.UpdatePhoneFail
@@ -77,7 +68,7 @@ class InputPhone extends Component {
     });
     if (!requestSendOTP || requestSendOTP.ErrorCode !== "00") {
       this.setState({ isLoading: false });
-      return this.context.showAlert({
+      return this.props.showAlert({
         content:
           (requestSendOTP && requestSendOTP.Message) ||
           this.TEXT_INPUTPHONE.RequestOTPFail
@@ -160,7 +151,6 @@ class InputPhone extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -174,7 +164,7 @@ InputPhone = connect(
   null,
   mapDispatchToProps
 )(InputPhone);
-export default InputPhone;
+export default compose(injectShowAlert)(InputPhone);
 
 const styles = StyleSheet.create({
   img_logo: {

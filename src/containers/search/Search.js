@@ -19,9 +19,10 @@ import { FlatListCommon, TYPE } from "../../components/FlatListCommon";
 import { searchAll } from "../../actions";
 // import TextInputReset from "react-native-text-input-reset";
 import { TEXT_SEARCH } from "../../language";
-import AppContext from "../../AppContext";
+import { compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 
-export default class Search extends Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,8 +43,8 @@ export default class Search extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -310,16 +311,6 @@ export default class Search extends Component {
     ) : null;
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <View style={style_common.container_white}>
@@ -327,11 +318,12 @@ export default class Search extends Component {
         {this._renderTabButton()}
         {this._renderContent()}
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </View>
     );
   }
 }
+
+export default compose(injectShowAlert)(Search);
 const styles = StyleSheet.create({
   header: {
     minHeight: 50,

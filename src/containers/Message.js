@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, Text } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../constant/injectShowAlert";
 import { loadMsgGroup } from "../actions/loadMsgGroupActions";
 import { COLOR } from "../constant/Color";
 import style_common from "../style-common";
@@ -11,7 +12,6 @@ import {
   TabView2,
   CustomizeHeader
 } from "../components/CommonView";
-import AppContext from "../AppContext";
 import { TEXT_MESSAGE, TEXT_COMMON } from "../language";
 import { isEqual } from "lodash";
 class Message extends Component {
@@ -30,8 +30,8 @@ class Message extends Component {
   componentDidMount() {
     this._loadMsgGroup();
     // this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-    //   if (this.context.isShowAlert) {
-    //     this.context.hideAlert();
+    // const isAlertShow = this.props.closeAlert();
+    //   if (isAlertShow) {
     //     return true;
     //   }
     //   this.props.navigation.goBack();
@@ -82,16 +82,6 @@ class Message extends Component {
 
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
   };
 
   render() {
@@ -149,7 +139,6 @@ class Message extends Component {
           </View>
         </View>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </View>
     );
   }
@@ -172,7 +161,7 @@ Message = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Message);
-export default Message;
+export default compose(injectShowAlert)(Message);
 const styles = StyleSheet.create({
   content_guest: {
     marginTop: 20,

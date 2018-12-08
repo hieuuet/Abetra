@@ -7,11 +7,11 @@ import { API } from "../constant/api";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { TEXT_POLL_VOTE } from "../language";
+import { compose } from "redux";
+import injectShowAlert from "../constant/injectShowAlert";
 
 class PollVote extends Component {
-  static propTypes = {
-    context: PropTypes.object.isRequired
-  };
+  static propTypes = {};
   constructor(props) {
     super(props);
     this.countCheck = this.props.dataItem.item.TotalVote;
@@ -43,7 +43,7 @@ class PollVote extends Component {
         PollID,
         IntUser: UserProfile.Value[0].IntUserID,
         IsLike: 1,
-        isLog: 0,
+        isLog: 0
       })
     })
       .then(response => {
@@ -57,14 +57,14 @@ class PollVote extends Component {
 
           this.setState({ countCheck: currentCheck });
         } else {
-          return this.props.context.showAlert({
+          return this.props.props.showAlert({
             content: this.TEXT_POLL_VOTE.ErrorOccurred
           });
         }
       })
       .catch(e => {
         console.log("exception", e);
-        return this.props.context.showAlert({
+        return this.props.props.showAlert({
           content: this.TEXT_POLL_VOTE.ErrorLike
         });
       });
@@ -98,14 +98,14 @@ class PollVote extends Component {
 
           this.setState({ countCheck: currentCheck });
         } else {
-          return this.props.context.showAlert({
+          return this.props.props.showAlert({
             content: this.TEXT_POLL_VOTE.ErrorOccurred
           });
         }
       })
       .catch(e => {
         console.log("exception", e);
-        return this.props.context.showAlert({
+        return this.props.props.showAlert({
           content: this.TEXT_POLL_VOTE.ErrorLike
         });
       });
@@ -176,4 +176,4 @@ PollVote = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PollVote);
-export default PollVote;
+export default compose(injectShowAlert)(PollVote);

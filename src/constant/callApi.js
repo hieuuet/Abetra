@@ -31,6 +31,7 @@ export const getRequestApi = async (url, isShowLog = false) => {
       type: "SHOW_ALERT",
       payload: {
         id: randomString(10),
+        isShow:true,
         content: "Mất kết nối mạng"
       }
     });
@@ -73,6 +74,7 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
       type: "SHOW_ALERT",
       payload: {
         id: randomString(10),
+        isShow:true,
         content: "Mất kết nối mạng"
       }
     });

@@ -14,13 +14,14 @@ import {
 import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
-import AppContext from "../../../AppContext";
 
 import { changePassword } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
 import { TEXT_CHANGE_PASSWORD } from "../../../language";
 import BackgroundImage from "../../../components/BackgroundImage";
+import { compose } from "redux";
+import injectShowAlert from "../../../constant/injectShowAlert";
 
 class ChangePassword extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class ChangePassword extends Component {
 
   onChangePass = async () => {
     if (!this.userName)
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PASSWORD.ProfileNotFound
       });
 
@@ -46,12 +47,12 @@ class ChangePassword extends Component {
       this.newPass.trim().length === 0 ||
       this.reNewPass.trim().length === 0
     )
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PASSWORD.RequirePass
       });
 
     if (this.newPass.trim() !== this.reNewPass.trim())
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PASSWORD.PassNotMatch
       });
 
@@ -64,16 +65,16 @@ class ChangePassword extends Component {
     this.setState({ isLoading: false });
     if (result) {
       if (result.ErrorCode === "00")
-        return this.context.showAlert({
+        return this.props.showAlert({
           content: result && result.Message,
           onSubmit: this.props.navigation.goBack()
         });
 
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: result && result.Message
       });
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PASSWORD.ChangePassFail
       });
     }
@@ -161,16 +162,6 @@ class ChangePassword extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <KeyboardAvoidingView
@@ -198,13 +189,12 @@ class ChangePassword extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
 }
 
-export default ChangePassword;
+export default compose(injectShowAlert)(ChangePassword);
 
 const styles = StyleSheet.create({
   img_logo: {
@@ -224,7 +214,7 @@ const styles = StyleSheet.create({
 
   img_fb: {
     marginLeft: 5,
-    width: 20*(223/74),
+    width: 20 * (223 / 74),
     height: 20
   },
   view_login: {

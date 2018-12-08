@@ -22,7 +22,6 @@ import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MyDatePicker from "../../../components/DatePicker";
-import AppContext from "../../../AppContext";
 import {
   updateUserProfile,
   uploadMultipleImage,
@@ -35,6 +34,8 @@ import { GENDER_STATE } from "../../../constant/KeyConstant";
 import { formatDate } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import { TEXT_COMMON } from "../../../language";
+import { compose } from "redux";
+import injectShowAlert from "../../../constant/injectShowAlert";
 const ImagePicker = NativeModules.ImageCropPicker;
 
 import PropTypes from "prop-types";
@@ -65,8 +66,8 @@ class MyProfileTab1 extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       if (this.state.showEmoticons) {
@@ -153,7 +154,7 @@ class MyProfileTab1 extends Component {
 
       //upload image error
       this.props.onLoading(false);
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_COMMON.UploadImageFail
       });
     } else {
@@ -189,7 +190,7 @@ class MyProfileTab1 extends Component {
       return this.props.onLoading(false);
     } else {
       this.props.onLoading(false);
-      return this.context.showAlert({ content: resultUpdate.Message });
+      return this.props.showAlert({ content: resultUpdate.Message });
     }
   };
 
@@ -438,16 +439,6 @@ class MyProfileTab1 extends Component {
     this.setState({ textDescription: this.textDescription });
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     console.log("render tab 1");
     //get dataUser
@@ -489,13 +480,12 @@ class MyProfileTab1 extends Component {
             />
           </View>
         ) : null}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
 }
 
-export default MyProfileTab1;
+export default compose(injectShowAlert)(MyProfileTab1);
 
 MyProfileTab1.propTypes = {
   dataUser: PropTypes.object.isRequired,
@@ -554,7 +544,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 10
   },
 
   change_pass: { flexDirection: "row", alignItems: "center" },

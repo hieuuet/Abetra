@@ -15,14 +15,13 @@ import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import { ButtonBorder, ViewLoading } from "../../../components/CommonView";
 import { TEXT_CHANGE_PHONE } from "../../../language";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
 import { updateUserProfile, loadUserProfile } from "../../../actions";
 import { COLOR } from "../../../constant/Color";
 import { web } from "../../../components/Communications";
 import BackgroundImage from "../../../components/BackgroundImage";
-import AppContext from "../../../AppContext";
-
+import injectShowAlert from "../../../constant/injectShowAlert";
 class ChangePhone extends Component {
   constructor(props) {
     super(props);
@@ -42,12 +41,12 @@ class ChangePhone extends Component {
 
   onChangePhone = async () => {
     if (!this.userProfile)
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PHONE.ProfileNotFound
       });
 
     if (this.newPhone.trim().length === 0 || this.code.trim().length === 0)
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_CHANGE_PHONE.RequiredInput
       });
 
@@ -61,7 +60,7 @@ class ChangePhone extends Component {
     this.setState({ isLoading: false });
     //success
     if (result && result.ErrorCode === "00")
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: result && result.Message,
         onSubmit: () => {
           this.props.loadUserProfile({
@@ -73,7 +72,7 @@ class ChangePhone extends Component {
       });
 
     //error
-    return this.context.showAlert({
+    return this.props.showAlert({
       content:
         (result && result.Message) || this.TEXT_CHANGE_PHONE.ChangePhoneFail
     });
@@ -148,16 +147,6 @@ class ChangePhone extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <KeyboardAvoidingView
@@ -185,7 +174,6 @@ class ChangePhone extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -206,7 +194,7 @@ ChangePhone = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ChangePhone);
-export default ChangePhone;
+export default compose(injectShowAlert)(ChangePhone);
 
 const styles = StyleSheet.create({
   img_logo: {
@@ -226,7 +214,7 @@ const styles = StyleSheet.create({
 
   img_fb: {
     marginLeft: 5,
-    width: 20*(223/74),
+    width: 20 * (223 / 74),
     height: 20
   },
   view_login: {

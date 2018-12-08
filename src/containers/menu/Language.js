@@ -18,7 +18,6 @@ import { IMAGE } from "../../constant/assets";
 import { LANGUAGE } from "../../constant/KeyConstant";
 import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
-import AppContext from "../../AppContext";
 
 class Language extends Component {
   constructor(props) {
@@ -35,8 +34,8 @@ class Language extends Component {
   componentDidMount() {
     this.getLanguage();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -116,16 +115,6 @@ class Language extends Component {
     );
   };
 
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
-
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -140,7 +129,6 @@ class Language extends Component {
           keyExtractor={(item, index) => index.toString()}
         />
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </View>
     );
   }

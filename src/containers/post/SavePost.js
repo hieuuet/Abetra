@@ -12,14 +12,13 @@ import {
 } from "react-native";
 
 import StatusItems from "../../components/StatusItems";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 
 import { loadSavePost } from "../../actions/loadSavePostActions";
-import { COLOR } from "../../constant/Color";
 import style_common from "../../style-common";
 import { CustomizeHeader, ViewLoading } from "../../components/CommonView";
-import AppContext from "../../AppContext";
 
 class SavePost extends Component {
   constructor(props) {
@@ -33,8 +32,8 @@ class SavePost extends Component {
   componentDidMount() {
     this._loadSavePost();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.context.isShowAlert) {
-        this.context.hideAlert();
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
         return true;
       }
       this.props.navigation.goBack();
@@ -69,16 +68,6 @@ class SavePost extends Component {
       <View style={style_common.content_center}>
         <Text>Không có dữ liệu</Text>
       </View>
-    );
-  };
-
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
     );
   };
 
@@ -120,7 +109,6 @@ class SavePost extends Component {
           )}
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -143,4 +131,4 @@ SavePost = connect(
   mapStateToProps,
   mapDispatchToProps
 )(SavePost);
-export default SavePost;
+export default compose(injectShowAlert)(SavePost);
