@@ -19,17 +19,16 @@ Step:
   https://github.com/facebook/react-native/issues/19569
   => Remove and add again libfishhook.a from Xcode and the path issue will resolve.
 
-========================================================================================
-inject showAlert to component:
+=================================================</br>
+inject showAlert to component:</br>
 
-1. import
-   import {compose } from "redux";
-   import injectShowAlert from "../../constant/injectShowAlert";
+1. import</br>
+   `import {compose } from "redux";`</br>
+   `import injectShowAlert from "../../constant/injectShowAlert";`</br>
+   `export default compose(injectShowAlert)(YourComponent);`</br>
 
-export default compose(injectShowAlert)(YourComponent);
-
-2. use
-   //Show:
-   this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})
-   //Close:
-   this.props.closeAlert();
+2. use</br>
+   - Show:</br>
+   `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
+   - Close:</br>
+   `this.props.closeAlert();`
