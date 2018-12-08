@@ -19,13 +19,13 @@ import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
 import { postRegister, loginGuest, loginFacebook } from "../../actions";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
-import AppContext from "../../AppContext";
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -50,10 +50,11 @@ class Register extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (!this.context.isShowAlert) {
+      const isAlertShow = this.props.closeAlert();
+      if (!isAlertShow) {
         this.loginAsGuest();
-        return true;
       }
+      return true;
     });
   }
 
@@ -95,25 +96,25 @@ class Register extends Component {
     console.log("data register", this.dataUser);
 
     if (!this.state.isChecked) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER.RequiredTerm
       });
     }
 
     if (password.length === 0 || rePassword.length === 0) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER.PassRequired
       });
     }
 
     if (password.length < 6) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER.PassLenght
       });
     }
 
     if (password !== rePassword) {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_REGISTER.PassNotMatch
       });
     }
@@ -128,12 +129,12 @@ class Register extends Component {
     this.setState({ isLoading: false });
     console.log("register result", register);
     if (register.ErrorCode === "00") {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: register.Message,
         onSubmit: this.gotToVerify
       });
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: register.Message
       });
     }
@@ -167,7 +168,7 @@ class Register extends Component {
       this.setState({ isLoading: false });
       this._handleLoginResult(resultLogin);
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_COMMON.GetDataFBFail
       });
     }
@@ -199,25 +200,17 @@ class Register extends Component {
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
-        return this.context.showAlert({
+        return this.props.showAlert({
           content: this.TEXT_COMMON.NotFoundUserId
         });
       }
     } else {
-      return this.context.showAlert({
+      return this.props.showAlert({
         content: loginResult.Message
       });
     }
   };
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
+
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
@@ -373,7 +366,6 @@ class Register extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -395,7 +387,7 @@ Register = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Register);
-export default Register;
+export default compose(injectShowAlert)(Register);
 
 const styles = StyleSheet.create({
   logo_fb: { width: 30, height: 30, marginLeft: 5 },

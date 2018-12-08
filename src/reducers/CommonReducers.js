@@ -51,17 +51,21 @@ export const allEmoji = (state = {}, action = {}) => {
   }
 };
 
-export const showAlert = (
+export const alertState = (
   state = {
-    id: "0"
+    id: "0",
+    isShow: false
   },
   action = {}
 ) => {
   switch (action.type) {
     case "SHOW_ALERT":
       return action.payload;
+    case "CLOSE_ALERT":
+      return action.payload;
 
     default:
       return state;
   }
 };
+

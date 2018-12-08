@@ -8,20 +8,16 @@ import React, { Component } from "react";
 import { NetInfo, YellowBox, Text, View, BackHandler } from "react-native";
 import RootStack from "./src/routers/Navigation";
 import AnimatedModal from "./src/components/AnimatedModal";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import AppContext from "./src/AppContext";
-
+import { compose } from "redux";
+import injectShowAlert from "./src/constant/injectShowAlert";
 import store from "./src/store/index";
 
 class App1 extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isShowAlert: false,
-      showAlert: this.showAlert,
-      hideAlert: this.hideAlert
-    };
+
     this.dataAlert = {
       title: undefined,
       content: undefined,
@@ -35,11 +31,9 @@ class App1 extends Component {
   componentDidMount() {
     //listen backpress android and close alert
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (this.state.isShowAlert) {
-        this.hideAlert();
+      if (this.props.closeAlert()) {
         return true;
       }
-      console.log("222222");
       return false;
     });
 
@@ -50,19 +44,12 @@ class App1 extends Component {
     );
   }
   shouldComponentUpdate(nextProps, nextState) {
-    //show alert from state change (message loss network when call api)
-    if (this.props.showAlert.id !== nextProps.showAlert.id) {
-      //prevent show loss network multiple time call api
-      if (
-        this.state.isShowAlert &&
-        nextProps.showAlert.content === this.dataAlert.content
-      ) {
-        return false;
+    if (this.props.alertState.id !== nextProps.alertState.id) {
+      if (nextProps.alertState.isShow) {
+        this.dataAlert = nextProps.alertState;
+      } else {
+        this.dataAlert = undefined;
       }
-      console.log("1111111", nextProps.showAlert);
-      this.showAlert(nextProps.showAlert);
-
-      return false;
     }
     return true;
   }
@@ -75,17 +62,6 @@ class App1 extends Component {
     this.backHandler.remove();
   }
 
-  showAlert = data => {
-    if (data) {
-      this.dataAlert = data;
-    }
-    this.setState({ isShowAlert: true });
-  };
-  hideAlert = () => {
-    this.dataAlert = undefined;
-    this.setState({ isShowAlert: false });
-  };
-
   _handleConnectionChange = isConnected => {
     store.dispatch({ type: "NETWORK_CHANGE", payload: { isConnected } });
   };
@@ -96,6 +72,7 @@ class App1 extends Component {
       "Warning: componentWillReceiveProps is deprecated",
       "Warning: isMounted(...) is deprecated"
     ]);
+
     return (
       <View style={{ flex: 1 }}>
         <AppContext.Provider value={this.state}>
@@ -104,22 +81,26 @@ class App1 extends Component {
             title={this.dataAlert && this.dataAlert.title}
             labelSubmit={this.dataAlert && this.dataAlert.labelSubmit}
             labelClose={this.dataAlert && this.dataAlert.labelClose}
-            visible={this.state.isShowAlert}
+            visible={this.props.alertState.isShow}
             onClose={() => {
               this.dataAlert &&
                 this.dataAlert.onClose &&
                 this.dataAlert.onClose();
-              this.setState({ isShowAlert: false });
+              this.dataAlert = undefined;
+              this.props.closeAlert();
             }}
             onSubmit={() => {
               this.dataAlert &&
                 this.dataAlert.onSubmit &&
                 this.dataAlert.onSubmit();
-              this.setState({ isShowAlert: false });
+              this.dataAlert = undefined;
+              this.props.closeAlert();
             }}
             vi
           >
-            <Text style={{ color: "#000000", textAlign: "center",padding:10 }}>
+            <Text
+              style={{ color: "#000000", textAlign: "center", padding: 10 }}
+            >
               {(this.dataAlert && this.dataAlert.content) || ""}
             </Text>
           </AnimatedModal>
@@ -130,7 +111,7 @@ class App1 extends Component {
 }
 const mapStateToProps = state => {
   return {
-    showAlert: state.showAlert
+    alertState: state.alertState
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -141,14 +122,15 @@ App1 = connect(
   mapStateToProps,
   mapDispatchToProps
 )(App1);
-export default App1;
+export default compose(injectShowAlert)(App1);
 
 export class Root extends Component {
   componentDidMount() {
     //listen backpress android and close alert
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      console.log("77777777");
-    });
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {}
+    );
   }
 
   shouldComponentUpdate() {

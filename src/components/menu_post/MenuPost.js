@@ -19,6 +19,7 @@ class MenuPost extends Component {
     this.state = {
       isSave: this.isSave
     };
+    console.log("1111111", this.props.context);
 
     this.TEXT_MENU_POST = TEXT_MENU_POST();
   }

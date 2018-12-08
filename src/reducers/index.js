@@ -22,7 +22,7 @@ import {
   categoryType3,
   allEmoji,
   currentNetWork,
-  showAlert
+  alertState
 } from "./CommonReducers";
 import { getEvent, getEventJoin } from "./getEventReducers";
 import { addEvent } from "./addEventReducers";
@@ -59,7 +59,7 @@ const appReducer = combineReducers({
   allEmoji,
   allEnterprise,
   currentNetWork,
-  showAlert
+  alertState
 });
 
 export const rootReducer = (state, action) => {

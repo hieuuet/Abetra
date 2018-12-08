@@ -12,7 +12,8 @@ import {
   AsyncStorage,
   BackHandler
 } from "react-native";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 import { connect } from "react-redux";
 import { IMAGE } from "../../constant/assets";
 import style_common from "../../style-common";
@@ -25,7 +26,6 @@ import { web } from "../../components/Communications";
 import { TEXT_COMMON, TEXT_LOGIN } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
-import AppContext from "../../AppContext";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -44,10 +44,11 @@ class Login extends Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (!this.context.isShowAlert) {
+      const isAlertShow = this.props.closeAlert();
+      if (!isAlertShow) {
         this.loginAsGuest();
-        return true;
       }
+      return true;
     });
   }
 
@@ -104,7 +105,7 @@ class Login extends Component {
       this.setState({ isLoading: false });
       this._handleLoginResult(resultLogin);
     } else {
-      this.context.showAlert({ content: this.TEXT_COMMON.GetDataFBFail });
+      this.props.showAlert({ content: this.TEXT_COMMON.GetDataFBFail });
     }
   };
 
@@ -124,10 +125,10 @@ class Login extends Component {
         this.props.loginGuest(false);
         this.goToHomeTab();
       } else {
-        this.context.showAlert({ content: this.TEXT_COMMON.NotFoundUserId });
+        this.props.showAlert({ content: this.TEXT_COMMON.NotFoundUserId });
       }
     } else {
-      this.context.showAlert({ content: loginResult.Message });
+      this.props.showAlert({ content: loginResult.Message });
     }
   };
 
@@ -202,15 +203,6 @@ class Login extends Component {
       <ViewLoading isLoadingIndicator={this.state.isLoadingIndicator} />
     ) : null;
   };
-  _bindeGlobalContext = () => {
-    return (
-      <AppContext.Consumer>
-        {context => {
-          this.context = context;
-        }}
-      </AppContext.Consumer>
-    );
-  };
 
   render() {
     return (
@@ -240,7 +232,6 @@ class Login extends Component {
           </BackgroundImage>
         </ScrollView>
         {this._renderLoading()}
-        {this._bindeGlobalContext()}
       </KeyboardAvoidingView>
     );
   }
@@ -264,7 +255,8 @@ Login = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
-export default Login;
+
+export default compose(injectShowAlert)(Login);
 const styles = StyleSheet.create({
   logo_fb: { width: 30, height: 30, marginLeft: 5 },
   wrapper_fb: {
