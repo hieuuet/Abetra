@@ -113,25 +113,25 @@ class Menu extends Component {
           }}
         />
 
-        <MenuItem
-          title={this.TEXT_MENU.Nearly}
-          source={require("../../assets/menu/icon_dichvuquanhday.png")}
-        />
-        <MenuItem
-          title={this.TEXT_MENU.Promotion}
-          source={require("../../assets/menu/icon_khuyenmai.png")}
-        />
+        {/*<MenuItem*/}
+          {/*title={this.TEXT_MENU.Nearly}*/}
+          {/*source={require("../../assets/menu/icon_dichvuquanhday.png")}*/}
+        {/*/>*/}
+        {/*<MenuItem*/}
+          {/*title={this.TEXT_MENU.Promotion}*/}
+          {/*source={require("../../assets/menu/icon_khuyenmai.png")}*/}
+        {/*/>*/}
         {/*<MenuItem*/}
         {/*title={this.TEXT_MENU.Intro}*/}
         {/*source={require("../../assets/menu/icon_huongdan.png")}*/}
         {/*onPress={() => this.props.screenProps.navigate("About")}*/}
         {/*/>*/}
 
-        <MenuItem
-          title={this.TEXT_MENU.Guide}
-          source={require("../../assets/menu/icon_huongdan.png")}
-          onPress={() => this.props.screenProps.navigate("Guide")}
-        />
+        {/*<MenuItem*/}
+          {/*title={this.TEXT_MENU.Guide}*/}
+          {/*source={require("../../assets/menu/icon_huongdan.png")}*/}
+          {/*onPress={() => this.props.screenProps.navigate("Guide")}*/}
+        {/*/>*/}
         <MenuItem
           title={this.TEXT_MENU.Term}
           source={require("../../assets/menu/icon_dieukhoan.png")}

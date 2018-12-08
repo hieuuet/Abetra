@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 import { savePost, unsavePost } from "../../actions/loadSavePostActions";
 import { TEXT_MENU_POST, TEXT_COMMON } from "../../language";
+// import {compose } from "redux";
 
 class MenuPost extends Component {
   constructor(props) {
@@ -47,11 +48,11 @@ class MenuPost extends Component {
       this.setState({
         isSave: !this.state.isSave
       });
-      return this.props.props.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_MENU_POST.SavePostSuccess
       });
     } else {
-      return this.props.props.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_MENU_POST.SavePostFail
       });
     }
@@ -75,11 +76,11 @@ class MenuPost extends Component {
       this.setState({
         isSave: !this.state.isSave
       });
-      return this.props.props.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_MENU_POST.UnsavePostSuccess
       });
     } else {
-      return this.props.props.showAlert({
+      return this.props.showAlert({
         content: this.TEXT_MENU_POST.UnsavePostFail
       });
     }
@@ -104,7 +105,7 @@ class MenuPost extends Component {
           }}
         >
           <TouchableOpacity
-            style={{ flex: 5 }}
+            style={{ flex: 6 }}
             onPress={() => onChangeModalVisible(false)}
           />
           <View
@@ -131,7 +132,7 @@ class MenuPost extends Component {
                   <Icon1 name="bookmark" size={25} color="#E0E0E0" />
 
                   <Text style={{ marginLeft: 10 }}>
-                    {this.TEXT_MENU_POST.SavePost}
+                    {this.TEXT_MENU_POST.UnsavePost}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -152,26 +153,26 @@ class MenuPost extends Component {
                   <Icon1 name="bookmark" size={25} color="#E0E0E0" />
 
                   <Text style={{ marginLeft: 10 }}>
-                    {this.TEXT_MENU_POST.UnsavePost}
+                    {this.TEXT_MENU_POST.SavePost}
                   </Text>
                 </View>
               </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={() => onChangeModalVisible(false)}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginLeft: 10,
-                  marginTop: 10
-                }}
-              >
-                <Icon name="report-problem" size={25} color="#E0E0E0" />
-                <Text style={{ marginLeft: 10 }}>
-                  {this.TEXT_MENU_POST.Report}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            {/*<TouchableOpacity onPress={() => onChangeModalVisible(false)}>*/}
+              {/*<View*/}
+                {/*style={{*/}
+                  {/*flexDirection: "row",*/}
+                  {/*alignItems: "center",*/}
+                  {/*marginLeft: 10,*/}
+                  {/*marginTop: 10*/}
+                {/*}}*/}
+              {/*>*/}
+                {/*<Icon name="report-problem" size={25} color="#E0E0E0" />*/}
+                {/*<Text style={{ marginLeft: 10 }}>*/}
+                  {/*{this.TEXT_MENU_POST.Report}*/}
+                {/*</Text>*/}
+              {/*</View>*/}
+            {/*</TouchableOpacity>*/}
           </View>
         </View>
       </Modal>

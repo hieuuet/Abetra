@@ -182,7 +182,6 @@ class TextInputChat extends Component {
               value={this.state.textSubmit}
               returnKeyType={"done"}
               onChangeText={text => {
-                console.log("----------------", text);
                 this.setState({ textSubmit: text });
 
                 this.input_msg = text;
