@@ -29,7 +29,7 @@ inject showAlert to component:
 export default compose(injectShowAlert)(YourComponent);
 
 2. use
-   //Show:
+   - Show:
    `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
-   //Close:
+   - Close:
    `this.props.closeAlert();`
