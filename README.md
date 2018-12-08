@@ -23,13 +23,13 @@ Step:
 inject showAlert to component:
 
 1. import
-   import {compose } from "redux";
-   import injectShowAlert from "../../constant/injectShowAlert";
+   `import {compose } from "redux";`
+   `import injectShowAlert from "../../constant/injectShowAlert";`
 
 export default compose(injectShowAlert)(YourComponent);
 
 2. use
    //Show:
-   this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})
+   `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
    //Close:
-   this.props.closeAlert();
+   `this.props.closeAlert();`
