@@ -215,7 +215,7 @@ export const TEXT_EVENT = () => ({
 });
 export const TEXT_MENU_POST = () => ({
   SavePost: strings("menu_post.save"),
-  UnsavePost: strings("menu_post.save"),
+  UnsavePost: strings("menu_post.unsave"),
   Report: strings("menu_post.report"),
   SavePostSuccess: strings("menu_post.save_post_success"),
   SavePostFail: strings("menu_post.save_post_fail"),
