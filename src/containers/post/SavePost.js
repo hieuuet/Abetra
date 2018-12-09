@@ -59,6 +59,11 @@ class SavePost extends Component {
         ArrPost: savePost.ObjectResult
       });
     }
+    else {
+        this.setState({
+            isLoading: false
+        });
+    }
   };
   _renderLoading = () => {
     return this.state.isLoading ? <ViewLoading /> : null;
