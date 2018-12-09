@@ -30,7 +30,7 @@ const DismissKeyboardHOC = Comp => {
     <TouchableOpacity
       onPress={() => {
         Keyboard.dismiss();
-        onPress();
+        if (onPress) onPress();
       }}
       accessible={false}
       style={[styles.btn, my_style]}
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 30,
-    height: 30 * (53/64)
+    height: 30 * (53 / 64)
   },
   header_wrapper: {
     height: 65,

@@ -18,7 +18,12 @@ import CheckBox from "../../components/CheckBox ";
 import { ButtonBorder, ViewLoading } from "../../components/CommonView";
 import { facebookLogin } from "./Loginfb";
 import { NavigationActions, StackActions } from "react-navigation";
-import { postRegister, loginGuest, loginFacebook } from "../../actions";
+import {
+  postRegister,
+  loginGuest,
+  loginFacebook,
+  postLogin
+} from "../../actions";
 import { bindActionCreators, compose } from "redux";
 import { connect } from "react-redux";
 import injectShowAlert from "../../constant/injectShowAlert";
@@ -26,6 +31,11 @@ import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
+import AccountKit, {
+  LoginButton,
+  Color,
+  StatusBarStyle
+} from "react-native-facebook-account-kit";
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +58,10 @@ class Register extends Component {
     this.TEXT_LOGIN = TEXT_LOGIN();
   }
 
+  componentWillMount() {
+    this.configureAccountKit();
+  }
+
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       const isAlertShow = this.props.closeAlert();
@@ -61,6 +75,76 @@ class Register extends Component {
   componentWillUnmount() {
     this.backHandler.remove();
   }
+
+  configureAccountKit() {
+    AccountKit.configure({
+      theme: {
+        backgroundColor: Color.rgba(0, 125, 0, 1),
+        buttonBackgroundColor: Color.rgba(255, 190, 0, 1),
+        //buttonDisabledBackgroundColor: Color.rgba(100, 153, 0, 0.5),
+        //buttonBorderColor:     Color.rgba(0,255,0,1),
+        //buttonTextColor:       Color.rgba(0,255,0,1),
+        //headerBackgroundColor: Color.rgba(0, 153, 0, 1.00),
+        //headerTextColor:       Color.rgba(0,255,0,1),
+        //headerButtonTextColor: Color.rgba(0,255,0,1),
+        //iconColor:             Color.rgba(0,255,0,1),
+        //inputBackgroundColor:  Color.rgba(0,255,0,1),
+        //inputBorderColor:      Color.hex('#ccc'),
+        //inputTextColor:        Color.hex('#0f0'),
+        //textColor:             Color.hex('#0f0'),
+        //titleColor:            Color.hex('#0f0'),
+        backgroundImage: "../../../assets/background2.png"
+
+        //statusBarStyle:        StatusBarStyle.LightContent,
+      },
+      //countryWhitelist: [ "AR", "BR", "US" ],
+      //countryBlacklist: [ "BR" ],
+      //defaultCountry: "AR"
+      initialEmail: "example.com",
+      initialPhoneCountryPrefix: "+84",
+      responseType: "token" | "code"
+      // initialPhoneNumber: "123-456-7890"
+    });
+  }
+
+  verifyNumberPhone = () => {
+    AccountKit.loginWithPhone()
+      .then(token => {
+        if (!token) {
+          return this.props.showAlert({
+            content: "Bạn chưa xác thực số điện thoại"
+          });
+        }
+        AccountKit.getCurrentAccount()
+          .then(account => {
+            console.log("Current account:", account);
+            let phone =
+              account && account.phoneNumber && account.phoneNumber.number;
+
+            if (!phone)
+              return this.props.showAlert({
+                content: "Không tìm thấy số điện thoại vừa nhập"
+              });
+            // concat country code with phone
+            phone =
+              account &&
+              account.phoneNumber &&
+              account.phoneNumber.countryCode + phone;
+
+            this.callApiRegister(phone);
+          })
+          .catch(error => {
+            return this.props.showAlert({
+              content: "Không tìm thấy số điện thoại vừa nhập"
+            });
+          });
+      })
+      .catch(error => {
+        return this.props.showAlert({
+          content: "Bạn chưa xác thực số điện thoại"
+        });
+      });
+  };
 
   loginAsGuest = () => {
     this.props.loginGuest(true);
@@ -84,15 +168,10 @@ class Register extends Component {
     });
     this.props.navigation.dispatch(resetAction);
   };
-  gotToVerify = () => {
-    this.props.navigation.navigate("InputPhone", {
-      userName: this.dataUser.userName,
-      password: this.dataUser.password,
-      phone: this.dataUser.userName
-    });
-  };
+
   _register = async () => {
-    const { userName, fullName, password, rePassword } = this.dataUser;
+    //validate
+    const { password, rePassword } = this.dataUser;
     console.log("data register", this.dataUser);
 
     if (!this.state.isChecked) {
@@ -119,9 +198,15 @@ class Register extends Component {
       });
     }
 
+    //verify phone with facebook
+    this.verifyNumberPhone();
+  };
+
+  callApiRegister = async phone => {
+    const { userName, fullName, password } = this.dataUser;
     this.setState({ isLoading: true });
     let register = await postRegister({
-      Username: userName,
+      Username: phone,
       FullName: fullName,
       Password: password,
       Email: `${userName}@aibrtra.vn`
@@ -131,7 +216,7 @@ class Register extends Component {
     if (register.ErrorCode === "00") {
       return this.props.showAlert({
         content: register.Message,
-        onSubmit: this.gotToVerify
+        onSubmit: () => this.autoLogin(phone, password)
       });
     } else {
       return this.props.showAlert({
@@ -139,6 +224,18 @@ class Register extends Component {
       });
     }
   };
+
+  autoLogin = async (userName, password) => {
+    const { postLogin } = this.props;
+    this.setState({ isLoading: true });
+    let login = await postLogin({
+      so_dien_thoai: userName,
+      mat_khau: password
+    });
+    this.setState({ isLoading: false });
+    this._handleLoginResult(login);
+  };
+
   handleLoginFB = async () => {
     this.setState({ isLoading: true, isLoadingIndicator: false });
 
@@ -155,7 +252,7 @@ class Register extends Component {
       };
       console.log("dataUser", this.dataUser);
       //TODO: Call api server with data from fb
-      const { userName, fullName, password, email } = this.dataUser;
+      // const { userName, fullName, password, email } = this.dataUser;
 
       this.setState({ isLoading: true });
       const resultLogin = await this.props.loginFacebook({
@@ -176,17 +273,17 @@ class Register extends Component {
   //Handle result after login
   _handleLoginResult = async loginResult => {
     if (loginResult.ErrorCode === "00") {
-      if (
-        !loginResult.Value[0].Phone ||
-        loginResult.Value[0].Phone.length === 0
-      ) {
-        return this.props.navigation.navigate("InputPhone", {
-          userName: loginResult.Value[0].userName,
-          password: "",
-          phone: undefined,
-          isLoginFb: true
-        });
-      }
+      // if (
+      //   !loginResult.Value[0].Phone ||
+      //   loginResult.Value[0].Phone.length === 0
+      // ) {
+      //   return this.props.navigation.navigate("InputPhone", {
+      //     userName: loginResult.Value[0].userName,
+      //     password: "",
+      //     phone: undefined,
+      //     isLoginFb: true
+      //   });
+      // }
       const IntUserID = loginResult.Value[0].IntUserID.toString();
       const ProfileID = loginResult.Value[0].ProfileID.toString();
       if (
@@ -223,11 +320,11 @@ class Register extends Component {
           onChangeText={text => (this.dataUser.fullName = text)}
           style={styles.text_input}
           onSubmitEditing={event => {
-            this.refs.phone.focus();
+            this.refs.pass.focus();
           }}
         />
 
-        <TextInput
+        {/* <TextInput
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           returnKeyType="next"
@@ -240,7 +337,7 @@ class Register extends Component {
           onSubmitEditing={event => {
             this.refs.pass.focus();
           }}
-        />
+        /> */}
 
         <TextInput
           underlineColorAndroid="transparent"
@@ -379,7 +476,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loginGuest: bindActionCreators(loginGuest, dispatch),
-    loginFacebook: bindActionCreators(loginFacebook, dispatch)
+    loginFacebook: bindActionCreators(loginFacebook, dispatch),
+    postLogin: bindActionCreators(postLogin, dispatch)
   };
 };
 

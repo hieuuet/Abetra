@@ -57,7 +57,7 @@ class AccountKitSample extends Component {
       //countryBlacklist: [ "BR" ],
       //defaultCountry: "AR"
       initialEmail: "example.com",
-      initialPhoneCountryPrefix: "+355"
+      initialPhoneCountryPrefix: "+84"
       // initialPhoneNumber: "123-456-7890"
     });
   }

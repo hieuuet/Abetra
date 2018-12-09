@@ -7,7 +7,7 @@ export const IMAGE = {
   search_icon: require("../../assets/search.png"),
   error: require("../../assets/error.png"),
   background: require("../../assets/background.png"),
-  background2: require("../../assets/background2.png"),
+  background2: require("../../assets/background.png"),
   icon_back: require("../../assets/icon_back.png"),
   checked: require("../../assets/ic_check_box.png"),
   unchecked: require("../../assets/ic_check_box_outline_blank.png"),
@@ -46,7 +46,7 @@ export const IMAGE = {
   icon_fanpage: require("../../assets/profile/icon_fanpage.png"),
   icon_fanpage_white: require("../../assets/profile/icon_fanpage_white.png"),
   header_alert: require("../../assets/profile/header_alert.png"),
-    //location
-    location_map: require("../../assets/location/map.png")
-    // header_alert: require("../../assets/profile/header_alert.png")
+  //location
+  location_map: require("../../assets/location/map.png")
+  // header_alert: require("../../assets/profile/header_alert.png")
 };

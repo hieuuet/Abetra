@@ -176,6 +176,7 @@ dependencies {
     implementation (project(':react-native-fast-image')) {
         exclude group: "com.android.support"
     }
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
 }
 
 
@@ -188,3 +189,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

@@ -30,15 +30,71 @@ import { COLOR } from "../../constant/Color";
 import { web } from "../../components/Communications";
 import BackgroundImage from "../../components/BackgroundImage";
 import { NavigationActions, StackActions } from "react-navigation";
+import AccountKit, {
+  LoginButton,
+  Color,
+  StatusBarStyle
+} from "react-native-facebook-account-kit";
 class VerifyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      authToken: null,
+      loggedAccount: null
     };
     this.verifyCode = "";
     this.TEXT_COMMON = TEXT_COMMON();
     this.TEXT_VERIFY = TEXT_VERIFY();
+  }
+
+  componentWillMount() {
+    this.configureAccountKit();
+
+    AccountKit.getCurrentAccessToken()
+      .then(token => {
+        if (token) {
+          AccountKit.getCurrentAccount().then(account => {
+            this.setState({
+              authToken: token,
+              loggedAccount: account
+            });
+          });
+        } else {
+          console.log("No user account logged");
+        }
+      })
+      .catch(e => console.log("Failed to get current access token", e));
+  }
+
+  configureAccountKit() {
+    AccountKit.configure({
+      theme: {
+        //backgroundColor:       Color.rgba(0,120,0,0.1),
+        //buttonBackgroundColor: Color.rgba(0, 153, 0, 1.00),
+        //buttonDisabledBackgroundColor: Color.rgba(100, 153, 0, 0.5),
+        //buttonBorderColor:     Color.rgba(0,255,0,1),
+        //buttonTextColor:       Color.rgba(0,255,0,1),
+        //headerBackgroundColor: Color.rgba(0, 153, 0, 1.00),
+        //headerTextColor:       Color.rgba(0,255,0,1),
+        //headerButtonTextColor: Color.rgba(0,255,0,1),
+        //iconColor:             Color.rgba(0,255,0,1),
+        //inputBackgroundColor:  Color.rgba(0,255,0,1),
+        //inputBorderColor:      Color.hex('#ccc'),
+        //inputTextColor:        Color.hex('#0f0'),
+        //textColor:             Color.hex('#0f0'),
+        //titleColor:            Color.hex('#0f0'),
+        //backgroundImage:       "background.png",
+        //statusBarStyle:        StatusBarStyle.LightContent,
+      },
+      //countryWhitelist: [ "AR", "BR", "US" ],
+      //countryBlacklist: [ "BR" ],
+      //defaultCountry: "AR"
+      initialEmail: "example.com",
+      initialPhoneCountryPrefix: "+84",
+      responseType: "code"
+      // initialPhoneNumber: "123-456-7890"
+    });
   }
 
   verify = async () => {
@@ -62,7 +118,16 @@ class VerifyAccount extends Component {
     await this._login();
   };
   reSendCode = () => {
-    return this.props.showAlert({ content: this.TEXT_COMMON.FeatureDev });
+    AccountKit.loginWithPhone().then(token => {
+      if (!token) {
+        console.log("Login cancelled");
+      } else {
+        console.log(`Logged with phone. Token: ${token}`);
+      }
+      console.log("token-------------", token);
+      
+    });
+    // return this.props.showAlert({ content: this.TEXT_COMMON.FeatureDev });
   };
   loadUserProfile = async userID => {
     const { loadUserProfile } = this.props;
@@ -120,6 +185,25 @@ class VerifyAccount extends Component {
     }
   };
 
+  onLogin(token) {
+    console.log("errrr", token);
+    if (!token) {
+      console.warn("User canceled login");
+      this.setState({});
+    } else {
+      AccountKit.getCurrentAccount().then(account => {
+        this.setState({
+          authToken: token,
+          loggedAccount: account
+        });
+      });
+    }
+  }
+
+  onLoginError(e) {
+    console.log("Failed to login", e);
+  }
+
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
@@ -134,7 +218,18 @@ class VerifyAccount extends Component {
           style={styles.text_input}
         />
         {/* <Text style={styles.text_info}>{TEXT_VERIFY.Info}</Text> */}
-        <ButtonBorder label={this.TEXT_COMMON.Confirm} onPress={this.verify} />
+        <LoginButton
+          style={styles.button}
+          type="phone"
+          onLogin={token => this.onLogin(token)}
+          onError={e => this.onLogin(e)}
+        >
+          {/* <ButtonBorder
+            label={this.TEXT_COMMON.Confirm}
+            // onPress={() => this.onLogin(token)}
+          /> */}
+          <Text style={styles.buttonText}>{this.TEXT_COMMON.Confirm}</Text>
+        </LoginButton>
 
         <Text style={styles.text_info}>{this.TEXT_VERIFY.NotRecevie}</Text>
         <ButtonBorder

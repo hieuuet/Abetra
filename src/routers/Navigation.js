@@ -57,6 +57,12 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+  VerifyAccount: {
+    screen: VerifyAccount,
+    navigationOptions: {
+      header: null
+    }
+  },
   InputPhone: {
     screen: InputPhone,
     navigationOptions: {
@@ -95,13 +101,6 @@ const RootStack = createStackNavigator({
   },
   ChangePassword: {
     screen: ChangePassword,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  VerifyAccount: {
-    screen: VerifyAccount,
     navigationOptions: {
       header: null
     }

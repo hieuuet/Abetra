@@ -27,10 +27,10 @@ class SplashScreen extends Component {
     this.checkLoginNavigate();
   }
   shouldComponentUpdate() {
-    this.img_bg =
-      this.props.currentLanguage.Code === "vi-VN"
-        ? IMAGE.intro_vi
-        : IMAGE.intro_en;
+    // this.img_bg =
+    //   this.props.currentLanguage.Code === "vi-VN"
+    //     ? IMAGE.intro_vi
+    //     : IMAGE.intro_en;
     return true;
   }
   checkLoginNavigate = async () => {
@@ -79,7 +79,7 @@ class SplashScreen extends Component {
       <BackgroundImage
         isIntro={true}
         showBackIcon={false}
-        source_img={this.img_bg}
+        source_img={IMAGE.intro_vi}
       >
         <StatusBar hidden={true} />
       </BackgroundImage>
