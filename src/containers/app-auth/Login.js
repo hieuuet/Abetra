@@ -186,12 +186,20 @@ class Login extends Component {
       </View>
     );
   };
+
   _renderFooter = () => {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
+          <Text style={style_common.text_color_White}>
+            {this.TEXT_COMMON.FanPage}
+          </Text>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
-            <Text style={styles.text_login}>{this.TEXT_COMMON.FanPage}</Text>
+            <Image
+              style={styles.img_fb}
+              resizeMode="cover"
+              source={IMAGE.icon_fanpage_white}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -316,5 +324,10 @@ const styles = StyleSheet.create({
   txt_underline: {
     textDecorationLine: "underline",
     paddingLeft: 5
+  },
+  img_fb: {
+    marginLeft: 5,
+    width: 20 * (223 / 74),
+    height: 20
   }
 });

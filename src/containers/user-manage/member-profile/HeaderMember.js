@@ -79,28 +79,11 @@ class HeaderMember extends Component {
             </View>
           </View>
           <View style={styles.wrapper_right}>
-            <EditView
-              text_edit={
-                (this.props.userProfile && this.props.userProfile.FullName) ||
-                "Not Found"
-              }
-              type={1}
-              isEditAble={false}
-              style_edit={styles.edit_name}
-              onSubmit={text => {
-                if (
-                  !this.props.userProfile ||
-                  text.trim() === this.props.userProfile.FullName
-                )
-                  return;
-                this.props.userProfile.FullName = text.trim();
-                this.callApiUpdateProfile({
-                  field: "FullName",
-                  value: text.trim()
-                });
-              }}
-            />
-            <Text style={styles.edit_userName}>
+            <Text style={styles.edit_name}>
+              {(this.props.userProfile && this.props.userProfile.FullName) ||
+                "Not Found"}
+            </Text>
+            {/* <Text style={styles.edit_userName}>
               {getGender(this.props.userProfile.Gender)}
             </Text>
             <Text style={styles.edit_userName}>
@@ -111,7 +94,7 @@ class HeaderMember extends Component {
                   ? formatDate(this.props.userProfile.BirdDate)
                   : ""
               }`}
-            </Text>
+            </Text> */}
             <Text style={styles.edit_userName}>
               {`${(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Mobile) ||
                 ""}: ${
@@ -154,10 +137,15 @@ class HeaderMember extends Component {
                 this.props.navigation.navigate("CertificateMember");
               }}
             >
-              <Text style={styles.text_link}>
-                {`• ${(this.props.TEXT_PROFILE &&
-                  this.props.TEXT_PROFILE.Certificate) ||
-                  ""}`}
+              <Text>
+                <Text style={{color: COLOR.COLOR_WHITE }}>
+                  •{" "}
+                </Text>
+                <Text style={styles.text_link}>
+                  {`${(this.props.TEXT_PROFILE &&
+                    this.props.TEXT_PROFILE.Certificate) ||
+                    ""}`}
+                </Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -267,7 +255,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 35,
-    height: 35 * (53/64)
+    height: 35 * (53 / 64)
   },
   wrap_header: {
     flexDirection: "row",
@@ -276,6 +264,7 @@ const styles = StyleSheet.create({
     margin: 10
   },
   text_link: {
-    color: COLOR.COLOR_TEXT_SEA
+    color: COLOR.COLOR_WHITE,
+    textDecorationLine: "underline"
   }
 });
