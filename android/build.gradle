@@ -28,3 +28,12 @@ allprojects {
 		 jcenter()
     }
 }
+subprojects {project ->
+    if (project.name.contains('react-native-fast-image') || project.name.contains('react-native-vector-icons')) {
+        buildscript {
+            repositories {
+                maven { url  'https://dl.bintray.com/android/android-tools/'  }
+            }
+        }
+    }
+}

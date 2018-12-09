@@ -114,11 +114,17 @@ class Login extends Component {
     if (loginResult.ErrorCode === "00") {
       const IntUserID = loginResult.Value[0].IntUserID.toString();
       const ProfileID = loginResult.Value[0].ProfileID.toString();
+      const Status = loginResult.Value[0].Status;
+
       if (
         loginResult.Value &&
         loginResult.Value.length > 0 &&
         loginResult.Value[0].UserID
       ) {
+        if (Status === 0) {
+          return this.props.showAlert({ content: this.TEXT_LOGIN.NotActive });
+        }
+
         await AsyncStorage.setItem(USER_ID, loginResult.Value[0].UserID);
         await AsyncStorage.setItem("IntUserID", IntUserID);
         await AsyncStorage.setItem("ProfileID", ProfileID);

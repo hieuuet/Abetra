@@ -16,7 +16,8 @@ export const TEXT_LOGIN = () => ({
   InputPass: strings("login.input_pass"),
   NotAccount: strings("login.not_account"),
   LoginGuest: strings("login.login_guest"),
-  Register: TEXT_REGISTER().Register
+  Register: TEXT_REGISTER().Register,
+  NotActive: strings("login.not_active")
 });
 export const TEXT_COMMON = () => ({
   LoginFB: strings("common.login_fb"),

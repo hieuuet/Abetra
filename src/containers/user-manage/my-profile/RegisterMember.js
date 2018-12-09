@@ -8,7 +8,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  WebView
 } from "react-native";
 import { isEqual } from "lodash";
 import style_common from "../../../style-common";
@@ -19,13 +20,14 @@ import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
 import {
-  getGuide,
+  // getGuide,
   loadUserProfile,
+  getcommonSetting,
   getAllRank,
   getAllHashTag,
   getAllCategory
 } from "../../../actions";
-import ListImage from "../../../components/ListImage";
+// import ListImage from "../../../components/ListImage";
 import { bindActionCreators } from "redux";
 import { TEXT_REGISTER_MEMBER } from "../../../language";
 import {
@@ -50,6 +52,7 @@ class RegisterMember extends Component {
       isLoading: false
     };
     this.imageArr = [];
+    this.ChinhSach = "";
     this.radioTypeData = [
       {
         label: this.TEXT_REGISTER_MEMBER.Personal,
@@ -67,10 +70,13 @@ class RegisterMember extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    // getcommonSetting({ Option: 2 }, false)
-    getGuide()
+    // getGuide()
+    getcommonSetting({ Option: 7 }, false)
       .then(data => {
-        this.imageArr = data.Value || [];
+        // this.imageArr = data.Value || [];
+        this.ChinhSach =
+          (data && data.Value && data.Value[0] && data.Value[0].ChinhSach) ||
+          "";
         this.setState({ isLoading: false });
       })
       .catch(err => this.setState({ isLoading: false }));
@@ -279,10 +285,18 @@ class RegisterMember extends Component {
             <Text style={style_common.text_h1}>
               {this.TEXT_REGISTER_MEMBER.GuideRegister.toUpperCase()}
             </Text>
-            <ListImage
+            <WebView
+              automaticallyAdjustContentInsets={false}
+              source={{ html: this.ChinhSach, baseUrl: "" }}
+              style={{ height: 250, width: "100%" }}
+              javaScriptEnabledAndroid={true}
+              mixedContentMode="always"
+              scalesPageToFit={Platform.OS === "ios" ? false : true}
+            />
+            {/* <ListImage
               imageArr={this.imageArr}
               navigation={this.props.navigation}
-            />
+            /> */}
 
             <View style={styles.container_register}>
               <ButtonBackGround

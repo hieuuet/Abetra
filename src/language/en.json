@@ -3,7 +3,8 @@
     "input_phone": "Input Number Phone",
     "input_pass": "Input Password",
     "login_guest": "Use Guest",
-    "not_account": "No Account"
+    "not_account": "No Account",
+    "not_active": "Account not active"
   },
   "common": {
     "txt_fanpage": "Contact fanpage for support",

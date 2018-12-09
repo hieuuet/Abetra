@@ -148,12 +148,12 @@ class Menu extends Component {
                         style={styles.style_menu}
                         onPress={() => this.props.screenProps.navigate("Language")}
                     />
-                    <MenuItem
+                    {/* <MenuItem
                         title={this.TEXT_MENU.Support}
                         // title={strings("menu.support")}
                         source={require("../../assets/menu/icon_theodoi.png")}
                         style={styles.style_menu}
-                    />
+                    /> */}
                     <MenuItem
                         title={
                             this.props.isGuest ? this.TEXT_MENU.Login : this.TEXT_MENU.Logout

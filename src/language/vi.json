@@ -3,7 +3,8 @@
     "input_phone": "Số điện thoại",
     "input_pass": "Mật khẩu",
     "login_guest": "Dùng tài khoản khách",
-    "not_account": "Chưa có tài khoản"
+    "not_account": "Chưa có tài khoản",
+    "not_active": "Tài khoản chưa được xác thực"
   },
   "common": {
     "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",
