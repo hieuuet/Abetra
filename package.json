@@ -15,6 +15,7 @@
     "moment": "^2.22.2",
     "react": "16.3.1",
     "react-native": "0.55.4",
+    "react-native-communications": "^2.2.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-emoji-selector": "^0.1.6",
     "react-native-facebook-account-kit": "^1.0.0",

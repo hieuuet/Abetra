@@ -18,6 +18,8 @@ export const IMAGE = {
   avatar_default: require("../../assets/avatar.png"),
   intro_vi: require("../../assets/intro_vi.png"),
   intro_en: require("../../assets/intro_en.png"),
+  menu_save: require("../../assets/icon_luu.png"),
+  menu_saved: require("../../assets/icon_luu_daluu.png"),
 
   //profile
   bg_head_profile: require("../../assets/profile/bg_head.png"),
@@ -43,5 +45,8 @@ export const IMAGE = {
   star: require("../../assets/profile/star.png"),
   icon_fanpage: require("../../assets/profile/icon_fanpage.png"),
   icon_fanpage_white: require("../../assets/profile/icon_fanpage_white.png"),
-  header_alert: require("../../assets/profile/header_alert.png")
+  header_alert: require("../../assets/profile/header_alert.png"),
+    //location
+    location_map: require("../../assets/location/map.png")
+    // header_alert: require("../../assets/profile/header_alert.png")
 };

@@ -385,14 +385,13 @@ class StatusItems extends Component {
 
                     <View
                         style={{
-                            marginHorizontal: 10,
+                            marginHorizontal: 15,
                             flexDirection: "row",
                             marginTop: 5,
                             justifyContent: "space-between",
                             alignItems: "center"
                         }}
                     >
-                        <View style={{flexDirection: "row"}}>
                             <View>
                             {this.state.liked ?
                                 <TouchableOpacity
@@ -400,7 +399,7 @@ class StatusItems extends Component {
                                     onPress={() => this.unlikePost(item.PostID)}
                                 >
                                     <View style={styles.view_border}>
-                                        <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                        <View style={{width: 15, height: 15}}>
 
                                             <Image
                                                 style={{width: null, height: null, flex: 1}}
@@ -416,7 +415,7 @@ class StatusItems extends Component {
                                     onPress={() => this.likePost(item.PostID)}
                                 >
                                     <View style={styles.view_border}>
-                                        <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                        <View style={{width: 15, height: 15,}}>
 
                                             <Image
                                                 style={{width: null, height: null, flex: 1}}
@@ -446,7 +445,7 @@ class StatusItems extends Component {
                                 }}
                             >
                                 <View style={styles.view_border}>
-                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                    <View style={{width: 15, height: 15}}>
                                         <Image
                                             style={{width: null, height: null, flex: 1}}
                                             source={require("../../assets/icon_comment.png")}
@@ -458,7 +457,7 @@ class StatusItems extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.onShare()}>
                                 <View style={styles.view_border}>
-                                    <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                    <View style={{width: 15, height: 15}}>
                                         <Image
                                             style={{width: null, height: null, flex: 1}}
                                             source={require("../../assets/icon_share.png")}
@@ -468,11 +467,10 @@ class StatusItems extends Component {
                                     <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
                                 </View>
                             </TouchableOpacity>
-                        </View>
 
                         {item.Type == 2 ? (
                             <View style={styles.view_border}>
-                                <View style={{width: 15, height: 15, marginLeft: 10}}>
+                                <View style={{width: 15, height: 15}}>
                                     <TouchableOpacity
                                         style={{flex: 1}}
                                         onPress={() => this._joinEvent(item.PostID)}
@@ -674,7 +672,6 @@ const styles = StyleSheet.create({
     },
     view_border: {
         flexDirection: "row",
-        marginLeft: 10,
         alignItems: "center"
     },
     text_action: {
