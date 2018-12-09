@@ -86,6 +86,7 @@
   "profile": {
     "account": "Infomation",
     "member": "Member",
+    "activity":"Activity",
     "change_pass": "Change Password",
     "birth_day": "Birth Day",
     "email": "Email",

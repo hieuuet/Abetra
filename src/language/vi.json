@@ -86,6 +86,7 @@
   "profile": {
     "account": "Thông tin",
     "member": "Hội viên",
+    "activity":"Hoạt động",
     "change_pass": "Đổi mật khẩu",
     "birth_day": "Ngày sinh",
     "email": "Email",
