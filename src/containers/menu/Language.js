@@ -18,6 +18,8 @@ import { IMAGE } from "../../constant/assets";
 import { LANGUAGE } from "../../constant/KeyConstant";
 import { isEqual } from "lodash";
 import { TEXT_MENU } from "../../language";
+import { compose } from "redux";
+import injectShowAlert from "../../constant/injectShowAlert";
 
 class Language extends Component {
   constructor(props) {
@@ -150,7 +152,7 @@ Language = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Language);
-export default Language;
+export default compose(injectShowAlert)(Language);
 
 const styles = StyleSheet.create({
   icon: {

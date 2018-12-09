@@ -90,7 +90,9 @@ class HeaderProfile extends Component {
       <View style={style_common.container}>
         <TouchableOpacity
           style={styles.btn_back}
-          onPress={() => this.props.onBackPress() ||this.props.navigation.goBack()}
+          onPress={() =>
+            this.props.onBackPress() || this.props.navigation.goBack()
+          }
         >
           <Image
             style={styles.img_back}
@@ -247,10 +249,13 @@ class HeaderProfile extends Component {
                 this.props.navigation.navigate("CertificateMember");
               }}
             >
-              <Text style={styles.text_link}>
-                {`• ${(this.props.TEXT_PROFILE &&
-                  this.props.TEXT_PROFILE.Certificate) ||
-                  ""}`}
+              <Text>
+                <Text style={{ color: COLOR.COLOR_WHITE }}>• </Text>
+                <Text style={styles.text_link}>
+                  {`${(this.props.TEXT_PROFILE &&
+                    this.props.TEXT_PROFILE.Certificate) ||
+                    ""}`}
+                </Text>
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -258,10 +263,13 @@ class HeaderProfile extends Component {
                 this.props.navigation.navigate("Benifet");
               }}
             >
-              <Text style={styles.text_link}>
-                {`• ${(this.props.TEXT_PROFILE &&
-                  this.props.TEXT_PROFILE.Term) ||
-                  ""}`}
+              <Text>
+                <Text style={{ color: COLOR.COLOR_WHITE }}>• </Text>
+                <Text style={styles.text_link}>
+                  {`${(this.props.TEXT_PROFILE &&
+                    this.props.TEXT_PROFILE.Term) ||
+                    ""}`}
+                </Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -379,7 +387,7 @@ const styles = StyleSheet.create({
   },
   img_back: {
     width: 35,
-    height: 35 * (53/64)
+    height: 35 * (53 / 64)
   },
   iconedit: {
     width: 20,
@@ -401,6 +409,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   text_link: {
-    color: COLOR.COLOR_TEXT_SEA
+    color: COLOR.COLOR_WHITE,
+    textDecorationLine: "underline"
   }
 });

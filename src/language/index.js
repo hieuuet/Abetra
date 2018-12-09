@@ -101,6 +101,7 @@ export const TEXT_MENU = () => {
 export const TEXT_PROFILE = () => ({
   Account: strings("profile.account"),
   Member: strings("profile.member"),
+  Activity: strings("profile.activity"),
   ChangePass: strings("profile.change_pass"),
   Birth_day: strings("profile.birth_day"),
   Email: strings("profile.email"),
@@ -257,7 +258,7 @@ export const TEXT_TYPE_ACCOUNT = () => ({
 export const TEXT_POST = () => ({
   DetailPost: strings("post.detail_post"),
   Join: strings("post.join"),
-    Like: strings("post.like"),
-    Share: strings("post.share"),
-    Cmt: strings("post.cmt"),
+  Like: strings("post.like"),
+  Share: strings("post.share"),
+  Cmt: strings("post.cmt")
 });

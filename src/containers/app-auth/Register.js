@@ -30,7 +30,7 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isChecked: false,
+      isChecked: true,
       isLoading: false,
       isLoadingIndicator: true
     };

@@ -19,8 +19,7 @@ import { connect } from "react-redux";
 import { TYPE_ACCOUNT } from "../../../constant/KeyConstant";
 import { ViewLoading, CustomizeHeader } from "../../../components/CommonView";
 import {
-  // getGuide,
-  getcommonSetting,
+  getGuide,
   loadUserProfile,
   getAllRank,
   getAllHashTag,
@@ -68,8 +67,8 @@ class RegisterMember extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    // getGuide()
-    getcommonSetting({ Option: 2 }, false)
+    // getcommonSetting({ Option: 2 }, false)
+    getGuide()
       .then(data => {
         this.imageArr = data.Value || [];
         this.setState({ isLoading: false });
