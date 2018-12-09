@@ -32,3 +32,6 @@ inject showAlert to component:</br>
    `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
    - Close:</br>
    `this.props.closeAlert();`
+   
+ #fix bug Could not find lint-gradle-api.jar (com.android.tools.lint:lint-gradle-api:26.1.2).
+   - thêm google() vào build.grade lib react-native-share
