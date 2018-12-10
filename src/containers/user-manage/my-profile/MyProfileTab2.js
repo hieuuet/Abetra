@@ -21,6 +21,8 @@ import { searchPost2 } from "../../../actions";
 import { TYPE_POST, TYPE_POST_PIN } from "../../../constant/KeyConstant";
 import StatusItems from "../../../components/StatusItems";
 import { IMAGE } from "../../../constant/assets";
+import FastImage from "react-native-fast-image";
+import { URL_BASE } from "../../../constant/api";
 
 class MyProfileTab2 extends Component {
   constructor(props) {
@@ -109,6 +111,11 @@ class MyProfileTab2 extends Component {
 
   _renderMember = () => {
     console.log("render tab2");
+    const source_avatar =
+      this.props.dataUser && this.props.dataUser.Avatar
+        ? { uri: URL_BASE + this.props.dataUser.Avatar }
+        : IMAGE.logo;
+
     return (
       <KeyboardAvoidingView
         style={style_common.container}
@@ -131,12 +138,6 @@ class MyProfileTab2 extends Component {
                   style={styles.iconedit}
                 />
               </TouchableOpacity>
-              {/* <ButtonBorder
-                my_style={[style_common.input_border, styles.btn_save]}
-                text_style={styles.text_btn}
-                label={this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Edit}
-                onPress={this.props.onClickShowModal}
-              /> */}
             </View>
             <HashTagEdit
               data={this.tagSelected}
@@ -144,19 +145,32 @@ class MyProfileTab2 extends Component {
               numColumns={2}
               ref="hashTag"
             />
-            <Text style={styles.marginText}>
+            {/* <Text style={styles.marginText}>
               {this.props.TEXT_PROFILE &&
                 this.props.TEXT_PROFILE.CreateNewPost &&
                 this.props.TEXT_PROFILE.CreateNewPost.toUpperCase()}
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("CreatePost")}
-              style={styles.btn_create_post}
+            </Text> */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
             >
-              <Text style={style_common.text_color_base}>
-                {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.InputPost}
-              </Text>
-            </TouchableOpacity>
+              <FastImage
+                style={styles.avatar}
+                source={source_avatar}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("CreatePost")}
+                style={styles.btn_create_post}
+              >
+                <Text style={style_common.text_color_base}>
+                  {this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.InputPost}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Text style={style_common.text_color_base}>
               {this.props.TEXT_PROFILE &&
                 this.props.TEXT_PROFILE.PostCreated &&
@@ -220,6 +234,13 @@ MyProfileTab2.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 0.5,
+    borderColor: COLOR.COLOR_GRAY
+  },
   iconedit: {
     width: 20,
     height: 20,
@@ -235,22 +256,19 @@ const styles = StyleSheet.create({
   text_btn: {
     color: COLOR.COLOR_BLACK
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50
-  },
   btn_create_post: {
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "flex-start",
-    paddingLeft: 5,
+    paddingLeft: 10,
     marginTop: 10,
     marginBottom: 10,
+    marginLeft: 10,
     borderColor: COLOR.COLOR_GRAY,
     backgroundColor: COLOR.COLOR_WHITE,
     borderRadius: 25,
-    minHeight: 40
+    minHeight: 35,
+    flex: 1
   },
   text_h1: {
     alignSelf: "stretch",

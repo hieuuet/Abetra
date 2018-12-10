@@ -67,11 +67,27 @@ class Profile extends Component {
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return !(
-      isEqual(nextProps.userProfile, this.props.userProfile) &&
-      isEqual(nextProps.allHashTag, this.props.allHashTag) &&
-      isEqual(nextProps.allRank, this.props.allRank) &&
-      isEqual(nextState, this.state)
+    //check when register member success back and reload
+    let isTypeChange = false;
+    try {
+      if (
+        nextProps.userProfile.Value[0].Type !==
+        this.props.userProfile.Value[0].Type
+      ) {
+        isTypeChange = true;
+      }
+    } catch (e) {
+      console.log("exception", e);
+    }
+    //end check
+
+    return (
+      !(
+        isEqual(nextProps.userProfile, this.props.userProfile) &&
+        isEqual(nextProps.allHashTag, this.props.allHashTag) &&
+        isEqual(nextProps.allRank, this.props.allRank) &&
+        isEqual(nextState, this.state)
+      ) || isTypeChange
     );
   }
   componentWillUnmount() {

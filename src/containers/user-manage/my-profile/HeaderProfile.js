@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   wrapper_left: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "center",
   },
   wrap_avatar: {
     flex: 2,
@@ -406,7 +406,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 10,
-    flex: 1
+    flex: 1,
+    marginBottom: 40
   },
   text_link: {
     color: COLOR.COLOR_WHITE,

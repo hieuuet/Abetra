@@ -75,6 +75,12 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+    }
+  },
   Intro: {
     screen: Intro,
     navigationOptions: {
@@ -87,12 +93,7 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      header: null
-    }
-  },
+
   ChangePhone: {
     screen: ChangePhone,
     navigationOptions: {

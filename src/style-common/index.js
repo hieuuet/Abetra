@@ -3,7 +3,8 @@ import { COLOR } from "../constant/Color";
 //eslint-disable-next-line
 export default (style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    
   },
   container_white: {
     flex: 1,
