@@ -23,15 +23,25 @@ Step:
 inject showAlert to component:</br>
 
 1. import</br>
+
    `import {compose } from "redux";`</br>
+
    `import injectShowAlert from "../../constant/injectShowAlert";`</br>
+
    `export default compose(injectShowAlert)(YourComponent);`</br>
 
 2. use</br>
+
    - Show:</br>
-   `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
+
+     `this.props.showAlert({title:'title',content:'content',labelSubmit:'submit", labelClose:'close',onSubmit:()=>{},onClose:()=>{}})`
+
    - Close:</br>
-   `this.props.closeAlert();`
-   
- #fix bug Could not find lint-gradle-api.jar (com.android.tools.lint:lint-gradle-api:26.1.2).
-   - thêm google() vào build.grade lib react-native-share
+
+     `this.props.closeAlert();`
+
+#fix bug Could not find lint-gradle-api.jar (com.android.tools.lint:lint-gradle-api:26.1.2).
+
+- thêm google() vào build.grade lib react-native-share
+
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/

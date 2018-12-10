@@ -31,11 +31,7 @@ import { TEXT_COMMON, TEXT_LOGIN, TEXT_REGISTER } from "../../language";
 import BackgroundImage from "../../components/BackgroundImage";
 import { COLOR } from "../../constant/Color";
 import { USER_ID } from "../../constant/KeyConstant";
-import AccountKit, {
-  LoginButton,
-  Color,
-  StatusBarStyle
-} from "react-native-facebook-account-kit";
+import AccountKit, { Color } from "react-native-facebook-account-kit";
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -112,7 +108,7 @@ class Register extends Component {
       .then(token => {
         if (!token) {
           return this.props.showAlert({
-            content: "Bạn chưa xác thực số điện thoại"
+            content: this.TEXT_LOGIN.NotVerify
           });
         }
         AccountKit.getCurrentAccount()
@@ -123,7 +119,7 @@ class Register extends Component {
 
             if (!phone)
               return this.props.showAlert({
-                content: "Không tìm thấy số điện thoại vừa nhập"
+                content: this.TEXT_LOGIN.NotFoundPhone
               });
             // concat country code with phone
             phone =
@@ -135,13 +131,13 @@ class Register extends Component {
           })
           .catch(error => {
             return this.props.showAlert({
-              content: "Không tìm thấy số điện thoại vừa nhập"
+              content: this.TEXT_LOGIN.NotFoundPhone
             });
           });
       })
       .catch(error => {
         return this.props.showAlert({
-          content: "Bạn chưa xác thực số điện thoại"
+          content: this.TEXT_LOGIN.NotVerify
         });
       });
   };

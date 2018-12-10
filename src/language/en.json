@@ -4,7 +4,9 @@
     "input_pass": "Input Password",
     "login_guest": "Use Guest",
     "not_account": "No Account",
-    "not_active": "Account not active"
+    "not_active": "Account not active",
+    "not_verify": "You not verify number phone",
+    "not_found_phone": "Not found number phone"
   },
   "common": {
     "txt_fanpage": "Contact fanpage for support",
@@ -87,7 +89,7 @@
   "profile": {
     "account": "Infomation",
     "member": "Member",
-    "activity":"Activity",
+    "activity": "Activity",
     "change_pass": "Change Password",
     "birth_day": "Birth Day",
     "email": "Email",

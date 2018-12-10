@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Image,
   KeyboardAvoidingView,
   FlatList
 } from "react-native";
@@ -123,12 +124,19 @@ class MyProfileTab2 extends Component {
                   this.props.TEXT_PROFILE.TypeBusiness &&
                   this.props.TEXT_PROFILE.TypeBusiness.toUpperCase()}
               </Text>
-              <ButtonBorder
+              <TouchableOpacity onPress={this.props.onClickShowModal}>
+                <Image
+                  source={IMAGE.btn_edit}
+                  resizeMode="cover"
+                  style={styles.iconedit}
+                />
+              </TouchableOpacity>
+              {/* <ButtonBorder
                 my_style={[style_common.input_border, styles.btn_save]}
                 text_style={styles.text_btn}
                 label={this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Edit}
                 onPress={this.props.onClickShowModal}
-              />
+              /> */}
             </View>
             <HashTagEdit
               data={this.tagSelected}
@@ -212,6 +220,11 @@ MyProfileTab2.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  iconedit: {
+    width: 20,
+    height: 20,
+    marginTop: 5
+  },
   parent: {
     flex: 1,
     padding: 10

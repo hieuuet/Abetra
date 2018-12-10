@@ -121,9 +121,9 @@ class Login extends Component {
         loginResult.Value.length > 0 &&
         loginResult.Value[0].UserID
       ) {
-        if (Status === 0) {
-          return this.props.showAlert({ content: this.TEXT_LOGIN.NotActive });
-        }
+        // if (Status === 0) {
+        //   return this.props.showAlert({ content: this.TEXT_LOGIN.NotActive });
+        // }
 
         await AsyncStorage.setItem(USER_ID, loginResult.Value[0].UserID);
         await AsyncStorage.setItem("IntUserID", IntUserID);

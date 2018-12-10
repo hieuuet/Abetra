@@ -4,7 +4,9 @@
     "input_pass": "Mật khẩu",
     "login_guest": "Dùng tài khoản khách",
     "not_account": "Chưa có tài khoản",
-    "not_active": "Tài khoản chưa được xác thực"
+    "not_active": "Tài khoản chưa được xác thực",
+    "not_verify":"Bạn chưa xác thực số điện thoại",
+    "not_found_phone":"Không tìm thấy số điện thoại vừa nhập"
   },
   "common": {
     "txt_fanpage": "Để được hỗ trợ vui lòng liên hệ qua fanpage",

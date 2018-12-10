@@ -1,6 +1,12 @@
-export const URL_BASE = "http://123.16.53.210:9000";
-export const URL_REALTIME = "http://123.16.53.210:9005";
-export const URL_SOCKET = "http://123.16.53.210:9006/";
+// export const URL_BASE = "http://123.16.53.210:9000";
+// export const URL_REALTIME = "http://123.16.53.210:9005";
+// export const URL_SOCKET = "http://123.16.53.210:9006/";
+export const URL_BASE = "http://aibetra.pateco.vn";
+export const URL_REALTIME = "http://aibetra.pateco.vn:81";
+export const URL_SOCKET = "http://aibetra.pateco.vn:82";
+// export const URL_BASE = "http://125.212.248.79:80";
+// export const URL_REALTIME = "http://125.212.248.79:81";
+// export const URL_SOCKET = "http://125.212.248.79:82";
 export const API = {
   //user
 
@@ -70,8 +76,7 @@ export const API = {
   //enterprise
   ALL_ENTERPRISE: `${URL_BASE}/Enterprise/Getall`,
 
-  UPDATE_PHONE_FB:`${URL_BASE}/api/Users/UpdatePhoneByFB`,
-  SEND_OTP:`${URL_BASE}/api/Users/SendOTP`,
-  VERIFY_OTP:`${URL_BASE}/api/Users/VetifyOTP`,
-
+  UPDATE_PHONE_FB: `${URL_BASE}/api/Users/UpdatePhoneByFB`,
+  SEND_OTP: `${URL_BASE}/api/Users/SendOTP`,
+  VERIFY_OTP: `${URL_BASE}/api/Users/VetifyOTP`
 };

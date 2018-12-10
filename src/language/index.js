@@ -11,13 +11,16 @@ export const TEXT_REGISTER = () => ({
   PassLenght: strings("register.pass_lenght"),
   RequiredTerm: strings("register.required_term")
 });
+
 export const TEXT_LOGIN = () => ({
   InputPhone: strings("login.input_phone"),
   InputPass: strings("login.input_pass"),
   NotAccount: strings("login.not_account"),
   LoginGuest: strings("login.login_guest"),
   Register: TEXT_REGISTER().Register,
-  NotActive: strings("login.not_active")
+  NotActive: strings("login.not_active"),
+  NotVerify: strings("login.not_verify"),
+  NotFoundPhone: strings("login.not_found_phone")
 });
 export const TEXT_COMMON = () => ({
   LoginFB: strings("common.login_fb"),

@@ -41,7 +41,9 @@ class SplashScreen extends Component {
     let arrSlide = [];
     if (isFirstInstall === null) {
       routerName = "Intro";
-      allLanguage = await getAllLanguage().then(data => data.Value || []);
+      allLanguage = await getAllLanguage()
+        .then(data => data.Value || [])
+        .catch(err => console.log("err---", err));
       await AsyncStorage.setItem(
         LANGUAGE,
         JSON.stringify(

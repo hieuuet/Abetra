@@ -31,13 +31,14 @@ export const getRequestApi = async (url, isShowLog = false) => {
       type: "SHOW_ALERT",
       payload: {
         id: randomString(10),
-        isShow:true,
+        isShow: true,
         content: "Mất kết nối mạng"
       }
     });
   }
   let config = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json"
       // "access-token": token
     }
@@ -62,7 +63,7 @@ export const getRequestApi = async (url, isShowLog = false) => {
       return response;
     })
     .catch(err => {
-      console.log(err);
+      console.log("err", err);
     });
 };
 
@@ -74,7 +75,7 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
       type: "SHOW_ALERT",
       payload: {
         id: randomString(10),
-        isShow:true,
+        isShow: true,
         content: "Mất kết nối mạng"
       }
     });
@@ -85,6 +86,7 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
 
   let config = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json"
       // "access-token": token
     }
@@ -92,7 +94,6 @@ export const postRequestApi = async (url, data, isShowLog = false) => {
   let timeRequest = {
     timeout: 30000
   };
-
   return axios
     .post(url, data, config, timeRequest)
     .then(res => {
