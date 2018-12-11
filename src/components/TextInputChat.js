@@ -202,18 +202,18 @@ class TextInputChat extends Component {
                 resizeMode="cover"
               />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this.dismissAllModalShow();
-                this.pickSingle(false);
-              }}
-            >
-              <Image
-                style={styles.btn}
-                source={require("../../assets/btn_img.png")}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
+            {/*<TouchableOpacity*/}
+              {/*onPress={() => {*/}
+                {/*this.dismissAllModalShow();*/}
+                {/*this.pickSingle(false);*/}
+              {/*}}*/}
+            {/*>*/}
+              {/*<Image*/}
+                {/*style={styles.btn}*/}
+                {/*source={require("../../assets/btn_img.png")}*/}
+                {/*resizeMode="cover"*/}
+              {/*/>*/}
+            {/*</TouchableOpacity>*/}
           </View>
           <TouchableOpacity
             onPress={this.onClickSend}

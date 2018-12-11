@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
 import CheckBox from "./CheckBox ";
@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { TEXT_POLL_VOTE } from "../language";
 import { compose } from "redux";
 import injectShowAlert from "../constant/injectShowAlert";
+import Icon from "react-native-vector-icons/dist/Feather";
 
 class PollVote extends Component {
   static propTypes = {};
@@ -18,7 +19,8 @@ class PollVote extends Component {
     // console.log('TotalVote', this.props.dataItem)
     this.state = {
       countCheck: this.countCheck,
-      a: 1
+      a: 1,
+        isChecked:false
     };
     this.TEXT_POLL_VOTE = TEXT_POLL_VOTE();
   }
@@ -136,10 +138,36 @@ class PollVote extends Component {
           flexDirection: "row"
         }}
       >
-        <CheckBox
-          onClick={() => this.onClick(item.PostID, item.OptionID)}
-          isChecked={this.state.isChecked}
-        />
+        {/*<CheckBox*/}
+          {/*onClick={() => this.onClick(item.PostID, item.OptionID)}*/}
+          {/*isChecked={this.state.isChecked}*/}
+        {/*/>*/}
+        <TouchableOpacity onPress = {() => {
+            this.setState({
+                isCheck: !this.state.isCheck
+            }, () => {
+                this.state.isChecked
+                    ? this.youChecked(item.PostID, item.OptionID)
+                    : this.youUnChecked(item.PostID, item.OptionID)
+            })
+        }}>
+          <View style={{
+              height: 17,
+              width: 17,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderColor: "#E0E0E0",
+              borderWidth: 1,
+              marginRight: 10,
+              backgroundColor: this.state.isCheck ? '#0b84e5' : null
+          }}>
+              {
+                  this.state.isCheck ? <Icon name="check" size={12} color="white"/> : null
+              }
+
+
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             height: 30,

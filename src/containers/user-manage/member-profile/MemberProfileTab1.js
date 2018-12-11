@@ -108,10 +108,8 @@ class MemberProfileTab1 extends Component {
           style={styles.wrap_btn_bottom}
           onPress={() => this._createMsgGroup()}
         >
-          <ImageBackground
-            source={IMAGE.left_tab}
+          <View
             style={styles.bg_btn_bottom}
-            resizeMode="stretch"
           >
             <Image
               source={IMAGE.icon_sms}
@@ -122,26 +120,26 @@ class MemberProfileTab1 extends Component {
               {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Message) ||
                 ""}
             </Text>
-          </ImageBackground>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.wrap_btn_bottom}>
-          <ImageBackground
-            source={IMAGE.right_tab}
-            style={styles.bg_btn_bottom}
-            resizeMode="stretch"
-          >
-            <Image
-              source={IMAGE.icon_follow}
-              style={styles.icon_bottom2}
-              resizeMode="cover"
-            />
-            <Text style={styles.text_btn_bottom}>
-              {(this.props.TEXT_PROFILE &&
-                this.props.TEXT_PROFILE.FollowAction) ||
-                ""}
-            </Text>
-          </ImageBackground>
-        </TouchableOpacity>
+        {/*<TouchableOpacity style={styles.wrap_btn_bottom}>*/}
+          {/*<ImageBackground*/}
+            {/*source={IMAGE.right_tab}*/}
+            {/*style={styles.bg_btn_bottom}*/}
+            {/*resizeMode="stretch"*/}
+          {/*>*/}
+            {/*<Image*/}
+              {/*source={IMAGE.icon_follow}*/}
+              {/*style={styles.icon_bottom2}*/}
+              {/*resizeMode="cover"*/}
+            {/*/>*/}
+            {/*<Text style={styles.text_btn_bottom}>*/}
+              {/*{(this.props.TEXT_PROFILE &&*/}
+                {/*this.props.TEXT_PROFILE.FollowAction) ||*/}
+                {/*""}*/}
+            {/*</Text>*/}
+          {/*</ImageBackground>*/}
+        {/*</TouchableOpacity>*/}
       </View>
     );
   };
@@ -210,6 +208,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 5,
+      height: 40, width: 40*297/117, borderWidth: 1, borderRadius: 20,borderColor: "#EEEEEE",
+
     alignItems: "center",
     justifyContent: "center"
   },

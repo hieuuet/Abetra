@@ -163,11 +163,10 @@ class StatusItems extends Component {
         this.setState({modalVisible: visible});
     };
 
-    onShare = () => {
+    onShare = (text) => {
         const shareOptions = {
             title: "Share Status",
-            url:
-                "https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2264_ZING.jpg"
+            url: text
         };
         return Share.open(shareOptions);
     };
@@ -392,7 +391,7 @@ class StatusItems extends Component {
                             alignItems: "center"
                         }}
                     >
-                            <View>
+                        <View>
                             {this.state.liked ?
                                 <TouchableOpacity
                                     style={{flex: 1}}
@@ -410,7 +409,7 @@ class StatusItems extends Component {
                                         <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
                                     </View>
 
-                                </TouchableOpacity>: <TouchableOpacity
+                                </TouchableOpacity> : <TouchableOpacity
                                     style={{flex: 1}}
                                     onPress={() => this.likePost(item.PostID)}
                                 >
@@ -429,52 +428,53 @@ class StatusItems extends Component {
 
                                 </TouchableOpacity>
                             }
+                        </View>
+                        <TouchableOpacity
+                            onPress={() => {
+                                //prevent action with GUEST
+                                if (this.props.isGuest)
+                                    return requestRegister(
+                                        this.props.isTab
+                                            ? this.props.screenProps
+                                            : this.props.navigation
+                                    );
+                                this.props.isTab == true
+                                    ? this.props.screenProps.navigate("BinhLuan", {item})
+                                    : this.props.navigation.navigate("BinhLuan", {item});
+                            }}
+                        >
+                            <View style={styles.view_border}>
+                                <View style={{width: 15, height: 15}}>
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={require("../../assets/icon_comment.png")}
+                                        resizeMode="contain"
+                                    />
+                                </View>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Cmt}</Text>
                             </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.onShare(item.Type != 2
+                            ? item.PostContent
+                            : this.state.PostContent.Description)}>
+                            <View style={styles.view_border}>
+                                <View style={{width: 15, height: 15}}>
+                                    <Image
+                                        style={{width: null, height: null, flex: 1}}
+                                        source={require("../../assets/icon_share.png")}
+                                        resizeMode="contain"
+                                    />
+                                </View>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        {item.Type == 2 ? (
                             <TouchableOpacity
-                                onPress={() => {
-                                    //prevent action with GUEST
-                                    if (this.props.isGuest)
-                                        return requestRegister(
-                                            this.props.isTab
-                                                ? this.props.screenProps
-                                                : this.props.navigation
-                                        );
-                                    this.props.isTab == true
-                                        ? this.props.screenProps.navigate("BinhLuan", {item})
-                                        : this.props.navigation.navigate("BinhLuan", {item});
-                                }}
+                                onPress={() => this._joinEvent(item.PostID)}
                             >
                                 <View style={styles.view_border}>
                                     <View style={{width: 15, height: 15}}>
-                                        <Image
-                                            style={{width: null, height: null, flex: 1}}
-                                            source={require("../../assets/icon_comment.png")}
-                                            resizeMode="contain"
-                                        />
-                                    </View>
-                                    <Text style={styles.text_action}>{this.TEXT_POST.Cmt}</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.onShare()}>
-                                <View style={styles.view_border}>
-                                    <View style={{width: 15, height: 15}}>
-                                        <Image
-                                            style={{width: null, height: null, flex: 1}}
-                                            source={require("../../assets/icon_share.png")}
-                                            resizeMode="contain"
-                                        />
-                                    </View>
-                                    <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                        {item.Type == 2 ? (
-                            <View style={styles.view_border}>
-                                <View style={{width: 15, height: 15}}>
-                                    <TouchableOpacity
-                                        style={{flex: 1}}
-                                        onPress={() => this._joinEvent(item.PostID)}
-                                    >
                                         <Image
                                             style={{width: null, height: null, flex: 1}}
                                             source={
@@ -484,10 +484,11 @@ class StatusItems extends Component {
                                             }
                                             resizeMode="contain"
                                         />
-                                    </TouchableOpacity>
+
+                                    </View>
+                                    <Text style={styles.text_action}>{this.TEXT_EVENT.Join}</Text>
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_EVENT.Join}</Text>
-                            </View>
+                            </TouchableOpacity>
                         ) : null}
                     </View>
 

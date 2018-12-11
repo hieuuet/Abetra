@@ -31,7 +31,7 @@ class EventJoin extends Component {
   async componentDidMount() {
     this._getEvent();
   }
-
+//anh thái đang xem lại
   _getEvent = async () => {
     this.setState({
       isLoading: true
@@ -45,7 +45,7 @@ class EventJoin extends Component {
       Keyword: "",
       FromDate: "",
       ToDate: "",
-      Status: 255,
+      Status: 1,
       EnterpriseID: UserProfile.Value[0].IntUserID,
       EventID: 0
     });
