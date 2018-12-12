@@ -31,6 +31,7 @@ class PollVote extends Component {
     }
   }
   youChecked = (PostID, PollID) => {
+    console.log('youChecked')
     const { UserProfile } = this.props;
     if (UserProfile.length <= 0) {
       return null;
@@ -72,6 +73,7 @@ class PollVote extends Component {
       });
   };
   youUnChecked = (PostID, PollID) => {
+    console.log('youUnChecked')
     const { UserProfile } = this.props;
     if (UserProfile.length <= 0) {
       return null;
@@ -146,7 +148,7 @@ class PollVote extends Component {
             this.setState({
                 isCheck: !this.state.isCheck
             }, () => {
-                this.state.isChecked
+                this.state.isCheck
                     ? this.youChecked(item.PostID, item.OptionID)
                     : this.youUnChecked(item.PostID, item.OptionID)
             })

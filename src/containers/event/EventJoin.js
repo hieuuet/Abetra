@@ -45,13 +45,13 @@ class EventJoin extends Component {
       Keyword: "",
       FromDate: "",
       ToDate: "",
-      Status: 1,
+      Status: 255,
       EnterpriseID: UserProfile.Value[0].IntUserID,
       EventID: 0
     });
     console.log("event", Event);
 
-    if (Event && Event.ErrorCode === "00") {
+    if (Event && Event.IsError === true) {
       this.setState(
         {
           isLoading: false,
@@ -91,7 +91,7 @@ class EventJoin extends Component {
           onBackPress={() => this.props.navigation.goBack()}
         />
         <ScrollView style={{ flex: 1 }}>
-          {this.state.ArrEvent.length === 0 && !this.state.isLoading ? (
+          {this.state.ArrEvent.length == 0 && !this.state.isLoading ? (
             this._renderEmpty()
           ) : (
             <FlatList

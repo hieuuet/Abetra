@@ -96,6 +96,8 @@ class StatusItems extends Component {
     }
 
     _joinEvent = async EventID => {
+        console.log('join_event')
+        console.log('ID', this.state.PostContent.ID)
         //prevent action with GUEST
         if (this.props.isGuest)
             return requestRegister(
@@ -107,7 +109,7 @@ class StatusItems extends Component {
             return null;
         }
         let eventJoin = await joinEvent({
-            EventID,
+            EventID: this.state.PostContent.ID,
             ProfileID: UserProfile.Value[0].IntUserID, //api yeu cau interuserid
             Type: 0,
             UserName: UserProfile.Value[0].FullName,
@@ -224,7 +226,7 @@ class StatusItems extends Component {
 
     render() {
         const {UserProfile} = this.props;
-
+        // console.log('isSavePost', this.props.isSavePost)
         const {item} = this.props.dataItem;
         // console.log('isTab',  this.props.isTab)
         // console.log('item.cmt', item.Comments)
@@ -616,6 +618,7 @@ class StatusItems extends Component {
                     style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}
                 />
                 <MenuPost
+                    isSavePost = {this.props.isSavePost}
                     item={item}
                     changeModalVisible={this.state.modalVisible}
                     onChangeModalVisible={this.setModalVisible}

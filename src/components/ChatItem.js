@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     Image,
-    Dimention, Dimensions
+    Dimention, Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import moment from "moment"
 import {URL_BASE} from "../constant/api";
@@ -22,7 +23,7 @@ export default class ChatItem extends Component {
         return (
             <View style={{ flex: 1 }}>
                 {
-                    item.IntUserID == this.props.myIntUserID ?
+                    item.MsgGroupID  && item.IntUserID == this.props.myIntUserID ?
                         <View style={{
                             flex: 1,
                             marginLeft: DEVICE_WIDTH / 3,
@@ -81,7 +82,7 @@ export default class ChatItem extends Component {
                                 </Text>
                             </View>
 
-                        </View> :  <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                        </View> :  item.MsgGroupID ? <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
 
                             <Image style={styles.image_avt}
 
@@ -116,6 +117,12 @@ export default class ChatItem extends Component {
                                 </View>
                             </View>
 
+                        </View> : <View style = {{marginHorizontal:"30%", justifyContent: 'center', marginTop: 10}}>
+                        <TouchableOpacity style = {{flex:1}}>
+                            <Image source={{ uri: item.File}}
+                                   style = {{flex:1,  height:DEVICE_WIDTH/4 , width: "100%"}}>
+                            </Image>
+                        </TouchableOpacity>
                         </View>
 
                 }

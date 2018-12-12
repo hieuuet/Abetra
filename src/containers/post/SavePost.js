@@ -102,6 +102,7 @@ class SavePost extends Component {
               renderItem={item => {
                 return (
                   <StatusItems
+                      isSavePost = {true}
                     isTab={false}
                     // screenProps={this.props.screenProps}
                     dataItem={item}

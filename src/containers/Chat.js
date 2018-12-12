@@ -40,10 +40,10 @@ class Chat extends Component {
         console.log("socket", this.socket);
         this.socket.emit("LOGINMSG", {
             IntUserID: UserProfile.Value[0].IntUserID,
-            MsgGroupID
+            MsgGroupID: MsgGroupID
         });
         this.socket.on("RECEIVERMSG", dataRes => {
-            console.log("receiveMSG", dataRes.ChatTo);
+            // console.log("receiveMSG", dataRes.ChatTo);
             // dataMess = dataReceive.Content;
             //set newMsg = messga receive
             let newMsg = this.state.ArrMess;
@@ -52,7 +52,18 @@ class Chat extends Component {
             this.setState({ArrMess: newMsg});
         });
         this.socket.on("READVS", dataRes => {
+            if (dataRes) {
+                this.socket.emit("SHOW", {
+                    AdvertID: dataRes.AdvertID,
+                    MsgGroupID: MsgGroupID,
+                    IntUserID: UserProfile.Value[0].IntUserID
+                });
+            }
             console.log("receiveMSG", dataRes);
+            let newMsg = this.state.ArrMess;
+            newMsg.push(dataRes);
+            this.setState({ArrMess: newMsg});
+
         });
     }
 
@@ -85,7 +96,7 @@ class Chat extends Component {
 
         this.socket.emit("LOGOUTMSG", {
             IntUserID: UserProfile.Value[0].IntUserID,
-            MsgGroupID
+            MsgGroupID: MsgGroupID
         });
     }
 
