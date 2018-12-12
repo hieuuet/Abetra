@@ -6,6 +6,7 @@ import {
     Image,
     Dimention, Dimensions
 } from 'react-native';
+import moment from "moment"
 import {URL_BASE} from "../constant/api";
 
 export default class ChatItem extends Component {
@@ -31,24 +32,24 @@ export default class ChatItem extends Component {
 
 
                         }}>
-                            <View style={{
-                                borderRadius: 15,
-                                marginRight: 10,
-                                borderWidth: 1,
-                                backgroundColor: '#B7DAB6',
-                                borderColor: '#B7DAB6',
-                                alignSelf: 'flex-end',
-                                padding: 10
+                            {/*<View style={{*/}
+                                {/*borderRadius: 15,*/}
+                                {/*marginRight: 10,*/}
+                                {/*borderWidth: 1,*/}
+                                {/*backgroundColor: '#B7DAB6',*/}
+                                {/*borderColor: '#B7DAB6',*/}
+                                {/*alignSelf: 'flex-end',*/}
+                                {/*padding: 10*/}
 
-                            }}>
-                                <Text style={{
-                                    alignSelf: 'flex-end',
-                                    borderColor: '#FAFAFA',
-                                    justifyContent: 'flex-end',
+                            {/*}}>*/}
+                                {/*<Text style={{*/}
+                                    {/*alignSelf: 'flex-end',*/}
+                                    {/*borderColor: '#FAFAFA',*/}
+                                    {/*justifyContent: 'flex-end',*/}
 
 
-                                }}>{item.Content}</Text>
-                            </View>
+                                {/*}}>{item.Content}</Text>*/}
+                            {/*</View>*/}
                             {/*<Text style={{*/}
                                 {/*justifyContent: 'center',*/}
                                 {/*alignSelf: 'flex-end',*/}
@@ -56,6 +57,29 @@ export default class ChatItem extends Component {
                                 {/*fontSize:10,*/}
                                 {/*marginTop:2*/}
                             {/*}}>{createdAt}</Text>*/}
+                            <View style={[styles.borderContent, {backgroundColor: '#B7DAB6', borderColor: '#B7DAB6',}]
+
+                            }>
+                                <Text style={{
+                                    // alignSelf: 'flex-end',
+                                    borderColor: '#FAFAFA',
+                                    // justifyContent: 'flex-end',
+                                    paddingBottom: 5,
+
+
+                                }}>{item.Content}</Text>
+                                <Text style={{
+
+                                    // justifyContent: 'flex-start',
+                                    // alignSelf: 'flex-start',
+                                    fontSize: 11, marginRight: 6,
+                                    color: '#4CAF50'
+
+                                }}>
+                                    {/*{item.createdAt}*/}
+                                    {moment(item.CreatedDate).format("HH:mm")}
+                                </Text>
+                            </View>
 
                         </View> :  <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
 
@@ -69,27 +93,27 @@ export default class ChatItem extends Component {
                             >
                             </Image>
                             <View>
-                                <View style={{ marginRight: DEVICE_WIDTH / 3 }}>
-                                    <View style={{
-                                        borderRadius: 15,
-                                        marginRight: 10,
-                                        borderWidth: 1,
-                                        backgroundColor: '#D7D7D7',
-                                        borderColor: '#D7D7D7',
-                                        alignSelf: 'flex-start',
-                                        padding: 10
+                                <View style={{marginRight: DEVICE_WIDTH / 3}}>
+                                    <View style={[styles.borderContent, {backgroundColor: 'white', borderColor: '#FAFAFA',}]
 
-                                    }}>
+                                    }>
                                         <Text style={{
 
                                             justifyContent: 'flex-start',
-                                            alignSelf: 'flex-start'
+                                            alignSelf: 'flex-start',
+                                            paddingBottom: 5,
 
                                         }}>{item.Content}</Text>
+                                        <Text style={{
+
+                                            justifyContent: 'flex-start',
+                                            alignSelf: 'flex-start',
+                                            fontSize: 10
+
+                                        }}> {moment(item.CreatedDate).format("HH:mm")}</Text>
                                     </View>
 
                                 </View>
-                                {/*<Text style={{flex: 1,marginLeft:2, justifyContent: 'flex-start',fontSize:10,marginTop:2}}>{createdAt}</Text>*/}
                             </View>
 
                         </View>
@@ -112,5 +136,15 @@ const styles = StyleSheet.create({
             marginLeft: 10,
             marginRight: 10,
 
-        }
+        },
+    borderContent: {
+        borderRadius: 8,
+        borderWidth: 1,
+        marginRight: 10,
+        alignSelf: 'flex-end',
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 8,
+        paddingRight: 8,
+    }
     })

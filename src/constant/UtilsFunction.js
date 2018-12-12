@@ -64,8 +64,6 @@ export const typeAccount = type => {
       return TYPE.Personal;
     case 3:
       return TYPE.Enterprise;
-    case 4:
-      return TYPE.Guest;
     default:
       "";
   }

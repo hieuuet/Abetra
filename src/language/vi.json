@@ -235,5 +235,9 @@
     "like": "Thích",
     "cmt": "Bình luận",
     "share": "Chia sẻ"
+  },
+  "location": {
+    "search_location": "Tìm các dịch vụ làm đẹp quanh đây",
+    "alert_location": "Tính năng sắp ra mắt"
   }
 }
