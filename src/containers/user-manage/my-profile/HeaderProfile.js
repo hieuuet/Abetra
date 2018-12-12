@@ -199,11 +199,14 @@ class HeaderProfile extends Component {
     );
   };
   _renderHeaderTab2 = () => {
-    if (this.props.userProfile.Type === TYPE_ACCOUNT.TEMP)
+    if (
+      this.props.userProfile.UserTypeNext === STATUS_ACCOUNT.INACTIVE &&
+      this.props.userProfile.Type === TYPE_ACCOUNT.TEMP
+    )
       return this._renderHeaderTab2NotRegister();
     if (
-      this.props.userProfile.Status &
-      (this.props.userProfile.Status === STATUS_ACCOUNT.INACTIVE)
+      this.props.userProfile.UserTypeNext !== STATUS_ACCOUNT.INACTIVE &&
+      this.props.userProfile.Type === TYPE_ACCOUNT.TEMP
     )
       return <View />;
 
@@ -323,7 +326,7 @@ const styles = StyleSheet.create({
   wrapper_left: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center",
+    alignItems: "center"
   },
   wrap_avatar: {
     flex: 2,
