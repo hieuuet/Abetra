@@ -215,11 +215,17 @@ class MyProfileTab2 extends Component {
   };
 
   render() {
-    if (this.props.dataUser.Type === TYPE_ACCOUNT.TEMP)
+    if (
+      this.props.dataUser.UserTypeNext === STATUS_ACCOUNT.INACTIVE &&
+      this.props.dataUser.Type === TYPE_ACCOUNT.TEMP
+    )
       return this._renderRegisterMember();
-    if (this.props.dataUser.Status === STATUS_ACCOUNT.INACTIVE)
-      return this._waitingActive();
-    return this._renderMember();
+    if (
+      this.props.dataUser.UserTypeNext === STATUS_ACCOUNT.INACTIVE &&
+      this.props.dataUser.Type !== TYPE_ACCOUNT.TEMP
+    )
+      return this._renderMember();
+    return this._waitingActive();
   }
 }
 
