@@ -33,7 +33,8 @@ import About from "../containers/menu/About";
 import {
   MemberProfile,
   Profile,
-  RegisterMember
+  RegisterMember,
+  CreateDescription
 } from "../containers/user-manage";
 import SavePost from "../containers/post/SavePost";
 import AccountKitSample from "../containers/AccountKitSample";
@@ -57,6 +58,13 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+
+  CreateDescription: {
+    screen: CreateDescription,
+    navigationOptions: {
+      header: null
+    }
+  },
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {
@@ -69,18 +77,19 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-  RegisterMember: {
-    screen: RegisterMember,
-    navigationOptions: {
-      header: null
-    }
-  },
   Profile: {
     screen: Profile,
     navigationOptions: {
       header: null
     }
   },
+  RegisterMember: {
+    screen: RegisterMember,
+    navigationOptions: {
+      header: null
+    }
+  },
+
   Intro: {
     screen: Intro,
     navigationOptions: {
