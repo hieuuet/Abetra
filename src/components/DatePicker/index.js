@@ -27,7 +27,7 @@ export default class MyDatePicker extends Component {
           dateIcon: {
             position: "absolute",
             right: 0,
-            top: 4,
+            top: 10,
             width: 20,
             height: 20 ,
             marginRight: 0,

@@ -18,7 +18,6 @@ import { IMAGE } from "../../../constant/assets";
 import style_common from "../../../style-common";
 import EditView from "./EditView";
 import { COLOR } from "../../../constant/Color";
-import RadioForm from "../../../components/SimpleRadioButton";
 import PhotoGrid from "../../../components/PhotoGrid";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import MyDatePicker from "../../../components/DatePicker";
@@ -30,13 +29,13 @@ import {
 import { isEqual } from "lodash";
 const { width } = Dimensions.get("window");
 import { URL_BASE } from "../../../constant/api";
-import { GENDER_STATE } from "../../../constant/KeyConstant";
 import { formatDate } from "../../../constant/UtilsFunction";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import { TEXT_COMMON } from "../../../language";
 import { compose } from "redux";
 import injectShowAlert from "../../../constant/injectShowAlert";
 const ImagePicker = NativeModules.ImageCropPicker;
+import Gender from "./Gender";
 
 import PropTypes from "prop-types";
 class MyProfileTab1 extends Component {
@@ -58,7 +57,6 @@ class MyProfileTab1 extends Component {
       showEmoticons: false,
       textDescription: this.textDescription
     };
-    this.initRadioData();
     this.arrBase64 = [];
     this.arrPath = [];
     this.TEXT_COMMON = TEXT_COMMON();
@@ -102,27 +100,6 @@ class MyProfileTab1 extends Component {
       field,
       value
     });
-  };
-
-  initRadioData = () => {
-    this.radioData = [
-      {
-        label:
-          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Man) || "Man",
-        value: GENDER_STATE.MAN
-      },
-      {
-        label:
-          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Women) || "Women",
-        value: GENDER_STATE.WOMEN
-      },
-      {
-        label:
-          (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Undefined) ||
-          "Undefined",
-        value: GENDER_STATE.OTHER
-      }
-    ];
   };
 
   /**
@@ -220,17 +197,6 @@ class MyProfileTab1 extends Component {
       });
   };
 
-  getGenderState = () => {
-    if (
-      typeof this.dataUser.Gender !== "number" ||
-      (this.dataUser && !!this.dataUser.Gender === null)
-    ) {
-      return 2;
-    }
-    if (this.dataUser.Gender === GENDER_STATE.MAN) return 0;
-    else return 1;
-  };
-
   _renderEdit = () => {
     return (
       <View>
@@ -258,29 +224,16 @@ class MyProfileTab1 extends Component {
             }}
           />
         </View>
-        <View style={styles.change_pass}>
-          <Text
-            style={[style_common.text_color_base, styles.label_radio_group]}
-          >
-            {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Gender) || ""}
-          </Text>
-          <RadioForm
-            radio_props={this.radioData}
-            initial={this.getGenderState()}
-            formHorizontal={true}
-            buttonColor={"gray"}
-            selectedButtonColor={"#53A1CB"}
-            buttonSize={5}
-            animation={true}
-            style={styles.radio_form}
-            onPress={value => {
-              this.callApiUpdateProfile({
-                field: "Gender",
-                value
-              });
-            }}
-          />
-        </View>
+        <Gender
+          TEXT_PROFILE={this.props.TEXT_PROFILE}
+          dataUser={this.dataUse || {}}
+          onSelect={value => {
+            this.callApiUpdateProfile({
+              field: "Gender",
+              value
+            });
+          }}
+        />
 
         <EditView
           label={
@@ -506,7 +459,10 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     height: 200
   },
-  wrapper_edit: { flexDirection: "row", alignItems: "center" },
+  wrapper_edit: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   wrapper_footer: {
     flexDirection: "column",
     alignItems: "center",

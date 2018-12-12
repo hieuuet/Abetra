@@ -54,10 +54,26 @@ class MyProfileTab2 extends Component {
       }
       this.loadUserPost(nextProps.dataUser);
     }
-    return !(
-      isEqual(nextProps.tagSelected, this.props.tagSelected) &&
-      isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
-      isEqual(nextState, this.state)
+
+    //check when register member success back and reload
+    let isTypeChange = false;
+    try {
+      if (
+        nextProps.dataUser.UserTypeNext !== this.props.dataUser.UserTypeNext ||
+        nextProps.dataUser.Type !== this.props.dataUser.Type
+      ) {
+        isTypeChange = true;
+      }
+    } catch (e) {
+      console.log("exception", e);
+    }
+    //end check
+    return (
+      !(
+        isEqual(nextProps.tagSelected, this.props.tagSelected) &&
+        isEqual(nextProps.TEXT_PROFILE, this.props.TEXT_PROFILE) &&
+        isEqual(nextState, this.state)
+      ) || isTypeChange
     );
   }
 

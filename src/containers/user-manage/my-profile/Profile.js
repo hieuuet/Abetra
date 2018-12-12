@@ -71,8 +71,10 @@ class Profile extends Component {
     let isTypeChange = false;
     try {
       if (
+        nextProps.userProfile.Value[0].UserTypeNext !==
+          this.props.userProfile.Value[0].UserTypeNext ||
         nextProps.userProfile.Value[0].Type !==
-        this.props.userProfile.Value[0].Type
+          this.props.userProfile.Value[0].Type
       ) {
         isTypeChange = true;
       }
