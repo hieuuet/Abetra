@@ -233,5 +233,9 @@
     "like": "Like",
     "cmt": "Comment",
     "share": "Share"
+  },
+  "location": {
+    "search_location": "Find beauty services around here",
+    "alert_location": "Feature coming soon"
   }
 }

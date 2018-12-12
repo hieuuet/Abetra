@@ -266,3 +266,7 @@ export const TEXT_POST = () => ({
   Share: strings("post.share"),
   Cmt: strings("post.cmt")
 });
+export const LOCATION  = () => ({
+    SearchLocation: strings("location.search_location"),
+    AlertLocation: strings("location.alert_location"),
+})

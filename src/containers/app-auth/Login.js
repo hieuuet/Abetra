@@ -292,10 +292,10 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 
-  img_fb: {
-    width: 50,
-    height: 50
-  },
+  // img_fb: {
+  //   width: 50,
+  //   height: 50
+  // },
   text_fb1: { color: COLOR.COLOR_WHITE },
   text_fb2: { color: COLOR.COLOR_WHITE, fontWeight: "900" },
   view_login: {

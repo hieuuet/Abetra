@@ -3,11 +3,16 @@ import {View, Text, ScrollView, ImageBackground, Dimensions, Image} from "react-
 import BackgroundImage from "../components/BackgroundImage";
 import style_common from "../style-common";
 import {IMAGE} from "../constant/assets";
+import {LOCATION,} from "../language";
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const DEVICE_HEIGHT = Dimensions.get("window").height;
 
 class Location extends Component {
+    constructor(props) {
+        super(props)
+        this.LOCATION = LOCATION();
+    }
     render() {
         return (
             <View style={{flex: 1}}>
@@ -19,7 +24,7 @@ class Location extends Component {
                                     <Image source={require('../../assets/location/search.png')}
                                            style = {{height: 20, width: 20,marginLeft: 15}}>
                                     </Image>
-                                    <Text style = {{marginLeft: 15, fontSize: 14}}>Tìm các dịch vụ làm đẹp quanh </Text>
+                                    <Text style = {{marginLeft: 15, fontSize: 14}}>{this.LOCATION.SearchLocation}</Text>
                                 </View>
 
                         </ImageBackground>
@@ -53,7 +58,7 @@ class Location extends Component {
                         <ImageBackground source={require('../../assets/location/note.png')}
                                          style = {{height: 50, width: "100%"}}>
                             <View style = {{flex:1, alignItems: 'center', flexDirection: 'row', justifyContent:"center"}}>
-                                <Text style = {{ fontSize: 14, color: 'white'}}>Tính năng sắp ra mắt </Text>
+                                <Text style = {{ fontSize: 14, color: 'white'}}>{this.LOCATION.AlertLocation}</Text>
                             </View>
 
                         </ImageBackground>
