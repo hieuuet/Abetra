@@ -226,7 +226,7 @@ class MyProfileTab1 extends Component {
         </View>
         <Gender
           TEXT_PROFILE={this.props.TEXT_PROFILE}
-          dataUser={this.dataUse || {}}
+          dataUser={this.dataUser || {}}
           onSelect={value => {
             this.callApiUpdateProfile({
               field: "Gender",
@@ -283,13 +283,22 @@ class MyProfileTab1 extends Component {
             });
           }}
         />
+
+        <EditView
+          label={
+            (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Intro) || ""
+          }
+          onPress={() => this.props.navigation.navigate("CreateDescription")}
+          text_edit={""}
+          isEditAble={true}
+        />
       </View>
     );
   };
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
-        <Text style={[style_common.text_color_base, styles.txt_title]}>
+        {/* <Text style={[style_common.text_color_base, styles.txt_title]}>
           {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Intro) || ""}
         </Text>
         <TextInput
@@ -308,9 +317,9 @@ class MyProfileTab1 extends Component {
               this.setState({ textDescription: this.textDescription });
             }
           }}
-        />
+        /> */}
 
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
           <TouchableOpacity
             style={styles.btn_action}
             onPress={() => this.setState({ showEmoticons: true })}
@@ -335,7 +344,7 @@ class MyProfileTab1 extends Component {
               {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Save) || ""}
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <PhotoGrid
           source={this.state.dataImage}
           width={width - 20}
@@ -500,7 +509,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     flexDirection: "row",
-    marginTop: 10
+    marginTop: 10,
+    paddingBottom: 5
   },
 
   change_pass: { flexDirection: "row", alignItems: "center" },

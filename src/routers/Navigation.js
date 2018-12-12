@@ -33,7 +33,8 @@ import About from "../containers/menu/About";
 import {
   MemberProfile,
   Profile,
-  RegisterMember
+  RegisterMember,
+  CreateDescription
 } from "../containers/user-manage";
 import SavePost from "../containers/post/SavePost";
 import AccountKitSample from "../containers/AccountKitSample";
@@ -53,6 +54,13 @@ const RootStack = createStackNavigator({
 
   SplashScreen: {
     screen: SplashScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+
+  CreateDescription: {
+    screen: CreateDescription,
     navigationOptions: {
       header: null
     }
