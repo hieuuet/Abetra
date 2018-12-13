@@ -304,6 +304,7 @@ class StatusItems extends Component {
                                     onPress={() => {
                                         this.setModalVisible(true);
                                     }}
+                                    style = {{height: 15, width: 30}}
                                 >
                                     <Image
                                         style={{
