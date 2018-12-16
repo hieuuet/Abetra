@@ -360,7 +360,8 @@ class CreatePost extends Component {
                 underlineColorAndroid="transparent"
                 onChangeText={Status => this.setState({ Status })}
                 placeholderTextSize="20"
-                returnKeyType={"search"}
+                // returnKeyType={"send"}
+                multiline = {true}
                 // onFocus={() => {
                 //     this.handleTextInput()
                 // }}

@@ -363,18 +363,18 @@ class BinhLuan extends Component {
                     ) : null}
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
-                            <ReadMore
-                                numberOfLines={3}
-                                renderTruncatedFooter={this._renderTruncatedFooter}
-                                renderRevealedFooter={this._renderRevealedFooter}
-                                onReady={this._handleTextReady}
-                            >
+                            {/*<ReadMore*/}
+                                {/*numberOfLines={3}*/}
+                                {/*renderTruncatedFooter={this._renderTruncatedFooter}*/}
+                                {/*renderRevealedFooter={this._renderRevealedFooter}*/}
+                                {/*onReady={this._handleTextReady}*/}
+                            {/*>*/}
                                 <Text style={{}}>
                                     {itemStatus.Type != 2
                                         ? itemStatus.PostContent
                                         : this.state.PostContent.Description}
                                 </Text>
-                            </ReadMore>
+                            {/*</ReadMore>*/}
                         </View>
                     </View>
 

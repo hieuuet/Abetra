@@ -381,7 +381,7 @@ class StatusItems extends Component {
                     {/*}}*/}
                     {/*>*/}
                     {ArrImg ? (
-                        <PhotoGrid source={ArrImg} navigation={this.props.navigation}/>
+                        <PhotoGrid source={ArrImg} navigation={this.props.navigation} screenProps={this.props.screenProps} isTab = {this.props.isTab}/>
                     ) : null}
                     {/*</View>*/}
 

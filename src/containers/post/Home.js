@@ -46,7 +46,8 @@ class Home extends Component {
     this.state = {
       refreshing: false,
       isLoading: false,
-      ArrPost: []
+      ArrPost: [],
+        page_index_post : 1
     };
 
     this.socket = SocketIOClient(URL_SOCKET, {
@@ -185,7 +186,7 @@ class Home extends Component {
 
     let listPost = await searchPost({
       Page_size: 20,
-      Page_index: 1,
+      Page_index: this.state.page_index_post,
       Keyword: "",
       IsAdvs: 255,
       From_date: "",
@@ -202,7 +203,8 @@ class Home extends Component {
         {
           isLoading: false,
           refreshing: false,
-          ArrPost: listPost.Value
+          // ArrPost: listPost.Value
+          ArrPost:  this.state.page_index_post === 1 ? [...listPost.Value] : [...this.state.ArrPost, ...listPost.Value],
         },
         () => console.log("ArrPost", this.state.ArrPost)
       );
@@ -226,7 +228,17 @@ class Home extends Component {
       </View>
     );
   };
-
+    handleLoadMorePost = () => {
+        this.setState(
+            {
+                page_index_post: this.state.page_index_post + 1
+            },
+            () => {
+                console.log('index', this.state.page_index_post)
+                this._searchPost()
+            }
+        );
+    }
   render() {
     const { navigation } = this.props;
 
@@ -300,6 +312,9 @@ class Home extends Component {
               // onRefresh={() => {
               //     this.GetPost()
               // }}
+                bounces={false}
+                onEndReached={this.handleLoadMorePost}
+                onEndReachedThreshold={0.5}
               data={this.state.ArrPost}
               renderItem={item => {
 

@@ -34,6 +34,7 @@ class PhotoGrid extends Component {
 
   render() {
     const { imageProps } = this.props;
+    // console.log('isTab', this.props.isTab)
     const source = take(this.props.source, 5);
     const firstViewImages = [];
     const secondViewImages = [];
@@ -96,12 +97,17 @@ class PhotoGrid extends Component {
               key={index}
               style={{ flex: 1 }}
               onPress={() =>
-                this.props.navigation.navigate("ImageDetail", {
+                  this.props.isTab == true ? this.props.screenProps.navigate("ImageDetail", {
                   data: this.props.source,
                   currentIndex: this.findIndexFromImage(image),
                   showDelete: this.props.showDelete,
                   dataUser: this.props.dataUser
-                })
+                }) : this.props.navigation.navigate("ImageDetail", {
+                      data: this.props.source,
+                      currentIndex: this.findIndexFromImage(image),
+                      showDelete: this.props.showDelete,
+                      dataUser: this.props.dataUser
+                  })
               }
             >
               <ImageLoad
@@ -130,12 +136,17 @@ class PhotoGrid extends Component {
                 key={index}
                 style={{ flex: 1 }}
                 onPress={() =>
-                  this.props.navigation.navigate("ImageDetail", {
+                    this.props.isTab == true ? this.props.screenProps.navigate("ImageDetail", {
                     data: this.props.source,
                     currentIndex: this.findIndexFromImage(image),
                     showDelete: this.props.showDelete,
                     dataUser: this.props.dataUser
-                  })
+                  }) :  this.props.navigation.navigate("ImageDetail", {
+                        data: this.props.source,
+                        currentIndex: this.findIndexFromImage(image),
+                        showDelete: this.props.showDelete,
+                        dataUser: this.props.dataUser
+                    })
                 }
               >
                 {this.props.source.length > 5 &&
