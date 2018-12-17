@@ -15,7 +15,7 @@ import {
 import moment from "moment";
 import BinhLuanItem from "../components/BinhLuanItem";
 import TextInputChat from "../components/TextInputChat";
-import {bindActionCreators} from "redux";
+import {bindActionCreators, compose} from "redux";
 import {connect} from "react-redux";
 import {searchCmt} from "../actions/searchCmtActions";
 import {createCmt} from "../actions/createCmtActions";
@@ -29,9 +29,11 @@ import PollVote from "../components/PollVote";
 import Share from "react-native-share";
 import PropTypes from "prop-types";
 import {typeAccount} from "../constant/UtilsFunction";
-import {TEXT_POST} from "../language";
+import {TEXT_POST, TEXT_EVENT} from "../language";
 import {requestRegister} from "../actions";
 import {likePost} from "../actions/likePostActions";
+import {joinEvent} from "../actions/joinEventActions";
+import injectShowAlert from "../constant/injectShowAlert";
 
 class BinhLuan extends Component {
     constructor(props) {
@@ -48,6 +50,7 @@ class BinhLuan extends Component {
         };
 
         this.TEXT_POST = TEXT_POST();
+        this.TEXT_EVENT = TEXT_EVENT();
         const {UserProfile} = this.props;
         if (UserProfile.length <= 0) {
             return null;
@@ -234,7 +237,44 @@ class BinhLuan extends Component {
             this.setState({liked: false, countLike: currentLike});
         }
     };
+    _joinEvent = async EventID => {
+        console.log('join_event')
+        console.log('ID', this.state.PostContent.ID)
+        //prevent action with GUEST
+        if (this.props.isGuest)
+            return requestRegister(
+                this.props.isTab ? this.props.screenProps : this.props.navigation
+            );
 
+        const {joinEvent, UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null;
+        }
+        let eventJoin = await joinEvent({
+            EventID: this.state.PostContent.ID,
+            ProfileID: UserProfile.Value[0].IntUserID, //api yeu cau interuserid
+            Type: 0,
+            UserName: UserProfile.Value[0].FullName,
+            Phone: UserProfile.Value[0].Phone,
+            Email: UserProfile.Value[0].Email ? UserProfile.Value[0].Email : ""
+        });
+        console.log("eventJoin", eventJoin);
+
+        if (eventJoin.ErrorCode == "00") {
+            this.setState({
+                isJoin: true
+            });
+            return this.props.showAlert({
+                content: this.TEXT_EVENT.JoinSuccess
+            });
+        } else if (eventJoin.ErrorCode == "04") {
+            return this.props.showAlert({content: this.TEXT_EVENT.HasJoin});
+        } else {
+            return this.props.showAlert({
+                content: this.TEXT_EVENT.JoinFail
+            });
+        }
+    };
 
     render() {
         const {navigation} = this.props;
@@ -248,7 +288,7 @@ class BinhLuan extends Component {
         }
         return (
             <KeyboardAvoidingView
-                style={{flex: 1}}
+                style={{flex: 1, backgroundColor:'white'}}
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 keyboardVerticalOffset={64}
             >
@@ -513,6 +553,7 @@ class BinhLuan extends Component {
                     {/*</View>*/}
                     <FlatList
                         data={this.state.ArrCmt}
+                        style = {{marginBottom: 30}}
                         renderItem={item => {
                             return <BinhLuanItem dataItem={item}/>;
                         }}
@@ -550,7 +591,8 @@ const mapDispatchToProps = dispatch => {
     return {
         likePost: bindActionCreators(likePost, dispatch),
         searchCmt: bindActionCreators(searchCmt, dispatch),
-        createCmt: bindActionCreators(createCmt, dispatch)
+        createCmt: bindActionCreators(createCmt, dispatch),
+        joinEvent: bindActionCreators(joinEvent, dispatch)
     };
 };
 
@@ -558,7 +600,9 @@ BinhLuan = connect(
     mapStateToProps,
     mapDispatchToProps
 )(BinhLuan);
-export default BinhLuan;
+export default compose(injectShowAlert)(BinhLuan);
+
+
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
     image_circle: {
