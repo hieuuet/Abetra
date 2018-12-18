@@ -15,31 +15,6 @@ class BinhLuanItem extends Component {
     const { item } = this.props.dataItem;
     return (
       <View style={{ flex: 1 }}>
-          {/*<View style = {{flexDirection: 'row', alignItems:"center"}}>*/}
-              {/*<Image*/}
-                  {/*style={styles.image_circle}*/}
-                  {/*source={{*/}
-                      {/*uri:*/}
-                          {/*"https://znews-photo-td.zadn.vn/w1024/Uploaded/unvjuas/2018_01_14/NGUYEN_BA_NGOC2312_ZING_2.jpg",*/}
-                  {/*}}*/}
-                  {/*resizeMode="cover"*/}
-              {/*>*/}
-              {/*</Image>*/}
-
-              {/*<Text style = {styles.textName}>{item.FullName}</Text>*/}
-          {/*</View>*/}
-
-          {/*<View style = {styles.viewCmt}>*/}
-              {/*<Text style = {styles.textCmt}>{item.Content}</Text>*/}
-              {/*<View style = {{flexDirection:'row'}}>*/}
-                  {/*<Text>*/}
-                      {/*{moment(item.DatePost).startOf('hour').fromNow()}*/}
-                      {/*</Text>*/}
-              {/*</View>*/}
-
-          {/*</View>*/}
-          {/*<View style = {{height:1, backgroundColor:'#E0E0E0', marginLeft: DEVICE_WIDTH / 10 + 10, marginTop:10}}>*/}
-          {/*</View>*/}
           <View
               style={{
                   flexDirection: "row",
@@ -59,7 +34,7 @@ class BinhLuanItem extends Component {
                   style={{
                       marginRight: 15,
                       justifyContent: "center",
-                      backgroundColor: "#C7C7C7",
+                      backgroundColor: "#F5F5F3",
                       borderRadius: 15,
                       marginLeft: 5,
                       borderWidth: 1,
@@ -68,12 +43,12 @@ class BinhLuanItem extends Component {
                       paddingBottom: 5,
                       paddingRight: 10,
                       paddingLeft: 10,
-                      borderColor: '#C7C7C7',
+                      borderColor: '#F5F5F3',
                   }}
               >
 
 
-                  <Text >{item.Content}</Text>
+                  <Text>{item.Content}</Text>
               </View>
 
 
