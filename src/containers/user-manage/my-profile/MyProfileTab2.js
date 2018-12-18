@@ -266,7 +266,8 @@ const styles = StyleSheet.create({
   iconedit: {
     width: 20,
     height: 20,
-    marginTop: 5
+    marginTop: 5,
+    padding: 5
   },
   parent: {
     flex: 1,

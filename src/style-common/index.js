@@ -3,8 +3,7 @@ import { COLOR } from "../constant/Color";
 //eslint-disable-next-line
 export default (style = StyleSheet.create({
   container: {
-    flex: 1,
-    
+    flex: 1
   },
   container_white: {
     flex: 1,
@@ -49,7 +48,7 @@ export default (style = StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   text_color_base: {
     color: COLOR.COLOR_BLACK

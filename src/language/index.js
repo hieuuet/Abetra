@@ -29,6 +29,7 @@ export const TEXT_COMMON = () => ({
   Empty: strings("common.empty"),
   FanPage: strings("common.txt_fanpage"),
   Confirm: strings("common.confirm"),
+  OK: strings("common.ok"),
   Cancel: strings("common.cancel"),
   Next: strings("common.next"),
   InputPhone: strings("login.input_phone"),
@@ -266,7 +267,7 @@ export const TEXT_POST = () => ({
   Share: strings("post.share"),
   Cmt: strings("post.cmt")
 });
-export const LOCATION  = () => ({
-    SearchLocation: strings("location.search_location"),
-    AlertLocation: strings("location.alert_location"),
-})
+export const LOCATION = () => ({
+  SearchLocation: strings("location.search_location"),
+  AlertLocation: strings("location.alert_location")
+});

@@ -17,7 +17,11 @@ import FastImage from "react-native-fast-image";
 import { isEqual } from "lodash";
 import { getRank } from "../../../constant/UtilsFunction";
 import style_common from "../../../style-common";
-import { updateUserProfile, uploadImage2 } from "../../../actions";
+import {
+  updateUserProfile,
+  uploadImage2,
+  uploadAvatar
+} from "../../../actions";
 import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
 const ImagePicker = NativeModules.ImageCropPicker;
 
@@ -59,7 +63,7 @@ class HeaderProfile extends Component {
         if (image && image.data) {
           this.setState({ localAvatar: image.path });
           this.props.onLoading(true);
-          const responUpload = await uploadImage2({
+          const responUpload = await uploadAvatar({
             base64Data: image.data,
             user_id: this.props.userProfile.UserID,
             extension: "jpeg"
@@ -140,15 +144,15 @@ class HeaderProfile extends Component {
               style_edit={styles.edit_userName}
             />
             <TouchableOpacity
-              style={styles.btn_change_pass}
+              // style={styles.btn_change_pass}
               onPress={() => this.props.navigation.navigate("ChangePassword")}
             >
-              <Image
+              {/* <Image
                 resizeMode="contain"
                 source={IMAGE.bg_change_pass}
                 style={styles.bg_change_pass}
-              />
-              <Text style={styles.text_change_pass}>
+              /> */}
+              <Text style={styles.text_link}>
                 {(this.props.TEXT_PROFILE &&
                   this.props.TEXT_PROFILE.ChangePass) ||
                   ""}
@@ -249,7 +253,9 @@ class HeaderProfile extends Component {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate("CertificateMember");
+                this.props.navigation.navigate("CertificateMember", {
+                  userID: this.props.userProfile.UserID
+                });
               }}
             >
               <Text>

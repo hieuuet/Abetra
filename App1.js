@@ -81,6 +81,11 @@ class App1 extends Component {
             title={this.dataAlert && this.dataAlert.title}
             labelSubmit={this.dataAlert && this.dataAlert.labelSubmit}
             labelClose={this.dataAlert && this.dataAlert.labelClose}
+            isShowCloseButton={
+              !!this.dataAlert &&
+              (this.dataAlert.onClose !== undefined ||
+                this.dataAlert.labelClose !== undefined)
+            }
             visible={this.props.alertState.isShow}
             onClose={() => {
               this.dataAlert &&

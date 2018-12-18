@@ -58,7 +58,6 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-
   CreateDescription: {
     screen: CreateDescription,
     navigationOptions: {

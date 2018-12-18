@@ -10,7 +10,8 @@ export {
   updateUserProfile,
   loadProfileMember,
   changePassword,
-  updateAddressDesscription
+  updateAddressDesscription,
+  uploadAvatar
 } from "./UserProfileActions";
 
 export { loginFacebook, postLogin, postRegister } from "./AuthActions";

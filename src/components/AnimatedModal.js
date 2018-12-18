@@ -40,7 +40,13 @@ export default class AnimatedModal extends Component {
 
   componentWillUnmount() {}
   render() {
-    const { title, children, onClose, onSubmit } = this.props;
+    const {
+      title,
+      children,
+      onClose,
+      onSubmit,
+      isShowCloseButton
+    } = this.props;
 
     let negativeHeight = -height;
     let modalMoveY = this.yTranslate.interpolate({
@@ -67,15 +73,21 @@ export default class AnimatedModal extends Component {
           </ImageBackground>
           <View style={styles.modalContent}>{children}</View>
           <View style={styles.wraper_btn}>
+            {isShowCloseButton && (
+              <ButtonBorder
+                label={this.props.labelClose || strings("common.cancel")}
+                my_style={styles.btn_left}
+                onPress={onClose}
+              />
+            )}
             <ButtonBorder
-              label={this.props.labelClose || strings("common.cancel")}
-              my_style={styles.btn_left}
-              onPress={onClose}
-            />
-            <ButtonBorder
-              label={this.props.labelSubmit || strings("common.confirm")}
+              label={this.props.labelSubmit || strings("common.ok")}
               onPress={onSubmit}
-              my_style={[style_common.btn_blue_radius, styles.btn_right]}
+              my_style={[
+                style_common.btn_blue_radius,
+                styles.btn_right,
+                { maxWidth: isShowCloseButton ? 400 : 140 }
+              ]}
             />
           </View>
         </View>

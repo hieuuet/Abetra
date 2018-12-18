@@ -292,59 +292,15 @@ class MyProfileTab1 extends Component {
           text_edit={""}
           isEditAble={true}
         />
+        <Text style={styles.text_description}>
+          {(this.dataUser && this.dataUser.Description) || ""}
+        </Text>
       </View>
     );
   };
   _renderContent = () => {
     return (
       <View style={style_common.wrapper}>
-        {/* <Text style={[style_common.text_color_base, styles.txt_title]}>
-          {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Intro) || ""}
-        </Text>
-        <TextInput
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          returnKeyType="done"
-          numberOfLines={5}
-          multiline={true}
-          defaultValue={this.state.textDescription}
-          onChangeText={text => {
-            this.textDescription = text.trim();
-          }}
-          style={[style_common.input_border, styles.text_area]}
-          onSubmitEditing={event => {
-            if (this.textDescription) {
-              this.setState({ textDescription: this.textDescription });
-            }
-          }}
-        /> */}
-
-        {/* <View style={styles.action}>
-          <TouchableOpacity
-            style={styles.btn_action}
-            onPress={() => this.setState({ showEmoticons: true })}
-          >
-            <Icon name="smile-beam" size={30} color={COLOR.COLOR_YELLOW} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn_action}
-            onPress={this.pickMultipleImageToUpload}
-          >
-            <Image
-              style={styles.icon_img}
-              source={IMAGE.imag_icon}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn_save}
-            onPress={this.updateProfileAddressDes}
-          >
-            <Text>
-              {(this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Save) || ""}
-            </Text>
-          </TouchableOpacity>
-        </View> */}
         <PhotoGrid
           source={this.state.dataImage}
           width={width - 20}
@@ -380,11 +336,11 @@ class MyProfileTab1 extends Component {
             this.props.navigation.navigate("SavePost");
           }
         )}
-        {this._itemFooter(
+        {/* {this._itemFooter(
           (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Follow) || "",
           IMAGE.btn_hoivien,
           () => {}
-        )}
+        )} */}
         {this._itemFooter(
           (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.EventJoin) || "",
           IMAGE.btn_event,
@@ -418,6 +374,7 @@ class MyProfileTab1 extends Component {
         >
           <View style={styles.parent}>
             {this._renderEdit()}
+
             {this._renderContent()}
           </View>
         </ScrollView>
@@ -467,6 +424,15 @@ const styles = StyleSheet.create({
   emoji: {
     backgroundColor: "gray",
     height: 200
+  },
+  text_description: {
+    color: COLOR.COLOR_BLACK,
+    justifyContent: "flex-start",
+    textAlign: "left",
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    alignItems: "flex-start"
   },
   wrapper_edit: {
     flexDirection: "row",

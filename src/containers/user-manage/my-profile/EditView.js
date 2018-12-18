@@ -131,12 +131,15 @@ EditView.defaultProps = {
 const styles = StyleSheet.create({
   iconedit1: {
     width: 20,
-    height: 20
+    height: 20,
+    marginTop: 5,
+    padding: 5
   },
   iconedit: {
     width: 20,
-    height: 20 ,
-    marginTop:5
+    height: 20,
+    marginTop: 5,
+    padding: 5
   },
   wrapper: {
     justifyContent: "flex-start",

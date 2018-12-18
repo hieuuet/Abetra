@@ -135,6 +135,7 @@ class ImageDetail extends React.PureComponent {
     // console.log("data-img", this.data);
     return (
       <View style={styles.wrapper}>
+        <View style={{ height: 20, backgroundColor: "#000000" }} />
         <FlatList
           data={this.data}
           horizontal
@@ -204,12 +205,13 @@ const styles = StyleSheet.create({
   },
   close: {
     position: "absolute",
-    top: 10,
+    top: 30,
     left: 10
   },
   delete: {
     position: "absolute",
     top: 10,
-    right: 10
+    right: 10,
+    zIndex: 9999
   }
 });

@@ -66,8 +66,8 @@ class Enterprise extends Component {
   }
 
   onClickShowModal = item => {
-    if (this.refs.modal) this.refs.modal.open();
-    this.itemModalShow = item;
+    // if (this.refs.modal) this.refs.modal.open();
+    // this.itemModalShow = item;
   };
   onClickCloseModal = () => {
     // this.itemModalShow = undefined;
@@ -151,9 +151,9 @@ class Enterprise extends Component {
       this.setState({
         isLoading: false
       });
-      return this.props.showAlert({
-        content: result.Message
-      });
+      // return this.props.showAlert({
+      //   content: result.Message
+      // });
     }
   };
 

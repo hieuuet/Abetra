@@ -91,7 +91,7 @@ class Home extends Component {
       this._loadUserProfile();
       this.props.getAllRank();
       this.props.getAllHashTag();
-      this.props.getcommonSetting({ Option: 7 }, true);
+      this.props.getcommonSetting({ Option: 20 }, true);
       this.props.getAllCategory({ Type: 3 });
       this.props.getAllEmoji();
     }

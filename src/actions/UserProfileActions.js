@@ -36,3 +36,9 @@ export const loadProfileMember = (data = {}) => {
 export const changePassword = (data = {}) => {
   return postRequestApi(API.CHANGE_PASS, data, true);
 };
+
+/**upload uploadAvatar directly */
+
+export const uploadAvatar = (data = {}) => {
+  return postRequestApi(API.UPDATE_AVATAR, data, true);
+};

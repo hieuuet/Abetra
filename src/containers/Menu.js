@@ -178,9 +178,13 @@ class Menu extends Component {
           }}
         >
           <TouchableOpacity
-            onPress={() => phonecall("0123456789", true)}
+            onPress={() =>
+              phonecall(this.props.commonSetting.HotLine || "", true)
+            }
           >
-            <Text style={{ fontSize: 11 }}>Hotline: 0123456789</Text>
+            <Text style={{ fontSize: 11 }}>
+              Hotline: {this.props.commonSetting.HotLine || ""}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
             <Image
@@ -208,7 +212,8 @@ const mapStateToProps = state => {
     userProfile: state.loadUserProfile,
     isGuest: state.loginGuest.isGuest,
     allRank: state.allRank,
-    currentLanguage: state.currentLanguage
+    currentLanguage: state.currentLanguage,
+    commonSetting: state.commonSetting
   };
 };
 

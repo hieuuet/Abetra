@@ -15,12 +15,17 @@ class CertificateMember extends Component {
       imageArr: []
     };
     this.TEXT_CERTIFICATE = TEXT_CERTIFICATE();
+    this.userID = this.props.navigation.getParam("userID") || "";
   }
   componentDidMount() {
     this.setState({ isLoading: true });
-    getCertificate()
+    getCertificate(this.userID)
       .then(data => {
-        this.setState({ isLoading: false, imageArr: data.Value || [] });
+        const img =
+          data && data.Value && data.Value[0] && data.Value[0].ImageCrt;
+        const imageArr = [];
+        if (img && img !== "") imageArr.push(img);
+        this.setState({ isLoading: false, imageArr });
       })
       .catch(err => this.setState({ isLoading: false }));
   }

@@ -12,6 +12,7 @@ export const API = {
   LOAD_USER_PROFILE: `${URL_BASE}/api/Users/LoadUserProfile`,
   UPDATE_USER_PROFILE: `${URL_BASE}/api/Users/UpdateProfile`,
   UPDATE_ADDRESS_DESSCRIPTION: `${URL_BASE}/api/Users/UpdateProfileAddresDes`,
+  UPDATE_AVATAR: `${URL_BASE}/api/FaceHomeIO/UploadAvatar`,
 
   //login fb
   LOGIN_FB: `${URL_BASE}/api/Users/RegristerLoginFB`,
@@ -61,7 +62,7 @@ export const API = {
 
   //common
   GET_BENIFET: `${URL_BASE}/api/Common/GetQuyenLoi`,
-  GET_CERTIFICATE: `${URL_BASE}/api/Common/GetChungchi`,
+  GET_CERTIFICATE: `${URL_BASE}/Common/GetChungchi/`,
   GET_GUIDE: `${URL_BASE}/api/Common/GetHuongDan`,
   GET_IMAGE_PANEL: `${URL_BASE}/api/Common/GetAllImagePanel`,
   GET_COMMON_SETTING: `${URL_BASE}/Common/GetSetting`,

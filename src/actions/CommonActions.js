@@ -62,8 +62,8 @@ export const getGuide = () => {
 /**
  * get certificate
  */
-export const getCertificate = () => {
-  return getRequestApi(API.GET_CERTIFICATE, true);
+export const getCertificate = userID => {
+  return getRequestApi(`${API.GET_CERTIFICATE}/${userID}`, true);
 };
 
 /**

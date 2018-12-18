@@ -244,7 +244,7 @@ class Profile extends Component {
             style={styles.btn_margin_right}
           />
           <TabView
-            label={this.TEXT_PROFILE.Activity}
+            label={this.TEXT_PROFILE.Member}
             onPress={() => {
               this.setState({ tabIndex: 1 });
             }}

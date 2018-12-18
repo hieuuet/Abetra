@@ -5,27 +5,37 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Alert,
-  Button,
   StyleSheet,
-  Keyboard,
-  FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
   Dimensions,
   NativeModules,
-  ScrollView
+  Keyboard,
+  Platform,
+  BackHandler
 } from "react-native";
 import { COLOR } from "../../../constant/Color";
 import { bindActionCreators, compose } from "redux";
 import injectShowAlert from "../../../constant/injectShowAlert";
 import { connect } from "react-redux";
-import { loadUserProfile } from "../../../actions";
+import {
+  loadUserProfile,
+  updateAddressDesscription,
+  uploadMultipleImage
+} from "../../../actions";
 import { URL_BASE } from "../../../constant/api";
 
 import { CustomizeHeader } from "../../../components/CommonView";
 import { isEqual } from "lodash";
 import { TEXT_CREATE_POST } from "../../../language";
 import { typeAccount } from "../../../constant/UtilsFunction";
+import style_common from "../../../style-common";
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import FastImage from "react-native-fast-image";
+import { IMAGE } from "../../../constant/assets";
+import { ViewLoading } from "../../../components/CommonView";
+import PhotoGrid from "../../../components/PhotoGrid";
+const { width } = Dimensions.get("window");
 
 let ImagePicker = NativeModules.ImageCropPicker;
 
@@ -35,48 +45,150 @@ class CreateDescription extends Component {
 
     this.TEXT_CREATE_POST = TEXT_CREATE_POST();
 
+    this.initDataUser();
     this.state = {
-      modalVisible: false,
-      isVote: false,
-      isEvent: false,
-      ArrImg: []
+      showEmoticons: false,
+      isLoading: false,
+      textSubmit: this.textSubmit,
+      dataImage: this.oldImage
     };
+
+    this.arrBase64 = [];
+    this.arrPath = [];
+  }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      const isAlertShow = this.props.closeAlert();
+      if (isAlertShow) {
+        return true;
+      }
+      if (this.state.showEmoticons) {
+        this.setState({ showEmoticons: false });
+        return true;
+      }
+      // this.props.navigation.goBack();
+      // return true;
+    });
+
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        if (this.state.showEmoticons) {
+          this.setState({ showEmoticons: false });
+        }
+      }
+    );
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.currentLanguage, nextProps.currentLanguage)) {
       this.TEXT_CREATE_POST = TEXT_CREATE_POST();
     }
+
+    if (!isEqual(this.props.dataUser, nextProps.dataUser)) {
+      this.initDataUser();
+    }
   }
 
-  //upload Image
-  _uploadImage = async (arrImage = []) => {
-    // console.log("arrImage", arrImage);
-    const { UserProfile, uploadImage } = this.props;
-    if (UserProfile.length <= 0) {
-      return null;
-    }
-    console.log("arrImage", arrImage);
-    let linkImage = await uploadImage({
-      user_id: UserProfile.Value[0].UserID,
-      base64Datas: arrImage
-    });
-    // console.log("linkImage", linkImage);
-    // let Imgs = [];
-    let Imgs = JSON.parse(linkImage);
-    Imgs = Imgs.Value;
-    let ImgsLink = Imgs.map(img => {
-      return URL_BASE + img;
-    });
-    ImgsLink = JSON.stringify(ImgsLink);
-    console.log("img", ImgsLink);
-    this.setState({
-      ArrImg: ImgsLink
-    });
+  componentWillUnmount() {
+    this.backHandler.remove();
+    this.keyboardDidShowListener.remove();
+  }
+
+  initDataUser = () => {
+    console.log("dataUser", this.props.dataUser);
+    this.oldImage =
+      this.props.dataUser && this.props.dataUser.ImageDescription
+        ? JSON.parse(this.props.dataUser.ImageDescription)
+        : [];
+
+    this.textSubmit =
+      (this.props.dataUser && this.props.dataUser.Description) || "";
   };
 
-  pickMultiple() {
-    let ArrImage = [];
+  reLoadProfile = async () => {
+    const { loadUserProfile } = this.props;
+    if (!this.props.dataUser || !this.props.dataUser.UserID) {
+      return null;
+    }
+    loadUserProfile({
+      user_id: this.props.dataUser.UserID,
+      option: 100
+    });
+  };
+  /**
+   * Upload image first before upload data of address and description
+   */
+  updateProfileAddressDes = async () => {
+    this.dismissAllModalShow();
+    this.setState({ isLoading: true });
+
+    //If have image on description, upload image before
+    if (this.arrBase64.length > 0) {
+      const resultUpload = await uploadMultipleImage({
+        user_id: this.props.dataUser.UserID,
+        base64Datas: this.arrBase64
+      });
+      //upload success
+      if (resultUpload) {
+        const arrLink = JSON.parse(resultUpload).Value;
+        if (arrLink !== null && arrLink !== undefined) {
+          const arrFullLink = arrLink.map(imgLink => {
+            return URL_BASE + imgLink;
+          });
+
+          //combine old image and new image just upload
+          const allImage = [...this.oldImage, ...arrFullLink];
+          console.log("all image", allImage);
+          return this.callApiUploadAddress(allImage);
+        }
+      }
+
+      //upload image error
+      this.setState({ isLoading: false });
+      return this.props.showAlert({
+        content: this.TEXT_COMMON.UploadImageFail
+      });
+    } else {
+      //Not select image to upload
+      this.callApiUploadAddress(this.oldImage);
+    }
+  };
+
+  /**
+   * Call api upload address and description
+   */
+  callApiUploadAddress = async allImage => {
+    //check if data not change
+    if (
+      this.state.textSubmit === this.props.dataUser.Description &&
+      allImage === this.oldImage
+    )
+      return this.setState({ isLoading: false });
+
+    //start call api
+    this.setState({ isLoading: true });
+    const resultUpdate = await updateAddressDesscription({
+      profile_id: this.props.dataUser.ProfileID,
+      user_id: this.props.dataUser.UserID,
+      Address: this.props.dataUser.Address,
+      Description: this.state.textSubmit,
+      ImageDescription: JSON.stringify(allImage)
+    });
+
+    if (resultUpdate && resultUpdate.ErrorCode === "00") {
+      this.setState({ dataImage: allImage });
+      this.reLoadProfile();
+      return this.setState({ isLoading: false });
+    } else {
+      this.setState({ isLoading: false });
+      return this.props.showAlert({ content: resultUpdate.Message });
+    }
+  };
+
+  pickMultipleImageToUpload = () => {
+    this.dismissAllModalShow();
     ImagePicker.openPicker({
       multiple: true,
       waitAnimationEnd: false,
@@ -84,157 +196,231 @@ class CreateDescription extends Component {
       includeExif: true,
       forceJpg: true
     })
-      .then(images => {
-        // console.log('images', images)
+      .then(async images => {
+        console.log("images", images);
+        if (images) {
+          images.forEach(image => {
+            this.arrBase64.push(image.data);
+            this.arrPath.push(image.path);
+          });
 
-        this.setState(
-          {
-            image: null,
-            images: images.map(i => {
-              ArrImage.push(i.data);
-              // console.log('i.data', i.data)
-              // console.log("ArrImage", ArrImage);
-
-              return { uri: i.path, base64: i.data };
-            })
-          },
-          () => this._uploadImage(ArrImage)
-        );
+          this.setState({
+            dataImage: [...this.state.dataImage, ...this.arrPath]
+          });
+        }
       })
-      .catch(e => console.log("e", e));
-  }
+      .catch(e => {
+        this.setState({ isLoading: false });
+      });
+  };
+
+  onEmojiSelected = emoji => {
+    let textSubmit = this.state.textSubmit;
+    textSubmit += emoji;
+    this.setState({ textSubmit });
+  };
+
+  dismissAllModalShow = () => {
+    if (this.state.showEmoticons) {
+      this.setState({ showEmoticons: false });
+    }
+    Keyboard.dismiss();
+  };
+
+  renderAvatarName = () => {
+    const { dataUser } = this.props;
+    const source =
+      dataUser && dataUser.Avatar
+        ? { uri: URL_BASE + dataUser.Avatar }
+        : IMAGE.logo;
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 10,
+          alignItems: "center"
+        }}
+      >
+        <FastImage
+          style={styles.image_circle_avt}
+          source={source}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "column",
+              marginLeft: 5,
+              paddingTop: 3,
+              paddingBottom: 3
+            }}
+          >
+            <Text
+              style={{ color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold" }}
+            >
+              {(dataUser && dataUser.FullName) || "Undefined"}
+            </Text>
+            <Text style={{ fontSize: 12 }}>
+              {typeAccount(dataUser && dataUser.Type)}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  renderTextInput = () => {
+    return (
+      <View>
+        <View
+          style={{
+            marginHorizontal: 10,
+            marginTop: 5,
+            height: 150,
+            borderColor: "gray",
+            borderRadius: 2,
+            borderWidth: 1
+          }}
+        >
+          <TextInput
+            placeholder={this.TEXT_CREATE_POST.ContentPost}
+            placeholderTextColor={"#A8A8A7"}
+            underlineColorAndroid="transparent"
+            autoCapitalize={"none"}
+            value={this.state.textSubmit}
+            onChangeText={text => {
+              this.setState({ textSubmit: text });
+            }}
+            placeholderTextSize="20"
+            multiline={true}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  renderListImage = () => {
+    console.log("dataimage", this.state.dataImage);
+    return (
+      <PhotoGrid
+        source={this.state.dataImage}
+        width={width - 20}
+        height={width / 1.5}
+        ratio={0.5}
+        showDelete={true}
+        dataUser={this.props.dataUser}
+        navigation={this.props.navigation}
+      />
+    );
+  };
+
+  renderBottom = () => {
+    return (
+      <View style={styles.view_border}>
+        <TouchableOpacity
+          onPress={() => {
+            Keyboard.dismiss();
+            this.setState({ showEmoticons: true });
+          }}
+        >
+          <Image
+            source={require("../../../../assets/btn_emo.png")}
+            style={styles.button_image}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.pickMultipleImageToUpload}>
+          <Image
+            source={require("../../../../assets/btn_img.png")}
+            style={styles.button_image}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.updateProfileAddressDes}>
+          <View style={styles.view_post}>
+            <Text style={{ color: "white" }}>{this.TEXT_CREATE_POST.Post}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  renderEmoji = () => {
+    console.log("showEmoticons", this.state.showEmoticons);
+    if (this.state.showEmoticons)
+      return (
+        <View style={styles.wrapper_emoji}>
+          {/* <TouchableOpacity
+            style={style_common.container}
+            onPress={() => {
+              this.setState({ showEmoticons: false });
+            }}
+          /> */}
+          <EmojiSelector
+            onEmojiSelected={this.onEmojiSelected}
+            category={Categories.people}
+            showSearchBar={false}
+            showTabs={false}
+            showHistory={true}
+            columns={10}
+            style={styles.emoji}
+          />
+        </View>
+      );
+
+    return null;
+  };
+
+  _renderLoading = () => {
+    return this.state.isLoading ? <ViewLoading /> : null;
+  };
 
   render() {
-    const { UserProfile } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <CustomizeHeader
           label={this.TEXT_CREATE_POST.CreatePost}
           onBackPress={() => this.props.navigation.goBack()}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            alignItems: "center"
-          }}
+        <KeyboardAvoidingView
+          style={style_common.container}
+          behavior={Platform.OS === "ios" ? "padding" : null}
+          keyboardVerticalOffset={64}
         >
-          <Image
-            style={styles.image_circle_avt}
-            source={{
-              uri: URL_BASE + UserProfile.Value[0].Avatar
-            }}
-            resizeMode="cover"
-          />
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            style={style_common.container}
+            contentContainerStyle={{ flexGrow: 1 }}
           >
-            <View
-              style={{
-                justifyContent: "center",
-                flexDirection: "column",
-                marginLeft: 5,
-                paddingTop: 3,
-                paddingBottom: 3
-              }}
-            >
-              <Text
-                style={{ color: COLOR.COLOR_NAME_STATUS, fontWeight: "bold" }}
-              >
-                {UserProfile.Value[0].FullName}
-              </Text>
-              <Text style={{ fontSize: 12 }}>
-                {typeAccount(UserProfile.Value[0].Type)}
-              </Text>
+            {this.renderAvatarName()}
+            <View style={styles.view_container}>
+              {this.renderTextInput()}
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                {this.renderListImage()}
+              </View>
             </View>
-          </View>
-        </View>
-        <View style={styles.view_container}>
-          <View>
-            <View style={{ marginHorizontal: 10, marginTop: 5 }}>
-              <TextInput
-                placeholder={this.TEXT_CREATE_POST.ContentPost}
-                underlineColorAndroid="transparent"
-                onChangeText={Status => this.setState({ Status })}
-                placeholderTextSize="20"
-                returnKeyType={"search"}
-                // onFocus={() => {
-                //     this.handleTextInput()
-                // }}
-              />
-            </View>
-          </View>
-          {this.state.images ? (
-            <FlatList
-              data={this.state.images}
-              // horizontal={true}
-              // style = {{marginLeft: 0}}
-              numColumns={5}
-              renderItem={({ item }) => {
-                console.log("item_image", item);
-                return (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginLeft: 6
-                    }}
-                  >
-                    <Image
-                      style={styles.image_circle}
-                      source={item}
-                      resizeMode="cover"
-                    />
-                  </View>
-                );
-              }}
-              extraData={this.state}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          ) : null}
-          <View style={styles.view_bottom}>
-            <View style={styles.view_border}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../../../../assets/btn_emo.png")}
-                  style={styles.button_image}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
-                <Image
-                  source={require("../../../../assets/btn_img.png")}
-                  style={styles.button_image}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() =>
-                  this.state.isEvent ? this._addEvent() : this._createPost()
-                }
-              >
-                <View style={styles.view_post}>
-                  <Text style={{ color: "white" }}>
-                    {this.TEXT_CREATE_POST.Post}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+          </ScrollView>
+          <View style={styles.view_bottom}>{this.renderBottom()}</View>
+          {this._renderLoading()}
+        </KeyboardAvoidingView>
+        {this.renderEmoji()}
       </View>
     );
   }
 }
 
 const mapStateToProps = state => {
+  const UserProfile = state.loadUserProfile;
   return {
-    UserProfile: state.loadUserProfile
+    dataUser: UserProfile && UserProfile.Value && UserProfile.Value[0]
   };
 };
 
@@ -251,6 +437,20 @@ CreateDescription = connect(
 export default compose(injectShowAlert)(CreateDescription);
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+  wrapper_emoji: {
+    // position: "absolute",
+    // top: 0,
+    // right: 0,
+    // left: 0,
+    // bottom: 0
+    // flex: 1,
+    height: 200,
+    flexDirection: "column"
+  },
+  emoji: {
+    backgroundColor: "gray",
+    height: 200
+  },
   view_container: {
     justifyContent: "space-between",
     flex: 1
