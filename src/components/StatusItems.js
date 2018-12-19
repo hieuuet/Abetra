@@ -52,6 +52,12 @@ class StatusItems extends Component {
         const {UserProfile} = this.props;
 
         //ArrUser Liked
+        let HashTag = item.Target ? item.Target : ""
+        let ArrHashTag = HashTag.split(",");
+        this.setState({
+            ArrHashTag
+        })
+        // console.log("ArrHashTag", ArrHashTag)
         let dataLike = item.LikePost ? item.LikePost : "[]";
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
         //Get Arr IntUserID
@@ -348,6 +354,13 @@ class StatusItems extends Component {
                             {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                         </View>
                     ) : null}
+                    {/*{this.state.ArrHashTag ? <View style={{marginHorizontal: 15, flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>*/}
+                        {/*<View style = {styles.borderHashtag}></View>*/}
+                        {/*<View style = {styles.borderHashtag}></View>*/}
+                        {/*<View style = {styles.borderHashtag}></View>*/}
+
+                    {/*</View> : null}*/}
+
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
                             <ReadMore
@@ -409,7 +422,7 @@ class StatusItems extends Component {
                                                 resizeMode="contain"
                                             />
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity> : <TouchableOpacity
@@ -426,7 +439,7 @@ class StatusItems extends Component {
                                             />
 
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity>
@@ -454,7 +467,7 @@ class StatusItems extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Cmt}</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Cmt}({item.TotalComment})</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.onShare(item.Type != 2
@@ -468,7 +481,7 @@ class StatusItems extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({item.TotalShare})</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -682,5 +695,14 @@ const styles = StyleSheet.create({
     text_action: {
         marginLeft: 3,
         color: "#777777"
+    },
+    borderHashtag: {
+        height: 30,
+        width: DEVICE_WIDTH/3 - 10,
+        backgroundColor: '#D7CCC8',
+        borderColor: "#D7CCC8",
+        borderWidth:1,
+        borderRadius: 15
+
     }
 });
