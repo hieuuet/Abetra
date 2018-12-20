@@ -351,7 +351,7 @@ class EventItem extends Component {
                                                 resizeMode="contain"
                                             />
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity> : <TouchableOpacity
@@ -368,7 +368,7 @@ class EventItem extends Component {
                                             />
 
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity>
@@ -396,7 +396,7 @@ class EventItem extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Cmt}</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Cmt}({item.TotalComment})</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.onShare(item.Description)}>
@@ -408,7 +408,7 @@ class EventItem extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({item.TotalShare})</Text>
                             </View>
                         </TouchableOpacity>
 

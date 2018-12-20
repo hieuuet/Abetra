@@ -458,7 +458,7 @@ class BinhLuan extends Component {
                                                 resizeMode="contain"
                                             />
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity> : <TouchableOpacity
@@ -475,7 +475,7 @@ class BinhLuan extends Component {
                                             />
 
                                         </View>
-                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}</Text>
+                                        <Text style={styles.text_action}>{this.TEXT_POST.Like}({this.state.countLike})</Text>
                                     </View>
 
                                 </TouchableOpacity>
@@ -493,7 +493,7 @@ class BinhLuan extends Component {
                                 />
                             </View>
                             <Text style={styles.text_action}>
-                                Bình luận
+                                {this.TEXT_POST.Cmt}({itemStatus.TotalComment})
                             </Text>
                         </View>
                         {/*<TouchableOpacity onPress={() => this.onShare()}>*/}
@@ -523,7 +523,7 @@ class BinhLuan extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Share}</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({itemStatus.TotalShare})</Text>
                             </View>
                         </TouchableOpacity>
                         {itemStatus.Type == 2 ? (
