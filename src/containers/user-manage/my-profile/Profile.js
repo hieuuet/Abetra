@@ -232,6 +232,7 @@ class Profile extends Component {
           allRank={this.props.allRank}
           onLoading={this.onLoading}
           onBackPress={this.handleBackPress}
+          showAlert={this.props.showAlert}
         />
 
         <View style={styles.tab}>

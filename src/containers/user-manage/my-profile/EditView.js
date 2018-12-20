@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ScrollView
+  Keyboard
 } from "react-native";
 import PropTypes from "prop-types";
 import { COLOR } from "../../../constant/Color";
@@ -21,9 +21,21 @@ class EditView extends Component {
     };
     this.currentText = this.props.text_edit;
   }
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        console.log("keyboardDidHide");
+        this.setState({ allowEdit: false }, () => {
+          this.submitText();
+        });
+      }
+    );
+  }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.text_edit !== this.currentText)
-      this.currentText = nextProps.text_edit;
+    // if (nextProps.text_edit !== this.currentText)
+    //   this.currentText = nextProps.text_edit;
   }
   shouldComponentUpdate(nextProps, nextState) {
     return !(
@@ -34,70 +46,67 @@ class EditView extends Component {
   componentDidUpdate() {
     if (this.refs.input) this.refs.input.focus();
   }
-  render() {
-    console.log("render edit");
-    return (
-      <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="never">
-        <View style={styles.wrapper}>
-          {this.props.label ? (
-            <Text style={[styles.label, this.props.style_label]}>
-              {this.props.label}
-            </Text>
-          ) : null}
-          {!this.state.allowEdit ? (
-            <Text
-              style={[styles.edit, this.props.style_edit]}
-              ellipsizeMode="tail"
-              numberOfLines={1}
-            >
-              {this.currentText}
-            </Text>
-          ) : (
-            <TextInput
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              returnKeyType="done"
-              keyboardType={this.props.keyboardType}
-              ref="input"
-              numberOfLines={1}
-              placeholder={this.props.placeHolder}
-              editable={this.state.allowEdit}
-              defaultValue={this.currentText}
-              onChangeText={text => {
-                this.currentText = text;
-                if (this.props.onChangeText) this.props.onChangeText(text);
-              }}
-              style={[styles.edit, this.props.style_edit]}
-              onBlur={event => {
-                console.log("on bluer", event);
-                this.setState({ allowEdit: false });
 
-                this.props.onSubmit(this.currentText);
-              }}
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+  }
+  submitText = () => {
+    if (this.props.onSubmit) this.props.onSubmit(this.currentText);
+  };
+  render() {
+    const { allowEdit } = this.state;
+    return (
+      // <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="never">
+      <View style={styles.wrapper}>
+        {this.props.label ? (
+          <Text style={[styles.label, this.props.style_label]}>
+            {this.props.label}
+          </Text>
+        ) : null}
+        {allowEdit === false ? (
+          <Text
+            style={[styles.edit, this.props.style_edit]}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
+            {this.currentText}
+          </Text>
+        ) : (
+          <TextInput
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            returnKeyType="done"
+            keyboardType={this.props.keyboardType}
+            ref="input"
+            numberOfLines={1}
+            placeholder={this.props.placeHolder}
+            editable={allowEdit}
+            defaultValue={this.currentText}
+            onChangeText={text => {
+              this.currentText = text;
+              if (this.props.onChangeText) this.props.onChangeText(text);
+            }}
+            style={[styles.edit, this.props.style_edit]}
+          />
+        )}
+        {this.props.isEditAble ? (
+          <TouchableOpacity
+            onPress={() => {
+              if (this.props.onPress) this.props.onPress();
+              this.setState(prevState => ({
+                allowEdit: !prevState.allowEdit
+              }));
+            }}
+          >
+            <Image
+              source={this.props.type === 1 ? IMAGE.btn_edit1 : IMAGE.btn_edit}
+              resizeMode="cover"
+              style={this.props.type === 1 ? styles.iconedit1 : styles.iconedit}
             />
-          )}
-          {this.props.isEditAble ? (
-            <TouchableOpacity
-              onPress={
-                this.props.onPress ||
-                (() => {
-                  this.setState({ allowEdit: !this.state.allowEdit });
-                })
-              }
-            >
-              <Image
-                source={
-                  this.props.type === 1 ? IMAGE.btn_edit1 : IMAGE.btn_edit
-                }
-                resizeMode="cover"
-                style={
-                  this.props.type === 1 ? styles.iconedit1 : styles.iconedit
-                }
-              />
-            </TouchableOpacity>
-          ) : null}
-        </View>
-      </ScrollView>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+      // </ScrollView>
     );
   }
 }
@@ -144,7 +153,9 @@ const styles = StyleSheet.create({
   wrapper: {
     justifyContent: "flex-start",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5
   },
   label: {
     minWidth: 100,

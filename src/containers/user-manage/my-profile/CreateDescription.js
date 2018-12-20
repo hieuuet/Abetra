@@ -180,7 +180,8 @@ class CreateDescription extends Component {
     if (resultUpdate && resultUpdate.ErrorCode === "00") {
       this.setState({ dataImage: allImage });
       this.reLoadProfile();
-      return this.setState({ isLoading: false });
+      this.setState({ isLoading: false });
+      return this.props.navigation.goBack();
     } else {
       this.setState({ isLoading: false });
       return this.props.showAlert({ content: resultUpdate.Message });

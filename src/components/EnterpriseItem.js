@@ -72,7 +72,7 @@ class EnterpriseItem extends Component {
         <View style={styles.wrapper_right}>
           <View style={styles.header}>
             <Text style={styles.text_name}>{item.NameEnterprise || "_"}</Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 this.props.onClickShowModal(item);
               }}
@@ -83,7 +83,7 @@ class EnterpriseItem extends Component {
                 color="black"
                 style={styles.icon_more}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.wrapper_rank}>
             <Text style={styles.text_rank}>

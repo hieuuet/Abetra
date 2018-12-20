@@ -64,6 +64,12 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+    }
+  },
   VerifyAccount: {
     screen: VerifyAccount,
     navigationOptions: {
@@ -76,12 +82,7 @@ const RootStack = createStackNavigator({
       header: null
     }
   },
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      header: null
-    }
-  },
+
   RegisterMember: {
     screen: RegisterMember,
     navigationOptions: {

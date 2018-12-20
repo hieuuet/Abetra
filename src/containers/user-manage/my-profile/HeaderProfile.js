@@ -19,7 +19,6 @@ import { getRank } from "../../../constant/UtilsFunction";
 import style_common from "../../../style-common";
 import {
   updateUserProfile,
-  uploadImage2,
   uploadAvatar
 } from "../../../actions";
 import { TYPE_ACCOUNT, STATUS_ACCOUNT } from "../../../constant/KeyConstant";
@@ -72,10 +71,17 @@ class HeaderProfile extends Component {
           if (responUpload) {
             const linkImgUploaded = JSON.parse(responUpload);
             if (linkImgUploaded) {
-              await this.callApiUpdateProfile({
+              const resultUpdate = await this.callApiUpdateProfile({
                 field: "Avatar",
                 value: linkImgUploaded.Value
               });
+
+              this.props.onLoading(false);
+              if (resultUpdate && resultUpdate.Message) {
+                this.props.showAlert({ content: resultUpdate.Message });
+              }
+
+              return;
             }
           }
 

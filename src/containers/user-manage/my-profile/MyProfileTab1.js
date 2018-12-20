@@ -94,12 +94,17 @@ class MyProfileTab1 extends Component {
   }
 
   callApiUpdateProfile = async ({ field, value }) => {
-    return updateUserProfile({
+    this.props.onLoading(true);
+    const resultUpdate = await updateUserProfile({
       profile_id: this.dataUser.ProfileID,
       user_id: this.dataUser.UserID,
       field,
       value
     });
+    if (resultUpdate && resultUpdate.Message) {
+      this.props.showAlert({ content: resultUpdate.Message });
+    }
+    this.props.onLoading(false);
   };
 
   /**
@@ -262,8 +267,17 @@ class MyProfileTab1 extends Component {
           text_edit={
             this.dataUser && this.dataUser.Phone ? this.dataUser.Phone : ""
           }
-          onPress={() => this.props.navigation.navigate("ChangePhone")}
+          // onPress={() => this.props.navigation.navigate("ChangePhone")}
           isEditAble={true}
+          onSubmit={text => {
+            if (!this.dataUser || text.trim() === this.dataUser.Phone) return;
+
+            this.dataUser.Phone = text.trim();
+            this.callApiUpdateProfile({
+              field: "Phone",
+              value: text.trim()
+            });
+          }}
         />
         <EditView
           label={
