@@ -29,6 +29,7 @@ import {TEXT_EVENT, TEXT_POST} from "../language";
 import {isEqual} from "lodash";
 import PropTypes from "prop-types";
 import {typeAccount} from "../constant/UtilsFunction";
+import HashTag from "./HashTag";
 
 class StatusItems extends Component {
     constructor(props) {
@@ -40,7 +41,8 @@ class StatusItems extends Component {
             ArrPoll: [],
             countLike: this.countliked,
             liked: false,
-            PostContent: ""
+            PostContent: "",
+            ArrHashTag: []
         };
 
         this.TEXT_EVENT = TEXT_EVENT();
@@ -54,10 +56,11 @@ class StatusItems extends Component {
         //ArrUser Liked
         let HashTag = item.Target ? item.Target : ""
         let ArrHashTag = HashTag.split(",");
+        ArrHashTag = ArrHashTag ?  ArrHashTag.map(item => item = {key: item}) : []
         this.setState({
-            ArrHashTag
+            ArrHashTag: ArrHashTag
         })
-        // console.log("ArrHashTag", ArrHashTag)
+        // console.log("ArrHashTag_OB", ArrHashTag)
         let dataLike = item.LikePost ? item.LikePost : "[]";
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
         //Get Arr IntUserID
@@ -354,12 +357,18 @@ class StatusItems extends Component {
                             {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                         </View>
                     ) : null}
-                    {/*{this.state.ArrHashTag ? <View style={{marginHorizontal: 15, flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>*/}
-                        {/*<View style = {styles.borderHashtag}></View>*/}
-                        {/*<View style = {styles.borderHashtag}></View>*/}
-                        {/*<View style = {styles.borderHashtag}></View>*/}
+                    {item.Target ? <View style={{marginTop: 10}}>
+                        <FlatList
+                            data={this.state.ArrHashTag}
+                            extraData={this.state}
+                            numColumns = {3}
+                            listKey={(item1, index) => 'D' + index.toString()}
+                            renderItem={item1 => {
+                                return <HashTag dataItemHashTag={item1}/>;
+                            }}
+                        />
 
-                    {/*</View> : null}*/}
+                    </View> : null}
 
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
@@ -384,7 +393,7 @@ class StatusItems extends Component {
                             return <PollVote dataItem={item}/>;
                         }}
                         extraData={this.state}
-                        keyExtractor={(item, index) => index.toString()}
+                        listKey={(item, index) => 'D' + index.toString()}
                     />
                     {/*<View*/}
                     {/*style={{*/}

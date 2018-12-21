@@ -70,7 +70,8 @@ class App1 extends Component {
     YellowBox.ignoreWarnings([
       "Warning: componentWillMount is deprecated",
       "Warning: componentWillReceiveProps is deprecated",
-      "Warning: isMounted(...) is deprecated"
+      "Warning: isMounted(...) is deprecated",
+        "VirtualizedList: missing keys for items, make sure to specify a key property on each item or provide a custom keyExtractor.",
     ]);
 
     return (

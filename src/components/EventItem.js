@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Image,
     StyleSheet,
-    Dimensions
+    Dimensions, FlatList
 } from "react-native";
 
 import moment from "moment";
@@ -25,6 +25,7 @@ import PropTypes from "prop-types";
 import {typeAccount} from "../constant/UtilsFunction";
 import injectShowAlert from "../constant/injectShowAlert";
 import {requestRegister} from "../actions";
+import HashTag from "./HashTag";
 
 class EventItem extends Component {
     static propTypes = {};
@@ -53,6 +54,12 @@ class EventItem extends Component {
         //ArrUser Liked
         let dataLike = item.LikePost ? item.LikePost : "[]";
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
+        let HashTag = item.Target ? item.Target : ""
+        let ArrHashTag = HashTag.split(",");
+        ArrHashTag = ArrHashTag ?  ArrHashTag.map(item => item = {key: item}) : []
+        this.setState({
+            ArrHashTag: ArrHashTag
+        })
         //Get Arr IntUserID
         let ArrIntUserID = ArrUserLiked.map(function (o) {
             return o.IntUserID;
@@ -311,6 +318,19 @@ class EventItem extends Component {
                         </Text>
                         {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                     </View>
+                    {item.Target ? <View style={{marginTop: 10}}>
+                        <FlatList
+                            data={this.state.ArrHashTag}
+                            extraData={this.state}
+                            numColumns = {3}
+                            listKey={(item1, index) => 'D' + index.toString()}
+                            renderItem={item1 => {
+                                return <HashTag dataItemHashTag={item1}/>;
+                            }}
+                        />
+
+                    </View> : null}
+
                     <View style={{marginHorizontal: 15, marginTop: 5}}>
                         <View>
                             <ReadMore

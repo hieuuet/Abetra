@@ -34,6 +34,7 @@ import {requestRegister} from "../actions";
 import {likePost} from "../actions/likePostActions";
 import {joinEvent} from "../actions/joinEventActions";
 import injectShowAlert from "../constant/injectShowAlert";
+import HashTag from "../components/HashTag";
 
 class BinhLuan extends Component {
     constructor(props) {
@@ -84,6 +85,12 @@ class BinhLuan extends Component {
         this._searchCmt();
         let dataLike = itemStatus.LikePost ? itemStatus.LikePost : "[]";
         let ArrUserLiked = dataLike ? JSON.parse(dataLike) : [];
+        let HashTag = itemStatus.Target ? itemStatus.Target : ""
+        let ArrHashTag = HashTag.split(",");
+        ArrHashTag = ArrHashTag ?  ArrHashTag.map(item => item = {key: item}) : []
+        this.setState({
+            ArrHashTag: ArrHashTag
+        })
         //Get Arr IntUserID
         let ArrIntUserID = ArrUserLiked.map(function (o) {
             return o.IntUserID;
@@ -401,6 +408,19 @@ class BinhLuan extends Component {
                             </Text>
                         </View>
                     ) : null}
+                    {itemStatus.Target ? <View style={{marginTop: 10}}>
+                        <FlatList
+                            data={this.state.ArrHashTag}
+                            extraData={this.state}
+                            numColumns = {3}
+                            listKey={(item1, index) => 'D' + index.toString()}
+                            renderItem={item1 => {
+                                return <HashTag dataItemHashTag={item1}/>;
+                            }}
+                        />
+
+                    </View> : null}
+
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
                             {/*<ReadMore*/}
@@ -425,7 +445,7 @@ class BinhLuan extends Component {
                             return <PollVote dataItem={item}/>;
                         }}
                         extraData={this.state}
-                        keyExtractor={(item, index) => index.toString()}
+                        listKey={(item, index) => index.toString()}
                     />
                     {/*<View style={{ paddingLeft: 15, paddingRight: 15, marginTop: 5 }}>*/}
                     {ArrImg ? (
