@@ -158,9 +158,6 @@ class StatusItems extends Component {
             </Text>
         );
     };
-    _handleTextReady = () => {
-        // console.log('ready!');
-    };
     _onClickAvatar = () => {
         const {item} = this.props.dataItem;
         if (!item) return;
@@ -376,7 +373,6 @@ class StatusItems extends Component {
                                 numberOfLines={3}
                                 renderTruncatedFooter={this._renderTruncatedFooter}
                                 renderRevealedFooter={this._renderRevealedFooter}
-                                onReady={this._handleTextReady}
                             >
                                 <Text style={{}}>
                                     {item.Type != 2
@@ -638,7 +634,7 @@ class StatusItems extends Component {
                 {/*</TouchableOpacity>*/}
 
                 <View
-                    style={{height: 5, backgroundColor: "#cccccc", marginTop: 10}}
+                    style={{height: 3, backgroundColor: "#cccccc", marginTop: 10}}
                 />
                 <MenuPost
                     isSavePost = {this.props.isSavePost}

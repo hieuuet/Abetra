@@ -258,7 +258,7 @@ class CreatePost extends Component {
       TotalShare: 0,
       Type: 0,
       ltPoll: [],
-      Target: "#FOOD",
+      Target: "",
       DisplayTime: DatePost,
       IsAdvs: "",
       Comments: []

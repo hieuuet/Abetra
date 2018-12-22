@@ -69,11 +69,12 @@ class BinhLuan extends Component {
             PostID: itemStatus.PostID
         });
         this.socket.on("RECEIVERCOMMENT", dataRes => {
-            // console.log('receiveCMT', dataRes)
+            console.log('receiveCMT', dataRes)
             let newCmt = this.state.ArrCmt;
             //add message to array
             newCmt.push(dataRes);
-            this.setState({ArrCmt: newCmt});
+            this.setState({ArrCmt: newCmt}, () => console.log("ArrCmt", this.state.ArrCmt)
+            );
         });
     }
 
@@ -149,6 +150,7 @@ class BinhLuan extends Component {
     _createCmt = async cmt_content => {
         const {navigation, createCmt, UserProfile} = this.props;
         const itemStatus = navigation.getParam("item");
+        console.log(" UserProfile.Value[0].Avatar",  UserProfile.Value[0].Avatar)
         let Cmt = await createCmt({
             Post_id: itemStatus.PostID,
             User_id: UserProfile.Value[0].UserID,
@@ -174,7 +176,7 @@ class BinhLuan extends Component {
             FullName: UserProfile.Value[0].FullName,
             DatePost,
             Content,
-            Avatar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
+            Avartar: UserProfile.Value[0].Avatar ? UserProfile.Value[0].Avatar : "",
             IntUserIDPost: itemStatus.IntUserID
         };
         console.log("dataSend", dataSend);
