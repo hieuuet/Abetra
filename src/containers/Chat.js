@@ -23,7 +23,9 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ArrMess: []
+            ArrMess: [],
+            ArrAdvertise: [],
+            linkImg: ""
         };
         const {navigation} = this.props;
         const MsgGroupID = navigation.getParam("MsgGroupID");
@@ -131,6 +133,9 @@ class Chat extends Component {
             .then((dataRes)=> {
 
                 console.log("dataRes",dataRes)
+                this.setState({
+                    ArrAdvertise : dataRes.ObjectResult
+                })
             }).catch((erro)=> {
             console.log('erro', erro);
         })
@@ -194,6 +199,38 @@ class Chat extends Component {
             console.log("ArrMess", this.state.ArrMess);
         });
     };
+    _rr = () => {
+        console.log("rr")
+        return (
+            <View>
+                <TouchableOpacity>
+                    <Image style={{height: DEVICE_WIDTH * 2 /3, width: DEVICE_WIDTH}}
+
+                           source={{
+                               uri: this.state.linkImg
+                           }}
+
+                           resizeMode="cover"
+                    />
+                </TouchableOpacity>
+
+            </View>
+        )
+    }
+    // _renderAdvertise = () => {
+    //     console.log("this.state.ArrAdvertise", this.state.ArrAdvertise)
+    //     for(let i = 0; i< this.state.ArrAdvertise.length; i++){
+    //         // console.log("this.state.ArrAdvertise[i].File", this.state.ArrAdvertise[i].File)
+    //         setTimeout(() => {
+    //                 this.setState({
+    //                     linkImg: this.state.ArrAdvertise[i].File
+    //                 }, () =>  console.log("linkImg", this.state.linkImg))
+    //             },10000
+    //         )
+    //
+    //     }
+    //
+    // }
 
     render() {
         // const {navigation} = this.props
@@ -215,15 +252,15 @@ class Chat extends Component {
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View>
-                    <TouchableOpacity>
-                    <Image style={{height: DEVICE_WIDTH * 2 /3, width: DEVICE_WIDTH}}
+                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('WebAdvertise')}>
+                        <Image style={{height: DEVICE_WIDTH * 2 / 3, width: DEVICE_WIDTH}}
 
-                           source={{
-                               uri: "http://sohanews.sohacdn.com/thumb_w/660/2015/3-10919541-326321127564559-1570986608-n-02055-1426209270881-0-0-306-600-crop-1426210554366.jpg"
-                           }}
+                               source={{
+                                   uri: "http://sohanews.sohacdn.com/thumb_w/660/2017/tha1494565313-3484-1504932748314-190-0-562-600-crop-1504932752573.jpg"
+                               }}
 
-                           resizeMode="cover"
-                    />
+                               resizeMode="cover"
+                        />
                     </TouchableOpacity>
 
                 </View>

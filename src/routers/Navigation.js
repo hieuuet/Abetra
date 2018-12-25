@@ -43,6 +43,7 @@ import WrapperTab from "../containers/WrapperTab";
 import TabHome from "./TabHome";
 import App1 from "../../App1";
 import InputPhone from "../containers/app-auth/InputPhone";
+import WebAdvertise from "../containers/WebAdvertise";
 
 const RootStack = createStackNavigator({
   // AccountKitSample: {
@@ -241,7 +242,13 @@ const RootStack = createStackNavigator({
     navigationOptions: {
       header: null
     }
-  }
+  },
+    WebAdvertise: {
+    screen: WebAdvertise,
+        navigationOptions: {
+            header: null
+        }
+    }
 });
 export const WrapperRoot = createStackNavigator({
   App1: {
