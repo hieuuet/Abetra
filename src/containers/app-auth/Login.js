@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
   img_logo: {
     width: 100,
-    height: 100 * (437 / 488)
+    height: 100 * (408 / 397)
   },
   text_input: {
     borderBottomWidth: 1,

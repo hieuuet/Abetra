@@ -31,6 +31,9 @@ class MenuPost extends Component {
             this.TEXT_COMMON = TEXT_COMMON();
         }
     }
+    componentDidMount() {
+        // console.log('isSavePost_menupost', this.props.isSavePost)
+    }
 
     _savePost = async PostID => {
         const {UserProfile, savePost} = this.props;
@@ -61,7 +64,11 @@ class MenuPost extends Component {
     };
 
     _unsavePost = async PostID => {
+
+
         const {UserProfile, unsavePost} = this.props;
+        console.log('PostID', PostID)
+        console.log(' UserProfile.Value[0].IntUserID',  UserProfile.Value[0].IntUserID)
         if (
             !UserProfile ||
             !UserProfile.Value ||
@@ -74,6 +81,7 @@ class MenuPost extends Component {
             IntUserID: UserProfile.Value[0].IntUserID,
             PostID
         });
+        console.log('savepost_', save)
         if (save.Error == null) {
             this.setState({
                 isSave: !this.state.isSave
@@ -118,10 +126,10 @@ class MenuPost extends Component {
                             justifyContent: "center"
                         }}
                     >
-                        {this.state.isSave ? (
+                        {this.state.isSave || this.props.isSavePost == true ? (
                             <TouchableOpacity
                                 onPress={() => {
-                                    this._unsavePost(this.props.item.PostID);
+                                    this._unsavePost(parseInt(this.props.item.PostID));
                                     onChangeModalVisible(false);
                                 }}
                             >

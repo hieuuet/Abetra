@@ -552,86 +552,10 @@ class StatusItems extends Component {
                                     <Text>{item.Comments[0].Content}</Text>
                                 </View>
                             </View>
-                            {/* <Text
-                style={{
-                  textAlign: "right",
-                  marginRight: 15,
-                  color: "#42A5F5"
-                }}
-              >
-                Trả lời
-              </Text> */}
+
                         </View>
                     ) : null}
                 </View>
-                {/*<TouchableOpacity*/}
-                {/*onPress={() => {*/}
-                {/*//prevent action with GUEST*/}
-                {/*if (this.props.isGuest)*/}
-                {/*return requestRegister(*/}
-                {/*this.props.isTab*/}
-                {/*? this.props.screenProps*/}
-                {/*: this.props.navigation*/}
-                {/*);*/}
-                {/*this.props.isTab == true*/}
-                {/*? this.props.screenProps.navigate("BinhLuan", { item })*/}
-                {/*: this.props.navigation.navigate("BinhLuan", { item });*/}
-                {/*}}*/}
-                {/*>*/}
-                {/*<View*/}
-                {/*style={{*/}
-                {/*flexDirection: "row",*/}
-                {/*marginTop: 5,*/}
-                {/*alignItems: "center"*/}
-                {/*}}*/}
-                {/*>*/}
-                {/*<Image*/}
-                {/*style={styles.image_circle}*/}
-                {/*source={*/}
-                {/*UserProfile && UserProfile.Value && UserProfile.Value[0]*/}
-                {/*? { uri: URL_BASE + UserProfile.Value[0].Avatar }*/}
-                {/*: IMAGE.avatar_default*/}
-                {/*}*/}
-                {/*resizeMode="cover"*/}
-                {/*/>*/}
-                {/*<View*/}
-                {/*style={{*/}
-                {/*marginRight: 15,*/}
-                {/*justifyContent: "space-between",*/}
-                {/*flexDirection: "row",*/}
-                {/*alignItems: "center",*/}
-                {/*backgroundColor: "#F5F5F3",*/}
-                {/*height: 30,*/}
-                {/*borderRadius: 15,*/}
-                {/*marginLeft: 5,*/}
-                {/*borderWidth: 1,*/}
-                {/*flex: 1,*/}
-                {/*paddingRight: 10,*/}
-                {/*paddingLeft: 10,*/}
-                {/*borderColor: "#F5F5F3"*/}
-                {/*}}*/}
-                {/*>*/}
-                {/*<TouchableOpacity*/}
-                {/*style={{ marginLeft: 5, height: 15, width: 15 }}*/}
-                {/*>*/}
-                {/*<Image*/}
-                {/*style={{ width: null, height: null, flex: 1 }}*/}
-                {/*source={require("../../assets/img.png")}*/}
-                {/*resizeMode="contain"*/}
-                {/*/>*/}
-                {/*</TouchableOpacity>*/}
-                {/*<TouchableOpacity*/}
-                {/*style={{ marginRight: 5, height: 15, width: 15 }}*/}
-                {/*>*/}
-                {/*<Image*/}
-                {/*style={{ width: null, height: null, flex: 1 }}*/}
-                {/*source={require("../../assets/emo.png")}*/}
-                {/*resizeMode="contain"*/}
-                {/*/>*/}
-                {/*</TouchableOpacity>*/}
-                {/*</View>*/}
-                {/*</View>*/}
-                {/*</TouchableOpacity>*/}
 
                 <View
                     style={{height: 3, backgroundColor: "#cccccc", marginTop: 10}}
