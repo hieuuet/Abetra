@@ -5,11 +5,13 @@ import {
     FlatList,
     Platform,
     KeyboardAvoidingView,
-    BackHandler
+    BackHandler, Image,
+    TouchableOpacity,
+    Dimensions
 } from "react-native";
 import ChatItem from "../components/ChatItem";
 import TextInputChat from "../components/TextInputChat";
-import {SOCKET, URL_SOCKET} from "../constant/api";
+import {API, SOCKET, URL_BASE, URL_SOCKET} from "../constant/api";
 import SocketIOClient from "socket.io-client";
 import {bindActionCreators, compose} from "redux";
 import injectShowAlert from "../constant/injectShowAlert";
@@ -67,8 +69,12 @@ class Chat extends Component {
         });
     }
 
+
     componentDidMount() {
+        const {params} = this.props.navigation.state
+        console.log('params', params)
         this._loadMsgDetail();
+        this._loadAdvertise();
         this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             const isAlertShow = this.props.closeAlert();
             if (isAlertShow) {
@@ -99,7 +105,37 @@ class Chat extends Component {
             MsgGroupID: MsgGroupID
         });
     }
+    _loadAdvertise = () => {
+        const {navigation} = this.props;
+        const {params} = this.props.navigation.state
+        // console.log('params', params)
+        const {UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null;
+        }
+        const MsgGroupID = navigation.getParam("MsgGroupID");
+        fetch( API.LOAD_ADVERTISE,  {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': value,
 
+            },
+            body: JSON.stringify({
+                IntUserID: UserProfile.Value[0].IntUserID,
+                MsgGroupID: MsgGroupID,
+                IsSystem: params.itemMessage.IsSystem
+            })
+        })
+            .then((response) => response.json())
+            .then((dataRes)=> {
+
+                console.log("dataRes",dataRes)
+            }).catch((erro)=> {
+            console.log('erro', erro);
+        })
+
+    }
     _loadMsgDetail = async () => {
         const {navigation, UserProfile, loadDetailMsg} = this.props;
         const MsgGroupID = navigation.getParam("MsgGroupID");
@@ -178,6 +214,19 @@ class Chat extends Component {
                     label={Title}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
+                <View>
+                    <TouchableOpacity>
+                    <Image style={{height: DEVICE_WIDTH * 2 /3, width: DEVICE_WIDTH}}
+
+                           source={{
+                               uri: "http://sohanews.sohacdn.com/thumb_w/660/2015/3-10919541-326321127564559-1570986608-n-02055-1426209270881-0-0-306-600-crop-1426210554366.jpg"
+                           }}
+
+                           resizeMode="cover"
+                    />
+                    </TouchableOpacity>
+
+                </View>
                 <FlatList
                     data={this.state.ArrMess}
                     style={{marginBottom: 30}}
@@ -230,3 +279,4 @@ Chat = connect(
     mapDispatchToProps
 )(Chat);
 export default compose(injectShowAlert)(Chat);
+const DEVICE_WIDTH = Dimensions.get('window').width;

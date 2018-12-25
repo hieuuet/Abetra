@@ -33,31 +33,6 @@ export default class ChatItem extends Component {
 
 
                         }}>
-                            {/*<View style={{*/}
-                                {/*borderRadius: 15,*/}
-                                {/*marginRight: 10,*/}
-                                {/*borderWidth: 1,*/}
-                                {/*backgroundColor: '#B7DAB6',*/}
-                                {/*borderColor: '#B7DAB6',*/}
-                                {/*alignSelf: 'flex-end',*/}
-                                {/*padding: 10*/}
-
-                            {/*}}>*/}
-                                {/*<Text style={{*/}
-                                    {/*alignSelf: 'flex-end',*/}
-                                    {/*borderColor: '#FAFAFA',*/}
-                                    {/*justifyContent: 'flex-end',*/}
-
-
-                                {/*}}>{item.Content}</Text>*/}
-                            {/*</View>*/}
-                            {/*<Text style={{*/}
-                                {/*justifyContent: 'center',*/}
-                                {/*alignSelf: 'flex-end',*/}
-                                {/*marginRight: 10,*/}
-                                {/*fontSize:10,*/}
-                                {/*marginTop:2*/}
-                            {/*}}>{createdAt}</Text>*/}
                             <View style={[styles.borderContent, {backgroundColor: '#B7DAB6', borderColor: '#B7DAB6',}]
 
                             }>

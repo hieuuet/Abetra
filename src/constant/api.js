@@ -40,6 +40,7 @@ export const API = {
   CREATE_MSG_GROUP: `${URL_REALTIME}/socket/createmsggroups`,
   LOAD_MSG_GROUP: `${URL_REALTIME}/socket/loadmgsgroups`,
   DETAIL_MSG: `${URL_REALTIME}/socket/detailmessagebygroup`,
+  LOAD_ADVERTISE: `${URL_REALTIME}/socket/loadadvertise`,
 
   //Language
   GET_LANGUAGE: `${URL_BASE}/Common/GetAllLanguage`,
