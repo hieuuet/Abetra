@@ -147,7 +147,8 @@ class Message extends Component {
 const mapStateToProps = state => {
   return {
     UserProfile: state.loadUserProfile,
-    isGuest: state.loginGuest.isGuest
+    isGuest: state.loginGuest.isGuest,
+    currentLanguage: state.currentLanguage
   };
 };
 

@@ -1,10 +1,11 @@
 /* Điều khoản dịch vụ */
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { getCertificate } from "../actions";
-import { ViewLoading, CustomizeHeader } from "../components/CommonView";
-import ListImage from "../components/ListImage";
+import { ViewLoading } from "../components/CommonView";
 import { TEXT_CERTIFICATE } from "../language";
+import Icon from "react-native-vector-icons/dist/FontAwesome";
+import FastImage from "react-native-fast-image";
 
 class CertificateMember extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class CertificateMember extends Component {
 
     this.state = {
       isLoading: false,
-      imageArr: []
+      img: ""
     };
     this.TEXT_CERTIFICATE = TEXT_CERTIFICATE();
     this.userID = this.props.navigation.getParam("userID") || "";
@@ -22,10 +23,8 @@ class CertificateMember extends Component {
     getCertificate(this.userID)
       .then(data => {
         const img =
-          data && data.Value && data.Value[0] && data.Value[0].ImageCrt;
-        const imageArr = [];
-        if (img && img !== "") imageArr.push(img);
-        this.setState({ isLoading: false, imageArr });
+          (data && data.Value && data.Value[0] && data.Value[0].ImageCrt) || "";
+        this.setState({ isLoading: false, img });
       })
       .catch(err => this.setState({ isLoading: false }));
   }
@@ -35,15 +34,26 @@ class CertificateMember extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <CustomizeHeader
-          label={this.TEXT_CERTIFICATE.CertificateTitle}
-          onBackPress={() => this.props.navigation.goBack()}
-        />
-        <ListImage
-          imageArr={this.state.imageArr}
-          navigation={this.props.navigation}
-        />
+      <View style={{ flex: 1, backgroundColor: "#000000" }}>
+        {this.state.img.length > 0 && (
+          <FastImage
+            style={{ width: "100%", height: "100%", marginTop: 25 }}
+            source={{
+              uri: this.state.img
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        )}
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            left: 10,
+            top: 35
+          }}
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Icon name="close" size={30} color="#ffffff" />
+        </TouchableOpacity>
         {this._renderLoading()}
       </View>
     );
