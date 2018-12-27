@@ -29,6 +29,7 @@ pod 'Firebase/Messaging'
     'RCTWebSocket'
   ]
 pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
+pod 'RNAccountKit', :path => '../node_modules/react-native-facebook-account-kit/ios'
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

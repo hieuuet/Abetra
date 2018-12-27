@@ -100,5 +100,20 @@
 	<false/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<true/>
+  
+  <key>FacebookAppID</key>
+  <string>1879961165424024</string>
+  <key>AccountKitClientToken</key>
+  <string>730e8b33d1495f5efb54aa028df93c8d</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>ak1879961165424024</string>
+      </array>
+    </dict>
+  </array>
+  
 </dict>
 </plist>
