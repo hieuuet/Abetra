@@ -1,4 +1,4 @@
-import { Alert } from "react-native";
+import { Alert,Platform } from "react-native";
 import {
   LoginManager,
   AccessToken,
@@ -34,14 +34,21 @@ export const facebookLogin = async () => {
   // need to go for webview.
   let result;
   try {
-    LoginManager.setLoginBehavior("NATIVE_ONLY");
+    if(Platform.OS ==="android")
+      LoginManager.setLoginBehavior("NATIVE_ONLY");
+    else
+      LoginManager.setLoginBehavior("native");
     result = await LoginManager.logInWithReadPermissions([
       "public_profile",
       "email"
     ]);
   } catch (nativeError) {
     try {
-      LoginManager.setLoginBehavior("WEB_ONLY");
+      if(Platform.OS ==="android")
+        LoginManager.setLoginBehavior("WEB_ONLY");
+      else
+      LoginManager.setLoginBehavior("web");
+
       result = await LoginManager.logInWithReadPermissions([
         "public_profile",
         "email"

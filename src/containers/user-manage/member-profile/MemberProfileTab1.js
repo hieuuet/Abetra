@@ -151,7 +151,7 @@ class MemberProfileTab1 extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           style={style_common.container}

@@ -436,7 +436,7 @@ class Register extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           // keyboardShouldPersistTaps="always"

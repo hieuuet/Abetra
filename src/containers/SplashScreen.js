@@ -25,6 +25,7 @@ class SplashScreen extends Component {
 
   componentDidMount() {
     this.checkLoginNavigate();
+    this.props.getcommonSetting({ Option: 20 }, true);
   }
   shouldComponentUpdate() {
     // this.img_bg =
@@ -97,7 +98,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch)
+    getCurrentLanguage: bindActionCreators(getCurrentLanguage, dispatch),
+    getcommonSetting:bindActionCreators(getcommonSetting, dispatch),
   };
 };
 

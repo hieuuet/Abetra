@@ -93,6 +93,7 @@ class EditView extends Component {
           <TouchableOpacity
             onPress={() => {
               if (this.props.onPress) this.props.onPress();
+              if(this.props.alowInput)
               this.setState(prevState => ({
                 allowEdit: !prevState.allowEdit
               }));
@@ -120,6 +121,7 @@ EditView.propTypes = {
   type: PropTypes.number,
   text_edit: PropTypes.string.isRequired,
   isEditAble: PropTypes.bool,
+  alowInput:PropTypes.bool,
   style_label: PropTypes.number,
   style_edit: PropTypes.number,
   onChangeText: PropTypes.func,
@@ -134,6 +136,7 @@ EditView.propTypes = {
  **/
 EditView.defaultProps = {
   isEditAble: false,
+  alowInput:true,
   placeHolder: "",
   keyboardType: "default"
 };

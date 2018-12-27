@@ -116,7 +116,7 @@ class InputPhone extends Component {
     return (
       <View style={styles.content_footer}>
         <View style={styles.view_fanpage}>
-          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
+          <TouchableOpacity onPress={() => web(this.props.commonSetting.FanPage || "")}>
             <Text style={styles.text_login}>{TEXT_COMMON().FanPage}</Text>
           </TouchableOpacity>
         </View>
@@ -129,7 +129,7 @@ class InputPhone extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -155,13 +155,18 @@ class InputPhone extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    commonSetting: state.commonSetting
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {};
 };
 
 InputPhone = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(InputPhone);
 export default compose(injectShowAlert)(InputPhone);

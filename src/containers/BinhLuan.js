@@ -299,7 +299,7 @@ class BinhLuan extends Component {
             <KeyboardAvoidingView
                 style={{flex: 1, backgroundColor:'white'}}
                 behavior={Platform.OS === "ios" ? "padding" : null}
-                keyboardVerticalOffset={64}
+                // keyboardVerticalOffset={64}
             >
                 <ScrollView>
                     <CustomizeHeader

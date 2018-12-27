@@ -218,7 +218,21 @@ class HeaderProfile extends Component {
       this.props.userProfile.UserTypeNext !== STATUS_ACCOUNT.INACTIVE &&
       this.props.userProfile.Type === TYPE_ACCOUNT.TEMP
     )
-      return <View />;
+      return (<View style={style_common.container}>
+      <View style={styles.wrap_tab2}>
+        <TouchableOpacity
+          style={styles.btn_back}
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Image
+            style={styles.img_back}
+            resizeMode="cover"
+            source={IMAGE.icon_back}
+          />
+        </TouchableOpacity>
+        
+      </View>
+      </View>);
 
     const rank = getRank(
       (this.props.userProfile && this.props.userProfile.PackgeID) || "",

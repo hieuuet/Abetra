@@ -21,6 +21,8 @@ import { web } from "../../../components/Communications";
 import { TEXT_CHANGE_PASSWORD } from "../../../language";
 import BackgroundImage from "../../../components/BackgroundImage";
 import { compose } from "redux";
+import { connect } from "react-redux";
+
 import injectShowAlert from "../../../constant/injectShowAlert";
 
 class ChangePassword extends Component {
@@ -150,7 +152,7 @@ class ChangePassword extends Component {
           <Text style={style_common.text_color_White}>
             {this.TEXT_CHANGE_PASSWORD.FanPage}
           </Text>
-          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
+          <TouchableOpacity onPress={() => web(this.props.commonSetting.FanPage || "")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"
@@ -167,7 +169,7 @@ class ChangePassword extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -193,6 +195,20 @@ class ChangePassword extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    commonSetting: state.commonSetting
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return { };
+};
+
+ChangePassword = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChangePassword);
 
 export default compose(injectShowAlert)(ChangePassword);
 

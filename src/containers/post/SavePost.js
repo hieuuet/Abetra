@@ -83,7 +83,7 @@ class SavePost extends Component {
             <KeyboardAvoidingView
                 style={style_common.container}
                 behavior={Platform.OS === "ios" ? "padding" : null}
-                keyboardVerticalOffset={64}
+                // keyboardVerticalOffset={64}
             >
                 <CustomizeHeader
                     label={"Bài viết đã lưu của bạn"}

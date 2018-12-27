@@ -26,7 +26,7 @@ export default class AnimatedModal extends Component {
       this.yTranslate.setValue(0); // reset the animated value
       Animated.spring(this.yTranslate, {
         toValue: 1,
-        friction: 6
+        // friction: 6
       }).start();
     } else {
       // animate the hiding of the modal

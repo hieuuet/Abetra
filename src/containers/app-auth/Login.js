@@ -200,7 +200,7 @@ class Login extends Component {
           <Text style={style_common.text_color_White}>
             {this.TEXT_COMMON.FanPage}
           </Text>
-          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
+          <TouchableOpacity onPress={() => web(this.props.commonSetting.FanPage || "")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"
@@ -223,7 +223,7 @@ class Login extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -253,7 +253,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    // login: state.login
+    commonSetting: state.commonSetting
   };
 };
 

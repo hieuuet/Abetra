@@ -202,7 +202,7 @@ class RegisterMember extends Component {
       <KeyboardAvoidingView
         style={style_common.container_white}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <CustomizeHeader
           label={this.TEXT_REGISTER_MEMBER.RegisterMember}
@@ -316,7 +316,7 @@ class RegisterMember extends Component {
                 {this.TEXT_REGISTER_MEMBER.ContactInfo}
               </Text>
               <TouchableOpacity
-                onPress={() => web("fb://page/331230823580420")}
+                onPress={() => web(this.props.commonSetting.FanPage || "")}
               >
                 <Image
                   style={styles.icon_fb}

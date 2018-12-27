@@ -58,6 +58,7 @@ class CreateDescription extends Component {
   }
 
   componentDidMount() {
+    
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       const isAlertShow = this.props.closeAlert();
       if (isAlertShow) {
@@ -285,9 +286,9 @@ class CreateDescription extends Component {
             marginHorizontal: 10,
             marginTop: 5,
             height: 150,
-            borderColor: "gray",
-            borderRadius: 2,
-            borderWidth: 1
+            // borderColor: "gray",
+            // borderRadius: 2,
+            // borderWidth: 1
           }}
         >
           <TextInput
@@ -394,7 +395,7 @@ class CreateDescription extends Component {
         <KeyboardAvoidingView
           style={style_common.container}
           behavior={Platform.OS === "ios" ? "padding" : null}
-          keyboardVerticalOffset={64}
+          // keyboardVerticalOffset={64}
         >
           <ScrollView
             keyboardShouldPersistTaps="handled"

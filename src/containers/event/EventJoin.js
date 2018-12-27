@@ -84,7 +84,7 @@ class EventJoin extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <CustomizeHeader
           label={this.TEXT_EVENT.JoinEvent}

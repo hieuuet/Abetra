@@ -53,7 +53,7 @@ class Menu extends Component {
 
     return (
       <TouchableOpacity
-        style={[style_common.card_view, styles.header_container]}
+        style={[ styles.header_container]}
         onPress={() => {
           // return this.props.screenProps.navigate("Register");
 
@@ -186,7 +186,7 @@ class Menu extends Component {
               Hotline: {this.props.commonSetting.HotLine || ""}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => web("fb://page/331230823580420")}>
+          <TouchableOpacity onPress={() => web(this.props.commonSetting.FanPage || "")}>
             <Image
               style={styles.img_fb}
               resizeMode="cover"

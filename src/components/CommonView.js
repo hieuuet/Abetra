@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   img_bg: {
     flex: 1,
     height: 40,
-    borderRadius: 40
+    borderRadius: 20
   },
   wrapper_content: {
     position: "absolute",

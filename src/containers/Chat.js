@@ -245,7 +245,7 @@ class Chat extends Component {
             <KeyboardAvoidingView
                 style={{flex: 1}}
                 behavior={Platform.OS === "ios" ? "padding" : null}
-                keyboardVerticalOffset={64}
+                // keyboardVerticalOffset={64}
             >
                 <CustomizeHeader
                     label={Title}

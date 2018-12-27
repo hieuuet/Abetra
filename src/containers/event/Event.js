@@ -106,7 +106,7 @@ class Event extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         {params && params.isMenu ? (
           <CustomizeHeader

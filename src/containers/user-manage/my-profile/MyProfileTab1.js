@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Dimensions,
   NativeModules,
-  BackHandler
+  BackHandler,
+  Keyboard
 } from "react-native";
 
 import { IMAGE } from "../../../constant/assets";
@@ -302,7 +303,13 @@ class MyProfileTab1 extends Component {
           label={
             (this.props.TEXT_PROFILE && this.props.TEXT_PROFILE.Intro) || ""
           }
-          onPress={() => this.props.navigation.navigate("CreateDescription")}
+          alowInput={false}
+          onPress={() => {
+            this.props.navigation.navigate("CreateDescription")
+          
+          }
+            
+          }
           text_edit={""}
           isEditAble={true}
         />
@@ -380,7 +387,7 @@ class MyProfileTab1 extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <ScrollView
           style={style_common.container}

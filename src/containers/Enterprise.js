@@ -261,7 +261,7 @@ class Enterprise extends Component {
       <KeyboardAvoidingView
         style={style_common.container}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={64}
+        // keyboardVerticalOffset={64}
       >
         <MyCoolScrollViewComponent onEndReached={this.onEndReached}>
           {this.state.dataEnterprise.length === 0 && !this.state.isLoading ? (
