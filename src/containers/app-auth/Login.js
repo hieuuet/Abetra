@@ -278,8 +278,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   img_logo: {
-    width: 100,
-    height: 100 * (408 / 397)
+      height: 100,
+      width: 100 * (397 / 408)
   },
   text_input: {
     borderBottomWidth: 1,

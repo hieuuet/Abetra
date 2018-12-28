@@ -105,7 +105,7 @@ class StatusItems extends Component {
     }
 
     _joinEvent = async EventID => {
-        console.log('join_event')
+        // console.log('join_event')
         console.log('ID', this.state.PostContent.ID)
         //prevent action with GUEST
         if (this.props.isGuest)
@@ -354,18 +354,29 @@ class StatusItems extends Component {
                             {/*<Text style={{color: '#FFA726'}}>{moment(this.state.PostContent.FinishDate).format("DD/MM/YY HH:mm")}</Text>*/}
                         </View>
                     ) : null}
-                    {item.Target ? <View style={{marginTop: 10}}>
-                        <FlatList
-                            data={this.state.ArrHashTag}
-                            extraData={this.state}
-                            numColumns = {3}
-                            listKey={(item1, index) => 'D' + index.toString()}
-                            renderItem={item1 => {
-                                return <HashTag dataItemHashTag={item1}/>;
-                            }}
-                        />
+                    {/*{ ? <View style={{marginTop: 10}}>*/}
+                        {/*<FlatList*/}
+                            {/*data={this.state.ArrHashTag}*/}
+                            {/*extraData={this.state}*/}
+                            {/*numColumns = {3}*/}
+                            {/*listKey={(item1, index) => 'D' + index.toString()}*/}
+                            {/*renderItem={item1 => {*/}
+                                {/*return <HashTag dataItemHashTag={item1}/>;*/}
+                            {/*}}*/}
+                        {/*/>*/}
 
-                    </View> : null}
+                    {/*</View> : null}*/}
+                    {
+                        item.Target ?
+                        <View style={{flexDirection:'row', marginHorizontal: 5}}>
+                            {
+                                this.state.ArrHashTag.map((hashtag, index) => (
+                                    <Text style={{marginLeft: 10, color:"black"}} key = {index}>#{hashtag.key}</Text>
+                                ))
+                            }
+                        </View> : null
+
+                    }
 
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
