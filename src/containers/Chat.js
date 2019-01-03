@@ -18,6 +18,8 @@ import injectShowAlert from "../constant/injectShowAlert";
 import {connect} from "react-redux";
 import {loadDetailMsg} from "../actions/detailMsgActions";
 import {CustomizeHeader} from "../components/CommonView";
+import Slideshow from 'react-native-image-slider-show';
+import SlideImage from "../components/SlideImage";
 
 class Chat extends Component {
     constructor(props) {
@@ -25,7 +27,12 @@ class Chat extends Component {
         this.state = {
             ArrMess: [],
             ArrAdvertise: [],
-            linkImg: ""
+            linkImg: "",
+            position: 1,
+            interval: null,
+            dataSource: [
+
+            ]
         };
         const {navigation} = this.props;
         const MsgGroupID = navigation.getParam("MsgGroupID");
@@ -72,11 +79,20 @@ class Chat extends Component {
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this._loadAdvertise();
+        await this.setState({
+            interval: setInterval(() => {
+                this.setState({
+                    position: this.state.position + 1
+                });
+            }, 7000)
+        });
+
         const {params} = this.props.navigation.state
         console.log('params', params)
         this._loadMsgDetail();
-        this._loadAdvertise();
+
         this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             const isAlertShow = this.props.closeAlert();
             if (isAlertShow) {
@@ -88,6 +104,7 @@ class Chat extends Component {
     }
 
     componentWillUnmount() {
+        clearInterval(this.state.interval);
         this.backHandler.remove();
         const {navigation} = this.props;
         const MsgGroupID = navigation.getParam("MsgGroupID");
@@ -199,38 +216,8 @@ class Chat extends Component {
             console.log("ArrMess", this.state.ArrMess);
         });
     };
-    _rr = () => {
-        console.log("rr")
-        return (
-            <View>
-                <TouchableOpacity>
-                    <Image style={{height: DEVICE_WIDTH * 2 /3, width: DEVICE_WIDTH}}
 
-                           source={{
-                               uri: this.state.linkImg
-                           }}
 
-                           resizeMode="cover"
-                    />
-                </TouchableOpacity>
-
-            </View>
-        )
-    }
-    // _renderAdvertise = () => {
-    //     console.log("this.state.ArrAdvertise", this.state.ArrAdvertise)
-    //     for(let i = 0; i< this.state.ArrAdvertise.length; i++){
-    //         // console.log("this.state.ArrAdvertise[i].File", this.state.ArrAdvertise[i].File)
-    //         setTimeout(() => {
-    //                 this.setState({
-    //                     linkImg: this.state.ArrAdvertise[i].File
-    //                 }, () =>  console.log("linkImg", this.state.linkImg))
-    //             },10000
-    //         )
-    //
-    //     }
-    //
-    // }
 
     render() {
         // const {navigation} = this.props
@@ -238,7 +225,7 @@ class Chat extends Component {
         if (UserProfile.length <= 0) {
             return null;
         }
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         const Title = navigation.getParam("title");
 
         return (
@@ -251,19 +238,15 @@ class Chat extends Component {
                     label={Title}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View>
-                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('WebAdvertise')}>
-                        <Image style={{height: DEVICE_WIDTH * 2 / 3, width: DEVICE_WIDTH}}
+                {
+                    this.state.position <= this.state.ArrAdvertise.length ?  <SlideImage
+                        navigation = {navigation}
+                        dataSource={this.state.ArrAdvertise}
+                        position={this.state.position}
+                        onPositionChanged={position => this.setState({ position })} /> : null
 
-                               source={{
-                                   uri: "http://sohanews.sohacdn.com/thumb_w/660/2017/tha1494565313-3484-1504932748314-190-0-562-600-crop-1504932752573.jpg"
-                               }}
+                }
 
-                               resizeMode="cover"
-                        />
-                    </TouchableOpacity>
-
-                </View>
                 <FlatList
                     data={this.state.ArrMess}
                     style={{marginBottom: 30}}
