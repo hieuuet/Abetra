@@ -31,6 +31,8 @@ export const API = {
   SEARCH_CMT: `${URL_BASE}/api/Comment/SearchComment`,
   //like
   LIKE_POST: `${URL_REALTIME}/socket/updatelikepost`,
+    //share
+    SHARE_POST: `${URL_REALTIME}/socket/updatesharepost`,
 
   //Image
   UPLOAD_LIST_IMAGE: `${URL_BASE}/api/FaceHomeIO/UploadListImage`,

@@ -33,8 +33,8 @@ class SlideImage extends React.Component {
     }
     _onRef(ref) {
         this._ref = ref;
-        console.log('this.state.position', this.state.position)
-        console.log('this._getPosition()', this._getPosition())
+        // console.log('this.state.position', this.state.position)
+        // console.log('this._getPosition()', this._getPosition())
         if (ref && this.state.position !== this._getPosition()) {
             this._move(this._getPosition());
         }

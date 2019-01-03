@@ -19,7 +19,7 @@ import injectShowAlert from "../constant/injectShowAlert";
 import {connect} from "react-redux";
 import PollVote from "./PollVote";
 import {likePost} from "../actions/likePostActions";
-import {URL_BASE} from "../constant/api";
+import {API, URL_BASE} from "../constant/api";
 import {joinEvent} from "../actions/joinEventActions";
 import {COLOR} from "../constant/Color";
 import {requestRegister} from "../actions";
@@ -171,7 +171,12 @@ class StatusItems extends Component {
         this.setState({modalVisible: visible});
     };
 
-    onShare = (text) => {
+    onShare = (text, postId) => {
+        const { UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null;
+        }
+
         const shareOptions = {
             title: "Share Status",
             url: text
@@ -488,7 +493,7 @@ class StatusItems extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.onShare(item.Type != 2
                             ? item.PostContent
-                            : this.state.PostContent.Description)}>
+                            : this.state.PostContent.Description, item.PostID)}>
                             <View style={styles.view_border}>
                                 <View style={{width: 15, height: 15}}>
                                     <Image
