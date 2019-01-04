@@ -150,10 +150,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-crop-picker')
+    compile project(':react-native-facebook-account-kit')
     compile project(':react-native-vector-icons')
     compile project(':react-native-text-input-reset')
     compile project(':react-native-share')
-    compile project(':react-native-image-crop-picker')
     compile project(':react-native-i18n')
     compile project(':react-native-fcm')
     compile project(':react-native-fbsdk')

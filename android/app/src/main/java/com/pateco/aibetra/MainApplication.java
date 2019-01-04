@@ -7,6 +7,8 @@ import cl.json.RNSharePackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import io.underscope.react.fbak.RNAccountKitPackage;
 import io.underscope.react.fbak.RNAccountKitPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -20,7 +22,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.evollu.react.fcm.FIRMessagingPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new PickerPackage(),
+            new RNAccountKitPackage(),
             new RNAccountKitPackage(),
             new FastImageViewPackage(),
                     new VectorIconsPackage(),

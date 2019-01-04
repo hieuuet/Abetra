@@ -6,6 +6,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "RNFIRMessaging.h"
 @import UserNotifications;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 

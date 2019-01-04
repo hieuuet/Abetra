@@ -18,7 +18,6 @@ import injectShowAlert from "../constant/injectShowAlert";
 import {connect} from "react-redux";
 import {loadDetailMsg} from "../actions/detailMsgActions";
 import {CustomizeHeader} from "../components/CommonView";
-import Slideshow from 'react-native-image-slider-show';
 import SlideImage from "../components/SlideImage";
 
 class Chat extends Component {

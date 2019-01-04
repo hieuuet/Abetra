@@ -11,7 +11,6 @@ import {
     Image,
     PanResponder
 } from 'react-native';
-import Slideshow from "react-native-image-slider-show";
 
 const {width, height} = Dimensions.get('window');
 const reactNativePackage = require('../../node_modules/react-native/package');
