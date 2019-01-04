@@ -9,13 +9,11 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import io.underscope.react.fbak.RNAccountKitPackage;
-import io.underscope.react.fbak.RNAccountKitPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -42,10 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-            new PickerPackage(),
-            new RNAccountKitPackage(),
-            new RNAccountKitPackage(),
-            new FastImageViewPackage(),
+                    new RNAccountKitPackage(),
+                    new FastImageViewPackage(),
                     new VectorIconsPackage(),
                     new PickerPackage(),
                     new RNTextInputResetPackage(),

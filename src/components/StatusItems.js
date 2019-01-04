@@ -24,7 +24,6 @@ import {joinEvent} from "../actions/joinEventActions";
 import {COLOR} from "../constant/Color";
 import {requestRegister} from "../actions";
 import {IMAGE} from "../constant/assets";
-
 import {TEXT_EVENT, TEXT_POST} from "../language";
 import {isEqual} from "lodash";
 import PropTypes from "prop-types";
@@ -35,11 +34,13 @@ class StatusItems extends Component {
     constructor(props) {
         super(props);
         this.countliked = this.props.dataItem.item.TotalLike;
+        this.countshare = this.props.dataItem.item.TotalShare;
         this.state = {
             modalVisible: false,
             Type: "",
             ArrPoll: [],
             countLike: this.countliked,
+            countShare: this.countshare,
             liked: false,
             PostContent: "",
             ArrHashTag: []
@@ -176,6 +177,31 @@ class StatusItems extends Component {
         if (UserProfile.length <= 0) {
             return null;
         }
+        fetch( API.SHARE_POST,  {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': value,
+
+            },
+            body: JSON.stringify({
+
+                IntUserID: UserProfile.Value[0].IntUserID,
+                PostID: postId
+            })
+        })
+            .then((response) => response.json())
+            .then((dataRes)=> {
+                console.log("dataRes",dataRes)
+                if (dataRes.Error === null) {
+                    let currentShare = this.state.countShare;
+                    currentShare++;
+                    this.setState({liked: true, countShare: currentShare});
+                }
+
+            }).catch((erro)=> {
+            console.log('erro', erro);
+        })
 
         const shareOptions = {
             title: "Share Status",
@@ -502,7 +528,7 @@ class StatusItems extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({item.TotalShare})</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({this.state.countShare})</Text>
                             </View>
                         </TouchableOpacity>
 

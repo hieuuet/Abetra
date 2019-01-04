@@ -19,7 +19,7 @@ import {bindActionCreators, compose} from "redux";
 import {connect} from "react-redux";
 import {searchCmt} from "../actions/searchCmtActions";
 import {createCmt} from "../actions/createCmtActions";
-import {URL_BASE, URL_SOCKET} from "../constant/api";
+import {API, URL_BASE, URL_SOCKET} from "../constant/api";
 import SocketIOClient from "socket.io-client";
 import PhotoGrid from "../components/PhotoGrid";
 import {CustomizeHeader} from "../components/CommonView";
@@ -42,11 +42,13 @@ class BinhLuan extends Component {
         const {navigation} = this.props;
         const itemStatus = navigation.getParam("item");
         this.countliked = itemStatus.TotalLike;
+        this.countShare = itemStatus.TotalShare;
         this.state = {
             ArrCmt: [],
             PostContent: [],
             liked: false,
             countLike: this.countliked,
+            countShare: this.countShare,
             ArrPoll: []
         };
 
@@ -188,7 +190,36 @@ class BinhLuan extends Component {
         this._createCmt(text);
     };
 
-    onShare = (text) => {
+    onShare = (text, postId) => {
+        const { UserProfile} = this.props;
+        if (UserProfile.length <= 0) {
+            return null;
+        }
+        fetch( API.SHARE_POST,  {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': value,
+
+            },
+            body: JSON.stringify({
+
+                IntUserID: UserProfile.Value[0].IntUserID,
+                PostID: postId
+            })
+        })
+            .then((response) => response.json())
+            .then((dataRes)=> {
+                console.log("dataRes",dataRes)
+                if (dataRes.Error === null) {
+                    let currentShare = this.state.countShare;
+                    currentShare++;
+                    this.setState({liked: true, countShare: currentShare});
+                }
+
+            }).catch((erro)=> {
+            console.log('erro', erro);
+        })
         const shareOptions = {
             title: "Share Status",
             url: text
@@ -536,7 +567,7 @@ class BinhLuan extends Component {
                         {/*</TouchableOpacity>*/}
                         <TouchableOpacity onPress={() => this.onShare(itemStatus.Type != 2
                             ? itemStatus.PostContent
-                            : this.state.PostContent.Description)}>
+                            : this.state.PostContent.Description, itemStatus.PostID)}>
                             <View style={styles.view_border}>
                                 <View style={{width: 15, height: 15}}>
                                     <Image
@@ -545,7 +576,7 @@ class BinhLuan extends Component {
                                         resizeMode="contain"
                                     />
                                 </View>
-                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({itemStatus.TotalShare})</Text>
+                                <Text style={styles.text_action}>{this.TEXT_POST.Share}({this.state.countShare})</Text>
                             </View>
                         </TouchableOpacity>
                         {itemStatus.Type == 2 ? (
