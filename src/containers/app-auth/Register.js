@@ -489,10 +489,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center"
   },
-  img_logo: {
-    width: 100,
-    height: 100 * (437 / 488)
-  },
+    img_logo: {
+        height: 100,
+        width: 100 * (397 / 408)
+    },
   text_input: {
     borderBottomWidth: 1,
     borderBottomColor: COLOR.COLOR_WHITE,

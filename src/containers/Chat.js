@@ -80,13 +80,6 @@ class Chat extends Component {
 
     async componentDidMount() {
         await this._loadAdvertise();
-        await this.setState({
-            interval: setInterval(() => {
-                this.setState({
-                    position: this.state.position + 1
-                });
-            }, 7000)
-        });
 
         const {params} = this.props.navigation.state
         console.log('params', params)
@@ -150,8 +143,24 @@ class Chat extends Component {
 
                 console.log("dataRes",dataRes)
                 this.setState({
-                    ArrAdvertise : dataRes.ObjectResult
+                    interval: setInterval(() => {
+                        this.setState({
+                            ArrAdvertise : dataRes.ObjectResult
+                        }, () => {
+                            for (let i = 0; i<this.state.ArrAdvertise.length; i++){
+                                this.setState({
+                                    interval: setInterval(() => {
+                                        this.setState({
+                                            position: this.state.position + 1
+                                        }, ()=> console.log('position', this.state.position));
+                                    }, this.state.ArrAdvertise[i].TimeShow * 1000)
+                                });
+
+                            }
+                        })
+                    }, dataRes.ObjectResult[0].TimeShowView * 1000)
                 })
+
             }).catch((erro)=> {
             console.log('erro', erro);
         })
