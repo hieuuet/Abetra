@@ -135,7 +135,7 @@ class Chat extends Component {
             body: JSON.stringify({
                 IntUserID: UserProfile.Value[0].IntUserID,
                 MsgGroupID: MsgGroupID,
-                IsSystem: params.itemMessage.IsSystem
+                IsSystem:  params.itemMessage && params.itemMessage.IsSystem ?  params.itemMessage.IsSystem : 0
             })
         })
             .then((response) => response.json())
