@@ -158,7 +158,7 @@ class Chat extends Component {
 
                             }
                         })
-                    }, dataRes.ObjectResult[0].TimeShowView * 1000)
+                    }, dataRes.ObjectResult[0] && dataRes.ObjectResult[0].TimeShowView  ? dataRes.ObjectResult[0].TimeShowView * 1000  : null )
                 })
 
             }).catch((erro)=> {

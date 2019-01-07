@@ -53,7 +53,7 @@ export default class ChatItem extends Component {
 
                                 }}>
                                     {/*{item.createdAt}*/}
-                                    {moment(item.CreatedDate).format("HH:mm")}
+                                    {moment.utc(item.CreatedDate).format("HH:mm")}
                                 </Text>
                             </View>
 
@@ -86,7 +86,7 @@ export default class ChatItem extends Component {
                                             alignSelf: 'flex-start',
                                             fontSize: 10
 
-                                        }}> {moment(item.CreatedDate).format("HH:mm")}</Text>
+                                        }}> {moment.utc(item.CreatedDate).format("HH:mm")}</Text>
                                     </View>
 
                                 </View>
