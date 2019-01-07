@@ -36,13 +36,13 @@
 		866876B662154D929D274CF9 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C00A329A3346859478D306 /* libFastImage.a */; };
 		990CE201EB424BABB6C0F5B0 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08E1B1A5060B4042B58953F9 /* Entypo.ttf */; };
 		99B39AD3A2FD402E81185E1E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D6435B2514A4E32B2560DC8 /* Foundation.ttf */; };
+		9A93B63721DFA31000879C5F /* libfishhook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6841FA4F8DC00B85C8A /* libfishhook.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AE7C7DB384A04B3C9A74BF1F /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F335E2728FB43F09A24662D /* FontAwesome5_Brands.ttf */; };
 		B25349F550E04ABF9486C4C9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 785E231B4ED944A9A1E6C874 /* MaterialIcons.ttf */; };
 		C3F761E758F941128F5727AF /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E711244FCCC454C86263B10 /* libRNI18n.a */; };
 		DFF2691779B846E3BC7B3CA0 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 950EE3E1D4074FD384B1C13A /* Feather.ttf */; };
 		E4D485D59B2B42AB91A0AF9F /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666A7CE076D24804B5D60555 /* FontAwesome5_Regular.ttf */; };
-		EB6AD96F218E992E00835D4C /* libfishhook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6841FA4F8DC00B85C8A /* libfishhook.a */; };
 		EB6D7E2221D73096002B91A3 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6D7E2121D73096002B91A3 /* Accounts.framework */; };
 		EB6D7E2421D73106002B91A3 /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6D7E2321D73106002B91A3 /* libBolts.a */; };
 		EB6D7E7021D7333D002B91A3 /* libRNAccountKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6D7E6F21D7333D002B91A3 /* libRNAccountKit.a */; };
@@ -587,6 +587,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A93B63721DFA31000879C5F /* libfishhook.a in Frameworks */,
 				EB6D7EAD21D7346A002B91A3 /* AccountKit.framework in Frameworks */,
 				EB6D7EAE21D7346A002B91A3 /* AccountKitStrings.bundle in Frameworks */,
 				EB6D7E7021D7333D002B91A3 /* libRNAccountKit.a in Frameworks */,
@@ -598,7 +599,6 @@
 				EB9AAB9F218EBF3400E4541B /* libFBSDKShareKit.a in Frameworks */,
 				EB9AAB70218EBF2C00E4541B /* libFBSDKLoginKit.a in Frameworks */,
 				EB9AAB2B218EBA9300E4541B /* libFBSDKCoreKit.a in Frameworks */,
-				EB6AD96F218E992E00835D4C /* libfishhook.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -1645,7 +1645,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6G5Y2V7U2F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1706,7 +1706,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6G5Y2V7U2F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
