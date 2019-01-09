@@ -33,7 +33,8 @@ export default class ChatItem extends Component {
 
 
                         }}>
-                            <View style={[styles.borderContent, {backgroundColor: '#B7DAB6', borderColor: '#B7DAB6',}]
+                            <Text style = {{fontSize: 11,  alignSelf: 'flex-end', marginRight: 10 }}>{moment.utc(item.CreatedDate).format("LT")}</Text>
+                            <View style={[styles.borderContent, {backgroundColor: '#B7DAB6', borderColor: '#B7DAB6',   alignSelf: 'flex-end'}]
 
                             }>
                                 <Text style={{
@@ -44,17 +45,17 @@ export default class ChatItem extends Component {
 
 
                                 }}>{item.Content}</Text>
-                                <Text style={{
+                                {/*<Text style={{*/}
 
-                                    // justifyContent: 'flex-start',
-                                    // alignSelf: 'flex-start',
-                                    fontSize: 11, marginRight: 6,
-                                    color: '#4CAF50'
+                                    {/*// justifyContent: 'flex-start',*/}
+                                    {/*// alignSelf: 'flex-start',*/}
+                                    {/*fontSize: 11, marginRight: 6,*/}
+                                    {/*color: '#4CAF50'*/}
 
-                                }}>
-                                    {/*{item.createdAt}*/}
-                                    {moment.utc(item.CreatedDate).format("HH:mm")}
-                                </Text>
+                                {/*}}>*/}
+                                    {/*/!*{item.createdAt}*!/*/}
+                                    {/*{moment.utc(item.CreatedDate).format("HH:mm")}*/}
+                                {/*</Text>*/}
                             </View>
 
                         </View> :  item.MsgGroupID ? <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
@@ -70,6 +71,7 @@ export default class ChatItem extends Component {
                             </Image>
                             <View>
                                 <View style={{marginRight: DEVICE_WIDTH / 3}}>
+                                    <Text style = {{fontSize: 11}}>{item.FullName.replace(/ .*/,'')}, {moment.utc(item.CreatedDate).format("LT")}</Text>
                                     <View style={[styles.borderContent, {backgroundColor: 'white', borderColor: '#FAFAFA',}]
 
                                     }>
@@ -80,13 +82,13 @@ export default class ChatItem extends Component {
                                             paddingBottom: 5,
 
                                         }}>{item.Content}</Text>
-                                        <Text style={{
+                                        {/*<Text style={{*/}
 
-                                            justifyContent: 'flex-start',
-                                            alignSelf: 'flex-start',
-                                            fontSize: 10
+                                            {/*justifyContent: 'flex-start',*/}
+                                            {/*alignSelf: 'flex-start',*/}
+                                            {/*fontSize: 10*/}
 
-                                        }}> {moment.utc(item.CreatedDate).format("HH:mm")}</Text>
+                                        {/*}}> {moment.utc(item.CreatedDate).format("HH:mm")}</Text>*/}
                                     </View>
 
                                 </View>
@@ -123,7 +125,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         marginRight: 10,
-        alignSelf: 'flex-end',
         paddingTop: 5,
         paddingBottom: 5,
         paddingLeft: 8,

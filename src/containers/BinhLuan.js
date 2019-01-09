@@ -49,7 +49,8 @@ class BinhLuan extends Component {
             liked: false,
             countLike: this.countliked,
             countShare: this.countShare,
-            ArrPoll: []
+            ArrPoll: [],
+            ArrHashTag: []
         };
 
         this.TEXT_POST = TEXT_POST();
@@ -441,18 +442,17 @@ class BinhLuan extends Component {
                             </Text>
                         </View>
                     ) : null}
-                    {itemStatus.Target ? <View style={{marginTop: 10}}>
-                        <FlatList
-                            data={this.state.ArrHashTag}
-                            extraData={this.state}
-                            numColumns = {3}
-                            listKey={(item1, index) => 'D' + index.toString()}
-                            renderItem={item1 => {
-                                return <HashTag dataItemHashTag={item1}/>;
-                            }}
-                        />
+                    {
+                        itemStatus.Target ?
+                            <View style={{flexDirection:'row', marginHorizontal: 5}}>
+                                {
+                                    this.state.ArrHashTag.map((hashtag, index) => (
+                                        <Text style={{marginLeft: 10, color:"black"}} key = {index}>#{hashtag.key}</Text>
+                                    ))
+                                }
+                            </View> : null
 
-                    </View> : null}
+                    }
 
                     <View style={{marginHorizontal: 15, marginTop: 8}}>
                         <View>
