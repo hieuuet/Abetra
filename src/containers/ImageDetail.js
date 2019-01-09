@@ -146,6 +146,7 @@ class ImageDetail extends React.PureComponent {
           renderItem={this._renderItem}
           keyExtractor={(item, index) => index.toString()}
           onLayout={this._onLayout}
+          onScrollToIndexFailed={()=>{}}
         />
         <TouchableOpacity
           style={styles.close}
