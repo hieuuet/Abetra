@@ -140,7 +140,9 @@ class SlideImage extends React.Component {
                                 <TouchableOpacity onPress = {() => this.props.navigation.navigate("WebAdvertise", {Advertise: Advertise})}>
                                 <Image
                                     source={imageObject}
-                                    style={{height, width}}/>
+                                    style={{height, width}}
+                                    resizeMode="cover"
+                                />
                                 </TouchableOpacity>
                                 {/*{textComponent}*/}
                             </View>
@@ -150,7 +152,8 @@ class SlideImage extends React.Component {
                                 <View style={styles.overlay}>
                                     <Image
                                         source={imageObject}
-                                        style={{height, width}}/>
+                                        style={{height, width}}
+                                        resizeMode="cover"/>
                                 </View>
                                 {/*{textComponent}*/}
                             </View>
