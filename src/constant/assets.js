@@ -16,8 +16,8 @@ export const IMAGE = {
   btn_active: require("../../assets/btn_active.png"),
   btn_normal: require("../../assets/btn_normal.png"),
   avatar_default: require("../../assets/avatar.png"),
-  intro_vi: require("../../assets/intro_vi.png"),
-  intro_en: require("../../assets/intro_en.png"),
+  intro_vi: require("../../assets/intro.png"),
+  intro_en: require("../../assets/intro.png"),
   menu_save: require("../../assets/icon_luu.png"),
   menu_saved: require("../../assets/icon_luu_daluu.png"),
 
